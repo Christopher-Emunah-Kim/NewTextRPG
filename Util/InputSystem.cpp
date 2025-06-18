@@ -1,13 +1,13 @@
-﻿#include "InputManager.h"
+﻿#include "InputSystem.h"
 #include "../Common.h"
 
-bool InputManager::m_currentKeyStates[256] = { false };
-bool InputManager::m_previousKeyStates[256] = { false };
+bool InputSystem::m_currentKeyStates[256] = { false };
+bool InputSystem::m_previousKeyStates[256] = { false };
 
 
 
 
-string InputManager::GetKeyName(int vkey)
+string InputSystem::GetKeyName(int vkey)
 {
 	if ((vkey >= 'A' && vkey <= 'Z') || (vkey >= '0' && vkey <= '9'))
 	{
@@ -17,7 +17,9 @@ string InputManager::GetKeyName(int vkey)
 	return "";
 }
 
-void InputManager::Update()
+
+
+void InputSystem::Update()
 {
 	memcpy(m_previousKeyStates, m_currentKeyStates, sizeof(m_currentKeyStates));
 
@@ -39,7 +41,7 @@ void InputManager::Update()
 	{
 		if (m_currentKeyStates[i] == true && m_previousKeyStates[i] == false)
 		{
-			std::cout << InputManager::GetKeyName(i) << " 키가 눌렸습니다." << std::endl;
+			std::cout << InputSystem::GetKeyName(i) << " 키가 눌렸습니다." << std::endl;
 		}
 	}
 

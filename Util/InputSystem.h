@@ -2,11 +2,11 @@
 #include "../Common.h"
 
 
-class InputManager
+class InputSystem
 {
 public:
-	InputManager() = delete;
-	~InputManager() = delete;
+	InputSystem() = delete;
+	~InputSystem() = delete;
 
 private:
 	static bool m_currentKeyStates[256];

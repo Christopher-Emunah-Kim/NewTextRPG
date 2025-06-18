@@ -126,9 +126,10 @@
     <ClCompile Include="Component\BaseComponent.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Level\BaseLevel.cpp" />
+    <ClCompile Include="Manager\LevelManager.cpp" />
     <ClCompile Include="NewTextRPG.cpp" />
     <ClCompile Include="Object\BaseObject.cpp" />
-    <ClCompile Include="Util\InputManager.cpp" />
+    <ClCompile Include="Util\InputSystem.cpp" />
     <ClCompile Include="Util\Singleton.h" />
     <ClCompile Include="Util\Timer.cpp" />
   </ItemGroup>
@@ -139,8 +140,9 @@
     <ClInclude Include="Data\LevelDataTable.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Level\BaseLevel.h" />
+    <ClInclude Include="Manager\LevelManager.h" />
     <ClInclude Include="Object\BaseObject.h" />
-    <ClInclude Include="Util\InputManager.h" />
+    <ClInclude Include="Util\InputSystem.h" />
     <ClInclude Include="Util\Type\LootType.h" />
     <ClInclude Include="Util\Type\StatusType.h" />
     <ClInclude Include="Util\Timer.h" />

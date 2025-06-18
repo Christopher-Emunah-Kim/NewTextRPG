@@ -33,10 +33,13 @@
     <ClCompile Include="Util\Singleton.h">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Util\InputManager.cpp">
+    <ClCompile Include="Util\InputSystem.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Game.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Manager\LevelManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -68,10 +71,13 @@
     <ClInclude Include="Level\BaseLevel.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Util\InputManager.h">
+    <ClInclude Include="Util\InputSystem.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Game.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Manager\LevelManager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

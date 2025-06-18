@@ -1,11 +1,11 @@
 ﻿#pragma once
 #include "../Common.h"
-#include "../Util/Type/StatType.h"
+#include "../Util/Type/StatusType.h"
 #include "../Util/Type/LootType.h"
-#include "../Core/IGameObject.h"
+#include "../Core/IBehavior.h"
 
 
-class BaseObject abstract : public IGameObject
+class BaseObject abstract : public IBehavior
 {
 };
 

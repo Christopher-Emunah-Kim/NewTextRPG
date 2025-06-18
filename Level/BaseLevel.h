@@ -1,9 +1,9 @@
 ﻿#pragma once
 #include "../Common.h"
-#include "../Core/IGameObject.h"
+#include "../Core/IBehavior.h"
 
 
-class BaseLevel abstract : public IGameObject
+class BaseLevel abstract : public IBehavior
 {
 
 };

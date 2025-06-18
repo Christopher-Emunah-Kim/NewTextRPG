@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "../Common.h"
+#include <chrono>
 
 using TimePoint = std::chrono::steady_clock::time_point;
 

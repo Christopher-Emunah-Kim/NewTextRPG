@@ -13,6 +13,9 @@
 #include <algorithm>
 #include <chrono>
 
+#define _INTERFACE struct
+
+
 
 
 typedef signed __int8       int8;     //-128~127
@@ -23,11 +26,6 @@ typedef unsigned __int8     uint8;   //0~255
 typedef unsigned __int16    uint16;  //0~65535
 typedef unsigned __int32    uint32;  //0~4294967295
 typedef unsigned __int64    uint64;  //0~18446744073709551615
-
-
-#define _INTERFACE struct
-
-constexpr __int16 DEFAULT_SLEEP_TIME = 1500;
 
 
 using namespace std;

@@ -124,7 +124,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Component\BaseComponent.cpp" />
-    <ClCompile Include="Data\LevelDataTable.cpp" />
+    <ClCompile Include="Game.cpp" />
     <ClCompile Include="Level\BaseLevel.cpp" />
     <ClCompile Include="NewTextRPG.cpp" />
     <ClCompile Include="Object\BaseObject.cpp" />
@@ -135,13 +135,14 @@
   <ItemGroup>
     <ClInclude Include="Common.h" />
     <ClInclude Include="Component\BaseComponent.h" />
-    <ClInclude Include="Core\IGameObject.h" />
+    <ClInclude Include="Core\IBehavior.h" />
     <ClInclude Include="Data\LevelDataTable.h" />
+    <ClInclude Include="Game.h" />
     <ClInclude Include="Level\BaseLevel.h" />
     <ClInclude Include="Object\BaseObject.h" />
     <ClInclude Include="Util\InputManager.h" />
     <ClInclude Include="Util\Type\LootType.h" />
-    <ClInclude Include="Util\Type\StatType.h" />
+    <ClInclude Include="Util\Type\StatusType.h" />
     <ClInclude Include="Util\Timer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

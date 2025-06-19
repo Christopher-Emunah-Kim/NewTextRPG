@@ -1,4 +1,5 @@
 ﻿#include "Game.h"  
+#include "Manager/LevelManager.h"
 #include "Util/InputSystem.h"
 #include "Util/Timer.h"  
 
@@ -9,7 +10,7 @@ Game::~Game() noexcept
 
 bool Game::Init()  
 {  
-
+	//BaseLevel* titleLevel
 }  
 
 void Game::Run()  
@@ -18,7 +19,10 @@ void Game::Run()
 
 	while (true)  
 	{  
-		//레벨매니저 레벨 변경  
+		if (LevelManager::GetInstance()->IsSetNextLevel())
+		{
+			LevelManager::GetInstance()->ChangeLevel();
+		}
 
 		if (Timer::CanUpdate())  
 		{  

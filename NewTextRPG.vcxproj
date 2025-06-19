@@ -130,6 +130,7 @@
     <ClCompile Include="Manager\LevelManager.cpp" />
     <ClCompile Include="NewTextRPG.cpp" />
     <ClCompile Include="Object\BaseGameObject.cpp" />
+    <ClCompile Include="Object\Player.cpp" />
     <ClCompile Include="Util\InputSystem.cpp" />
     <ClCompile Include="Util\Singleton.h" />
     <ClCompile Include="Util\Timer.cpp" />
@@ -144,6 +145,7 @@
     <ClInclude Include="Level\TestLevel.h" />
     <ClInclude Include="Manager\LevelManager.h" />
     <ClInclude Include="Object\BaseGameObject.h" />
+    <ClInclude Include="Object\Player.h" />
     <ClInclude Include="Util\InputSystem.h" />
     <ClInclude Include="Util\OutputSystem.h" />
     <ClInclude Include="Util\Type\LootType.h" />

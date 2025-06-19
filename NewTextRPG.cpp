@@ -1,12 +1,9 @@
-﻿
-#include <iostream>
+﻿#include <time.h>  
+#include "Game.h"  
 
-
-
-
-
-int main()
-{
-    std::cout << "Hello World!\n";
+int main()  
+{  
+    srand(static_cast<unsigned int>(time(NULL)));  
+    Game game;  
+    game.Run();  
 }
-

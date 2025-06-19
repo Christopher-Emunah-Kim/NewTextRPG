@@ -5,10 +5,27 @@
 #include "../Core/IBehavior.h"
 
 
-
+class BaseGameObject;
 
 class BaseComponent abstract : public IBehavior
 {
+public:
+	BaseComponent(BaseGameObject* owner, int32 order = 100);
+	virtual ~BaseComponent();
 
+private:
+	int32 m_componentOrder = 100;
+
+protected:
+	BaseGameObject* m_owner = nullptr;
+
+public:
+	virtual void Init() override;
+	virtual void Update() override;
+	virtual void Render() override;
+	virtual void Release() override;
+
+	int32 GetOrder() const;
+	
 };
 

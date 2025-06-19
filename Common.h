@@ -13,7 +13,6 @@
 #include <algorithm>
 #include <chrono>
 
-#define _INTERFACE struct
 
 
 

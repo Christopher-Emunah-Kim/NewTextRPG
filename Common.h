@@ -14,9 +14,6 @@
 #include <chrono>
 
 
-
-
-
 typedef signed __int8       int8;     //-128~127
 typedef signed __int16      int16;   //-32768~32767
 typedef signed __int32      int32;   //-2147483648~2147483647

@@ -19,6 +19,5 @@ public:
 	static void Update();
 
 
-
 };
 

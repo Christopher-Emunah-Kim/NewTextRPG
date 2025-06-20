@@ -10,7 +10,7 @@ public:
 	BaseLevel(const string& tag);
 	virtual ~BaseLevel();
 
-private:
+protected:
 	string m_levelTag = " ";
 	vector<BaseGameObject*> m_gameObjects;
 

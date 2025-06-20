@@ -85,3 +85,14 @@ vector<BaseComponent*>& BaseGameObject::GetComponents()
 {
 	return m_components;
 }
+
+void BaseGameObject::SetTag(const string& tag) noexcept
+{
+	m_objectTag = tag;
+}
+
+void BaseGameObject::SetPosition(const int32& x, const int32& y) noexcept
+{
+	m_x = x;
+	m_y = y;
+}

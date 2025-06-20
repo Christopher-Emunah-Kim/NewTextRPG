@@ -74,5 +74,11 @@ void LevelManager::SetNextLevel(const string& name)
 
 void LevelManager::ChangeLevel()
 {
-
+	if (m_nextLevel)
+	{
+		m_currentLevel->Release();
+		m_currentLevel = m_nextLevel;
+		m_currentLevel->Init();
+		m_nextLevel = nullptr;
+	}
 }

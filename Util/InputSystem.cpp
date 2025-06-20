@@ -7,7 +7,7 @@ bool InputSystem::m_previousKeyStates[256] = { false };
 
 
 
-string InputSystem::GetKeyName(int vkey)
+string InputSystem::GetKeyName(const int& vkey)
 {
 	if ((vkey >= 'A' && vkey <= 'Z') || (vkey >= '0' && vkey <= '9'))
 	{
@@ -45,4 +45,9 @@ void InputSystem::Update()
 		}
 	}
 
+}
+
+bool InputSystem::IsKeyPressed(const int& vkey)
+{
+	return (GetAsyncKeyState(vkey) & 0x8000) != 0;
 }

@@ -3,12 +3,14 @@
 Screen::Screen()
 	: m_writeBuffer(nullptr), m_backBufferIdx(0)
 {
-	m_consoleBuffers[0] = nullptr;
-	m_consoleBuffers[1] = nullptr;
+	m_consoleBuffers[0] = INVALID_HANDLE_VALUE;
+	m_consoleBuffers[1] = INVALID_HANDLE_VALUE;
 }
 
 Screen::~Screen()
-{ }
+{
+	Release();
+}
 
 void Screen::VisibleConsoleCursor(bool isVisible)
 {
@@ -63,12 +65,12 @@ void Screen::Release()
 		m_writeBuffer = nullptr;
 	}
 
-	if (m_consoleBuffers[0])
+	if (m_consoleBuffers[0] != INVALID_HANDLE_VALUE)
 	{
 		CloseHandle(m_consoleBuffers[0]);
 	}
 
-	if (m_consoleBuffers[1])
+	if (m_consoleBuffers[1] != INVALID_HANDLE_VALUE)
 	{
 		CloseHandle(m_consoleBuffers[1]);
 	}

@@ -13,11 +13,12 @@ private:
 	static bool m_previousKeyStates[256];
 
 private:
-	static string GetKeyName(int vkey);
+	static string GetKeyName(const int& vkey);
 
 public:
 	static void Update();
 
+	static bool IsKeyPressed(const int& vkey);
 
 };
 

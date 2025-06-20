@@ -26,16 +26,19 @@ public:
 	virtual void Render() override;
 	virtual void Release() override;
 
-	void AddComponent(BaseComponent* component);
-	void RemoveComponent(BaseComponent* component);
-	vector<BaseComponent*>& GetComponents();
+	inline string		GetTag() const noexcept { return m_objectTag; }
+	inline BaseLevel* GetLevel() const noexcept { return m_level; }
+	inline int32		GetX() const noexcept { return m_x; }
+	inline int32		GetY() const noexcept { return m_y; }
 
 	void SetTag(const string& tag) noexcept;
 	void SetPosition(const int32& x, const int32& y) noexcept;
+	void SetLevel(BaseLevel* level);
 
-	inline string		GetTag() const noexcept { return m_objectTag; }
-	inline BaseLevel*	GetLevel() const noexcept { return m_level; }
-	inline int32		GetX() const noexcept { return m_x; }
-	inline int32		GetY() const noexcept { return m_y; }
+	void AddComponent(BaseComponent* component);
+	void RemoveComponent(BaseComponent* component);
+	void UpdateLevel(BaseLevel* level);
+	bool IsComponentsEmpty() const;
+	vector<BaseComponent*>& GetComponents();
 };
 

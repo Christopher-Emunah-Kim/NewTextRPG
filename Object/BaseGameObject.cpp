@@ -3,7 +3,7 @@
 #include "../Component/BaseComponent.h"
 
 BaseGameObject::BaseGameObject(BaseLevel* level, const string& tag)
-	: m_level{level}, m_objectTag(tag)
+	: m_level{level}, m_objectTag(tag), m_x(0), m_y(0)
 {
 	m_level->AddObject(this);
 }
@@ -78,7 +78,9 @@ void BaseGameObject::AddComponent(BaseComponent* component)
 
 void BaseGameObject::RemoveComponent(BaseComponent* component)
 {
-	remove(m_components.begin(), m_components.end(), component);
+	vector<BaseComponent*>::iterator it = remove(m_components.begin(), m_components.end(), component);
+
+	m_components.erase(it, m_components.end());
 }
 
 vector<BaseComponent*>& BaseGameObject::GetComponents()
@@ -95,4 +97,29 @@ void BaseGameObject::SetPosition(const int32& x, const int32& y) noexcept
 {
 	m_x = x;
 	m_y = y;
+}
+
+void BaseGameObject::SetLevel(BaseLevel* level)
+{
+	m_level = level;
+}
+
+void BaseGameObject::UpdateLevel(BaseLevel* level)
+{
+	if (m_level && m_level != level)
+	{
+		m_level->DetachObject(this);
+	}
+
+	m_level = level;
+
+	if (m_level)
+	{
+		m_level->AddObject(this);
+	}
+}
+
+bool BaseGameObject::IsComponentsEmpty() const
+{
+	return m_components.empty();
 }

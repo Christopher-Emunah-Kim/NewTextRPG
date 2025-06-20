@@ -50,7 +50,7 @@ void Screen::Init()
 		SetConsoleWindowInfo(m_consoleBuffers[i], TRUE, &rect);
 	}
 
-	m_writeBuffer = new char[SCREEN_WIDTH * SCREEN_HEIGHT];
+	m_writeBuffer = new WCHAR[SCREEN_WIDTH * SCREEN_HEIGHT];
 	m_backBufferIdx = 0;
 	Clear();
 
@@ -80,32 +80,28 @@ void Screen::Clear()
 {
 	for (int32 i = 0; i < SCREEN_HEIGHT * SCREEN_WIDTH; ++i)
 	{
-		m_writeBuffer[i] = ' ';
+		m_writeBuffer[i] = L' ';
 	}
 }
 
 void Screen::Draw(const int32& x, const int32& y, const string& str)
 {
-	if (x < 0 || x >= SCREEN_WIDTH || y < 0 || y >= SCREEN_HEIGHT)
+	if (false == IsValidCoordinate(x, y))
 	{
 		return;
 	}
 
-	for (size_t i = 0; i < str.length(); ++i)
-	{
-		int32 screenX = x + i;
-		if (screenX >= SCREEN_WIDTH)
-		{
-			break;
-		}
+	const size_t length = str.length();
 
-		m_writeBuffer[y * SCREEN_WIDTH + x] = str[i];
+	for (size_t i = 0; i < length; ++i)
+	{
+		Draw(x, y, str[i]);
 	}
 }
 
 void Screen::Draw(const int32& x, const int32& y, const char& c)
 {
-	if (x < 0 || x >= SCREEN_WIDTH || y < 0 || y >= SCREEN_HEIGHT)
+	if (false == IsValidCoordinate(x, y))
 	{
 		return;
 	}
@@ -113,14 +109,27 @@ void Screen::Draw(const int32& x, const int32& y, const char& c)
 	m_writeBuffer[y * SCREEN_WIDTH + x] = c;
 }
 
+bool Screen::IsValidCoordinate(const int32& x, const int32& y)
+{
+	if (0 <= x && x < SCREEN_WIDTH && 0 <= y && y < SCREEN_HEIGHT)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
 void Screen::SwapBuffer()
 {
 	HANDLE hBackBuffer = m_consoleBuffers[m_backBufferIdx];
 	DWORD bytesWritten = 0;
 
-	CHAR_INFO* tempBuffer = new CHAR_INFO[SCREEN_WIDTH * SCREEN_HEIGHT];
+	const int32 screenSize = SCREEN_WIDTH * SCREEN_HEIGHT;
+	CHAR_INFO* tempBuffer = new CHAR_INFO[screenSize];
 
-	for (int32 i = 0; i < SCREEN_WIDTH * SCREEN_HEIGHT; ++i)
+	for (int32 i = 0; i < screenSize; ++i)
 	{
 		tempBuffer[i].Char.UnicodeChar = static_cast<WCHAR>(m_writeBuffer[i]);
 		tempBuffer[i].Attributes = FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE; //text color(white)
@@ -139,10 +148,10 @@ void Screen::SwapBuffer()
 
 	WriteConsoleOutputW(hBackBuffer, tempBuffer, bufferSize, bufferCoord, &writeRegion);
 
-	delete[] tempBuffer;
 
 	SetConsoleActiveScreenBuffer(hBackBuffer);
 
-	m_backBufferIdx = 1 - m_backBufferIdx;
+	m_backBufferIdx = (m_backBufferIdx) % 2;
 
+	delete[] tempBuffer;
 }

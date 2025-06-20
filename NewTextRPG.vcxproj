@@ -125,6 +125,7 @@
   <ItemGroup>
     <ClCompile Include="Component\BaseComponent.cpp" />
     <ClCompile Include="Component\ControllerComp.cpp" />
+    <ClCompile Include="Core\GameInstance.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Level\BaseLevel.cpp" />
     <ClCompile Include="Level\TestLevel.cpp" />
@@ -144,6 +145,7 @@
     <ClInclude Include="Component\BaseComponent.h" />
     <ClInclude Include="Component\ControllerComp.h" />
     <ClInclude Include="Component\RendererComp.h" />
+    <ClInclude Include="Core\GameInstance.h" />
     <ClInclude Include="Core\IBehavior.h" />
     <ClInclude Include="Data\PlayerDataTablePerLevel.h" />
     <ClInclude Include="Game.h" />

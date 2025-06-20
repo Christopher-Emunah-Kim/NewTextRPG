@@ -60,6 +60,9 @@
     <ClCompile Include="Component\RendererComp.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Core\GameInstance.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\IBehavior.h">
@@ -117,6 +120,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Component\RendererComp.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\GameInstance.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

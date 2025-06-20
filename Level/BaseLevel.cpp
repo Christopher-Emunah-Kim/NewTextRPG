@@ -36,14 +36,14 @@ void BaseLevel::Update()
 	}
 }
 
-void BaseLevel::Render()
+void BaseLevel::Render(Screen* screen)
 {
 	for (size_t i = 0; i < m_gameObjects.size(); ++i)
 	{
 		BaseGameObject* obj = m_gameObjects[i];
 		if (obj)
 		{
-			obj->Render();
+			obj->Render(screen);
 		}
 	}
 }

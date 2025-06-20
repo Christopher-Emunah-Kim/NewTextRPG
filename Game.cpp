@@ -12,7 +12,8 @@ Game::~Game() noexcept
 
 bool Game::Init()  
 {  
-	Screen::GetInstance()->Init();
+	
+	m_screen->Init();
 	GameInstance::GetInstance()->Init();
 	LevelManager::GetInstance()->Init();
 
@@ -53,15 +54,16 @@ void Game::Update()
 
 void Game::Render()  
 {  
-	Screen::GetInstance()->Clear();
+	m_screen->Clear();
 
-	LevelManager::GetInstance()->Render();
+	LevelManager::GetInstance()->Render(m_screen);
 
-	Screen::GetInstance()->SwapBuffer();
+	m_screen->SwapBuffer();
 }  
 
 void Game::Release()  
 {  
 	LevelManager::GetInstance()->Release();
-	Screen::GetInstance()->Release();
+
+	m_screen->Release();
 }

@@ -8,7 +8,7 @@ RendererComp::RendererComp(BaseGameObject* owner, const string& renderShape)
 {
 }
 
-void RendererComp::Render()
+void RendererComp::Render(Screen* screen)
 {
-	Screen::GetInstance()->Draw(m_owner->GetX(), m_owner->GetY(), m_renderShape);
+	screen->Draw(m_owner->GetX(), m_owner->GetY(), m_renderShape);
 }

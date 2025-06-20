@@ -24,7 +24,7 @@ void BaseComponent::Update()
 
 }
 
-void BaseComponent::Render()
+void BaseComponent::Render(Screen* screen)
 {
 
 }

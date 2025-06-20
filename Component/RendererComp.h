@@ -10,6 +10,6 @@ private:
 	string m_renderShape;
 
 public: 
-	virtual void Render() override;
+	virtual void Render(Screen* screen) override;
 };
 

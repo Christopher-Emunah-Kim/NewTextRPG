@@ -5,6 +5,7 @@
 #include "../Level/TitleLevel.h"
 #include "../Util/OutputSystem.h"
 #include "../Object/Player.h"
+#include "../Screen.h"
 
 
 LevelManager::~LevelManager()
@@ -28,9 +29,9 @@ void LevelManager::Update()
 	m_currentLevel->Update();
 }
 
-void LevelManager::Render()
+void LevelManager::Render(Screen* screen)
 {
-	m_currentLevel->Render();
+	m_currentLevel->Render(screen);
 }
 
 void LevelManager::Release()

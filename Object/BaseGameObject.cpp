@@ -1,11 +1,19 @@
 ﻿#include "BaseGameObject.h"
 #include "../Level/BaseLevel.h"
 #include "../Component/BaseComponent.h"
+#include "../Util/OutputSystem.h"
 
 BaseGameObject::BaseGameObject(BaseLevel* level, const string& tag)
 	: m_level{level}, m_objectTag(tag), m_x(0), m_y(0)
 {
-	m_level->AddObject(this);
+	if (m_level)
+	{
+		m_level->AddObject(this);
+	}
+	else
+	{
+		OutputSystem::PrintErrorMsg("GameObject가 추가될 Level 이 존재하지 않습니다.");
+	}
 }
 
 BaseGameObject::~BaseGameObject()
@@ -38,14 +46,14 @@ void BaseGameObject::Update()
 }
 
 
-void BaseGameObject::Render()
+void BaseGameObject::Render(Screen* screen)
 {
 	for (size_t i = 0; i < m_components.size(); ++i)
 	{
 		BaseComponent* comp = m_components[i];
 		if (comp)
 		{
-			comp->Render();
+			comp->Render(screen);
 		}
 	}
 }

@@ -35,7 +35,7 @@ void ControllerComp::Update()
 
 void ControllerComp::HandleMovement(EInputEvent inputEvent, EMoveDirection direction)
 {
-	if (inputEvent != EInputEvent::PRESSED)
+	if (inputEvent != EInputEvent::PRESSED && inputEvent != EInputEvent::HOLD)
 	{
 		return;
 	}
@@ -47,22 +47,22 @@ void ControllerComp::HandleMovement(EInputEvent inputEvent, EMoveDirection direc
 	{
 	case EMoveDirection::UP:
 	{
-		currentY -= 2;
+		currentY --;
 		break;
 	}
 	case EMoveDirection::DOWN:
 	{
-		currentY += 2;
+		currentY ++;
 		break;
 	}
 	case EMoveDirection::LEFT:
 	{
-		currentX -= 2;
+		currentX --;
 		break;
 	}
 	case EMoveDirection::RIGHT:
 	{
-		currentX += 2;
+		currentX ++;
 		break;
 	}
 

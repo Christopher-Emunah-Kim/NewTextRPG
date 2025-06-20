@@ -39,7 +39,7 @@ void InputSystem::Update()
 
 	for (int i = 0; i < static_cast<int>(sizeof(m_currentKeyStates)); ++i)
 	{
-		if (m_currentKeyStates[i] == true && m_previousKeyStates[i] == false)
+		if (m_currentKeyStates[i] == true && m_previousKeyStates[i] == false) //PRESSED
 		{
             unordered_map<int8, string>::iterator it = m_keyToActionMap.find(i);  
 
@@ -52,11 +52,8 @@ void InputSystem::Update()
                     actionIt->second->ExecuteCallBack(EInputEvent::PRESSED);
                 }  
             }
-
-			std::cout << InputSystem::GetKeyName(i) << " 키가 눌렸습니다." << std::endl;
-
 		}
-		else if (m_currentKeyStates[i] == false && m_previousKeyStates[i] == true)
+		else if (m_currentKeyStates[i] == false && m_previousKeyStates[i] == true) //RELEASED
 		{
 			unordered_map<int8, string>::iterator it = m_keyToActionMap.find(i);
 
@@ -67,6 +64,20 @@ void InputSystem::Update()
 				if (actionIt != m_actions.end())
 				{
 					actionIt->second->ExecuteCallBack(EInputEvent::RELEASED);
+				}
+			}
+		}
+		else if (m_currentKeyStates[i] == true && m_previousKeyStates[i] == true) //HOLD
+		{
+			unordered_map<int8, string>::iterator it = m_keyToActionMap.find(i);
+
+			if (it != m_keyToActionMap.end())
+			{
+				unordered_map<string, InputAction*>::iterator actionIt = m_actions.find(it->second);
+
+				if (actionIt != m_actions.end())
+				{
+					actionIt->second->ExecuteCallBack(EInputEvent::HOLD);
 				}
 			}
 		}

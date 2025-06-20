@@ -4,8 +4,10 @@
 
 enum class EInputEvent
 {
+	NONE = 0,
 	PRESSED,
 	RELEASED,
+	HOLD,
 	MAX_COUNT
 };
 

@@ -1,11 +1,16 @@
-﻿#pragma once
-#include "BaseGameObject.h"
+﻿#pragma once  
+#include "BaseGameObject.h"  
 
-class Player : public BaseGameObject
-{
-public:
-	using BaseGameObject::BaseGameObject;
+class Player : public BaseGameObject  
+{  
+public:  
+	using BaseGameObject::BaseGameObject;  
 
-	virtual void Init() override;
+	Player() : BaseGameObject(nullptr, "Player") { }  
+
+
+	virtual void Init() override;  
+
+	void UpdateLevel(BaseLevel* level);
+
 };
-

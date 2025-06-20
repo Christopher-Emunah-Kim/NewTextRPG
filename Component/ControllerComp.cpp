@@ -18,10 +18,10 @@ void ControllerComp::Init()
 	moveLeftAction->BindCallback([this](EInputEvent event) { HandleMovement(event, EMoveDirection::LEFT); });
 	moveRightAction->BindCallback([this](EInputEvent event) { HandleMovement(event, EMoveDirection::RIGHT); });
 
-	InputSystem::BindAction("MoveUp", 'W');
-	InputSystem::BindAction("MoveDown", 'S');
-	InputSystem::BindAction("MoveLeft", 'A');
-	InputSystem::BindAction("MoveRight", 'D');
+    InputSystem::BindAction("MoveUp", static_cast<uint8>(EKeyCode::W));
+	InputSystem::BindAction("MoveDown", static_cast<uint8>(EKeyCode::S));
+	InputSystem::BindAction("MoveLeft", static_cast<uint8>(EKeyCode::A));
+	InputSystem::BindAction("MoveRight", static_cast<uint8>(EKeyCode::D));
 	
 }
 

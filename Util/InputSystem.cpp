@@ -86,9 +86,9 @@ void InputSystem::Update()
 
 }
 
-bool InputSystem::IsKeyPressed(const int8& vkey)
+bool InputSystem::IsKeyPressed(EKeyCode key)
 {
-	return (GetAsyncKeyState(vkey) & 0x8000) != 0;
+	return (GetAsyncKeyState(static_cast<int>(key)) & 0x8000) != 0;
 }
 
 InputAction* InputSystem::CreateAction(const string& actionName)
@@ -107,14 +107,14 @@ InputAction* InputSystem::CreateAction(const string& actionName)
 	return newAction;
 }
 
-void InputSystem::BindAction(const string& actionName, int8 key)
+void InputSystem::BindAction(const string& actionName, uint8 key)
 {
 	ClearBinding(key);
 
 	m_keyToActionMap[key] = actionName;
 }
 
-void InputSystem::ClearBinding(int8 key)
+void InputSystem::ClearBinding(uint8 key)
 {
 	m_keyToActionMap.erase(key);
 }

@@ -22,11 +22,11 @@ private:
 
 public:
 	static void Update();
-	static bool IsKeyPressed(const int8& vkey);
+	static bool IsKeyPressed(EKeyCode key);
 
 	static InputAction* CreateAction(const string& actionName);
-	static void BindAction(const string& actionName, int8 key);
-	static void ClearBinding(int8 key);
+	static void BindAction(const string& actionName, uint8 key);
+	static void ClearBinding(uint8 key);
 	static void ClearAllBindings();
 
 };

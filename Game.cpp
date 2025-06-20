@@ -11,7 +11,8 @@ Game::~Game() noexcept
 
 bool Game::Init()  
 {  
-	//BaseLevel* titleLevel
+	Screen::GetInstance()->Init();
+	LevelManager::GetInstance()->Init();
 
 	return true;
 }  
@@ -19,6 +20,7 @@ bool Game::Init()
 void Game::Run()  
 {  
 	Timer::Init();  
+	Init();
 
 	while (true)  
 	{  
@@ -44,17 +46,20 @@ void Game::ProcessInput()
 
 void Game::Update()  
 {  
-	//레벨 매니저 통해 레벨과 오브젝트들 업데이트
+	LevelManager::GetInstance()->Update();
 }  
 
 void Game::Render()  
 {  
-	//레벨 매니저 통해 레벨과 오브젝트들 렌더
+	Screen::GetInstance()->Clear();
+
+	LevelManager::GetInstance()->Render();
 
 	Screen::GetInstance()->SwapBuffer();
 }  
 
 void Game::Release()  
 {  
-
+	LevelManager::GetInstance()->Release();
+	Screen::GetInstance()->Release();
 }

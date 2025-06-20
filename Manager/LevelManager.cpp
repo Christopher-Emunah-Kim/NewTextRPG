@@ -12,9 +12,9 @@ LevelManager::~LevelManager()
 
 void LevelManager::Init()
 {
-	m_levels["Temp"] = new TestLevel("Temp");
+	m_levels["Test"] = new TestLevel("Test");
 
-	m_currentLevel = m_levels["Temp"]; //TODO : 이후 Title로 변경
+	m_currentLevel = m_levels["Test"]; //TODO : 이후 Title로 변경
 	m_currentLevel->Init();
 }
 
@@ -33,6 +33,7 @@ void LevelManager::Release()
 	if (m_currentLevel)
 	{
 		m_currentLevel->Release();
+
 		m_currentLevel = nullptr;
 	}
 

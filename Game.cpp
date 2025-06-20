@@ -11,6 +11,8 @@ Game::~Game() noexcept
 bool Game::Init()  
 {  
 	//BaseLevel* titleLevel
+
+	return true;
 }  
 
 void Game::Run()  

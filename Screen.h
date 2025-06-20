@@ -9,6 +9,8 @@ constexpr int32 SCREEN_HEIGHT = 64;
 
 class Screen : public Singleton<Screen>
 {
+	friend class Singleton<Screen>;
+
 private:
 	Screen();
 	~Screen();
@@ -31,7 +33,6 @@ public:
 	void Clear();
 	void Draw(const int32& x, const int32& y, const string& str);
 	void SwapBuffer();
-
 
 };
 

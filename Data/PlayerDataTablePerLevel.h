@@ -30,7 +30,7 @@ struct FLevelProperties
 static FLevelProperties levelDataArray[100]; // Array to hold level data for 100 levels
 
 
-struct LevelDataTable
+struct PlayerDataTablePerLevel
 {
 	void InitializeLevelData()
 	{

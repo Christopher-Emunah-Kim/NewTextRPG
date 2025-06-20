@@ -124,6 +124,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Component\BaseComponent.cpp" />
+    <ClCompile Include="Component\ControllerComp.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Level\BaseLevel.cpp" />
     <ClCompile Include="Level\TestLevel.cpp" />
@@ -132,6 +133,7 @@
     <ClCompile Include="NewTextRPG.cpp" />
     <ClCompile Include="Object\BaseGameObject.cpp" />
     <ClCompile Include="Object\Player.cpp" />
+    <ClCompile Include="Component\RendererComp.cpp" />
     <ClCompile Include="Screen.cpp" />
     <ClCompile Include="Util\InputSystem.cpp" />
     <ClCompile Include="Util\Singleton.h" />
@@ -140,8 +142,10 @@
   <ItemGroup>
     <ClInclude Include="Common.h" />
     <ClInclude Include="Component\BaseComponent.h" />
+    <ClInclude Include="Component\ControllerComp.h" />
+    <ClInclude Include="Component\RendererComp.h" />
     <ClInclude Include="Core\IBehavior.h" />
-    <ClInclude Include="Data\LevelDataTable.h" />
+    <ClInclude Include="Data\PlayerDataTablePerLevel.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Level\BaseLevel.h" />
     <ClInclude Include="Level\TestLevel.h" />

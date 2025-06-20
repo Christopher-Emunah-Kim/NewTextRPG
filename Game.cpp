@@ -2,6 +2,7 @@
 #include "Manager/LevelManager.h"
 #include "Util/InputSystem.h"
 #include "Util/Timer.h"  
+#include "Screen.h"
 
 Game::~Game() noexcept  
 {  
@@ -49,6 +50,8 @@ void Game::Update()
 void Game::Render()  
 {  
 	//레벨 매니저 통해 레벨과 오브젝트들 렌더
+
+	Screen::GetInstance()->SwapBuffer();
 }  
 
 void Game::Release()  

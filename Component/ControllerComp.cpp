@@ -1,38 +1,77 @@
 ﻿#include "ControllerComp.h"
 #include "../Object/BaseGameObject.h"
 #include "../Util/InputSystem.h"
+#include "../Util/OutputSystem.h"
 #include "../Screen.h"
+#include "../Common.h"
+#include <winuser.h>
 
+void ControllerComp::Init()
+{
+	InputAction* moveUpAction = InputSystem::CreateAction("MoveUp");
+	InputAction* moveDownAction = InputSystem::CreateAction("MoveDown");
+	InputAction* moveLeftAction = InputSystem::CreateAction("MoveLeft");
+	InputAction* moveRightAction = InputSystem::CreateAction("MoveRight");
+
+	moveUpAction->BindCallback([this](EInputEvent event) { HandleMovement(event, EMoveDirection::UP); });
+	moveDownAction->BindCallback([this](EInputEvent event) { HandleMovement(event, EMoveDirection::DOWN); });
+	moveLeftAction->BindCallback([this](EInputEvent event) { HandleMovement(event, EMoveDirection::LEFT); });
+	moveRightAction->BindCallback([this](EInputEvent event) { HandleMovement(event, EMoveDirection::RIGHT); });
+
+	InputSystem::BindAction("MoveUp", 'W');
+	InputSystem::BindAction("MoveDown", 'S');
+	InputSystem::BindAction("MoveLeft", 'A');
+	InputSystem::BindAction("MoveRight", 'D');
+	
+}
 
 void ControllerComp::Update()
 {
 	LONG currentX = m_owner->GetX();
 	LONG currentY = m_owner->GetY();
 
-	ApplyInputToPosition(currentY, currentX);
-
 	m_owner->SetPosition(currentX, currentY);
 }
 
-
-void ControllerComp::ApplyInputToPosition(LONG& currentY, LONG& currentX)
+void ControllerComp::HandleMovement(EInputEvent inputEvent, EMoveDirection direction)
 {
-	if (InputSystem::IsKeyPressed('W'))
+	if (inputEvent != EInputEvent::PRESSED)
 	{
-		currentY--;
+		return;
 	}
-	if (InputSystem::IsKeyPressed('S'))
+
+	LONG currentX = m_owner->GetX();
+	LONG currentY = m_owner->GetY();
+
+	switch (direction)
 	{
-		currentY++;
-	}
-	if (InputSystem::IsKeyPressed('A'))
+	case EMoveDirection::UP:
 	{
-		currentX--;
+		currentY -= 2;
+		break;
 	}
-	if (InputSystem::IsKeyPressed('D'))
+	case EMoveDirection::DOWN:
 	{
-		currentX++;
+		currentY += 2;
+		break;
 	}
+	case EMoveDirection::LEFT:
+	{
+		currentX -= 2;
+		break;
+	}
+	case EMoveDirection::RIGHT:
+	{
+		currentX += 2;
+		break;
+	}
+
+	default:
+	{
+		OutputSystem::PrintErrorMsg("잘못된 방향입니다.");
+	}
+	}
+
 
 	if (currentX < 0)
 	{
@@ -50,4 +89,9 @@ void ControllerComp::ApplyInputToPosition(LONG& currentY, LONG& currentX)
 	{
 		currentY = SCREEN_HEIGHT - 1;
 	}
+
+	m_owner->SetPosition(currentX, currentY);
 }
+
+
+

@@ -3,6 +3,8 @@
 
 #include <Windows.h>
 
+#include <functional>
+
 #include <vector>
 #include <string>
 #include <unordered_map>

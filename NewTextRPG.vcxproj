@@ -156,8 +156,10 @@
     <ClInclude Include="Object\BaseGameObject.h" />
     <ClInclude Include="Object\Player.h" />
     <ClInclude Include="Screen.h" />
+    <ClInclude Include="Util\InputAction.h" />
     <ClInclude Include="Util\InputSystem.h" />
     <ClInclude Include="Util\OutputSystem.h" />
+    <ClInclude Include="Util\Type\EnumType.h" />
     <ClInclude Include="Util\Type\LootType.h" />
     <ClInclude Include="Util\Type\StatusType.h" />
     <ClInclude Include="Util\Timer.h" />

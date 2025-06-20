@@ -6,15 +6,13 @@ constexpr __int8 ADDITIONAL_HEALTH_PER_LEVEL = 5;
 constexpr __int8 ADDITIONAL_ATTACK_PER_LEVEL = 1;
 constexpr __int8 ADDITIONAL_DEFENSE_PER_LEVEL = 1;
 constexpr __int8 ADDITIONAL_AGILITY_PER_LEVEL = 1;
-constexpr __int16 DEFAULT_ATTACK = 1;
-constexpr __int16 DEFAULT_DEFENSE = 1;
-constexpr __int16 DEFAULT_AGILITY = 1;
+constexpr __int16 DEFAULT_ATTACK = 12;
+constexpr __int16 DEFAULT_DEFENSE = 12;
+constexpr __int16 DEFAULT_AGILITY = 12;
 
 //이후 플레이어로 이동
 constexpr __int16 DEFAULT_PLAYER_MAX_EXPERIENCE = 100;
 constexpr __int16 DEFAULT_CHARACTER_MAX_HEALTH = 100;
-
-
 
 
 struct FLevelProperties

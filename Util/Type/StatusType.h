@@ -1,11 +1,8 @@
 ﻿#pragma once
 #include "../../Common.h"
+#include "../Data/PlayerDataTablePerLevel.h"
 
-constexpr __int16 DEFAULT_ATTACK = 12;
-constexpr __int16 DEFAULT_DEFENSE = 12;
-constexpr __int16 DEFAULT_AGILITY = 12;
 constexpr __int8 DEFAULT_LOWEST_DAMAGE = 5;
-
 
 struct Status
 {

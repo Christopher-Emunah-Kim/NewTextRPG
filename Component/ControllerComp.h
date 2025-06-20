@@ -8,5 +8,7 @@ public:
 	using BaseComponent::BaseComponent;
 	virtual void Update() override;
 
+	void ApplyInputToPosition(LONG& currentY, LONG& currentX);
+
 };
 

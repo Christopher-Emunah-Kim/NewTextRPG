@@ -9,6 +9,14 @@ void ControllerComp::Update()
 	LONG currentX = m_owner->GetX();
 	LONG currentY = m_owner->GetY();
 
+	ApplyInputToPosition(currentY, currentX);
+
+	m_owner->SetPosition(currentX, currentY);
+}
+
+
+void ControllerComp::ApplyInputToPosition(LONG& currentY, LONG& currentX)
+{
 	if (InputSystem::IsKeyPressed('W'))
 	{
 		currentY--;
@@ -42,6 +50,4 @@ void ControllerComp::Update()
 	{
 		currentY = SCREEN_HEIGHT - 1;
 	}
-
-	m_owner->SetPosition(currentX, currentY);
 }

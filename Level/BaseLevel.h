@@ -21,6 +21,7 @@ public:
 	virtual void Release() override;
 
 	void AddObject(BaseGameObject* object);
+	void DetachObject(BaseGameObject* object);
 	void RemoveObject(const string& tag);
 	BaseGameObject* FindObject(const string& tag);
 

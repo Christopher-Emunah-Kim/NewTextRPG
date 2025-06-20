@@ -70,6 +70,20 @@ void BaseLevel::AddObject(BaseGameObject* object)
 	m_gameObjects.push_back(object);
 }
 
+void BaseLevel::DetachObject(BaseGameObject* object)
+{
+	for (vector<BaseGameObject*>::iterator it = m_gameObjects.begin(); it != m_gameObjects.end();++it)
+	{
+		BaseGameObject* obj = *it;
+
+		if (obj == object)
+		{
+			m_gameObjects.erase(it);
+			return;
+		}
+	}
+}
+
 void BaseLevel::RemoveObject(const string& tag)
 {
 	for (vector<BaseGameObject*>::iterator it = m_gameObjects.begin(); it != m_gameObjects.end();)

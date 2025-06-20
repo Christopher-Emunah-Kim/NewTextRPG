@@ -2,6 +2,7 @@
 #include "Manager/LevelManager.h"
 #include "Util/InputSystem.h"
 #include "Util/Timer.h"  
+#include "Core/GameInstance.h"
 #include "Screen.h"
 
 Game::~Game() noexcept  
@@ -12,6 +13,7 @@ Game::~Game() noexcept
 bool Game::Init()  
 {  
 	Screen::GetInstance()->Init();
+	GameInstance::GetInstance()->Init();
 	LevelManager::GetInstance()->Init();
 
 	return true;

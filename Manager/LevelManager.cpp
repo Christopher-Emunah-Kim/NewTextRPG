@@ -1,7 +1,10 @@
 ﻿#include "LevelManager.h"
+#include "../Core/GameInstance.h"
 #include "../Level/BaseLevel.h"
 #include "../Level/TestLevel.h"
+#include "../Level/TitleLevel.h"
 #include "../Util/OutputSystem.h"
+#include "../Object/Player.h"
 
 
 LevelManager::~LevelManager()
@@ -13,8 +16,10 @@ LevelManager::~LevelManager()
 void LevelManager::Init()
 {
 	m_levels["Test"] = new TestLevel("Test");
+	m_levels["Title"] = new TitleLevel("Title");
 
 	m_currentLevel = m_levels["Test"]; //TODO : 이후 Title로 변경
+
 	m_currentLevel->Init();
 }
 
@@ -55,7 +60,7 @@ bool LevelManager::IsSetNextLevel() const
 
 void LevelManager::SetNextLevel(const string& name)
 {
-	if (m_nextLevel == nullptr)
+	if (m_nextLevel != nullptr)
 	{
 		OutputSystem::PrintErrorMsg("설정된 NextLevel 이 존재합니다. 새로운 Level 을 설정할 수 없습니다.");
 		return;
@@ -76,9 +81,22 @@ void LevelManager::ChangeLevel()
 {
 	if (m_nextLevel)
 	{
+		Player& player = GameInstance::GetInstance()->GetPlayer();
+		BaseGameObject* currentPlayerObject = m_currentLevel->FindObject("Player");
+
+
+		if (currentPlayerObject && currentPlayerObject == &player)
+		{
+			m_currentLevel->DetachObject(currentPlayerObject);
+		}
+
+
 		m_currentLevel->Release();
 		m_currentLevel = m_nextLevel;
 		m_currentLevel->Init();
+
+		player.UpdateLevel(m_currentLevel);
+
 		m_nextLevel = nullptr;
 	}
 }

@@ -8,12 +8,15 @@ SystemTextDialog::SystemTextDialog(BaseLevel* level)
 
 void SystemTextDialog::Init()
 {
-	SetPosition(0, SCREEN_HEIGHT - 2);
+	SetPosition(0, SCREEN_HEIGHT / 2);
+	//SetPosition(0, SCREEN_HEIGHT - 2);
 
 	if (IsComponentsEmpty())
 	{
 		AddComponent(new SystemTextComp(this));
 	}
+	//Debug
+	SetSystemText("===시스템 메시지가 여기에 표시됩니다.");
 
 	BaseGameObject::Init();
 }

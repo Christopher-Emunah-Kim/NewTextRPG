@@ -11,7 +11,8 @@ void SystemTextComp::Render(Screen* screen)
 {
 	if (screen && !m_systemText.empty())
 	{
-		screen->Draw(0, SCREEN_HEIGHT - 2, m_systemText);
+		int32 y = SCREEN_HEIGHT - 5;
+		screen->Draw(0, y, m_systemText);
 	}
 }
 

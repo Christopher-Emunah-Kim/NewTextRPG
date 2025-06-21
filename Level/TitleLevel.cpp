@@ -1,6 +1,7 @@
 ﻿#include "TitleLevel.h"
 #include "../Core/GameInstance.h"
 #include "../Object/SystemTextDialog.h"
+#include "../Screen.h"
 
 
 void TitleLevel::Init()
@@ -8,7 +9,7 @@ void TitleLevel::Init()
 	GameInstance* gameInstance = GameInstance::GetInstance();
 	Player& player = gameInstance->GetPlayer();
 
-	player.UpdateLevel(this);
+	player.RegisterNewLevel(this);
 
 	if (false == gameInstance->IsPlayerInitialzed())
 	{
@@ -25,7 +26,10 @@ void TitleLevel::Init()
 		SystemTextDialog* systemTextDialog = new SystemTextDialog(this);
 		AddObject(systemTextDialog);
 		systemTextDialog->SetSystemText("타이틀 화면입니다. 이동하려면 WASD를 누르세요");
+		GameInstance::GetInstance()->SetSystemTextDialog(systemTextDialog);
 	}
+
+	player.SetPosition(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
 
 	BaseLevel::Init();
 }

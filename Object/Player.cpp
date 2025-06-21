@@ -19,7 +19,7 @@ void Player::Init()
 	BaseGameObject::Init();
 }
 
-void Player::UpdateLevel(BaseLevel* level)
+void Player::RegisterNewLevel(BaseLevel* level)
 {
 	if (level != nullptr)
 	{

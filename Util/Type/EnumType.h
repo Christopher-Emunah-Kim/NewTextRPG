@@ -23,6 +23,8 @@ enum class EMoveDirection
 
 enum class EKeyCode : uint8
 {
+	SPACE = 0x20,
+
 	NUM_0 = 0x30,
 	NUM_1 = 0x31,
 	NUM_2 = 0x32,

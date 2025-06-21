@@ -6,6 +6,7 @@
 #include "../Util/OutputSystem.h"
 #include "../Object/Player.h"
 #include "../Screen.h"
+#include "../Object/SystemTextDialog.h"
 
 
 LevelManager::~LevelManager()
@@ -85,18 +86,28 @@ void LevelManager::ChangeLevel()
 		Player& player = GameInstance::GetInstance()->GetPlayer();
 		BaseGameObject* currentPlayerObject = m_currentLevel->FindObject("Player");
 
-
 		if (currentPlayerObject && currentPlayerObject == &player)
 		{
 			m_currentLevel->DetachObject(currentPlayerObject);
 		}
 
+		m_currentLevel->RemoveObject("SystemTextDialog");
 
 		m_currentLevel->Release();
 		m_currentLevel = m_nextLevel;
 		m_currentLevel->Init();
 
-		player.UpdateLevel(m_currentLevel);
+		player.RegisterNewLevel(m_currentLevel);
+
+		SystemTextDialog* systemTextDialog = dynamic_cast<SystemTextDialog*>(m_currentLevel->FindObject("SystemTextDialog"));
+		if (systemTextDialog)
+		{
+			GameInstance::GetInstance()->SetSystemTextDialog(systemTextDialog);
+		}
+		else
+		{
+			OutputSystem::PrintErrorMsg("SystemTextDialog를 찾을 수 없습니다.");
+		}
 
 		m_nextLevel = nullptr;
 	}

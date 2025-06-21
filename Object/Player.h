@@ -11,6 +11,6 @@ public:
 
 	virtual void Init() override;  
 
-	void UpdateLevel(BaseLevel* level);
+	void RegisterNewLevel(BaseLevel* level);
 
 };

@@ -125,6 +125,7 @@
   <ItemGroup>
     <ClCompile Include="Component\BaseComponent.cpp" />
     <ClCompile Include="Component\ControllerComp.cpp" />
+    <ClCompile Include="Component\SystemTextComp.cpp" />
     <ClCompile Include="Core\GameInstance.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Level\BaseLevel.cpp" />
@@ -135,6 +136,7 @@
     <ClCompile Include="Object\BaseGameObject.cpp" />
     <ClCompile Include="Object\Player.cpp" />
     <ClCompile Include="Component\RendererComp.cpp" />
+    <ClCompile Include="Object\SystemTextDialog.cpp" />
     <ClCompile Include="Screen.cpp" />
     <ClCompile Include="Util\InputSystem.cpp" />
     <ClCompile Include="Util\Singleton.h" />
@@ -145,6 +147,7 @@
     <ClInclude Include="Component\BaseComponent.h" />
     <ClInclude Include="Component\ControllerComp.h" />
     <ClInclude Include="Component\RendererComp.h" />
+    <ClInclude Include="Component\SystemTextComp.h" />
     <ClInclude Include="Core\GameInstance.h" />
     <ClInclude Include="Core\IBehavior.h" />
     <ClInclude Include="Data\PlayerDataTablePerLevel.h" />
@@ -155,6 +158,7 @@
     <ClInclude Include="Manager\LevelManager.h" />
     <ClInclude Include="Object\BaseGameObject.h" />
     <ClInclude Include="Object\Player.h" />
+    <ClInclude Include="Object\SystemTextDialog.h" />
     <ClInclude Include="Screen.h" />
     <ClInclude Include="Util\InputAction.h" />
     <ClInclude Include="Util\InputSystem.h" />

@@ -101,10 +101,10 @@ void Screen::Draw(const int32& x, const int32& y, const string& str)
 
 void Screen::Draw(const int32& x, const int32& y, const char& c)
 {
-	if (false == IsValidCoordinate(x, y))
+	/*if (false == IsValidCoordinate(x, y))
 	{
 		return;
-	}
+	}*/
 
 	m_writeBuffer[y * SCREEN_WIDTH + x] = c;
 }

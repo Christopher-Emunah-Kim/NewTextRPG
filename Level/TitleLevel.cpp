@@ -1,5 +1,6 @@
 ﻿#include "TitleLevel.h"
 #include "../Core/GameInstance.h"
+#include "../Object/SystemTextDialog.h"
 
 
 void TitleLevel::Init()
@@ -17,6 +18,13 @@ void TitleLevel::Init()
 	if (FindObject("Player") == nullptr)
 	{
 		AddObject(&player);
+	}
+
+	if (FindObject("SystemTextDialog") == nullptr)
+	{
+		SystemTextDialog* systemTextDialog = new SystemTextDialog(this);
+		AddObject(systemTextDialog);
+		systemTextDialog->SetSystemText("타이틀 화면입니다. 이동하려면 WASD를 누르세요");
 	}
 
 	BaseLevel::Init();

@@ -21,15 +21,20 @@ void TitleLevel::Init()
 		AddObject(&player);
 	}
 
+	m_player = &player;
+
 	if (FindObject("SystemTextDialog") == nullptr)
 	{
 		SystemTextDialog* systemTextDialog = new SystemTextDialog(this);
-		AddObject(systemTextDialog);
-		systemTextDialog->SetSystemText("타이틀 화면입니다. 이동하려면 WASD를 누르세요");
-		GameInstance::GetInstance()->SetSystemTextDialog(systemTextDialog);
+		if (systemTextDialog != nullptr)
+		{
+			AddObject(systemTextDialog);
+			gameInstance->SetSystemTextDialog(systemTextDialog);
+			gameInstance->DisplaySystemText("타이틀 화면입니다. 이동하려면 WASD를 누르세요");
+		}
 	}
 
-	player.SetPosition(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+	m_player->SetPosition(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
 
 	BaseLevel::Init();
 }

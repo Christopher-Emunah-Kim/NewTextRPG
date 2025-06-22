@@ -27,17 +27,19 @@ void TestLevel::Init()
 		AddObject(&player);
 	}
 
+	m_player = &player;
+
+
 	if (FindObject("SystemTextDialog") == nullptr)
 	{
 		SystemTextDialog* systemTextDialog = new SystemTextDialog(this);
-		AddObject(systemTextDialog);
-		systemTextDialog->SetSystemText("테스트 레벨에 오신 것을 환영합니다.");
-		GameInstance::GetInstance()->SetSystemTextDialog(systemTextDialog);
+		if (systemTextDialog != nullptr)
+		{
+			AddObject(systemTextDialog);
+			gameInstance->SetSystemTextDialog(systemTextDialog);
+			gameInstance->DisplaySystemText("테스트 레벨에 진입하였습니다.");
+		}
 	}
-	/*BaseGameObject* portalObject = new BaseGameObject(this, "Portal");
-	portalObject->SetPosition(LEVEL_TRANSITION_POSITION_X, LEVEL_TRANSITION_POSITION_Y);
-	portalObject->AddComponent(new RendererComp(portalObject, "O"));
-	AddObject(portalObject);*/
 
 	m_playerInTransitionArea = false;
 	m_diplayedTransitionMessage = false;
@@ -55,16 +57,16 @@ void TestLevel::Update()
 
 void TestLevel::CheckPlayerInTransitionArea()
 {
-	BaseGameObject* player = FindObject("Player");
-	if (player == nullptr)
+	if (m_player == nullptr)
 		return;
 
-	int32 playerX = player->GetX();
-	int32 playerY = player->GetY();
+	int32 playerX = m_player->GetX();
+	int32 playerY = m_player->GetY();
 
 	bool bInTransitionArea =
 		(playerX >= LEVEL_TRANSITION_POSITION_X - TRANSITION_AREA_RADIUS && playerX <= LEVEL_TRANSITION_POSITION_X + TRANSITION_AREA_RADIUS) &&
 		(playerY >= LEVEL_TRANSITION_POSITION_Y - TRANSITION_AREA_RADIUS && playerY <= LEVEL_TRANSITION_POSITION_Y + TRANSITION_AREA_RADIUS);
+
 
 	if (bInTransitionArea && false == m_playerInTransitionArea)
 	{

@@ -3,7 +3,7 @@
 #include "../Component/BaseComponent.h"
 #include "../Util/OutputSystem.h"
 
-BaseGameObject::BaseGameObject(BaseLevel* level, const string& tag)
+BaseGameObject::BaseGameObject(BaseLevel* level, const wstring& tag)
 	: m_level{level}, m_objectTag(tag), m_x(0), m_y(0)
 {
 	if (m_level)
@@ -12,7 +12,7 @@ BaseGameObject::BaseGameObject(BaseLevel* level, const string& tag)
 	}
 	else
 	{
-		OutputSystem::PrintErrorMsg("GameObject가 추가될 Level 이 존재하지 않습니다.");
+		OutputSystem::PrintErrorMsg(L"GameObject가 추가될 Level 이 존재하지 않습니다.");
 	}
 }
 
@@ -96,7 +96,7 @@ vector<BaseComponent*>& BaseGameObject::GetComponents()
 	return m_components;
 }
 
-void BaseGameObject::SetTag(const string& tag) noexcept
+void BaseGameObject::SetTag(const wstring& tag) noexcept
 {
 	m_objectTag = tag;
 }

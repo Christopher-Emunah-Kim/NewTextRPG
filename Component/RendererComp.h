@@ -4,10 +4,10 @@
 class RendererComp : public BaseComponent
 {
 public:
-	RendererComp(BaseGameObject* owner, const string& renderShape);
+	RendererComp(BaseGameObject* owner, const wstring& renderShape);
 
 private:
-	string m_renderShape;
+	wstring m_renderShape;
 
 public: 
 	virtual void Render(Screen* screen) override;

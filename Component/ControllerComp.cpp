@@ -8,20 +8,20 @@
 
 void ControllerComp::Init()
 {
-	InputAction* moveUpAction = InputSystem::CreateAction("MoveUp");
-	InputAction* moveDownAction = InputSystem::CreateAction("MoveDown");
-	InputAction* moveLeftAction = InputSystem::CreateAction("MoveLeft");
-	InputAction* moveRightAction = InputSystem::CreateAction("MoveRight");
+	InputAction* moveUpAction = InputSystem::CreateAction(L"MoveUp");
+	InputAction* moveDownAction = InputSystem::CreateAction(L"MoveDown");
+	InputAction* moveLeftAction = InputSystem::CreateAction(L"MoveLeft");
+	InputAction* moveRightAction = InputSystem::CreateAction(L"MoveRight");
 
 	moveUpAction->BindCallback([this](EInputEvent event) { HandleMovement(event, EMoveDirection::UP); });
 	moveDownAction->BindCallback([this](EInputEvent event) { HandleMovement(event, EMoveDirection::DOWN); });
 	moveLeftAction->BindCallback([this](EInputEvent event) { HandleMovement(event, EMoveDirection::LEFT); });
 	moveRightAction->BindCallback([this](EInputEvent event) { HandleMovement(event, EMoveDirection::RIGHT); });
 
-    InputSystem::BindAction("MoveUp", static_cast<uint8>(EKeyCode::W));
-	InputSystem::BindAction("MoveDown", static_cast<uint8>(EKeyCode::S));
-	InputSystem::BindAction("MoveLeft", static_cast<uint8>(EKeyCode::A));
-	InputSystem::BindAction("MoveRight", static_cast<uint8>(EKeyCode::D));
+    InputSystem::BindAction(L"MoveUp", static_cast<uint8>(EKeyCode::W));
+	InputSystem::BindAction(L"MoveDown", static_cast<uint8>(EKeyCode::S));
+	InputSystem::BindAction(L"MoveLeft", static_cast<uint8>(EKeyCode::A));
+	InputSystem::BindAction(L"MoveRight", static_cast<uint8>(EKeyCode::D));
 	
 }
 
@@ -68,7 +68,7 @@ void ControllerComp::HandleMovement(EInputEvent inputEvent, EMoveDirection direc
 
 	default:
 	{
-		OutputSystem::PrintErrorMsg("잘못된 방향입니다.");
+		OutputSystem::PrintErrorMsg(L"잘못된 방향입니다.");
 	}
 	}
 

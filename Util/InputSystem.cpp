@@ -5,19 +5,19 @@
 bool InputSystem::m_currentKeyStates[256] = { false };
 bool InputSystem::m_previousKeyStates[256] = { false };
 
-unordered_map<string, InputAction*> InputSystem::m_actions;
-unordered_map<int8, string> InputSystem::m_keyToActionMap;
+unordered_map<wstring, InputAction*> InputSystem::m_actions;
+unordered_map<int8, wstring> InputSystem::m_keyToActionMap;
 
 
 
-string InputSystem::GetKeyName(const int8& vkey)
+wstring InputSystem::GetKeyName(const int8& vkey)
 {
 	if ((vkey >= 'A' && vkey <= 'Z') || (vkey >= '0' && vkey <= '9'))
 	{
 		char keyChar = static_cast<char>(vkey);
-		return string(1, keyChar);
+		return wstring(1, keyChar);
 	}
-	return "";
+	return L" ";
 }
 
 
@@ -41,11 +41,11 @@ void InputSystem::Update()
 	{
 		if (m_currentKeyStates[i] == true && m_previousKeyStates[i] == false) //PRESSED
 		{
-            unordered_map<int8, string>::iterator it = m_keyToActionMap.find(i);  
+            unordered_map<int8, wstring>::iterator it = m_keyToActionMap.find(i);  
 
             if (it != m_keyToActionMap.end())  
             {  
-				unordered_map<string, InputAction*>::iterator actionIt = m_actions.find(it->second);
+				unordered_map<wstring, InputAction*>::iterator actionIt = m_actions.find(it->second);
                 
 				if (actionIt != m_actions.end())  
                 {  
@@ -55,11 +55,11 @@ void InputSystem::Update()
 		}
 		else if (m_currentKeyStates[i] == false && m_previousKeyStates[i] == true) //RELEASED
 		{
-			unordered_map<int8, string>::iterator it = m_keyToActionMap.find(i);
+			unordered_map<int8, wstring>::iterator it = m_keyToActionMap.find(i);
 
 			if (it != m_keyToActionMap.end())
 			{
-				unordered_map<string, InputAction*>::iterator actionIt = m_actions.find(it->second);
+				unordered_map<wstring, InputAction*>::iterator actionIt = m_actions.find(it->second);
 
 				if (actionIt != m_actions.end())
 				{
@@ -69,11 +69,11 @@ void InputSystem::Update()
 		}
 		else if (m_currentKeyStates[i] == true && m_previousKeyStates[i] == true) //HOLD
 		{
-			unordered_map<int8, string>::iterator it = m_keyToActionMap.find(i);
+			unordered_map<int8, wstring>::iterator it = m_keyToActionMap.find(i);
 
 			if (it != m_keyToActionMap.end())
 			{
-				unordered_map<string, InputAction*>::iterator actionIt = m_actions.find(it->second);
+				unordered_map<wstring, InputAction*>::iterator actionIt = m_actions.find(it->second);
 
 				if (actionIt != m_actions.end())
 				{
@@ -91,9 +91,9 @@ bool InputSystem::IsKeyPressed(EKeyCode key)
 	return (GetAsyncKeyState(static_cast<int>(key)) & 0x8000) != 0;
 }
 
-InputAction* InputSystem::CreateAction(const string& actionName)
+InputAction* InputSystem::CreateAction(const wstring& actionName)
 {
-	unordered_map<string, InputAction*>::iterator it = m_actions.find(actionName);
+	unordered_map<wstring, InputAction*>::iterator it = m_actions.find(actionName);
 	
 	if (it != m_actions.end())
 	{
@@ -107,7 +107,7 @@ InputAction* InputSystem::CreateAction(const string& actionName)
 	return newAction;
 }
 
-void InputSystem::BindAction(const string& actionName, uint8 key)
+void InputSystem::BindAction(const wstring& actionName, uint8 key)
 {
 	ClearBinding(key);
 
@@ -123,9 +123,9 @@ void InputSystem::ClearAllBindings()
 {
 	m_keyToActionMap.clear();
 
-	for (unordered_map<string, InputAction*>::iterator it = m_actions.begin(); it != m_actions.end(); ++it)
+	for (unordered_map<wstring, InputAction*>::iterator it = m_actions.begin(); it != m_actions.end(); ++it)
 	{
-        pair<string, InputAction*> action = *it;
+        pair<wstring, InputAction*> action = *it;
 		delete action.second;
 	}
 	m_actions.clear();

@@ -17,10 +17,10 @@ LevelManager::~LevelManager()
 
 void LevelManager::Init()
 {
-	m_levels["Test"] = new TestLevel("Test");
-	m_levels["Title"] = new TitleLevel("Title");
+	m_levels[L"Test"] = new TestLevel(L"Test");
+	m_levels[L"Title"] = new TitleLevel(L"Title");
 
-	m_currentLevel = m_levels["Test"]; //TODO : 이후 Title로 변경
+	m_currentLevel = m_levels[L"Test"]; //TODO : 이후 Title로 변경
 
 	m_currentLevel->Init();
 }
@@ -46,7 +46,7 @@ void LevelManager::Release()
 
 	m_nextLevel = nullptr;
 
-	for (unordered_map<string, BaseLevel*>::iterator it = m_levels.begin(); it != m_levels.end(); ++it)
+	for (unordered_map<wstring, BaseLevel*>::iterator it = m_levels.begin(); it != m_levels.end(); ++it)
 	{
 		delete it->second;
 	}
@@ -60,18 +60,18 @@ bool LevelManager::IsSetNextLevel() const
 	return m_nextLevel != nullptr;
 }
 
-void LevelManager::SetNextLevel(const string& name)
+void LevelManager::SetNextLevel(const wstring& name)
 {
 	if (m_nextLevel != nullptr)
 	{
-		OutputSystem::PrintErrorMsg("설정된 NextLevel 이 존재합니다. 새로운 Level 을 설정할 수 없습니다.");
+		OutputSystem::PrintErrorMsg(L"설정된 NextLevel 이 존재합니다. 새로운 Level 을 설정할 수 없습니다.");
 		return;
 	}
 
-	unordered_map<string, BaseLevel*>::iterator it = m_levels.find(name);
+	unordered_map<wstring, BaseLevel*>::iterator it = m_levels.find(name);
 	if (it == m_levels.end())
 	{
-		OutputSystem::PrintErrorMsg(name + "라는 이름의 Level 이 존재하지 않습니다.");
+		OutputSystem::PrintErrorMsg(name + L"라는 이름의 Level 이 존재하지 않습니다.");
 		return;
 	}
 
@@ -84,29 +84,29 @@ void LevelManager::ChangeLevel()
 	if (m_nextLevel)
 	{
 		Player& player = GameInstance::GetInstance()->GetPlayer();
-		BaseGameObject* currentPlayerObject = m_currentLevel->FindObject("Player");
+		BaseGameObject* currentPlayerObject = m_currentLevel->FindObject(L"Player");
 
 		if (currentPlayerObject && currentPlayerObject == &player)
 		{
 			m_currentLevel->DetachObject(currentPlayerObject);
 		}
 
-		m_currentLevel->RemoveObject("SystemTextDialog");
+		m_currentLevel->RemoveObject(L"SystemTextDialog");
 
 		m_currentLevel->Release();
 		m_currentLevel = m_nextLevel;
 		m_currentLevel->Init();
 
-		player.RegisterNewLevel(m_currentLevel);
+		player.RegisterNewLevelArea(m_currentLevel);
 
-		SystemTextDialog* systemTextDialog = dynamic_cast<SystemTextDialog*>(m_currentLevel->FindObject("SystemTextDialog"));
+		SystemTextDialog* systemTextDialog = dynamic_cast<SystemTextDialog*>(m_currentLevel->FindObject(L"SystemTextDialog"));
 		if (systemTextDialog)
 		{
 			GameInstance::GetInstance()->SetSystemTextDialog(systemTextDialog);
 		}
 		else
 		{
-			OutputSystem::PrintErrorMsg("SystemTextDialog를 찾을 수 없습니다.");
+			OutputSystem::PrintErrorMsg(L"SystemTextDialog를 찾을 수 없습니다.");
 		}
 
 		m_nextLevel = nullptr;

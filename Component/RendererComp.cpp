@@ -3,7 +3,7 @@
 #include "../Screen.h"
 
 
-RendererComp::RendererComp(BaseGameObject* owner, const string& renderShape)
+RendererComp::RendererComp(BaseGameObject* owner, const wstring& renderShape)
 	: BaseComponent(owner), m_renderShape(renderShape)
 {
 }

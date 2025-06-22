@@ -14,7 +14,7 @@ public:
 private:
 	BaseLevel* m_currentLevel = nullptr;
 	BaseLevel* m_nextLevel = nullptr;
-	unordered_map<string, BaseLevel*> m_levels;
+	unordered_map<wstring, BaseLevel*> m_levels;
 
 public:
 	virtual void Init() override;
@@ -23,7 +23,7 @@ public:
 	virtual void Release() override;
 
 	bool IsSetNextLevel() const;
-	void SetNextLevel(const string& name);
+	void SetNextLevel(const wstring& name);
 	void ChangeLevel();
 };
 

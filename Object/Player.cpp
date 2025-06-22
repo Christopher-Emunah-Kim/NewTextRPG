@@ -13,13 +13,13 @@ void Player::Init()
 	if (IsComponentsEmpty())
 	{
 		AddComponent(new ControllerComp(this));
-		AddComponent(new RendererComp(this, "@"));
+		AddComponent(new RendererComp(this, L"@"));
 	}
 
 	BaseGameObject::Init();
 }
 
-void Player::RegisterNewLevel(BaseLevel* level)
+void Player::RegisterNewLevelArea(BaseLevel* level)
 {
 	if (level != nullptr)
 	{
@@ -38,7 +38,7 @@ void Player::RegisterNewLevel(BaseLevel* level)
 			Init();
 		}
 
-		if (level->FindObject("Player") == nullptr)
+		if (level->FindObject(L"Player") == nullptr)
 		{
 			level->AddObject(this);
 		}

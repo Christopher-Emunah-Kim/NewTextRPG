@@ -9,28 +9,22 @@ void TitleLevel::Init()
 	GameInstance* gameInstance = GameInstance::GetInstance();
 	Player& player = gameInstance->GetPlayer();
 
-	player.RegisterNewLevel(this);
+	player.RegisterNewLevelArea(this);
 
 	if (false == gameInstance->IsPlayerInitialzed())
 	{
 		gameInstance->SetPlayerInitialize(true);
 	}
 
-	if (FindObject("Player") == nullptr)
-	{
-		AddObject(&player);
-	}
-
 	m_player = &player;
 
-	if (FindObject("SystemTextDialog") == nullptr)
+	if (FindObject(L"SystemTextDialog") == nullptr)
 	{
 		SystemTextDialog* systemTextDialog = new SystemTextDialog(this);
 		if (systemTextDialog != nullptr)
 		{
-			AddObject(systemTextDialog);
 			gameInstance->SetSystemTextDialog(systemTextDialog);
-			gameInstance->DisplaySystemText("타이틀 화면입니다. 이동하려면 WASD를 누르세요");
+			gameInstance->DisplaySystemText(L"타이틀 화면입니다. 이동하려면 WASD를 누르세요");
 		}
 	}
 

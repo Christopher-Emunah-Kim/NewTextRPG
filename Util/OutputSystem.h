@@ -7,20 +7,20 @@ class OutputSystem
 
 public:
 
-	static void PrintErrorMsg(const string& errorMessage) {
-		cerr << "[Error] " << errorMessage << endl;
+	static void PrintErrorMsg(const wstring& errorMessage) {
+		wcerr << L"[Error] " << errorMessage << endl;
 	}
-	static void PrintInfoMsg(const string& infoMessage) {
-		cout << "[Info] " << infoMessage << endl;
+	static void PrintInfoMsg(const wstring& infoMessage) {
+		wcout << L"[Info] " << infoMessage << endl;
 	}
-	static void PrintWarningMsg(const string& warningMessage) {
-		cerr << "[Warning] " << warningMessage << endl;
+	static void PrintWarningMsg(const wstring& warningMessage) {
+		wcerr << L"[Warning] " << warningMessage << endl;
 	}
-	static void PrintSystemMsg(const string& systemMessage) {
-		cout << "[System] " << systemMessage << endl;
+	static void PrintSystemMsg(const wstring& systemMessage) {
+		wcout << L"[System] " << systemMessage << endl;
 	}
 	static void PrintLine() {
-		cout << "\n\n===========================================================\n\n" << endl;
+		wcout << "\n\n===========================================================\n\n" << endl;
 	}
 	static void ClearScreen()
 	{

@@ -2,26 +2,24 @@
 #include "../Component/SystemTextComp.h"
 
 SystemTextDialog::SystemTextDialog(BaseLevel* level)
-	: BaseGameObject(level, "SystemTextDialog")
+	: BaseGameObject(level, L"SystemTextDialog")
 { }
 
 
 void SystemTextDialog::Init()
 {
 	SetPosition(0, SCREEN_HEIGHT / 2);
-	//SetPosition(0, SCREEN_HEIGHT - 2);
 
 	if (IsComponentsEmpty())
 	{
 		AddComponent(new SystemTextComp(this));
 	}
-	//Debug
-	SetSystemText("===시스템 메시지가 여기에 표시됩니다.");
+	SetSystemText(L"===시스템 메시지가 여기에 표시됩니다.");
 
 	BaseGameObject::Init();
 }
 
-void SystemTextDialog::SetSystemText(const string& text) noexcept
+void SystemTextDialog::SetSystemText(const wstring& text) noexcept
 {
 	SystemTextComp* textComp = nullptr;
 

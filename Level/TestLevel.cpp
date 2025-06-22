@@ -15,29 +15,22 @@ void TestLevel::Init()
 	GameInstance* gameInstance = GameInstance::GetInstance();
 	Player& player = gameInstance->GetPlayer();
 
-	player.RegisterNewLevel(this);
+	player.RegisterNewLevelArea(this);
 
 	if (false == gameInstance->IsPlayerInitialzed())
 	{
 		gameInstance->SetPlayerInitialize(true);
 	}
 
-	if (FindObject("Player") == nullptr)
-	{
-		AddObject(&player);
-	}
-
 	m_player = &player;
 
-
-	if (FindObject("SystemTextDialog") == nullptr)
+	if (FindObject(L"SystemTextDialog") == nullptr)
 	{
 		SystemTextDialog* systemTextDialog = new SystemTextDialog(this);
 		if (systemTextDialog != nullptr)
 		{
-			AddObject(systemTextDialog);
 			gameInstance->SetSystemTextDialog(systemTextDialog);
-			gameInstance->DisplaySystemText("테스트 레벨에 진입하였습니다.");
+			gameInstance->DisplaySystemText(L"테스트 레벨에 진입하였습니다.");
 		}
 	}
 
@@ -70,20 +63,20 @@ void TestLevel::CheckPlayerInTransitionArea()
 
 	if (bInTransitionArea && false == m_playerInTransitionArea)
 	{
-		GameInstance::GetInstance()->DisplaySystemText("포털 지역에 진입했습니다. 스페이스바를 누르면 타이틀 지역으로 진입합니다.");
+		GameInstance::GetInstance()->DisplaySystemText(L"포털 지역에 진입했습니다. 스페이스바를 누르면 타이틀 지역으로 진입합니다.");
 		m_playerInTransitionArea = true;
 		m_diplayedTransitionMessage = true;
 	}
 	else if (false == bInTransitionArea && m_playerInTransitionArea)
 	{
-		GameInstance::GetInstance()->DisplaySystemText("포털 지역을 벗어났습니다.");
+		GameInstance::GetInstance()->DisplaySystemText(L"포털 지역을 벗어났습니다.");
 		m_playerInTransitionArea = false;
 		m_diplayedTransitionMessage = false;
 	}
 
 	if (m_playerInTransitionArea && InputSystem::IsKeyPressed(EKeyCode::SPACE))
 	{
-		LevelManager::GetInstance()->SetNextLevel("Title");
+		LevelManager::GetInstance()->SetNextLevel(L"Title");
 	}
 
 }

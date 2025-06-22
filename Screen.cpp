@@ -84,7 +84,7 @@ void Screen::Clear()
 	}
 }
 
-void Screen::Draw(const int32& x, const int32& y, const string& str)
+void Screen::Draw(const int32& x, const int32& y, const wstring& str)
 {
 	if (false == IsValidCoordinate(x, y))
 	{
@@ -95,16 +95,16 @@ void Screen::Draw(const int32& x, const int32& y, const string& str)
 
 	for (size_t i = 0; i < length; ++i)
 	{
-		Draw(x, y, str[i]);
+		Draw(x+static_cast<int32>(i), y, str[i]);
 	}
 }
 
-void Screen::Draw(const int32& x, const int32& y, const char& c)
+void Screen::Draw(const int32& x, const int32& y, const wchar_t& c)
 {
-	/*if (false == IsValidCoordinate(x, y))
+	if (false == IsValidCoordinate(x, y))
 	{
 		return;
-	}*/
+	}
 
 	m_writeBuffer[y * SCREEN_WIDTH + x] = c;
 }

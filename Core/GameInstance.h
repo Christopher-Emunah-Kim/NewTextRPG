@@ -16,8 +16,8 @@ public:
 
 private:
 	Player m_player;
-	bool m_bIsPlayerInitialzed = false;
 	SystemTextDialog* m_systemTextDialog;
+	bool m_bIsPlayerInitialzed = false;
 
 public:
 	void Init();
@@ -26,7 +26,7 @@ public:
 	void SetPlayerInitialize(bool bIsInitialized);
 
 	void SetSystemTextDialog(SystemTextDialog* dialogObj);
-	void DisplaySystemText(const string& text);
+	void DisplaySystemText(const wstring& text);
 
 	inline Player& GetPlayer() noexcept { return m_player; }
 	inline SystemTextDialog* GetSystemTextDialog() const { return m_systemTextDialog; }

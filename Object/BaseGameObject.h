@@ -10,14 +10,14 @@ class BaseLevel;
 class BaseGameObject abstract : public IBehavior
 {
 public:
-	BaseGameObject(BaseLevel* level, const string& tag);
+	BaseGameObject(BaseLevel* level, const wstring& tag);
 	virtual ~BaseGameObject();
 
 private:
 	int32 m_x;
 	int32 m_y;
 	BaseLevel* m_level = nullptr;
-	string m_objectTag = " ";
+	wstring m_objectTag = L" ";
 	vector<BaseComponent*> m_components;
 
 public:
@@ -26,12 +26,12 @@ public:
 	virtual void Render(Screen* screen) override;
 	virtual void Release() override;
 
-	inline string		GetTag() const noexcept { return m_objectTag; }
+	inline wstring		GetTag() const noexcept { return m_objectTag; }
 	inline BaseLevel* GetLevel() const noexcept { return m_level; }
 	inline int32		GetX() const noexcept { return m_x; }
 	inline int32		GetY() const noexcept { return m_y; }
 
-	void SetTag(const string& tag) noexcept;
+	void SetTag(const wstring& tag) noexcept;
 	void SetPosition(const int32& x, const int32& y) noexcept;
 	void SetLevel(BaseLevel* level);
 

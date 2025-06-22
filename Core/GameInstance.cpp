@@ -25,7 +25,7 @@ void GameInstance::SetSystemTextDialog(SystemTextDialog* dialogObj)
 	m_systemTextDialog = dialogObj;
 }
 
-void GameInstance::DisplaySystemText(const string& text)
+void GameInstance::DisplaySystemText(const wstring& text)
 {
 	if (m_systemTextDialog)
 	{
@@ -33,6 +33,6 @@ void GameInstance::DisplaySystemText(const string& text)
 	}
 	else
 	{
-		OutputSystem::PrintErrorMsg("SystemTextDialog is not set.");
+		OutputSystem::PrintErrorMsg(L"SystemTextDialog is not set.");
 	}
 }

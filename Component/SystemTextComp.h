@@ -8,13 +8,13 @@ public:
 	virtual ~SystemTextComp() = default;
 
 private:
-	string m_systemText;
+	wstring m_systemText;
 
 public:
 	virtual void Render(Screen* screen) override;
 
-	void SetText(const string& text);
+	void SetText(const wstring& text);
 
-	inline const string& GetText() const { return m_systemText; }
+	inline const wstring& GetText() const { return m_systemText; }
 };
 

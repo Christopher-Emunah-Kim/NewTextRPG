@@ -9,14 +9,14 @@ using InputActionCallback = std::function<void(EInputEvent)>;
 class InputAction
 {
 public:
-	InputAction(const string& actionName) : actionName(actionName) {}
+	InputAction(const wstring& actionName) : actionName(actionName) {}
 
 private:
-	string actionName;
+	wstring actionName;
 	InputActionCallback m_callbackFuncPtr;
 
 public:
-	const string& GetActionName() const { return actionName; }
+	const wstring& GetActionName() const { return actionName; }
 
 	void BindCallback(InputActionCallback callback)
 	{

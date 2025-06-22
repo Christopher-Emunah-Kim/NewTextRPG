@@ -9,6 +9,6 @@ public:
 
 	virtual void Init() override;
 
-	void SetSystemText(const string& text) noexcept;
+	void SetSystemText(const wstring& text) noexcept;
 };
 

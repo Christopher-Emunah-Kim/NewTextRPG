@@ -11,7 +11,7 @@ class SystemTextDialog;
 class TestLevel final : public BaseLevel
 {
 public:
-	TestLevel(const string& tag) : BaseLevel(tag) { }
+	TestLevel(const wstring& tag) : BaseLevel(tag) { }
 	virtual ~TestLevel() = default;
 
 private:

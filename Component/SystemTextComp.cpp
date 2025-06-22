@@ -3,7 +3,7 @@
 #include "../Screen.h"
 
 SystemTextComp::SystemTextComp(BaseGameObject* owner)
-	: BaseComponent(owner, 3), m_systemText(" ")
+	: BaseComponent(owner, 3), m_systemText(L" ")
 {
 }
 
@@ -16,7 +16,7 @@ void SystemTextComp::Render(Screen* screen)
 	}
 }
 
-void SystemTextComp::SetText(const string& text)
+void SystemTextComp::SetText(const wstring& text)
 {
 	m_systemText = text;
 }

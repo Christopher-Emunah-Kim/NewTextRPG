@@ -1,7 +1,7 @@
 ﻿#include "BaseLevel.h"
 #include "../Object/BaseGameObject.h"
 
-BaseLevel::BaseLevel(const string& tag)
+BaseLevel::BaseLevel(const wstring& tag)
 	: m_levelTag(tag)
 {
 
@@ -84,7 +84,7 @@ void BaseLevel::DetachObject(BaseGameObject* object)
 	}
 }
 
-void BaseLevel::RemoveObject(const string& tag)
+void BaseLevel::RemoveObject(const wstring& tag)
 {
 	for (vector<BaseGameObject*>::iterator it = m_gameObjects.begin(); it != m_gameObjects.end();)
 	{
@@ -105,7 +105,7 @@ void BaseLevel::RemoveObject(const string& tag)
 	}
 }
 
-BaseGameObject* BaseLevel::FindObject(const string& tag)
+BaseGameObject* BaseLevel::FindObject(const wstring& tag)
 {
 	for (vector<BaseGameObject*>::iterator it = m_gameObjects.begin(); it != m_gameObjects.end(); ++it)
 	{

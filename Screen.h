@@ -25,13 +25,13 @@ private:
 private:
 	void VisibleConsoleCursor(bool isVisible);
 	bool IsValidCoordinate(const int32& x, const int32& y);
-	void Draw(const int32& x, const int32& y, const char& c);
+	void Draw(const int32& x, const int32& y, const wchar_t& c);
 
 public:
 	void Init();
 	void Release();
 	void Clear();
-	void Draw(const int32& x, const int32& y, const string& str);
+	void Draw(const int32& x, const int32& y, const wstring& str);
 	void SwapBuffer();
 
 };

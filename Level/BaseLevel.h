@@ -7,11 +7,11 @@ class BaseGameObject;
 class BaseLevel abstract : public IBehavior
 {
 public:
-	BaseLevel(const string& tag);
+	BaseLevel(const wstring& tag);
 	virtual ~BaseLevel();
 
 protected:
-	string m_levelTag = " ";
+	wstring m_levelTag = L" ";
 	vector<BaseGameObject*> m_gameObjects;
 
 public:
@@ -22,9 +22,9 @@ public:
 
 	void AddObject(BaseGameObject* object);
 	void DetachObject(BaseGameObject* object);
-	void RemoveObject(const string& tag);
-	BaseGameObject* FindObject(const string& tag);
+	void RemoveObject(const wstring& tag);
+	BaseGameObject* FindObject(const wstring& tag);
 
-	inline string GetTag() const noexcept { return m_levelTag; }
+	inline wstring GetTag() const noexcept { return m_levelTag; }
 };
 

@@ -10,9 +10,12 @@ void Player::Init()
 {
 	SetPosition(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
 
-	if (IsComponentsEmpty())
+	if (false == HasComponentType<ControllerComp>())
 	{
 		AddComponent(new ControllerComp(this));
+	}
+	if (false == HasComponentType<RendererComp>())
+	{
 		AddComponent(new RendererComp(this, L"@"));
 	}
 

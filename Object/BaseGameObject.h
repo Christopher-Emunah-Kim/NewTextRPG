@@ -30,6 +30,7 @@ public:
 	inline BaseLevel* GetLevel() const noexcept { return m_level; }
 	inline int32		GetX() const noexcept { return m_x; }
 	inline int32		GetY() const noexcept { return m_y; }
+	vector<BaseComponent*>& GetComponents();
 
 	void SetTag(const wstring& tag) noexcept;
 	void SetPosition(const int32& x, const int32& y) noexcept;
@@ -39,6 +40,19 @@ public:
 	void RemoveComponent(BaseComponent* component);
 	void UpdateLevel(BaseLevel* level);
 	bool IsComponentsEmpty() const;
-	vector<BaseComponent*>& GetComponents();
+	
+	template<typename T>
+	bool HasComponentType() const
+	{
+		for (size_t i = 0; i < m_components.size(); ++i)
+		{
+			BaseComponent* comp = m_components[i];
+			if (dynamic_cast<T*>(comp) != nullptr)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
 };
 

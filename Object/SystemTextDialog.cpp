@@ -14,9 +14,10 @@ void SystemTextDialog::Init()
 	{
 		AddComponent(new SystemTextComp(this));
 	}
-	SetSystemText(L"===시스템 메시지가 여기에 표시됩니다.");
 
 	BaseGameObject::Init();
+	
+	SetSystemText(L"===시스템 메시지가 여기에 표시됩니다.");
 }
 
 void SystemTextDialog::SetSystemText(const wstring& text) noexcept

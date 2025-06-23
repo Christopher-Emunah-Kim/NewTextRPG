@@ -25,7 +25,7 @@ void PlayerInfoRenderComp::Render(Screen* screen)
 		return;
 	}
 
-	OutputSystem::PrintInfoMsg(L"PlayerInfoRenderComp::Render 호출됨");
+	//OutputSystem::PrintInfoMsg(L"PlayerInfoRenderComp::Render 호출됨");
 
 	int8 leftMargin = 4;
 

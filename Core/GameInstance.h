@@ -27,6 +27,7 @@ public:
 
 	void SetSystemTextDialog(SystemTextDialog* dialogObj);
 	void DisplaySystemText(const wstring& text);
+	void ChangeLevelAreaSettings(BaseLevel* newLevel);
 
 	inline Player& GetPlayer() noexcept { return m_player; }
 	inline SystemTextDialog* GetSystemTextDialog() const { return m_systemTextDialog; }

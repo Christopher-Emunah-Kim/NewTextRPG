@@ -1,5 +1,6 @@
 ﻿#include "SystemTextDialog.h"
 #include "../Component/SystemTextComp.h"
+#include "../Level/BaseLevel.h"
 
 SystemTextDialog::SystemTextDialog(BaseLevel* level)
 	: BaseGameObject(level, L"SystemTextDialog")
@@ -17,7 +18,7 @@ void SystemTextDialog::Init()
 
 	BaseGameObject::Init();
 	
-	SetSystemText(L"===예시 시스템 메시지가 여기에 표시됩니다.");
+	SetSystemText(L"=== 예시로 시스템 메시지가 여기에 표시됩니다.");
 }
 
 void SystemTextDialog::SetSystemText(const wstring& text) noexcept
@@ -33,6 +34,24 @@ void SystemTextDialog::SetSystemText(const wstring& text) noexcept
 		{
 			textComp->SetText(text);
 			break;
+		}
+	}
+}
+
+void SystemTextDialog::RegisterSystemTextInNewLevel(BaseLevel* newLevel)
+{
+	if (GetLevel() != newLevel)
+	{
+		if (GetLevel())
+		{
+			GetLevel()->DetachObject(this);
+		}
+
+		SetLevel(newLevel);
+
+		if (newLevel)
+		{
+			newLevel->AddObject(this);
 		}
 	}
 }

@@ -91,7 +91,7 @@ void LevelManager::ChangeLevel()
 			m_currentLevel->DetachObject(currentPlayerObject);
 		}
 
-		m_currentLevel->RemoveObject(L"SystemTextDialog");
+		GameInstance::GetInstance()->ChangeLevelAreaSettings(m_nextLevel);
 
 		m_currentLevel->Release();
 		m_currentLevel = m_nextLevel;
@@ -99,15 +99,6 @@ void LevelManager::ChangeLevel()
 
 		player.RegisterNewLevelArea(m_currentLevel);
 
-		SystemTextDialog* systemTextDialog = dynamic_cast<SystemTextDialog*>(m_currentLevel->FindObject(L"SystemTextDialog"));
-		if (systemTextDialog)
-		{
-			GameInstance::GetInstance()->SetSystemTextDialog(systemTextDialog);
-		}
-		else
-		{
-			OutputSystem::PrintErrorMsg(L"SystemTextDialog를 찾을 수 없습니다.");
-		}
 
 		m_nextLevel = nullptr;
 	}

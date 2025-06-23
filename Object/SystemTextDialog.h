@@ -10,5 +10,7 @@ public:
 	virtual void Init() override;
 
 	void SetSystemText(const wstring& text) noexcept;
+
+	void RegisterSystemTextInNewLevel(BaseLevel* newLevel);
 };
 

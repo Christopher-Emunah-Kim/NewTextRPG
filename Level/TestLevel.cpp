@@ -24,15 +24,7 @@ void TestLevel::Init()
 
 	m_player = &player;
 
-	if (FindObject(L"SystemTextDialog") == nullptr)
-	{
-		SystemTextDialog* systemTextDialog = new SystemTextDialog(this);
-		if (systemTextDialog != nullptr)
-		{
-			gameInstance->SetSystemTextDialog(systemTextDialog);
-			gameInstance->DisplaySystemText(L"테스트 레벨에 진입하였습니다.");
-		}
-	}
+	gameInstance->DisplaySystemText(L"테스트 레벨에 진입하였습니다.");
 
 	m_playerInTransitionArea = false;
 	m_diplayedTransitionMessage = false;

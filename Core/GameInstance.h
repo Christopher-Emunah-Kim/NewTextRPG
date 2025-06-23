@@ -16,7 +16,7 @@ private:
 	GameInstance() = default;
 
 public:
-	virtual ~GameInstance() = default;
+	virtual ~GameInstance();
 
 private:
 	//Player m_player;

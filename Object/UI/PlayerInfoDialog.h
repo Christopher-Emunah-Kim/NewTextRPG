@@ -3,7 +3,7 @@
 
 class Player;
 class BaseLevel;
-class PlayerInfoComp;
+class PlayerInfoRenderComp;
 
 class PlayerInfoDialog : public BaseGameObject
 {
@@ -12,6 +12,7 @@ public:
 	virtual ~PlayerInfoDialog() = default;
 
 private:
+	PlayerInfoRenderComp* m_renderComp = nullptr;
 
 public:
 

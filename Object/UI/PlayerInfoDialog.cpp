@@ -1,6 +1,9 @@
 ﻿#include "PlayerInfoDialog.h"
 #include "../../Level/BaseLevel.h"
-#include "../../Component/Player/PlayerInfoComp.h"
+#include "../../Component/Player/PlayerInfoRenderComp.h"
+#include "../../Object/Player.h"
+#include "../../Util/OutputSystem.h"
+#include "../../Component/Player/PlayerStatusComp.h"
 
 PlayerInfoDialog::PlayerInfoDialog(BaseLevel* level)
 	: BaseGameObject(level, L"PlayerInfoDialog")
@@ -11,9 +14,22 @@ void PlayerInfoDialog::Init()
 {
 	SetPosition(0, 0);
 
-	if (false == HasComponentType<PlayerInfoComp>())
+	if (false == HasComponentType<PlayerInfoRenderComp>())
 	{
-		AddComponent(new PlayerInfoComp(this));
+		m_renderComp =  new PlayerInfoRenderComp(this);
+		AddComponent(m_renderComp);
+	}
+	else
+	{
+		vector<BaseComponent*> comps = GetComponents();
+		for (size_t i = 0; i < comps.size(); ++i)
+		{
+			m_renderComp = dynamic_cast<PlayerInfoRenderComp*>(comps[i]);
+			if (m_renderComp)
+			{
+				break;
+			}
+		}
 	}
 
 	BaseGameObject::Init();
@@ -22,18 +38,66 @@ void PlayerInfoDialog::Init()
 void PlayerInfoDialog::UpdatePlayerInfoDialog(const Player& player)
 {
 	//TODO : 음 이걸 굳이 매번 새 객체포인터를 가지고 지정해야하는걸까?
-	PlayerInfoComp* infoComp = nullptr;
-	vector<BaseComponent*> components = GetComponents();
+	//TODO : 수정필요
+	const PlayerStatusComp* statusComp = nullptr;
+    const vector<BaseComponent*>& playerComps = const_cast<Player&>(player).GetComponents();
 
-	for (size_t i = 0; i < components.size(); ++i)
+	for (size_t i = 0; i < playerComps.size(); ++i)
 	{
-		infoComp = dynamic_cast<PlayerInfoComp*>(components[i]);
-		if (infoComp)
+		statusComp = dynamic_cast<PlayerStatusComp*>(playerComps[i]);
+		if (statusComp)
 		{
-			infoComp->UpdateStatus(player);
 			break;
 		}
 	}
+
+	if (nullptr == statusComp)
+	{
+		OutputSystem::PrintErrorMsg(L"플레이어에 PlayerStatusComp가 없습니다.");
+		return;
+	}
+
+
+	///*PlayerInfoRenderComp* renderComp = nullptr;
+	//vector<BaseComponent*> InfoComps = GetComponents();
+
+	//for (size_t i = 0; i < InfoComps.size(); ++i)
+	//{
+	//	renderComp = dynamic_cast<PlayerInfoRenderComp*>(InfoComps[i]);
+	//	if (renderComp)
+	//	{
+	//		break;
+	//	}
+	//}
+
+	//if (nullptr == renderComp)
+	//{
+	//	OutputSystem::PrintErrorMsg(L"플레이어에 PlayerInfoRenderComp가 없습니다.");
+	//	return;
+	//}*/
+
+	if (m_renderComp)
+	{
+		const Status& status = statusComp->GetStatus();
+
+		m_renderComp->UpdateStatus(
+			statusComp->GetPlayerName(),
+			statusComp->GetPlayerLevel(),
+			statusComp->GetPlayerHealth(),
+			statusComp->GetPlayerMaxHealth(),
+			statusComp->GetPlayerExperience(),
+			statusComp->GetPlayerMaxExperience(),
+			status.GetAttack(),
+			status.GetDefense(),
+			status.GetAgility(),
+			statusComp->GetPlayerGold()
+		);
+	}
+	else
+	{
+		OutputSystem::PrintErrorMsg(L"PlayerInfoDialog에 PlayerInfoRenderComp가 존재하지 않습니다.");
+	}
+	
 
 }
 

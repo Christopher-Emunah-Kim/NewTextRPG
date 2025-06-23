@@ -63,10 +63,16 @@
     <ClCompile Include="Core\GameInstance.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Object\SystemTextDialog.cpp">
+    <ClCompile Include="Object\UI\SystemTextDialog.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Component\SystemTextComp.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Component\Player\PlayerStatusComp.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\UI\PlayerInfoDialog.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -137,10 +143,16 @@
     <ClInclude Include="Util\InputAction.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Object\SystemTextDialog.h">
+    <ClInclude Include="Object\UI\SystemTextDialog.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Component\SystemTextComp.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Component\Player\PlayerStatusComp.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\UI\PlayerInfoDialog.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

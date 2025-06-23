@@ -91,6 +91,7 @@ void LevelManager::ChangeLevel()
 			m_currentLevel->DetachObject(currentPlayerObject);
 		}
 
+		//m_currentLevel->RemoveObject(L"SystemTextDialog");
 		GameInstance::GetInstance()->ChangeLevelAreaSettings(m_nextLevel);
 
 		m_currentLevel->Release();

@@ -3,7 +3,7 @@
 #include "../Object/Player.h"
 #include "../Core/GameInstance.h"
 #include "../Util/InputSystem.h"
-#include "../Object/SystemTextDialog.h"
+#include "../Object/UI/SystemTextDialog.h"
 #include <WinUser.h>
 #include "../Manager/LevelManager.h"
 
@@ -37,6 +37,12 @@ void TestLevel::Update()
 	BaseLevel::Update();
 
 	CheckPlayerInTransitionArea();
+
+	if (InputSystem::IsKeyPressed(EKeyCode::NUM_1))
+	{
+		GameInstance::GetInstance()->DisplaySystemText(L"1키를 누르셨습니다. 타이틀 레벨로 이동합니다.");
+		LevelManager::GetInstance()->SetNextLevel(L"Title");
+	}
 }
 
 

@@ -12,7 +12,7 @@ void SystemTextComp::Render(Screen* screen)
 	if (screen && !m_systemText.empty())
 	{
 		int32 y = SCREEN_HEIGHT - 5;
-		screen->Draw(0, y, m_systemText);
+		screen->Draw(GAME_PANEL_START_X, y, m_systemText);
 	}
 }
 

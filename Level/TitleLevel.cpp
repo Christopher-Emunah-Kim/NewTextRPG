@@ -20,7 +20,7 @@ void TitleLevel::Init()
 
 	gameInstance->DisplaySystemText(L"타이틀 화면입니다. 이동하려면 WASD를 누르세요");
 
-	m_player->SetPosition(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+	m_player->SetPosition(GAME_PANEL_START_X + (SCREEN_WIDTH - GAME_PANEL_START_X) / 2, SCREEN_HEIGHT / 2);
 
 	BaseLevel::Init();
 }

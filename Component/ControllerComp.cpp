@@ -73,9 +73,9 @@ void ControllerComp::HandleMovement(EInputEvent inputEvent, EMoveDirection direc
 	}
 
 
-	if (currentX < 0)
+	if (currentX < GAME_PANEL_START_X)
 	{
-		currentX = 0;
+		currentX = GAME_PANEL_START_X;
 	}
 	if (currentX >= SCREEN_WIDTH)
 	{

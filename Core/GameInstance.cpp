@@ -3,24 +3,85 @@
 #include "../Util/OutputSystem.h"
 #include "../Level/BaseLevel.h"
 #include "../Manager/LevelManager.h"
+#include "../Object/Player.h"
+#include "../Object/UI/SystemTextDialog.h"
+#include "../Object/UI/PlayerInfoDialog.h"
 
+
+GameInstance::~GameInstance()
+{
+	Release();
+}
 
 void GameInstance::Init()
 {
-	m_player = Player();
-	m_bIsPlayerInitialzed = false;
-	m_systemTextDialog = nullptr;
-	m_playerInfoDialog = nullptr;
+	//m_player = Player();
+	//m_bIsPlayerInitialzed = false;
+	//m_systemTextDialog = nullptr;
+	//m_playerInfoDialog = nullptr;
+	m_initialized = true;
 }
 
-bool GameInstance::IsPlayerInitialzed() const
+void GameInstance::Release()
 {
-	return m_bIsPlayerInitialzed;
+	ClearAllStates();
+	m_initialized = false;
 }
 
-void GameInstance::SetPlayerInitialize(bool bIsInitialized)
+void GameInstance::SaveObjectState(const BaseGameObject* object)
 {
-	m_bIsPlayerInitialzed = bIsInitialized;
+	if (nullptr == object)
+	{
+		return;
+	}
+
+	wstring key = object->GetType() + L"_" + object->GetTag();
+	m_globalStateCache[key] = object->SerializeStateToString();
+}
+
+bool GameInstance::HasSavedState(const wstring& objectType, const wstring& objectTag)
+{
+	wstring key = objectType + L"_" + objectTag;
+	return m_globalStateCache.find(key) != m_globalStateCache.end();
+}
+
+wstring GameInstance::GetSavedState(const wstring& objectType, const wstring& objectTag)
+{
+	wstring key = objectType + L"_" + objectTag;
+	unordered_map<wstring, wstring>::const_iterator it = m_globalStateCache.find(key);
+	if (it != m_globalStateCache.end())
+	{
+		return it->second;
+	}
+
+	return L" ";
+}
+
+void GameInstance::ClearSavedState(const wstring& objectType, const wstring& objectTag)
+{
+	wstring key = objectType + L"_" + objectTag;
+	m_globalStateCache.erase(key);
+}
+
+void GameInstance::ClearAllStates()
+{
+	m_globalStateCache.clear();
+	m_gameFlags.clear();
+}
+
+//bool GameInstance::IsPlayerInitialzed() const
+//{
+//	return m_bIsPlayerInitialzed;
+//}
+//
+//void GameInstance::SetPlayerInitialize(bool bIsInitialized)
+//{
+//	m_bIsPlayerInitialzed = bIsInitialized;
+//}
+
+void GameInstance::SetPlayer(BaseGameObject* player)
+{
+	m_player = player;
 }
 
 void GameInstance::SetSystemTextDialog(SystemTextDialog* systemDialogObj)
@@ -46,6 +107,28 @@ void GameInstance::DisplaySystemText(const wstring& text)
 
 }
 
+void GameInstance::AdvanceScenario(const wstring& scenarioKey)
+{
+}
+
+void GameInstance::SetGameFlag(const wstring& flag, bool value)
+{
+	m_gameFlags[flag] = value;
+}
+
+bool GameInstance::GetGameFlag(const wstring& flag) const
+{
+
+
+	return false;
+}
+
+bool GameInstance::LoadSerializedDataFromFile(BaseLevel* level, const wstring& filePath)
+{
+	return false;
+}
+
+
 void GameInstance::ChangeLevelAreaSettings(BaseLevel* newLevel)
 {
 	if (m_systemTextDialog == nullptr)
@@ -60,7 +143,7 @@ void GameInstance::ChangeLevelAreaSettings(BaseLevel* newLevel)
 	DisplaySystemText(L"새로운 레벨(" + newLevel->GetTag() + L")에 진입했습니다.");
 
 
-	if (m_playerInfoDialog == nullptr)
+	/*if (m_playerInfoDialog == nullptr)
 	{
 		m_playerInfoDialog = new PlayerInfoDialog(newLevel);
 		m_playerInfoDialog->Init();
@@ -70,18 +153,30 @@ void GameInstance::ChangeLevelAreaSettings(BaseLevel* newLevel)
 		m_playerInfoDialog->RegisterPlayerInfoDialogInNewLevel(newLevel);
 	}
 
-	UpdatePlayerInfo();
+	UpdatePlayerInfo();*/
 }
 
-void GameInstance::SetPlayerInfoDialog(PlayerInfoDialog* playerInfoObj)
+void GameInstance::SyncObejctsToNewLevel(BaseLevel* oldLevel, BaseLevel* newLevel)
 {
-	m_playerInfoDialog = playerInfoObj;
 }
 
-void GameInstance::UpdatePlayerInfo()
+void GameInstance::ProcessObjectInteraction(const wstring& sourceTag, const wstring& targetTag)
 {
-	if (nullptr != m_playerInfoDialog)
-	{
-		m_playerInfoDialog->UpdatePlayerInfoDialog(m_player);
-	}
 }
+
+void GameInstance::ProcessGameEvent(const wstring& eventName)
+{
+}
+
+//void GameInstance::SetPlayerInfoDialog(PlayerInfoDialog* playerInfoObj)
+//{
+//	m_playerInfoDialog = playerInfoObj;
+//}
+//
+//void GameInstance::UpdatePlayerInfo()
+//{
+//	if (nullptr != m_playerInfoDialog)
+//	{
+//		m_playerInfoDialog->UpdatePlayerInfoDialog(m_player);
+//	}
+//}

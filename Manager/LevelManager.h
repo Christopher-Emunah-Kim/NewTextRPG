@@ -25,5 +25,7 @@ public:
 	bool IsSetNextLevel() const;
 	void SetNextLevel(const wstring& name);
 	void ChangeLevel();
+
+	inline BaseLevel* GetCurrentLevel() const { return m_currentLevel; }
 };
 

@@ -16,7 +16,7 @@ struct Status
 	{
 	}
 
-	/*CharacterStatus& operator=(const CharacterStatus& other)
+	Status& operator=(const Status& other)
 	{
 		if (this != &other)
 		{
@@ -25,7 +25,7 @@ struct Status
 			const_cast<int16&>(agility) = other.agility;
 		}
 		return *this;
-	}*/
+	}
 
 private:
 	const int16 attack;

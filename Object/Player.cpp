@@ -3,6 +3,7 @@
 #include "../Component/ControllerComp.h"
 #include "../Component/RendererComp.h"
 #include "../Level/BaseLevel.h"
+#include "../Component/Player/PlayerStatusComp.h"
 
 
 
@@ -17,6 +18,10 @@ void Player::Init()
 	if (false == HasComponentType<RendererComp>())
 	{
 		AddComponent(new RendererComp(this, L"@"));
+	}
+	if (false == HasComponentType<PlayerStatusComp>())
+	{
+		AddComponent(new PlayerStatusComp(this));
 	}
 
 	BaseGameObject::Init();

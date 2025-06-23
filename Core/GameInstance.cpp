@@ -2,6 +2,7 @@
 #include "../Data/PlayerDataTablePerLevel.h"
 #include "../Util/OutputSystem.h"
 #include "../Level/BaseLevel.h"
+#include "../Manager/LevelManager.h"
 
 
 void GameInstance::Init()
@@ -29,14 +30,20 @@ void GameInstance::SetSystemTextDialog(SystemTextDialog* systemDialogObj)
 
 void GameInstance::DisplaySystemText(const wstring& text)
 {
-	if (m_systemTextDialog)
+	if (m_systemTextDialog == nullptr)
 	{
-		m_systemTextDialog->SetSystemText(text);
+		m_systemTextDialog = new SystemTextDialog(nullptr);
+		m_systemTextDialog->Init();
+
+		BaseLevel* currentLevel = LevelManager::GetInstance()->GetCurrentLevel();
+		if (currentLevel)
+		{
+			m_systemTextDialog->RegisterSystemTextInNewLevel(currentLevel);
+		}
 	}
-	else
-	{
-		OutputSystem::PrintErrorMsg(L"SystemTextDialog is not set.");
-	}
+
+	m_systemTextDialog->SetSystemText(text);
+
 }
 
 void GameInstance::ChangeLevelAreaSettings(BaseLevel* newLevel)
@@ -46,25 +53,24 @@ void GameInstance::ChangeLevelAreaSettings(BaseLevel* newLevel)
 		m_systemTextDialog = new SystemTextDialog(nullptr);
 		m_systemTextDialog->Init();
 	}
+	else
+	{
+		m_systemTextDialog->RegisterSystemTextInNewLevel(newLevel);
+	}
+	DisplaySystemText(L"새로운 레벨(" + newLevel->GetTag() + L")에 진입했습니다.");
+
 
 	if (m_playerInfoDialog == nullptr)
 	{
-		m_playerInfoDialog = new PlayerInfoDialog(nullptr);
+		m_playerInfoDialog = new PlayerInfoDialog(newLevel);
 		m_playerInfoDialog->Init();
 	}
-
-	if (m_systemTextDialog && newLevel)
-	{
-		m_systemTextDialog->RegisterSystemTextInNewLevel(newLevel);
-
-		DisplaySystemText(L"새로운 레벨(" + newLevel->GetTag() + L")에 진입했습니다.");
-	}
-
-	if (m_playerInfoDialog && newLevel)
+	else
 	{
 		m_playerInfoDialog->RegisterPlayerInfoDialogInNewLevel(newLevel);
-		UpdatePlayerInfo();
 	}
+
+	UpdatePlayerInfo();
 }
 
 void GameInstance::SetPlayerInfoDialog(PlayerInfoDialog* playerInfoObj)

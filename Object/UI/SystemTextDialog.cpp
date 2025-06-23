@@ -1,6 +1,6 @@
 ﻿#include "SystemTextDialog.h"
-#include "../Component/SystemTextComp.h"
-#include "../Level/BaseLevel.h"
+#include "../../Component/SystemTextComp.h"
+#include "../../Level/BaseLevel.h"
 
 SystemTextDialog::SystemTextDialog(BaseLevel* level)
 	: BaseGameObject(level, L"SystemTextDialog")

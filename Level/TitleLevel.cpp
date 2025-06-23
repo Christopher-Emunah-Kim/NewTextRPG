@@ -1,6 +1,6 @@
 ﻿#include "TitleLevel.h"
 #include "../Core/GameInstance.h"
-#include "../Object/SystemTextDialog.h"
+#include "../Object/UI/SystemTextDialog.h"
 #include "../Screen.h"
 
 

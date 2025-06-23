@@ -5,6 +5,9 @@
 
 constexpr int32 SCREEN_WIDTH = 128;
 constexpr int32 SCREEN_HEIGHT = 64;
+constexpr int32 LAYOUT_RATIO = 4;
+constexpr int32 PLAYERINFO_PANEL_WIDTH = SCREEN_WIDTH / LAYOUT_RATIO;;
+constexpr int32 GAME_PANEL_START_X = PLAYERINFO_PANEL_WIDTH + 1;
 
 
 class Screen : public Singleton<Screen>

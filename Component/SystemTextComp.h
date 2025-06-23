@@ -1,5 +1,9 @@
 ﻿#pragma once
 #include "BaseComponent.h"
+#include <queue>
+
+constexpr int32 DEFAULT_BASE_Y = 5;
+constexpr int32 MAX_LINES = 20;
 
 class SystemTextComp : public BaseComponent
 {
@@ -8,13 +12,17 @@ public:
 	virtual ~SystemTextComp() = default;
 
 private:
-	wstring m_systemText;
+	queue<wstring> m_textQueue;
+
 
 public:
 	virtual void Render(Screen* screen) override;
 
 	void SetText(const wstring& text);
 
-	inline const wstring& GetText() const { return m_systemText; }
+	void EnqueueText(const wstring& text);
+
+	void ClearTexts();
+
 };
 

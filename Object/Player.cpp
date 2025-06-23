@@ -32,7 +32,9 @@ void Player::RegisterNewLevelArea(BaseLevel* level)
 	if (level != nullptr)
 	{
 		if (GetLevel() == level)
+		{
 			return;
+		}
 
 		if (GetLevel() != nullptr)
 		{

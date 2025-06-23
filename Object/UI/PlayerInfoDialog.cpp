@@ -14,10 +14,13 @@ void PlayerInfoDialog::Init()
 {
 	SetPosition(0, 0);
 
+	OutputSystem::PrintInfoMsg(L"PlayerInfoDialog::Init 호출됨");
+
 	if (false == HasComponentType<PlayerInfoRenderComp>())
 	{
 		m_renderComp =  new PlayerInfoRenderComp(this);
 		AddComponent(m_renderComp);
+		OutputSystem::PrintInfoMsg(L"PlayerInfoRenderComp 생성됨");
 	}
 	else
 	{
@@ -27,6 +30,7 @@ void PlayerInfoDialog::Init()
 			m_renderComp = dynamic_cast<PlayerInfoRenderComp*>(comps[i]);
 			if (m_renderComp)
 			{
+				OutputSystem::PrintInfoMsg(L"기존 PlayerInfoRenderComp 찾음");
 				break;
 			}
 		}
@@ -57,24 +61,6 @@ void PlayerInfoDialog::UpdatePlayerInfoDialog(const Player& player)
 		return;
 	}
 
-
-	///*PlayerInfoRenderComp* renderComp = nullptr;
-	//vector<BaseComponent*> InfoComps = GetComponents();
-
-	//for (size_t i = 0; i < InfoComps.size(); ++i)
-	//{
-	//	renderComp = dynamic_cast<PlayerInfoRenderComp*>(InfoComps[i]);
-	//	if (renderComp)
-	//	{
-	//		break;
-	//	}
-	//}
-
-	//if (nullptr == renderComp)
-	//{
-	//	OutputSystem::PrintErrorMsg(L"플레이어에 PlayerInfoRenderComp가 없습니다.");
-	//	return;
-	//}*/
 
 	if (m_renderComp)
 	{

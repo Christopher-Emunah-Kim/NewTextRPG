@@ -91,11 +91,22 @@ void Screen::Draw(const int32& x, const int32& y, const wstring& str)
 		return;
 	}
 
-	const size_t length = str.length();
+	int32 currentX = x;
 
-	for (size_t i = 0; i < length; ++i)
+	for (size_t i = 0; i < str.length(); ++i)
 	{
-		Draw(x+static_cast<int32>(i), y, str[i]);
+		//Draw(currentX + static_cast<int32>(i), y, str[i]);
+		Draw(currentX, y, str[i]);
+
+		if (IsWideCharacter(str[i]))
+		{
+			currentX += 2;
+		}
+		else
+		{
+			currentX += 1;
+		}
+
 	}
 }
 
@@ -119,6 +130,16 @@ bool Screen::IsValidCoordinate(const int32& x, const int32& y)
 	{
 		return false;
 	}
+}
+
+bool Screen::IsWideCharacter(const wchar_t& c) const
+{
+	if (c >= 0xAC00 && c <= 0xD7A3)
+	{
+		return true;
+	}
+
+	return false;
 }
 
 void Screen::SwapBuffer()

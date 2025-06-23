@@ -4,7 +4,7 @@
 class InputSystem;
 class Player;
 
-class TitleLevel : public BaseLevel
+class TitleLevel final : public BaseLevel
 {
 public:
 	using BaseLevel::BaseLevel;

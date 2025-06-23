@@ -5,7 +5,7 @@ class Player;
 class BaseLevel;
 class PlayerInfoRenderComp;
 
-class PlayerInfoDialog : public BaseGameObject
+class PlayerInfoDialog final : public BaseGameObject
 {
 public:
 	PlayerInfoDialog(BaseLevel* level);

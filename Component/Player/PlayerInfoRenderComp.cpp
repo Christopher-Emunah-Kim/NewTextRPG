@@ -1,6 +1,7 @@
 ﻿#include "PlayerInfoRenderComp.h"
 #include "../../../NewTextRPG/Screen.h"
 #include "../../Data/PlayerDataTablePerLevel.h"
+#include "../../Util/OutputSystem.h"
 
 PlayerInfoRenderComp::PlayerInfoRenderComp(BaseGameObject* owner)
 	: BaseComponent(owner, 3),
@@ -20,40 +21,52 @@ PlayerInfoRenderComp::PlayerInfoRenderComp(BaseGameObject* owner)
 void PlayerInfoRenderComp::Render(Screen* screen)
 {
 	if (screen == nullptr)
+	{
 		return;
+	}
 
-	for (int y = 0; y < SCREEN_HEIGHT; ++y)
+	OutputSystem::PrintInfoMsg(L"PlayerInfoRenderComp::Render 호출됨");
+
+	int8 leftMargin = 4;
+
+	for (int16 y = 0; y < SCREEN_HEIGHT; ++y)
+	{
+		screen->Draw(2, y, L"|");
+	}
+
+	int16 y = 2;
+	screen->Draw(leftMargin, y++, L"플레이어  정보");
+	screen->Draw(leftMargin, y++, L"--------------------------");
+
+	y++;
+
+	screen->Draw(leftMargin, y++, L"아이디 : " + m_playerName);
+	screen->Draw(leftMargin, y++, L"레벨 : " + to_wstring(m_level));
+
+	y++;
+
+	screen->Draw(leftMargin, y++, L"체력 : " + to_wstring(m_health) + L" / " + to_wstring(m_maxHealth));
+	screen->Draw(leftMargin, y++, L"경험치 : " + to_wstring(m_experience) + L" / " + to_wstring(m_maxExperience));
+	screen->Draw(leftMargin, y++, L"보유 금액 : " + to_wstring(m_gold));
+
+	y++;
+	y++;
+
+	screen->Draw(leftMargin, y++, L"플레이어  스테이터스");
+	screen->Draw(leftMargin, y++, L"--------------------------");
+
+	y++;
+
+	screen->Draw(leftMargin, y++, L"공격력 : " + to_wstring(m_attack));
+	screen->Draw(leftMargin, y++, L"방어력 : " + to_wstring(m_defense));
+	screen->Draw(leftMargin, y++, L"민첩성 : " + to_wstring(m_agility));
+
+	y++; 
+
+	for (int16 y = 0; y < SCREEN_HEIGHT; ++y)
 	{
 		screen->Draw(PLAYERINFO_PANEL_WIDTH, y, L"|");
 	}
-
-	int y = 2;
-	screen->Draw(PLAYERINFO_PANEL_WIDTH + 2, y++, L"플레이어 정보");
-	screen->Draw(PLAYERINFO_PANEL_WIDTH + 2, y++, L"--------------------");
-
-	y++;
-
-	screen->Draw(PLAYERINFO_PANEL_WIDTH + 2, y++, L"아이디 : " + m_playerName);
-	screen->Draw(PLAYERINFO_PANEL_WIDTH + 2, y++, L"레벨 : " + to_wstring(m_level));
-
-	y++;
-
-	screen->Draw(PLAYERINFO_PANEL_WIDTH + 2, y++, L"체력 : " + to_wstring(m_health) + L"/" + to_wstring(m_maxHealth));
-	screen->Draw(PLAYERINFO_PANEL_WIDTH + 2, y++, L"경험치 : " + to_wstring(m_experience) + L"/" + to_wstring(m_maxExperience));
-	screen->Draw(PLAYERINFO_PANEL_WIDTH + 2, y++, L"Gold: " + to_wstring(m_gold));
-
-	y++;
-
-	screen->Draw(PLAYERINFO_PANEL_WIDTH + 2, y++, L"플레이어 스테이터스");
-	screen->Draw(PLAYERINFO_PANEL_WIDTH + 2, y++, L"---------------");
-
-	y++;
-
-	screen->Draw(PLAYERINFO_PANEL_WIDTH + 2, y++, L"공격력 : " + to_wstring(m_attack));
-	screen->Draw(PLAYERINFO_PANEL_WIDTH + 2, y++, L"방어력 : " + to_wstring(m_defense));
-	screen->Draw(PLAYERINFO_PANEL_WIDTH + 2, y++, L"민첩성 : " + to_wstring(m_agility));
-
-	y++; 
 
 }
 

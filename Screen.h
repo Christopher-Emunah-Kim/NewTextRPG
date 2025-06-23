@@ -4,10 +4,12 @@
 
 
 constexpr int32 SCREEN_WIDTH = 128;
-constexpr int32 SCREEN_HEIGHT = 64;
+constexpr int32 SCREEN_HEIGHT = 32;
 constexpr int32 LAYOUT_RATIO = 4;
-constexpr int32 PLAYERINFO_PANEL_WIDTH = SCREEN_WIDTH / LAYOUT_RATIO;;
-constexpr int32 GAME_PANEL_START_X = PLAYERINFO_PANEL_WIDTH + 1;
+constexpr int32 PLAYERINFO_PANEL_WIDTH = 32;;
+//constexpr int32 PLAYERINFO_PANEL_WIDTH = SCREEN_WIDTH / LAYOUT_RATIO;;
+constexpr int32 GAME_PANEL_START_X = PLAYERINFO_PANEL_WIDTH + 2;
+//constexpr int32 GAME_PANEL_START_X = PLAYERINFO_PANEL_WIDTH + 1;
 
 
 class Screen : public Singleton<Screen>
@@ -28,14 +30,15 @@ private:
 private:
 	void VisibleConsoleCursor(bool isVisible);
 	bool IsValidCoordinate(const int32& x, const int32& y);
-	void Draw(const int32& x, const int32& y, const wchar_t& c);
+	bool IsWideCharacter(const wchar_t& c) const;
 
 public:
 	void Init();
 	void Release();
 	void Clear();
-	void Draw(const int32& x, const int32& y, const wstring& str);
 	void SwapBuffer();
+	void Draw(const int32& x, const int32& y, const wchar_t& c);
+	void Draw(const int32& x, const int32& y, const wstring& str);
 
 };
 

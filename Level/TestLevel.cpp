@@ -24,6 +24,19 @@ void TestLevel::Init()
 
 	m_player = &player;
 
+	m_player->SetPosition(GAME_PANEL_START_X + (SCREEN_WIDTH - GAME_PANEL_START_X) / 2, SCREEN_HEIGHT / 2);
+
+	if (gameInstance->GetPlayerInfoDialog())
+	{
+		gameInstance->UpdatePlayerInfo();
+	}
+	else
+	{
+		PlayerInfoDialog* dialog = new PlayerInfoDialog(this);
+		dialog->Init();
+		gameInstance->SetPlayerInfoDialog(dialog);
+	}
+
 	gameInstance->DisplaySystemText(L"테스트 레벨에 진입하였습니다.");
 
 	m_playerInTransitionArea = false;

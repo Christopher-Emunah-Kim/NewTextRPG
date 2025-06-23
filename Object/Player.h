@@ -1,7 +1,7 @@
 ﻿#pragma once  
 #include "BaseGameObject.h"  
 
-class Player : public BaseGameObject  
+class Player final : public BaseGameObject  
 {  
 public:  
 	using BaseGameObject::BaseGameObject;  

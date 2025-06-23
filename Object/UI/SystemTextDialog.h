@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include "../BaseGameObject.h"
 
-class SystemTextDialog : public BaseGameObject
+class SystemTextDialog final : public BaseGameObject
 {
 public:
 	SystemTextDialog(BaseLevel* level);
@@ -9,7 +9,9 @@ public:
 
 	virtual void Init() override;
 
-	void SetSystemText(const wstring& text) noexcept;
+	void SetSystemText(const wstring& text);
+
+	void ClearSystemText();
 
 	void RegisterSystemTextInNewLevel(BaseLevel* newLevel);
 };

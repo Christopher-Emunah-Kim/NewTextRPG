@@ -34,7 +34,3 @@ void BaseComponent::Release()
 
 }
 
-int32 BaseComponent::GetOrder() const
-{
-	return m_componentOrder;
-}

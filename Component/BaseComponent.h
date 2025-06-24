@@ -25,7 +25,7 @@ public:
 	virtual void Render(Screen* screen) override;
 	virtual void Release() override;
 
-	int32 GetOrder() const;
-	
+	inline BaseGameObject* GetOwner() noexcept { return m_owner; }
+	inline const int32& GetOrder() const noexcept { return m_componentOrder; }
 };
 

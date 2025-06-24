@@ -6,6 +6,14 @@
 #include "../Object/Player.h"
 #include "../Object/UI/SystemTextDialog.h"
 #include "../Object/UI/PlayerInfoDialog.h"
+#include "../Component/SystemTextComp.h"
+#include "../Component/Player/PlayerInfoUpdateComp.h"
+#include <fstream>
+#include <sstream>
+#include "../Component/Player/PlayerStatusComp.h"
+#include "../Component/EnemyComp.h"
+#include "../Component/ItemComp.h"
+#include "../Object/BaseGameObject.h"
 
 
 GameInstance::~GameInstance()
@@ -84,14 +92,28 @@ void GameInstance::SetPlayer(BaseGameObject* player)
 	m_player = player;
 }
 
-void GameInstance::SetSystemTextDialog(SystemTextDialog* systemDialogObj)
+void GameInstance::SetSystemTextDialog(BaseGameObject* systemDialogObj)
 {
 	m_systemTextDialog = systemDialogObj;
 }
 
 void GameInstance::DisplaySystemText(const wstring& text)
 {
-	if (m_systemTextDialog == nullptr)
+	if (m_systemTextDialog)
+	{
+		SystemTextComp* comp = m_systemTextDialog->GetComponentsByType<SystemTextComp>();
+		if (comp)
+		{
+			comp->SetText(text);
+			m_systemTextDialog->SetCustomField(L"last_text", text);
+		}
+	}
+	else
+	{
+		OutputSystem::PrintInfoMsg(L"SystemTextDialog is not initialized. Cannot display system text: " + text);
+	}
+
+	/*if (m_systemTextDialog == nullptr)
 	{
 		m_systemTextDialog = new SystemTextDialog(nullptr);
 		m_systemTextDialog->Init();
@@ -103,12 +125,18 @@ void GameInstance::DisplaySystemText(const wstring& text)
 		}
 	}
 
-	m_systemTextDialog->SetSystemText(text);
+	m_systemTextDialog->SetSystemText(text);*/
 
 }
 
 void GameInstance::AdvanceScenario(const wstring& scenarioKey)
 {
+	m_currentScenario = scenarioKey;
+
+	wstring scenarioText = L"현재 진행 중인 내용: " + scenarioKey;
+	DisplaySystemText(scenarioText);
+
+	ProcessGameEvent(L"scenario_" + scenarioKey);
 }
 
 void GameInstance::SetGameFlag(const wstring& flag, bool value)
@@ -118,20 +146,254 @@ void GameInstance::SetGameFlag(const wstring& flag, bool value)
 
 bool GameInstance::GetGameFlag(const wstring& flag) const
 {
-
+	map<wstring, bool>::const_iterator it = m_gameFlags.find(flag);
+	if (it != m_gameFlags.end())
+	{
+		return it->second;
+	}
 
 	return false;
 }
 
 bool GameInstance::LoadSerializedDataFromFile(BaseLevel* level, const wstring& filePath)
 {
-	return false;
+	if (nullptr == level)
+	{
+		return false;
+	}
+
+	ifstream file(filePath);
+
+	if (false == file.is_open())
+	{
+		OutputSystem::PrintErrorMsg(L"레벨 파일을 열 수 없습니다." + filePath);
+		return false;
+	}
+
+	string line;
+	while (getline(file, line))
+	{
+		//parsing
+		istringstream iss(line);
+		string objectTypeStr, tagStr, msgStr;
+
+		if (!(iss >> objectTypeStr >> tagStr))
+		{
+			continue;
+		}
+
+		getline(iss >> ws, msgStr);
+
+		wstring objectType = wstring(objectTypeStr.begin(), objectTypeStr.end());
+		wstring tag = wstring(tagStr.begin(), tagStr.end());
+		wstring message = wstring(msgStr.begin(), msgStr.end());
+
+		size_t customFieldStart = message.find(L'[');
+		size_t customFieldEnd = message.find(L']', customFieldStart);
+
+		wstring customFieldsData = L"";
+		if (customFieldStart != wstring::npos && customFieldEnd != wstring::npos)
+		{
+			customFieldsData = message.substr(customFieldStart + 1, customFieldEnd - customFieldStart - 1);
+			message = message.substr(0, customFieldStart);
+		}
+
+        if (message.length() >= 2 && message.front() == L'"' && message.back() == L'"')
+		{
+			message = message.substr(1, message.length() - 2);
+		}
+
+		//existingObject
+		bool bIsPersistentObject = (objectType == L"Player" || objectType == L"SystemText");
+		BaseGameObject* existingObject = nullptr;
+
+		if (bIsPersistentObject)
+		{
+			if (objectType == L"Player" && m_player)
+			{
+				existingObject = m_player;
+			}
+			else if (objectType == L"SystemText" && m_systemTextDialog)
+			{
+				existingObject = m_systemTextDialog;
+			}
+		}
+
+		if (nullptr == existingObject)
+		{
+			existingObject = level->FindObject(tag);
+		}
+
+		if (existingObject)
+		{
+			existingObject->SetMessage(message);
+
+			if (false == customFieldsData.empty())
+			{
+				size_t pos = 0;
+				wstring token;
+				while ((pos = customFieldsData.find(L',')) != wstring::npos || !customFieldsData.empty())
+				{
+					if (pos != wstring::npos)
+					{
+						token = customFieldsData.substr(0, pos);
+					}
+					else
+					{
+						token = customFieldsData;
+					}
+
+					size_t equalsPos = token.find(L'=');
+
+					if (equalsPos != wstring::npos)
+					{
+						wstring key = token.substr(0, equalsPos);
+						wstring value = token.substr(equalsPos + 1);
+
+						existingObject->SetCustomField(key, value);
+					}
+
+					if (pos != wstring::npos)
+					{
+						customFieldsData.erase(0, pos + 1);
+					}
+					else
+					{
+						customFieldsData.clear();
+					}
+				}
+			}
+
+			if (bIsPersistentObject && existingObject->GetLevel() != level)
+			{
+				existingObject->RegisterNewLevelArea(level);
+			}
+
+			continue;
+		}
+
+		BaseGameObject* newObject = new BaseGameObject(level, tag, objectType);
+		newObject->SetMessage(message);
+
+		if (!customFieldsData.empty())
+		{
+			size_t pos = 0;
+			wstring token;
+			while ((pos = customFieldsData.find(L',')) != wstring::npos || !customFieldsData.empty())
+			{
+				
+				if (pos != wstring::npos)
+				{
+					token = customFieldsData.substr(0, pos);
+				}
+				else
+				{
+					token = customFieldsData;
+				}
+
+				size_t equalsPos = token.find(L'=');
+				if (equalsPos != wstring::npos)
+				{
+					wstring key = token.substr(0, equalsPos);
+					wstring value = token.substr(equalsPos + 1);
+					newObject->SetCustomField(key, value);
+				}
+
+				if (pos != wstring::npos)
+				{
+					customFieldsData.erase(0, pos + 1);
+				}
+				else
+				{
+					customFieldsData.clear();
+				}
+			}
+		}
+
+		if (HasSavedState(objectType, tag))
+		{
+			wstring savedState = GetSavedState(objectType, tag);
+			newObject->LoadStateFromString(savedState);
+		}
+
+		if (objectType == L"Player")
+		{
+			m_player = newObject;
+			if (nullptr != newObject->GetComponentsByType<PlayerStatusComp>())
+			{
+				PlayerStatusComp* statusComp = new PlayerStatusComp(newObject);
+				newObject->AddComponent(statusComp);
+			}
+		}
+		else if (objectType == L"Enemy")
+		{
+			if (nullptr != newObject->GetComponentsByType<EnemyComp>())
+			{
+				EnemyComp* enemyComp = new EnemyComp(newObject);
+				newObject->AddComponent(enemyComp);
+			}
+		}
+		else if (objectType == L"Item")
+		{
+			if (nullptr != newObject->GetComponentsByType<ItemComp>())
+			{
+				ItemComp* itempComp = new ItemComp(newObject);
+				newObject->AddComponent(itempComp);
+			}
+		}
+		else if (objectType == L"InfoPanel")
+		{
+			if (nullptr != newObject->GetComponentsByType<PlayerInfoUpdateComp>())
+			{
+				PlayerInfoUpdateComp* infoComp = new PlayerInfoUpdateComp(newObject);
+				newObject->AddComponent(infoComp);
+			}
+		}
+		else if (objectType == L"SystemText")
+		{
+			m_systemTextDialog = newObject;
+			if (nullptr != newObject->GetComponentsByType<SystemTextComp>())
+			{
+				SystemTextComp* textComp = new SystemTextComp(newObject);
+				newObject->AddComponent(textComp);
+			}
+		}
+
+		level->AddObject(newObject);
+		newObject->Init();
+
+	}
+
+	BaseGameObject* infoPanel = level->FindObject(L"InfoPanel");
+	if (infoPanel && m_player)
+	{
+		InitPlayerInfoPanel(infoPanel, m_player);
+	}
+
+	file.close();
+	return true;
 }
 
 
 void GameInstance::ChangeLevelAreaSettings(BaseLevel* newLevel)
 {
-	if (m_systemTextDialog == nullptr)
+	if (nullptr == newLevel)
+	{
+		OutputSystem::PrintErrorMsg(L"유효하지 않은 레벨입니다.");
+		return;
+	}
+
+	if (m_systemTextDialog)
+	{
+		SaveObjectState(m_systemTextDialog);
+	}
+
+	if (m_player)
+	{
+		SaveObjectState(m_player);
+	}
+
+	/*if (m_systemTextDialog == nullptr)
 	{
 		m_systemTextDialog = new SystemTextDialog(nullptr);
 		m_systemTextDialog->Init();
@@ -139,8 +401,34 @@ void GameInstance::ChangeLevelAreaSettings(BaseLevel* newLevel)
 	else
 	{
 		m_systemTextDialog->RegisterSystemTextInNewLevel(newLevel);
-	}
+	}*/
+
 	DisplaySystemText(L"새로운 레벨(" + newLevel->GetTag() + L")에 진입했습니다.");
+
+	BaseGameObject* newLevelPlayer = newLevel->FindObject(L"Player");
+
+	if (newLevelPlayer)
+	{
+		ApplyPlayerState(newLevelPlayer);
+		m_player = newLevelPlayer;
+	}
+	else if (m_player)
+	{
+		m_player->RegisterNewLevelArea(newLevel);
+		newLevel->AddObject(m_player);
+	}
+
+	BaseGameObject* infoPanel = newLevel->FindObject(L"InfoPanel");
+	if (infoPanel && m_player)
+	{
+		InitPlayerInfoPanel(infoPanel, m_player);
+	}
+
+	/*BaseGameObject* infoPanel = newLevel->FindObject(L"InfoPanel");
+	if (infoPanel && m_player)
+	{
+		InitPlayerInfoPanel(infoPanel, m_player);
+	}*/
 
 
 	/*if (m_playerInfoDialog == nullptr)
@@ -158,14 +446,152 @@ void GameInstance::ChangeLevelAreaSettings(BaseLevel* newLevel)
 
 void GameInstance::SyncObejctsToNewLevel(BaseLevel* oldLevel, BaseLevel* newLevel)
 {
+	if (nullptr == oldLevel || nullptr == newLevel)
+	{
+		return;
+	}
+
+	const vector<BaseGameObject*>& tempObjects = oldLevel->GetObjects();
+	for (size_t i = 0; i < tempObjects.size(); ++i)
+	{
+		BaseGameObject* obj = tempObjects[i];
+		wstring type = obj->GetType();
+
+		if (type == L"Player" || type == L"SystemText")
+		{
+			SaveObjectState(obj);
+		}
+	}
 }
 
 void GameInstance::ProcessObjectInteraction(const wstring& sourceTag, const wstring& targetTag)
 {
+	BaseGameObject* source = nullptr;
+	BaseGameObject* target = nullptr;
+
+	if (m_player && m_player->GetTag() == sourceTag)
+	{
+		source = m_player;
+	}
+
+	if (source && m_player->GetLevel())
+	{
+		target = m_player->GetLevel()->FindObject(targetTag);
+	}
+
+	if (source && target)
+	{
+		source->Interact(target);
+
+		SaveObjectState(source);
+		SaveObjectState(target);
+
+		wstring interactionEvent = sourceTag + L"_interacts_" + targetTag;
+		ProcessGameEvent(interactionEvent);
+	}
 }
 
 void GameInstance::ProcessGameEvent(const wstring& eventName)
 {
+	if (m_player)
+	{
+		m_player->ProcessEvent(eventName);
+		SaveObjectState(m_player);
+	}
+
+	if (eventName.substr(0, 9) == L"scenario_")
+	{
+		wstring scenarioKey = eventName.substr(9);
+		DisplaySystemText(L"[시나리오] " + scenarioKey + L" 진행 중...");
+	}
+	else if (eventName == L"show_game_info")
+	{
+		DisplaySystemText(L"[게임 정보] 텍스트 RPG 게임 v1.0");
+
+		BaseGameObject* systemTextObj = GetSystemTextDialog();
+		if (systemTextObj)
+		{
+			SystemTextComp* textComp = systemTextObj->GetComponentsByType<SystemTextComp>();
+			if (textComp)
+			{
+				textComp->ClearOption();
+				textComp->AddOption(L"1. 게임 정보 보기", L"show_game_info");
+				textComp->AddOption(L"2. 던전 입장하기", L"enter_dungeon");
+				textComp->AddOption(L"3. 게임 종료하기", L"exit_game");
+			}
+		}
+	}
+	else if (eventName == L"enter_dungeon")
+	{
+		DisplaySystemText(L"던전으로 이동합니다...");
+		LevelManager::GetInstance()->SetNextLevel(L"Dungeon");
+	}
+	else if (eventName == L"exit_game")
+	{
+		DisplaySystemText(L"게임을 종료합니다...");
+		exit(0); 
+	}
+	
+
+}
+
+void GameInstance::InitPlayerInfoPanel(BaseGameObject* infoPanel, BaseGameObject* player)
+{
+	if (nullptr == infoPanel || nullptr == player)
+	{
+		return;
+	}
+
+	PlayerInfoUpdateComp* updaterComp = infoPanel->GetComponentsByType<PlayerInfoUpdateComp>();
+
+	if (updaterComp)
+	{
+		updaterComp = new PlayerInfoUpdateComp(infoPanel);
+		infoPanel->AddComponent(updaterComp);
+		updaterComp->Init();
+		updaterComp->SetTargetPlayer(player);
+		updaterComp->UpdatePlayerInfo();
+	}
+}
+
+void GameInstance::ApplyPlayerState(BaseGameObject* player)
+{
+	if (nullptr == player)
+	{
+		return;
+	}
+
+	wstring savedState = GetSavedState(L"Player", L"Player");
+	if (!savedState.empty())
+	{
+
+		player->LoadStateFromString(savedState);
+
+		PlayerStatusComp* statusComp = player->GetComponentsByType<PlayerStatusComp>();
+		if(statusComp)
+		{
+			statusComp->Init();
+		}
+	}
+
+}
+
+void GameInstance::UpdatePlayerInfoPanel()
+{
+	if (nullptr == m_player)
+	{
+		return;
+	}
+
+	BaseLevel* currentLevel = m_player->GetLevel();
+	if (currentLevel)
+	{
+		BaseGameObject* infoPanel = currentLevel->FindObject(L"InfoPanel");
+		if (infoPanel)
+		{
+			InitPlayerInfoPanel(infoPanel, m_player);
+		}
+	}
 }
 
 //void GameInstance::SetPlayerInfoDialog(PlayerInfoDialog* playerInfoObj)

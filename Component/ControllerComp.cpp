@@ -27,15 +27,15 @@ void ControllerComp::Init()
 
 void ControllerComp::Update()
 {
-	LONG currentX = m_owner->GetX();
+	/*LONG currentX = m_owner->GetX();
 	LONG currentY = m_owner->GetY();
 
-	m_owner->SetPosition(currentX, currentY);
+	m_owner->SetPosition(currentX, currentY);*/
 }
 
 void ControllerComp::HandleMovement(EInputEvent inputEvent, EMoveDirection direction)
 {
-	if (inputEvent != EInputEvent::PRESSED && inputEvent != EInputEvent::HOLD)
+	/*if (inputEvent != EInputEvent::PRESSED && inputEvent != EInputEvent::HOLD)
 	{
 		return;
 	}
@@ -90,7 +90,7 @@ void ControllerComp::HandleMovement(EInputEvent inputEvent, EMoveDirection direc
 		currentY = SCREEN_HEIGHT - 1;
 	}
 
-	m_owner->SetPosition(currentX, currentY);
+	m_owner->SetPosition(currentX, currentY);*/
 }
 
 

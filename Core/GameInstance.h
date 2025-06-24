@@ -24,7 +24,7 @@ private:
 	//bool m_bIsPlayerInitialzed = false;
 	unordered_map<wstring, wstring> m_globalStateCache;
 	BaseGameObject* m_player = nullptr;
-	SystemTextDialog* m_systemTextDialog = nullptr;
+	BaseGameObject* m_systemTextDialog = nullptr;
 	wstring m_currentScenario = L" ";
 	map<wstring, bool> m_gameFlags;
 	bool m_initialized = false;
@@ -43,7 +43,7 @@ public:
 	void ClearAllStates();
 
 	void SetPlayer(BaseGameObject* player);
-	void SetSystemTextDialog(SystemTextDialog* systemDialogObj);
+	void SetSystemTextDialog(BaseGameObject* systemDialogObj);
 
 	void DisplaySystemText(const wstring& text);
 	void AdvanceScenario(const wstring& scenarioKey);
@@ -59,6 +59,10 @@ public:
 	void ProcessObjectInteraction(const wstring& sourceTag, const wstring& targetTag);
 	void ProcessGameEvent(const wstring& eventName);
 
+	void InitPlayerInfoPanel(BaseGameObject* infoPanel, BaseGameObject* player);
+	void ApplyPlayerState(BaseGameObject* player);
+	void UpdatePlayerInfoPanel();
+
 	//void SetPlayerInfoDialog(PlayerInfoDialog* playerInfoObj);
 	//void UpdatePlayerInfo();
 
@@ -66,5 +70,5 @@ public:
 	//inline PlayerInfoDialog* GetPlayerInfoDialog() const { return m_playerInfoDialog; }
 	inline bool IsInitialized() const { return m_initialized; }
 	inline BaseGameObject* GetPlayer() const { return m_player; }
-	inline SystemTextDialog* GetSystemTextDialog() const { return m_systemTextDialog; }
+	inline BaseGameObject* GetSystemTextDialog() const { return m_systemTextDialog; }
 };

@@ -28,6 +28,19 @@ void GameInstance::Init()
 	//m_systemTextDialog = nullptr;
 	//m_playerInfoDialog = nullptr;
 	m_initialized = true;
+
+	if (m_systemTextDialog == nullptr)
+	{
+		BaseLevel* currentLevel = LevelManager::GetInstance()->GetCurrentLevel();
+		if (currentLevel)
+		{
+			m_systemTextDialog = new BaseGameObject(currentLevel, L"SystemTextDialog", L"SystemText");
+			SystemTextComp* textComp = new SystemTextComp(m_systemTextDialog);
+			m_systemTextDialog->AddComponent(textComp);
+			currentLevel->AddObject(m_systemTextDialog);
+			m_systemTextDialog->Init();
+		}
+	}
 }
 
 void GameInstance::Release()
@@ -319,7 +332,7 @@ bool GameInstance::LoadSerializedDataFromFile(BaseLevel* level, const wstring& f
 		if (objectType == L"Player")
 		{
 			m_player = newObject;
-			if (nullptr != newObject->GetComponentsByType<PlayerStatusComp>())
+			if (nullptr == newObject->GetComponentsByType<PlayerStatusComp>())
 			{
 				PlayerStatusComp* statusComp = new PlayerStatusComp(newObject);
 				newObject->AddComponent(statusComp);
@@ -327,7 +340,7 @@ bool GameInstance::LoadSerializedDataFromFile(BaseLevel* level, const wstring& f
 		}
 		else if (objectType == L"Enemy")
 		{
-			if (nullptr != newObject->GetComponentsByType<EnemyComp>())
+			if (nullptr == newObject->GetComponentsByType<EnemyComp>())
 			{
 				EnemyComp* enemyComp = new EnemyComp(newObject);
 				newObject->AddComponent(enemyComp);
@@ -335,7 +348,7 @@ bool GameInstance::LoadSerializedDataFromFile(BaseLevel* level, const wstring& f
 		}
 		else if (objectType == L"Item")
 		{
-			if (nullptr != newObject->GetComponentsByType<ItemComp>())
+			if (nullptr == newObject->GetComponentsByType<ItemComp>())
 			{
 				ItemComp* itempComp = new ItemComp(newObject);
 				newObject->AddComponent(itempComp);
@@ -343,7 +356,7 @@ bool GameInstance::LoadSerializedDataFromFile(BaseLevel* level, const wstring& f
 		}
 		else if (objectType == L"InfoPanel")
 		{
-			if (nullptr != newObject->GetComponentsByType<PlayerInfoUpdateComp>())
+			if (nullptr == newObject->GetComponentsByType<PlayerInfoUpdateComp>())
 			{
 				PlayerInfoUpdateComp* infoComp = new PlayerInfoUpdateComp(newObject);
 				newObject->AddComponent(infoComp);
@@ -352,7 +365,7 @@ bool GameInstance::LoadSerializedDataFromFile(BaseLevel* level, const wstring& f
 		else if (objectType == L"SystemText")
 		{
 			m_systemTextDialog = newObject;
-			if (nullptr != newObject->GetComponentsByType<SystemTextComp>())
+			if (nullptr == newObject->GetComponentsByType<SystemTextComp>())
 			{
 				SystemTextComp* textComp = new SystemTextComp(newObject);
 				newObject->AddComponent(textComp);

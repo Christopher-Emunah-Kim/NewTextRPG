@@ -99,10 +99,10 @@ void BaseGameObject::AddComponent(BaseComponent* component)
 	{
 		m_components.push_back(component);
 
-		sort(m_components.begin(), m_components.end(),
+		/*sort(m_components.begin(), m_components.end(),
 			[](const BaseComponent* left, const BaseComponent* right) {
 				return left->GetOrder() < right->GetOrder();
-			});
+			});*/
 	}
 }
 

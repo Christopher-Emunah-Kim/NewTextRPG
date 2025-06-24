@@ -12,7 +12,7 @@ public:
 		wcerr << L"[Error] " << errorMessage << endl;
 	}
 	static void PrintInfoMsg(const wstring& infoMessage) {
-		GameInstance::GetInstance()->DisplaySystemText(L"[Info] " + infoMessage);
+		wcerr << L"[Info] " << infoMessage << endl;
 	}
 	static void PrintWarningMsg(const wstring& warningMessage) {
 		GameInstance::GetInstance()->DisplaySystemText(L"[Warning] " + warningMessage);

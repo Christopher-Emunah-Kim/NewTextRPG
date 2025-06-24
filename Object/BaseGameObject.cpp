@@ -2,6 +2,7 @@
 #include "../Level/BaseLevel.h"
 #include "../Component/BaseComponent.h"
 #include "../Util/OutputSystem.h"
+#include "../Component/EnemyComp.h"
 
 BaseGameObject::BaseGameObject(BaseLevel* level, const wstring& tag, const wstring& type)
 	: m_level{level}, m_objectTag(tag), m_objectType(type)
@@ -203,6 +204,8 @@ wstring BaseGameObject::SerializeStateToString() const
 
 	return serializedText;
 }
+
+
 
 void BaseGameObject::LoadStateFromString(const wstring& serializedState)
 {

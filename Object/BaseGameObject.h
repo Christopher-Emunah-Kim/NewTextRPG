@@ -8,7 +8,7 @@ class BaseComponent;
 class BaseLevel;
 class Screen;
 
-class BaseGameObject abstract : public IBehavior
+class BaseGameObject : public IBehavior
 {
 public:
 	BaseGameObject(BaseLevel* level, const wstring& tag, const wstring& type);

@@ -3,8 +3,10 @@
 #include "../Level/BaseLevel.h"
 #include "../Level/TestLevel.h"
 #include "../Level/TitleLevel.h"
+#include "../Level/DungeonLevel.h"
 #include "../Util/OutputSystem.h"
 #include "../Object/Player.h"
+#include "../Object/BaseGameObject.h"
 #include "../Screen.h"
 #include "../Object/UI/SystemTextDialog.h"
 
@@ -17,10 +19,11 @@ LevelManager::~LevelManager()
 
 void LevelManager::Init()
 {
-	m_levels[L"Test"] = new TestLevel(L"Test");
+	//m_levels[L"Test"] = new TestLevel(L"Test");
 	m_levels[L"Title"] = new TitleLevel(L"Title");
+	m_levels[L"Dungeon"] = new DungeonLevel(L"Dungeon");
 
-	m_currentLevel = m_levels[L"Title"]; //TODO : 이후 Title로 변경
+	m_currentLevel = m_levels[L"Title"]; 
 
 	//GameInstance::GetInstance()->ChangeLevelAreaSettings(m_currentLevel);
 
@@ -85,22 +88,46 @@ void LevelManager::ChangeLevel()
 {
 	if (m_nextLevel)
 	{
-		Player& player = GameInstance::GetInstance()->GetPlayer();
-		BaseGameObject* currentPlayerObject = m_currentLevel->FindObject(L"Player");
+		GameInstance* gameInstance = GameInstance::GetInstance();
 
-		if (currentPlayerObject && currentPlayerObject == &player)
+		vector<BaseGameObject*> objects = m_currentLevel->GetObjects();
+		for (size_t i = 0; i < objects.size(); ++i)
 		{
-			m_currentLevel->DetachObject(currentPlayerObject);
+			BaseGameObject* obj = objects[i];
+			wstring type = obj->GetType();
+
+			if (type == L"Player" || type == L"SystemText")
+			{
+				gameInstance->SaveObjectState(obj);
+			}
 		}
 
-		//m_currentLevel->RemoveObject(L"SystemTextDialog");
-		GameInstance::GetInstance()->ChangeLevelAreaSettings(m_nextLevel);
-
+		gameInstance->ChangeLevelAreaSettings(m_nextLevel);
 		m_currentLevel->Release();
 		m_currentLevel = m_nextLevel;
-		m_currentLevel->Init();
 
-		player.RegisterNewLevelArea(m_currentLevel);
+		wstring levelFilePath = L"DataDriven/" + m_currentLevel->GetTag() + L".txt";
+
+		gameInstance->LoadSerializedDataFromFile(m_currentLevel, levelFilePath);
+
+		m_nextLevel = nullptr;
+
+		//Player& player = GameInstance::GetInstance()->GetPlayer();
+		//BaseGameObject* currentPlayerObject = m_currentLevel->FindObject(L"Player");
+
+		//if (currentPlayerObject && currentPlayerObject == &player)
+		//{
+		//	m_currentLevel->DetachObject(currentPlayerObject);
+		//}
+
+		////m_currentLevel->RemoveObject(L"SystemTextDialog");
+		//GameInstance::GetInstance()->ChangeLevelAreaSettings(m_nextLevel);
+
+		//m_currentLevel->Release();
+		//m_currentLevel = m_nextLevel;
+		//m_currentLevel->Init();
+
+		//player.RegisterNewLevelArea(m_currentLevel);
 
 
 		m_nextLevel = nullptr;

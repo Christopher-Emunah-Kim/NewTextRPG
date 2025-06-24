@@ -25,6 +25,7 @@ public:
 	void RemoveObject(const wstring& tag);
 	BaseGameObject* FindObject(const wstring& tag);
 
+	inline const vector<BaseGameObject*>& GetObjects() const noexcept { return m_gameObjects; }
 	inline wstring GetTag() const noexcept { return m_levelTag; }
 };
 

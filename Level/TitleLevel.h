@@ -1,8 +1,7 @@
 ﻿#pragma once
 #include "BaseLevel.h"
 
-class InputSystem;
-class Player;
+class BaseGameObject;
 
 class TitleLevel final : public BaseLevel
 {
@@ -11,7 +10,7 @@ public:
 	virtual ~TitleLevel() = default;
 
 private:
-	Player* m_player = nullptr;
+	BaseGameObject* m_player = nullptr;
 
 public:
 	virtual void Init() override;

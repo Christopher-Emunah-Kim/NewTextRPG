@@ -23,7 +23,12 @@ enum class EMoveDirection
 
 enum class EKeyCode : uint8
 {
+	RETURN = 0x0D,
 	SPACE = 0x20,
+	LEFT = 0x25,
+	UP = 0x26,
+	RIGHT = 0x27,
+	DOWN = 0x28,
 
 	NUM_0 = 0x30,
 	NUM_1 = 0x31,

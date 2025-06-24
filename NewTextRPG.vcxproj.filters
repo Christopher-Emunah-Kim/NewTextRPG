@@ -57,7 +57,7 @@
     <ClCompile Include="Component\ControllerComp.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Component\RendererComp.cpp">
+    <ClCompile Include="Component\SystemRendererComp.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Core\GameInstance.cpp">
@@ -76,6 +76,18 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Component\Player\PlayerStatusComp.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Component\Player\PlayerInfoUpdateComp.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Component\EnemyComp.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Component\ItemComp.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Level\DungeonLevel.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -134,7 +146,7 @@
     <ClInclude Include="Component\ControllerComp.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Component\RendererComp.h">
+    <ClInclude Include="Component\SystemRendererComp.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Core\GameInstance.h">
@@ -159,6 +171,18 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Component\Player\PlayerStatusComp.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Component\Player\PlayerInfoUpdateComp.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Component\EnemyComp.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Component\ItemComp.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Level\DungeonLevel.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

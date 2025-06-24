@@ -1,0 +1,5 @@
+SystemText SystemTextDialog "RPG 게임에 오신 것을 환영합니다. 게임을 시작하려면 선택지를 고르세요."
+Player Player "플레이어" [level=1,health=100,maxHealth=100,exp=0,maxExp=100,attack=12,defense=12,agility=12,gold=0]
+InfoPanel PlayerInfo "플레이어 상태 패널"
+NPC Guide "안녕하세요, 용사님! 어떤 도움이 필요하신가요?"
+Location Portal "마을로 이동하는 포털이 있습니다."

@@ -1,5 +1,7 @@
 ﻿#include "PlayerStatusComp.h"
 #include "../../Object/Player.h"
+#include "../../Object/BaseGameObject.h"
+
 
 PlayerStatusComp::PlayerStatusComp(BaseGameObject* owner)
 	:BaseComponent(owner),
@@ -119,9 +121,9 @@ void PlayerStatusComp::SetPlayerMaxExperience(const int32& maxExp)
 	}
 }
 
-void PlayerStatusComp::SetPlayerGold(const int32& gold)
+void PlayerStatusComp::GainPlayerGold(const int32& gold)
 {
-	m_gold = gold;
+	m_gold += gold;
 
 	if (m_gold < 0)
 	{

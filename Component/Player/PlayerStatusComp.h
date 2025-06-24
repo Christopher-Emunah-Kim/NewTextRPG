@@ -31,7 +31,7 @@ public:
 	void SetPlayerMaxHealth(const int32& maxHealth);
 	void SetPlayerExperience(const int32& exp);
 	void SetPlayerMaxExperience(const int32& maxExp);
-	void SetPlayerGold(const int32& gold);
+	void GainPlayerGold(const int32& gold);
 	void SetPlayerName(const wstring& name);
 
 	const Status& GetStatus() const { return m_status; }

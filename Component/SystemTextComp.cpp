@@ -2,6 +2,9 @@
 #include "../Object/BaseGameObject.h"
 #include "../Screen.h"
 #include "../Util/OutputSystem.h"
+#include "../Util/InputSystem.h"
+#include "../Core/GameInstance.h"
+#include "SystemRendererComp.h"
 
 SystemTextComp::SystemTextComp(BaseGameObject* owner)
 	: BaseComponent(owner, 10)
@@ -40,6 +43,26 @@ void SystemTextComp::Render(Screen* screen)
 	}
 }
 
+void SystemTextComp::Update()
+{
+	if (m_IsAwaitingSlections && !m_optionTexts.empty())
+	{
+		if (InputSystem::IsKeyPressed(EKeyCode::UP))
+		{
+			SelectPreviousOption();
+		}
+		else if (InputSystem::IsKeyPressed(EKeyCode::DOWN))
+		{
+			SelectNextOption();
+		}
+		else if (InputSystem::IsKeyPressed(EKeyCode::SPACE) || InputSystem::IsKeyPressed(EKeyCode::RETURN))
+		{
+			ConfirmSelection();
+		}
+	}
+
+}
+
 void SystemTextComp::SetText(const wstring& text)
 {
 	EnqueueText(text);
@@ -62,4 +85,109 @@ void SystemTextComp::ClearTexts()
 {
 	queue<wstring> emptyQueue;
 	m_textQueue.swap(emptyQueue);
+}
+
+
+void SystemTextComp::AddOption(const wstring& option, const wstring& eventName)
+{
+	m_optionTexts.push_back(option);
+	m_optionEvents.push_back(eventName);
+	m_IsAwaitingSlections = true;
+
+	wstring optionsText = L"\n--- 선택하세요 ---\n";
+	for (size_t i = 0; i < m_optionTexts.size(); ++i)
+	{
+		if (i == m_selectedOption)
+		{
+			optionsText += L"> " + m_optionTexts[i] + L" <\n";
+		}
+		else
+		{
+			optionsText += L" " + m_optionTexts[i] + L" \n";
+		}
+	}
+
+	SetText(optionsText);
+
+}
+
+void SystemTextComp::ClearOption()
+{
+	m_optionTexts.clear();
+	m_optionEvents.clear();
+	m_selectedOption = 0;
+	m_IsAwaitingSlections = false;
+
+}
+
+void SystemTextComp::SelectNextOption()
+{
+	if (m_optionTexts.empty())
+	{
+		return;
+	}
+
+	m_selectedOption = (m_selectedOption + 1) % m_optionTexts.size();
+
+	wstring optionsText = L"\n--- 선택하세요 ---\n";
+	for (size_t i = 0; i < m_optionTexts.size(); ++i)
+	{
+		if (i == m_selectedOption)
+		{
+			optionsText += L"> " + m_optionTexts[i] + L" <\n";
+		}
+		else
+		{
+			optionsText += L" " + m_optionTexts[i] + L" \n";
+		}
+	}
+
+	SetText(optionsText);
+
+}
+
+void SystemTextComp::SelectPreviousOption()
+{
+	if (m_optionTexts.empty())
+	{
+		return;
+	}
+
+	m_selectedOption = (m_selectedOption + (int8)m_optionTexts.size() - 1) % m_optionTexts.size();
+
+	wstring optionsText = L"\n--- 선택하세요 ---\n";
+	for (size_t i = 0; i < m_optionTexts.size(); ++i)
+	{
+		if (i == m_selectedOption)
+		{
+			optionsText += L"> " + m_optionTexts[i] + L" <\n";
+		}
+		else
+		{
+			optionsText += L" " + m_optionTexts[i] + L" \n";
+		}
+	}
+
+	SetText(optionsText);
+
+}
+
+void SystemTextComp::ConfirmSelection()
+{
+	if (m_optionTexts.empty() || m_selectedOption >= m_optionEvents.size())
+	{
+		return;
+	}
+
+	wstring selectedEvent = m_optionEvents[m_selectedOption];
+	wstring selectionText = L"선택: " + m_optionTexts[m_selectedOption];
+
+	SetText(selectionText);
+
+	ClearOption();
+
+	GetOwner()->SetCustomField(L"last_text", selectionText);
+
+	GameInstance::GetInstance()->ProcessGameEvent(selectedEvent);
+
 }

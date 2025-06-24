@@ -544,14 +544,15 @@ void GameInstance::InitPlayerInfoPanel(BaseGameObject* infoPanel, BaseGameObject
 
 	PlayerInfoUpdateComp* updaterComp = infoPanel->GetComponentsByType<PlayerInfoUpdateComp>();
 
-	if (updaterComp)
+	if (!updaterComp)
 	{
 		updaterComp = new PlayerInfoUpdateComp(infoPanel);
 		infoPanel->AddComponent(updaterComp);
 		updaterComp->Init();
-		updaterComp->SetTargetPlayer(player);
-		updaterComp->UpdatePlayerInfo();
 	}
+
+	updaterComp->SetTargetPlayer(player);
+	updaterComp->UpdatePlayerInfo();
 }
 
 void GameInstance::ApplyPlayerState(BaseGameObject* player)

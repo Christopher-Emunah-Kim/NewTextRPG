@@ -13,6 +13,7 @@ void TitleLevel::Init()
 {
 	GameInstance* gameInstance = GameInstance::GetInstance();
 
+	//if (!gameInstance->LoadSerializedDataFromFile(this, L"..\\..\\DataDriven\\Title.txt"))
 	if (!gameInstance->LoadSerializedDataFromFile(this, L"DataDriven/Title.txt"))
 	{
 		OutputSystem::PrintErrorMsg(L"TitleLevel 데이터를 로드하는데 실패했습니다.");

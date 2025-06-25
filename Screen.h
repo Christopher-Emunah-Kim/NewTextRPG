@@ -4,12 +4,11 @@
 
 
 constexpr int32 SCREEN_WIDTH = 128;
-constexpr int32 SCREEN_HEIGHT = 32;
+constexpr int32 SCREEN_HEIGHT = 50;
 constexpr int32 LAYOUT_RATIO = 4;
-constexpr int32 PLAYERINFO_PANEL_WIDTH = 32;;
-//constexpr int32 PLAYERINFO_PANEL_WIDTH = SCREEN_WIDTH / LAYOUT_RATIO;;
-constexpr int32 GAME_PANEL_START_X = PLAYERINFO_PANEL_WIDTH + 2;
-//constexpr int32 GAME_PANEL_START_X = PLAYERINFO_PANEL_WIDTH + 1;
+constexpr int32 PLAYERINFO_PANEL_WIDTH = 32; //SCREEN_WIDTH / LAYOUT_RATIO
+constexpr int32 GAME_PANEL_START_X = PLAYERINFO_PANEL_WIDTH + 2; //MARGIN
+constexpr int8 BUFFER_SIZE = 2;
 
 
 class Screen : public Singleton<Screen>
@@ -23,7 +22,7 @@ private:
 	Screen& operator = (const Screen&) = delete;
 
 private:
-	HANDLE m_consoleBuffers[2];
+	HANDLE m_consoleBuffers[BUFFER_SIZE];
 	int32 m_backBufferIdx;
 	WCHAR* m_writeBuffer;
 

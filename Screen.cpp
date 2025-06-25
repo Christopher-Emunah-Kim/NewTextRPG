@@ -29,7 +29,7 @@ void Screen::Init()
 {
 	SetConsoleOutputCP(CP_UTF8);
 
-	for (int8 i = 0; i < 2; ++i)
+	for (int8 i = 0; i < BUFFER_SIZE; ++i)
 	{
 		m_consoleBuffers[i] = CreateConsoleScreenBuffer(
 			GENERIC_READ | GENERIC_WRITE, //dwDesiredAccess
@@ -95,7 +95,6 @@ void Screen::Draw(const int32& x, const int32& y, const wstring& str)
 
 	for (size_t i = 0; i < str.length(); ++i)
 	{
-		//Draw(currentX + static_cast<int32>(i), y, str[i]);
 		Draw(currentX, y, str[i]);
 
 		if (IsWideCharacter(str[i]))
@@ -134,7 +133,7 @@ bool Screen::IsValidCoordinate(const int32& x, const int32& y)
 
 bool Screen::IsWideCharacter(const wchar_t& c) const
 {
-	if (c >= 0xAC00 && c <= 0xD7A3)
+	if (c >= (int32)0xAC00 && c <= (int32)0xD7A3)
 	{
 		return true;
 	}

@@ -125,10 +125,12 @@
   <ItemGroup>
     <ClCompile Include="Component\BaseComponent.cpp" />
     <ClCompile Include="Component\ControllerComp.cpp" />
+    <ClCompile Include="Component\Player\InventoryComp.cpp" />
     <ClCompile Include="Component\Player\PlayerStatusComp.cpp" />
     <ClCompile Include="Component\UI\SystemUIComp.cpp" />
     <ClCompile Include="Core\GameInstance.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Item\ItemDataTable.cpp" />
     <ClCompile Include="Level\BaseLevel.cpp" />
     <ClCompile Include="Level\TestLevel.cpp" />
     <ClCompile Include="Level\TitleLevel.cpp" />
@@ -147,6 +149,7 @@
     <ClInclude Include="Common.h" />
     <ClInclude Include="Component\BaseComponent.h" />
     <ClInclude Include="Component\ControllerComp.h" />
+    <ClInclude Include="Component\Player\InventoryComp.h" />
     <ClInclude Include="Component\Player\PlayerStatusComp.h" />
     <ClInclude Include="Component\UI\MeshUIComp.h" />
     <ClInclude Include="Component\UI\SystemUIComp.h" />
@@ -154,6 +157,8 @@
     <ClInclude Include="Core\IBehavior.h" />
     <ClInclude Include="Data\PlayerDataTablePerLevel.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="Item\BaseItem.h" />
+    <ClInclude Include="Item\ItemDataTable.h" />
     <ClInclude Include="Level\BaseLevel.h" />
     <ClInclude Include="Level\TestLevel.h" />
     <ClInclude Include="Level\TitleLevel.h" />

@@ -3,12 +3,14 @@
 #include "../Util/Type/StatusType.h"
 #include "../Util/Type/EnumType.h"
 
+constexpr int16 DEFAULT_ITEM_MAX_COUNT = 99;
+
 class BaseItem
 {
 public:
 	BaseItem()
 		: m_name(L"Unknown Item"), m_itemType(EItemType::None), m_description(L"Unknown Item"),
-		m_buyingPrice(0), m_sellingPrice(0), m_attack(0), m_defense(0), m_agility(0), m_count(0), m_maxCount(1) 
+		m_buyingPrice(0), m_sellingPrice(0), m_attack(0), m_defense(0), m_agility(0), m_count(0), m_maxCount(DEFAULT_ITEM_MAX_COUNT)
 	{	}
 
 	BaseItem(const wstring& name, EItemType itemType, const wstring& description,
@@ -16,7 +18,7 @@ public:
 		const int16& attack = 0, const int16& defense = 0, const int16& agility = 0)
 		: m_name(name), m_itemType(itemType), m_description(description),
 		m_buyingPrice(buyingPrice), m_sellingPrice(sellingPrice),
-		m_attack(attack), m_defense(defense), m_agility(agility), m_count(0), m_maxCount(1)
+		m_attack(attack), m_defense(defense), m_agility(agility), m_count(0), m_maxCount(DEFAULT_ITEM_MAX_COUNT)
 	{	}
 
 	virtual ~BaseItem() = default;
@@ -31,7 +33,7 @@ private:
 	int16 m_defense;
 	int16 m_agility;
 	int16 m_count;
-	int16 m_maxCount;
+	int16 m_maxCount = DEFAULT_ITEM_MAX_COUNT;
 
 public:
 	virtual BaseItem* CreateItem() const

@@ -11,7 +11,6 @@ enum class EInputEvent
 	MAX_COUNT
 };
 
-
 enum class EMoveDirection
 {
 	UP,
@@ -20,6 +19,17 @@ enum class EMoveDirection
 	RIGHT,
 	MAX_COUNT
 };
+
+enum class EItemType : int8
+{
+	None = 0,
+	Weapon,
+	Armor,
+	Consumable,
+	Material,
+	Max
+};
+
 
 enum class EKeyCode : uint8
 {

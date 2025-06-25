@@ -125,9 +125,9 @@
   <ItemGroup>
     <ClCompile Include="Component\BaseComponent.cpp" />
     <ClCompile Include="Component\ControllerComp.cpp" />
-    <ClCompile Include="Component\Player\PlayerInfoRenderComp.cpp" />
+    <ClCompile Include="Component\UI\PlayerInfoUIComp.cpp" />
     <ClCompile Include="Component\Player\PlayerStatusComp.cpp" />
-    <ClCompile Include="Component\SystemTextComp.cpp" />
+    <ClCompile Include="Component\UI\SystemTextUIComp.cpp" />
     <ClCompile Include="Core\GameInstance.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Level\BaseLevel.cpp" />
@@ -137,7 +137,7 @@
     <ClCompile Include="NewTextRPG.cpp" />
     <ClCompile Include="Object\BaseGameObject.cpp" />
     <ClCompile Include="Object\Player.cpp" />
-    <ClCompile Include="Component\RendererComp.cpp" />
+    <ClCompile Include="Component\MeshRenderComp.cpp" />
     <ClCompile Include="Object\UI\SystemTextDialog.cpp" />
     <ClCompile Include="Object\UI\PlayerInfoDialog.cpp" />
     <ClCompile Include="Screen.cpp" />
@@ -149,10 +149,10 @@
     <ClInclude Include="Common.h" />
     <ClInclude Include="Component\BaseComponent.h" />
     <ClInclude Include="Component\ControllerComp.h" />
-    <ClInclude Include="Component\Player\PlayerInfoRenderComp.h" />
+    <ClInclude Include="Component\UI\PlayerInfoUIComp.h" />
     <ClInclude Include="Component\Player\PlayerStatusComp.h" />
-    <ClInclude Include="Component\RendererComp.h" />
-    <ClInclude Include="Component\SystemTextComp.h" />
+    <ClInclude Include="Component\MeshRenderComp.h" />
+    <ClInclude Include="Component\UI\SystemTextUIComp.h" />
     <ClInclude Include="Core\GameInstance.h" />
     <ClInclude Include="Core\IBehavior.h" />
     <ClInclude Include="Data\PlayerDataTablePerLevel.h" />

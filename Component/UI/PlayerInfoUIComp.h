@@ -4,11 +4,11 @@
 
 class Player;
 
-class PlayerInfoRenderComp : public BaseComponent
+class PlayerInfoUIComp : public BaseComponent
 {
 public:
-	PlayerInfoRenderComp(BaseGameObject* owner);
-	virtual ~PlayerInfoRenderComp() = default;
+	PlayerInfoUIComp(BaseGameObject* owner);
+	virtual ~PlayerInfoUIComp() = default;
 
 
 private:

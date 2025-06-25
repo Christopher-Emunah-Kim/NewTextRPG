@@ -1,14 +1,14 @@
-﻿#include "PlayerInfoRenderComp.h"
+﻿#include "PlayerInfoUIComp.h"
 #include "../../../NewTextRPG/Screen.h"
 #include "../../Data/PlayerDataTablePerLevel.h"
 #include "../../Util/OutputSystem.h"
 
-PlayerInfoRenderComp::PlayerInfoRenderComp(BaseGameObject* owner)
+PlayerInfoUIComp::PlayerInfoUIComp(BaseGameObject* owner)
 	: BaseComponent(owner, 3), m_playerInfo(DEFAULT_LEVEL)
 {
 }
 
-void PlayerInfoRenderComp::Render(Screen* screen)
+void PlayerInfoUIComp::Render(Screen* screen)
 {
 	if (screen == nullptr)
 	{
@@ -59,7 +59,7 @@ void PlayerInfoRenderComp::Render(Screen* screen)
 
 }
 
-void PlayerInfoRenderComp::UpdatePlayerInfo(const FPlayerInfo& playerInfo)
+void PlayerInfoUIComp::UpdatePlayerInfo(const FPlayerInfo& playerInfo)
 {
 	m_playerInfo = playerInfo;
 }

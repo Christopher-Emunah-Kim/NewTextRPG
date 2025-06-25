@@ -1,15 +1,15 @@
 ﻿#pragma once
-#include "BaseComponent.h"
+#include "../BaseComponent.h"
 #include <queue>
 
 constexpr int32 DEFAULT_BASE_Y = 5;
 constexpr int32 MAX_LINES = 20;
 
-class SystemTextComp : public BaseComponent
+class SystemTextUIComp : public BaseComponent
 {
 public:
-	SystemTextComp(BaseGameObject* owner);
-	virtual ~SystemTextComp() = default;
+	SystemTextUIComp(BaseGameObject* owner);
+	virtual ~SystemTextUIComp() = default;
 
 private:
 	queue<wstring> m_textQueue;

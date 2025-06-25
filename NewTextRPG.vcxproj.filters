@@ -57,7 +57,7 @@
     <ClCompile Include="Component\ControllerComp.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Component\RendererComp.cpp">
+    <ClCompile Include="Component\MeshRenderComp.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Core\GameInstance.cpp">
@@ -66,10 +66,10 @@
     <ClCompile Include="Object\UI\SystemTextDialog.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Component\SystemTextComp.cpp">
+    <ClCompile Include="Component\UI\SystemTextUIComp.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Component\Player\PlayerInfoRenderComp.cpp">
+    <ClCompile Include="Component\UI\PlayerInfoUIComp.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Object\UI\PlayerInfoDialog.cpp">
@@ -134,7 +134,7 @@
     <ClInclude Include="Component\ControllerComp.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Component\RendererComp.h">
+    <ClInclude Include="Component\MeshRenderComp.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Core\GameInstance.h">
@@ -149,10 +149,10 @@
     <ClInclude Include="Object\UI\SystemTextDialog.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Component\SystemTextComp.h">
+    <ClInclude Include="Component\UI\SystemTextUIComp.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Component\Player\PlayerInfoRenderComp.h">
+    <ClInclude Include="Component\UI\PlayerInfoUIComp.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Object\UI\PlayerInfoDialog.h">

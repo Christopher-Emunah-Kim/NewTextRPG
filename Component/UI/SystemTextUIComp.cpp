@@ -1,14 +1,14 @@
-﻿#include "SystemTextComp.h"
-#include "../Object/BaseGameObject.h"
-#include "../Screen.h"
-#include "../Util/OutputSystem.h"
+﻿#include "SystemTextUIComp.h"
+#include "../../Object/BaseGameObject.h"
+#include "../../Screen.h"
+#include "../../Util/OutputSystem.h"
 
-SystemTextComp::SystemTextComp(BaseGameObject* owner)
+SystemTextUIComp::SystemTextUIComp(BaseGameObject* owner)
 	: BaseComponent(owner, 10)
 {
 }
 
-void SystemTextComp::Render(Screen* screen)  
+void SystemTextUIComp::Render(Screen* screen)  
 {  
     if (screen == nullptr)  
     {  
@@ -40,12 +40,12 @@ void SystemTextComp::Render(Screen* screen)
 	}
 }
 
-void SystemTextComp::SetText(const wstring& text)
+void SystemTextUIComp::SetText(const wstring& text)
 {
 	EnqueueText(text);
 }
 
-void SystemTextComp::EnqueueText(const wstring& text)
+void SystemTextUIComp::EnqueueText(const wstring& text)
 {
 	//OutputSystem::PrintInfoMsg(L"SystemTextComp::AddText 호출됨: " + text);
 
@@ -58,7 +58,7 @@ void SystemTextComp::EnqueueText(const wstring& text)
 }
 
 
-void SystemTextComp::ClearTexts()
+void SystemTextUIComp::ClearTexts()
 {
 	queue<wstring> emptyQueue;
 	m_textQueue.swap(emptyQueue);

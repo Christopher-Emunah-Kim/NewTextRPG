@@ -1,5 +1,5 @@
 ﻿#include "SystemTextDialog.h"
-#include "../../Component/SystemTextComp.h"
+#include "../../Component/UI/SystemTextUIComp.h"
 #include "../../Level/BaseLevel.h"
 
 SystemTextDialog::SystemTextDialog(BaseLevel* level)
@@ -13,9 +13,9 @@ void SystemTextDialog::Init()
 
 	SetPosition(0, SCREEN_HEIGHT / 2);
 
-	if (false == HasComponentType<SystemTextComp>())
+	if (false == HasComponentType<SystemTextUIComp>())
 	{
-		AddComponent(new SystemTextComp(this));
+		AddComponent(new SystemTextUIComp(this));
 	}
 
 	BaseGameObject::Init();
@@ -41,13 +41,13 @@ void SystemTextDialog::Init()
 
 void SystemTextDialog::SetSystemText(const wstring& text) 
 {
-	SystemTextComp* textComp = nullptr;
+	SystemTextUIComp* textComp = nullptr;
 
 	vector<BaseComponent*> components = GetComponents();
 
 	for (size_t i = 0; i < components.size(); ++i)
 	{
-		textComp = dynamic_cast<SystemTextComp*>(components[i]);
+		textComp = dynamic_cast<SystemTextUIComp*>(components[i]);
 		if (textComp)
 		{
 			textComp->SetText(text);
@@ -58,13 +58,13 @@ void SystemTextDialog::SetSystemText(const wstring& text)
 
 void SystemTextDialog::ClearSystemText()
 {
-	SystemTextComp* textComp = nullptr;
+	SystemTextUIComp* textComp = nullptr;
 
 	vector<BaseComponent*> components = GetComponents();
 
 	for (size_t i = 0; i < components.size(); ++i)
 	{
-		textComp = dynamic_cast<SystemTextComp*>(components[i]);
+		textComp = dynamic_cast<SystemTextUIComp*>(components[i]);
 		if (textComp)
 		{
 			textComp->ClearTexts();

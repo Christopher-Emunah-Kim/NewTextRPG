@@ -1,10 +1,10 @@
 ﻿#pragma once
 #include "BaseComponent.h"
 
-class RendererComp : public BaseComponent
+class MeshRenderComp : public BaseComponent
 {
 public:
-	RendererComp(BaseGameObject* owner, const wstring& renderShape);
+	MeshRenderComp(BaseGameObject* owner, const wstring& renderShape);
 
 private:
 	wstring m_renderShape;

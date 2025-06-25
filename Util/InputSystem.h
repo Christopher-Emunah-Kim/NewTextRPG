@@ -17,6 +17,7 @@ private:
 	static unordered_map<wstring, InputAction*> m_actions;
 	static unordered_map<int8, wstring> m_keyToActionMap;
 
+
 private:
 	static wstring GetKeyName(const int8& vkey);
 

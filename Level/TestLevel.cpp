@@ -3,7 +3,7 @@
 #include "../Object/Player.h"
 #include "../Core/GameInstance.h"
 #include "../Util/InputSystem.h"
-#include "../Object/UI/SystemTextDialog.h"
+#include "../Object/UI/HUDUI.h"
 #include <WinUser.h>
 #include "../Manager/LevelManager.h"
 

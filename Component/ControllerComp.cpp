@@ -48,22 +48,22 @@ void ControllerComp::HandleMovement(EInputEvent inputEvent, EMoveDirection direc
 	{
 	case EMoveDirection::UP:
 	{
-		currentY --;
+		--currentY ;
 		break;
 	}
 	case EMoveDirection::DOWN:
 	{
-		currentY ++;
+		++currentY ;
 		break;
 	}
 	case EMoveDirection::LEFT:
 	{
-		currentX --;
+		--currentX ;
 		break;
 	}
 	case EMoveDirection::RIGHT:
 	{
-		currentX ++;
+		++currentX ;
 		break;
 	}
 

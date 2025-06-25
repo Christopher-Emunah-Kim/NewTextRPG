@@ -6,7 +6,7 @@
 constexpr __int32 MAX_LINES = 10;
 constexpr __int32 DEFAULT_BASE_Y = SCREEN_HEIGHT - MAX_LINES - 1;
 constexpr __int8 LEFT_MARGIN = 4;
-constexpr __int16 PLAYER_UI_BASE_Y = 10;
+constexpr __int16 PLAYER_UI_BASE_Y = 5;
 
 class SystemUIComp final : public BaseComponent
 {

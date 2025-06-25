@@ -26,8 +26,8 @@ public:
 		while (m_currentExp >= m_levelMaxExp)
 		{
 			m_currentExp -= m_levelMaxExp;
-			currentLevel++;
-			levelUpCount++;
+			++currentLevel;
+			++levelUpCount;
 		}
 
 		return levelUpCount;

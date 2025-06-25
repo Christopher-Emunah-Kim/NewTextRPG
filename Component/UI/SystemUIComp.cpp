@@ -61,33 +61,34 @@ void SystemUIComp::RenderPlayerInfo(Screen* screen)
 
 	int16 y = PLAYER_UI_BASE_Y;
 
-	screen->Draw(leftMargin, y++, L"플레이어  정보");
-	screen->Draw(leftMargin, y++, L"--------------------------");
-
+	screen->Draw(leftMargin, ++y, L"플레이어  정보");
 	++y;
-
-	screen->Draw(leftMargin, ++y, L"아이디 : " + m_playerInfo.name);
-	screen->Draw(leftMargin, ++y, L"레벨 : " + to_wstring(m_playerInfo.playerLevel));
-
-	++y;
-
-	screen->Draw(leftMargin, ++y, L"체력 : " + to_wstring(m_playerInfo.health) + L" / " + to_wstring(m_playerInfo.maxHealth));
-	screen->Draw(leftMargin, ++y, L"경험치 : " + to_wstring(m_playerInfo.experience.GetCurrentExp()) + L" / " + to_wstring(m_playerInfo.experience.GetMaxExp()));
-	screen->Draw(leftMargin, ++y, L"보유 금액 : " + to_wstring(m_playerInfo.gold.GetAmount()));
-
-	++y;
-	++y;
-
-	screen->Draw(leftMargin, ++y, L"플레이어  스테이터스");
 	screen->Draw(leftMargin, ++y, L"--------------------------");
-
 	++y;
-
+	screen->Draw(leftMargin, ++y, L"아이디 : " + m_playerInfo.name);
+	++y;
+	screen->Draw(leftMargin, ++y, L"레벨 : " + to_wstring(m_playerInfo.playerLevel));
+	++y;
+	screen->Draw(leftMargin, ++y, L"--------------------------");
+	++y;
+	screen->Draw(leftMargin, ++y, L"체력 : " + to_wstring(m_playerInfo.health) + L" / " + to_wstring(m_playerInfo.maxHealth));	
+	++y;
+	screen->Draw(leftMargin, ++y, L"경험치 : " + to_wstring(m_playerInfo.experience.GetCurrentExp()) + L" / " + to_wstring(m_playerInfo.experience.GetMaxExp()));
+	++y;
+	screen->Draw(leftMargin, ++y, L"보유 금액 : " + to_wstring(m_playerInfo.gold.GetAmount()));
+	++y;
+	++y;
+	screen->Draw(leftMargin, ++y, L"플레이어  스테이터스");
+	++y;
+	screen->Draw(leftMargin, ++y, L"--------------------------");
+	++y;
 	screen->Draw(leftMargin, ++y, L"공격력 : " + to_wstring(m_playerInfo.status.GetAttack()));
-	screen->Draw(leftMargin, ++y, L"방어력 : " + to_wstring(m_playerInfo.status.GetDefense()));
-	screen->Draw(leftMargin, ++y, L"민첩성 : " + to_wstring(m_playerInfo.status.GetAgility()));
-
 	++y;
+	screen->Draw(leftMargin, ++y, L"방어력 : " + to_wstring(m_playerInfo.status.GetDefense()));
+	++y;
+	screen->Draw(leftMargin, ++y, L"민첩성 : " + to_wstring(m_playerInfo.status.GetAgility()));
+	++y;
+	screen->Draw(leftMargin, ++y, L"--------------------------");
 
 	for (int16 y = 0; y < SCREEN_HEIGHT; ++y)
 	{
@@ -119,6 +120,6 @@ void SystemUIComp::RenderSystemText(Screen* screen)
 	for (size_t i = tempTexts.size(); i > 0; --i)
 	{
 		screen->Draw(GAME_PANEL_START_X + 1, outputY, tempTexts[i - 1]);
-		outputY++;
+		++outputY;
 	}
 }

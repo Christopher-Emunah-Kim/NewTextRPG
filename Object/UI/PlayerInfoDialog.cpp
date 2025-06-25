@@ -42,7 +42,6 @@ void PlayerInfoDialog::Init()
 void PlayerInfoDialog::UpdatePlayerInfoDialog(const Player& player)
 {
 	//TODO : 음 이걸 굳이 매번 새 객체포인터를 가지고 지정해야하는걸까?
-	//TODO : 수정필요
 	const PlayerStatusComp* statusComp = nullptr;
     const vector<BaseComponent*>& playerComps = const_cast<Player&>(player).GetComponents();
 

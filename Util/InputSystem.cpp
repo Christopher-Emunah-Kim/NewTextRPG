@@ -2,6 +2,11 @@
 #include "InputAction.h"
 #include "../Common.h"
 
+
+wstring InputSystem::m_inputBuffer = L"";
+wstring InputSystem::m_command = L"";
+bool InputSystem::m_bIsAcceptingTextInput = false;
+
 bool InputSystem::m_currentKeyStates[256] = { false };
 bool InputSystem::m_previousKeyStates[256] = { false };
 
@@ -82,6 +87,7 @@ void InputSystem::Update()
 			}
 		}
 
+		ProcessTextInput();
 	}
 
 }
@@ -89,6 +95,67 @@ void InputSystem::Update()
 bool InputSystem::IsKeyPressed(EKeyCode key)
 {
 	return (GetAsyncKeyState(static_cast<int>(key)) & 0x8000) != 0;
+}
+
+void InputSystem::StartTextInput()
+{
+	m_bIsAcceptingTextInput = true;
+	m_inputBuffer.clear();
+	m_command.clear();
+}
+
+void InputSystem::StopTextInput()
+{
+	m_bIsAcceptingTextInput = false;
+	m_inputBuffer.clear();
+}
+
+bool InputSystem::IsAcceptingTextInput()
+{
+	return m_bIsAcceptingTextInput;
+}
+
+const wstring& InputSystem::GetInputBuffer()
+{
+	return m_inputBuffer;
+}
+
+const wstring InputSystem::GetCommand()
+{
+	wstring cmd = m_command;
+	m_command.clear();
+	return cmd;
+}
+
+void InputSystem::ProcessTextInput()
+{
+	if (false == m_bIsAcceptingTextInput)
+		return;
+
+	while (_kbhit())
+	{
+		wchar_t wch = _getwch();
+
+		if (wch == L'\r') //Enter
+		{
+			if (m_inputBuffer.empty() == false)
+			{
+				m_command = m_inputBuffer;
+				m_inputBuffer.clear();
+			}
+		}
+		else if (wch == L'\b') //BaseSpace
+		{
+			if (m_inputBuffer.empty() == false)
+			{
+				m_inputBuffer.pop_back();
+			}
+		}
+		else
+		{
+			m_inputBuffer += wch;
+		}
+	}
 }
 
 InputAction* InputSystem::CreateAction(const wstring& actionName)

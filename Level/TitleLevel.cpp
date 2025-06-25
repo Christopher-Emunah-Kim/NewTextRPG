@@ -1,6 +1,6 @@
 ﻿#include "TitleLevel.h"
 #include "../Core/GameInstance.h"
-#include "../Object/UI/SystemTextDialog.h"
+#include "../Object/UI/HUDUI.h"
 #include "../Screen.h"
 
 
@@ -29,6 +29,12 @@ void TitleLevel::Init()
 
 	gameInstance->UpdatePlayerInfo();
 	
+	gameInstance->DisplaySystemText(L"타이틀 화면입니다. 이동하려면 WASD를 누르세요");
+	gameInstance->DisplaySystemText(L"타이틀 화면입니다. 이동하려면 WASD를 누르세요");
+	gameInstance->DisplaySystemText(L"타이틀 화면입니다. 이동하려면 WASD를 누르세요");
+	gameInstance->DisplaySystemText(L"타이틀 화면입니다. 이동하려면 WASD를 누르세요");
+	gameInstance->DisplaySystemText(L"타이틀 화면입니다. 이동하려면 WASD를 누르세요");
+	gameInstance->DisplaySystemText(L"타이틀 화면입니다. 이동하려면 WASD를 누르세요");
 	gameInstance->DisplaySystemText(L"타이틀 화면입니다. 이동하려면 WASD를 누르세요");
 
 

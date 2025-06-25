@@ -78,17 +78,17 @@ void ControllerComp::HandleMovement(EInputEvent inputEvent, EMoveDirection direc
 	{
 		currentX = GAME_PANEL_START_X;
 	}
-	if (currentX >= SCREEN_WIDTH)
+	if (currentX >= SCREEN_WIDTH - 2)
 	{
-		currentX = SCREEN_WIDTH - 1;
+		currentX = SCREEN_WIDTH - 3;
 	}
-	if (currentY < 0)
+	if (currentY < 3)
 	{
-		currentY = 0;
+		currentY = 3;
 	}
-	if (currentY >= DEFAULT_BASE_Y)
+	if (currentY >= SCREEN_HEIGHT - COMMAND_BLOCK_HEIGHT - MAX_LINES - 2)
 	{
-		currentY = DEFAULT_BASE_Y - 1;
+		currentY = SCREEN_HEIGHT - COMMAND_BLOCK_HEIGHT - MAX_LINES  - 2;
 	}
 
 	m_owner->SetPosition(currentX, currentY);

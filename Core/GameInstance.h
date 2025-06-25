@@ -14,7 +14,6 @@ public:
 
 private:
 	Player m_player;
-	//SystemTextDialog* m_systemTextDialog = nullptr;
 	HUDUI* m_HUDUI = nullptr;
 	bool m_bIsPlayerInitialzed = false;
 

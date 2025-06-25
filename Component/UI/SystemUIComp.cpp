@@ -52,48 +52,59 @@ void SystemUIComp::UpdatePlayerInfo(const FPlayerInfo& playerInfo)
 
 void SystemUIComp::RenderPlayerInfo(Screen* screen)
 {
-	int8 leftMargin = LEFT_MARGIN;
 
-	for (int16 y = 0; y < SCREEN_HEIGHT; ++y)
+	screen->Draw(0, 0, L"┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐");
+
+	for (int16 y = 1; y < SCREEN_HEIGHT- COMMAND_BLOCK_HEIGHT; ++y)
 	{
-		screen->Draw(2, y, L"|");
+		screen->Draw(0, y, L"│");
+		screen->Draw(PLAYERINFO_PANEL_WIDTH, y, L"│");
+		screen->Draw(SCREEN_WIDTH - 2, y, L"│");
 	}
+
+	screen->Draw(LEFT_MARGIN + 5, 1, L"[ WELCOM TO TRPG ]");
+
+	//TODO : 맵이름 UI에 설정하기
+	screen->Draw((int32)(SCREEN_WIDTH * 0.55f), 1, L"<< 맵 이름 >>");
 
 	int16 y = PLAYER_UI_BASE_Y;
 
-	screen->Draw(leftMargin, ++y, L"플레이어  정보");
+	screen->Draw(LEFT_MARGIN - 2, ++y, L"───────────────────────────────");
+	screen->Draw(GAME_PANEL_START_X, y, L"────────────────────────────────────────────────────────────────────────────────────────────");
+	screen->Draw(LEFT_MARGIN, ++y, L"     [ 플레이어  정보 ]");
+	screen->Draw(LEFT_MARGIN - 2, ++y, L"───────────────────────────────");
 	++y;
-	screen->Draw(leftMargin, ++y, L"--------------------------");
+	screen->Draw(LEFT_MARGIN, ++y, L"아이디 : " + m_playerInfo.name);
 	++y;
-	screen->Draw(leftMargin, ++y, L"아이디 : " + m_playerInfo.name);
+	screen->Draw(LEFT_MARGIN, ++y, L"레벨 : " + to_wstring(m_playerInfo.playerLevel));
 	++y;
-	screen->Draw(leftMargin, ++y, L"레벨 : " + to_wstring(m_playerInfo.playerLevel));
+	screen->Draw(LEFT_MARGIN - 2, ++y, L"───────────────────────────────");
 	++y;
-	screen->Draw(leftMargin, ++y, L"--------------------------");
+	screen->Draw(LEFT_MARGIN, ++y, L"체력 : " + to_wstring(m_playerInfo.health) + L" / " + to_wstring(m_playerInfo.maxHealth));
 	++y;
-	screen->Draw(leftMargin, ++y, L"체력 : " + to_wstring(m_playerInfo.health) + L" / " + to_wstring(m_playerInfo.maxHealth));	
+	screen->Draw(LEFT_MARGIN, ++y, L"경험치 : " + to_wstring(m_playerInfo.experience.GetCurrentExp()) + L" / " + to_wstring(m_playerInfo.experience.GetMaxExp()));
 	++y;
-	screen->Draw(leftMargin, ++y, L"경험치 : " + to_wstring(m_playerInfo.experience.GetCurrentExp()) + L" / " + to_wstring(m_playerInfo.experience.GetMaxExp()));
+	screen->Draw(LEFT_MARGIN, ++y, L"보유 금액 : " + to_wstring(m_playerInfo.gold.GetAmount()));
 	++y;
-	screen->Draw(leftMargin, ++y, L"보유 금액 : " + to_wstring(m_playerInfo.gold.GetAmount()));
+	screen->Draw(LEFT_MARGIN - 2, ++y, L"───────────────────────────────");
+	screen->Draw(LEFT_MARGIN, ++y, L"  [ 플레이어  스테이터스 ]");
+	screen->Draw(LEFT_MARGIN - 2, ++y, L"───────────────────────────────");
 	++y;
+	screen->Draw(LEFT_MARGIN, ++y, L"공격력 : " + to_wstring(m_playerInfo.status.GetAttack()));
 	++y;
-	screen->Draw(leftMargin, ++y, L"플레이어  스테이터스");
+	screen->Draw(LEFT_MARGIN, ++y, L"방어력 : " + to_wstring(m_playerInfo.status.GetDefense()));
 	++y;
-	screen->Draw(leftMargin, ++y, L"--------------------------");
+	screen->Draw(LEFT_MARGIN, ++y, L"민첩성 : " + to_wstring(m_playerInfo.status.GetAgility()));
 	++y;
-	screen->Draw(leftMargin, ++y, L"공격력 : " + to_wstring(m_playerInfo.status.GetAttack()));
-	++y;
-	screen->Draw(leftMargin, ++y, L"방어력 : " + to_wstring(m_playerInfo.status.GetDefense()));
-	++y;
-	screen->Draw(leftMargin, ++y, L"민첩성 : " + to_wstring(m_playerInfo.status.GetAgility()));
-	++y;
-	screen->Draw(leftMargin, ++y, L"--------------------------");
+	screen->Draw(LEFT_MARGIN - 2, ++y, L"───────────────────────────────");
 
-	for (int16 y = 0; y < SCREEN_HEIGHT; ++y)
-	{
-		screen->Draw(PLAYERINFO_PANEL_WIDTH, y, L"|");
-	}
+	screen->Draw(0, SCREEN_HEIGHT - COMMAND_BLOCK_HEIGHT, L"│─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────│");
+	screen->Draw(0, SCREEN_HEIGHT - COMMAND_BLOCK_HEIGHT +1, L"│");
+	screen->Draw(2, SCREEN_HEIGHT - COMMAND_BLOCK_HEIGHT +1, L"명령 > " );
+	screen->Draw(SCREEN_WIDTH - 2, SCREEN_HEIGHT - COMMAND_BLOCK_HEIGHT + 1, L"│");
+	screen->Draw(0, SCREEN_HEIGHT-1, L"└─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘");
+
+	screen->Draw(GAME_PANEL_START_X, DEFAULT_BASE_Y, L"────────────────────────────────────────────────────────────────────────────────────────────");
 }
 
 
@@ -108,11 +119,12 @@ void SystemUIComp::RenderSystemText(Screen* screen)
 		copiedQueue.pop();
 	}
 
-	int32 outputY = DEFAULT_BASE_Y;
-	int32 messageAreaWidth = SCREEN_WIDTH - GAME_PANEL_START_X - 2;
+	int32 outputY = DEFAULT_BASE_Y + 1;
+	int32 messageAreaWidth = SCREEN_WIDTH - GAME_PANEL_START_X - RIGHT_MARGIN;
+
 	wstring clearLine(messageAreaWidth, L' ');
 
-	for (int32 y = DEFAULT_BASE_Y; y < DEFAULT_BASE_Y + MAX_LINES; ++y)
+	for (int32 y = outputY; y < outputY + MAX_LINES; ++y)
 	{
 		screen->Draw(GAME_PANEL_START_X + 1, y, clearLine);
 	}

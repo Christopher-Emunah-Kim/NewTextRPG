@@ -1,8 +1,8 @@
 ﻿#include "PlayerInfoDialog.h"
 #include "../../Level/BaseLevel.h"
-#include "../../Component/UI/PlayerInfoUIComp.h"
 #include "../../Object/Player.h"
 #include "../../Util/OutputSystem.h"
+#include "../../Component/UI/SystemUIComp.h"
 #include "../../Component/Player/PlayerStatusComp.h"
 
 PlayerInfoDialog::PlayerInfoDialog(BaseLevel* level)
@@ -16,9 +16,9 @@ void PlayerInfoDialog::Init()
 
 	//OutputSystem::PrintInfoMsg(L"PlayerInfoDialog::Init 호출됨");
 
-	if (false == HasComponentType<PlayerInfoUIComp>())
+	if (false == HasComponentType<SystemUIComp>())
 	{
-		m_renderComp =  new PlayerInfoUIComp(this);
+		m_renderComp =  new SystemUIComp(this);
 		AddComponent(m_renderComp);
 		//OutputSystem::PrintInfoMsg(L"PlayerInfoRenderComp 생성됨");
 	}
@@ -27,7 +27,7 @@ void PlayerInfoDialog::Init()
 		vector<BaseComponent*> comps = GetComponents();
 		for (size_t i = 0; i < comps.size(); ++i)
 		{
-			m_renderComp = dynamic_cast<PlayerInfoUIComp*>(comps[i]);
+			m_renderComp = dynamic_cast<SystemUIComp*>(comps[i]);
 			if (m_renderComp)
 			{
 				//OutputSystem::PrintInfoMsg(L"기존 PlayerInfoRenderComp 찾음");

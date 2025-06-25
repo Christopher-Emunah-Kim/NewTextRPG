@@ -127,7 +127,7 @@
     <ClCompile Include="Component\ControllerComp.cpp" />
     <ClCompile Include="Component\UI\PlayerInfoUIComp.cpp" />
     <ClCompile Include="Component\Player\PlayerStatusComp.cpp" />
-    <ClCompile Include="Component\UI\SystemTextUIComp.cpp" />
+    <ClCompile Include="Component\UI\SystemUIComp.cpp" />
     <ClCompile Include="Core\GameInstance.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Level\BaseLevel.cpp" />
@@ -152,7 +152,7 @@
     <ClInclude Include="Component\UI\PlayerInfoUIComp.h" />
     <ClInclude Include="Component\Player\PlayerStatusComp.h" />
     <ClInclude Include="Component\UI\MeshUIComp.h" />
-    <ClInclude Include="Component\UI\SystemTextUIComp.h" />
+    <ClInclude Include="Component\UI\SystemUIComp.h" />
     <ClInclude Include="Core\GameInstance.h" />
     <ClInclude Include="Core\IBehavior.h" />
     <ClInclude Include="Data\PlayerDataTablePerLevel.h" />

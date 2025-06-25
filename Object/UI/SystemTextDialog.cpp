@@ -1,5 +1,5 @@
 ﻿#include "SystemTextDialog.h"
-#include "../../Component/UI/SystemTextUIComp.h"
+#include "../../Component/UI/SystemUIComp.h"
 #include "../../Level/BaseLevel.h"
 
 SystemTextDialog::SystemTextDialog(BaseLevel* level)
@@ -13,9 +13,9 @@ void SystemTextDialog::Init()
 
 	SetPosition(0, SCREEN_HEIGHT);
 
-	if (false == HasComponentType<SystemTextUIComp>())
+	if (false == HasComponentType<SystemUIComp>())
 	{
-		AddComponent(new SystemTextUIComp(this));
+		AddComponent(new SystemUIComp(this));
 	}
 
 	BaseGameObject::Init();
@@ -24,22 +24,17 @@ void SystemTextDialog::Init()
 	SetSystemText(L"=== 예시로 시스템 메시지가 여기에 표시됩니다 1.");
 	SetSystemText(L"=== 예시로 시스템 메시지가 여기에 표시됩니다 2.");
 	SetSystemText(L"=== 예시로 시스템 메시지가 여기에 표시됩니다 3.");
-	SetSystemText(L"=== 예시로 시스템 메시지가 여기에 표시됩니다 4.");
-	SetSystemText(L"=== 예시로 시스템 메시지가 여기에 표시됩니다 5.");
-	SetSystemText(L"=== 예시로 시스템 메시지가 여기에 표시됩니다 6.");
-	SetSystemText(L"=== 예시로 시스템 메시지가 여기에 표시됩니다 7.");
-	SetSystemText(L"=== 예시로 시스템 메시지가 여기에 표시됩니다 16.");
 }
 
 void SystemTextDialog::SetSystemText(const wstring& text) 
 {
-	SystemTextUIComp* textComp = nullptr;
+	SystemUIComp* textComp = nullptr;
 
 	vector<BaseComponent*> components = GetComponents();
 
 	for (size_t i = 0; i < components.size(); ++i)
 	{
-		textComp = dynamic_cast<SystemTextUIComp*>(components[i]);
+		textComp = dynamic_cast<SystemUIComp*>(components[i]);
 		if (textComp)
 		{
 			textComp->SetText(text);
@@ -50,13 +45,13 @@ void SystemTextDialog::SetSystemText(const wstring& text)
 
 void SystemTextDialog::ClearSystemText()
 {
-	SystemTextUIComp* textComp = nullptr;
+	SystemUIComp* textComp = nullptr;
 
 	vector<BaseComponent*> components = GetComponents();
 
 	for (size_t i = 0; i < components.size(); ++i)
 	{
-		textComp = dynamic_cast<SystemTextUIComp*>(components[i]);
+		textComp = dynamic_cast<SystemUIComp*>(components[i]);
 		if (textComp)
 		{
 			textComp->ClearTexts();

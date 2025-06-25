@@ -66,7 +66,7 @@
     <ClCompile Include="Object\UI\SystemTextDialog.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Component\UI\SystemTextUIComp.cpp">
+    <ClCompile Include="Component\UI\SystemUIComp.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Component\UI\PlayerInfoUIComp.cpp">
@@ -149,7 +149,7 @@
     <ClInclude Include="Object\UI\SystemTextDialog.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Component\UI\SystemTextUIComp.h">
+    <ClInclude Include="Component\UI\SystemUIComp.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Component\UI\PlayerInfoUIComp.h">

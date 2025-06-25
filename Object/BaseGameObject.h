@@ -26,21 +26,22 @@ public:
 	virtual void Render(Screen* screen) override;
 	virtual void Release() override;
 
+	vector<BaseComponent*>& GetComponents();
+
+	void SetLevel(BaseLevel* level);
+	void SetTag(const wstring& tag) noexcept;
+	void SetPosition(const int32& x, const int32& y) noexcept;
+
+	bool IsComponentsEmpty() const;
+	void UpdateLevel(BaseLevel* level);
+	void AddComponent(BaseComponent* component);
+	void RemoveComponent(BaseComponent* component);
+	
 	inline wstring		GetTag() const noexcept { return m_objectTag; }
 	inline BaseLevel* GetLevel() const noexcept { return m_level; }
 	inline int32		GetX() const noexcept { return m_x; }
 	inline int32		GetY() const noexcept { return m_y; }
-	vector<BaseComponent*>& GetComponents();
 
-	void SetTag(const wstring& tag) noexcept;
-	void SetPosition(const int32& x, const int32& y) noexcept;
-	void SetLevel(BaseLevel* level);
-
-	void AddComponent(BaseComponent* component);
-	void RemoveComponent(BaseComponent* component);
-	void UpdateLevel(BaseLevel* level);
-	bool IsComponentsEmpty() const;
-	
 	template<typename T>
 	bool HasComponentType() const
 	{
@@ -53,6 +54,20 @@ public:
 			}
 		}
 		return false;
+	}
+
+	template<typename T>
+	T* GetComponentsByType() const
+	{
+		for (size_t i = 0; i < m_components.size(); ++i)
+		{
+			T* typedComp = dynamic_cast<T*>(m_components[i]);
+			if (typedComp != nullptr)
+			{
+				return typedComp;
+			}
+		}
+		return nullptr;
 	}
 };
 

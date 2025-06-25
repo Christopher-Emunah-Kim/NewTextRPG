@@ -9,7 +9,6 @@ void GameInstance::Init()
 {
 	m_player = Player();
 	m_bIsPlayerInitialzed = false;
-	//m_systemTextDialog = nullptr;
 	m_HUDUI = nullptr;
 
 }

@@ -103,6 +103,28 @@ void LevelManager::ChangeLevel()
 		player.RegisterNewLevelArea(m_currentLevel);
 
 
+		/*GameInstance* gameInstance = GameInstance::GetInstance();
+
+		vector<BaseGameObject*> objects = m_currentLevel->GetObjects();
+		for (size_t i = 0; i < objects.size(); ++i)
+		{
+			BaseGameObject* obj = objects[i];
+			wstring type = obj->GetType();
+
+			if (type == L"Player" || type == L"SystemText")
+			{
+				gameInstance->SaveObjectState(obj);
+			}
+		}
+
+		gameInstance->ChangeLevelAreaSettings(m_nextLevel);
+		m_currentLevel->Release();
+		m_currentLevel = m_nextLevel;
+
+		wstring levelFilePath = L"DataDriven/" + m_currentLevel->GetTag() + L".txt";
+
+		gameInstance->LoadSerializedDataFromFile(m_currentLevel, levelFilePath);*/
+
 		m_nextLevel = nullptr;
 	}
 }

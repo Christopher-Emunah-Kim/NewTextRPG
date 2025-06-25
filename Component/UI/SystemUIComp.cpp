@@ -127,6 +127,12 @@ void SystemUIComp::RenderPlayerInfo(Screen* screen)
 	screen->Draw(LEFT_MARGIN, ++y, L"민첩성 : " + to_wstring(m_playerInfo.status.GetAgility()));
 	++y;
 	screen->Draw(LEFT_MARGIN - 2, ++y, L"───────────────────────────────");
+	screen->Draw(LEFT_MARGIN, ++y, L"사용 무기: ");
+	++y;
+	screen->Draw(LEFT_MARGIN, ++y, L"사용 방어구: ");
+	++y;
+	screen->Draw(LEFT_MARGIN, ++y, L"가방: ");
+	++y;
 
 	screen->Draw(0, SCREEN_HEIGHT - COMMAND_BLOCK_HEIGHT, L"│─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────│");
 	screen->Draw(0, SCREEN_HEIGHT - COMMAND_BLOCK_HEIGHT +1, L"│");

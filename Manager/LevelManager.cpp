@@ -6,7 +6,7 @@
 #include "../Util/OutputSystem.h"
 #include "../Object/Player.h"
 #include "../Screen.h"
-#include "../Object/UI/SystemTextDialog.h"
+#include "../Object/UI/HUDUI.h"
 
 
 LevelManager::~LevelManager()

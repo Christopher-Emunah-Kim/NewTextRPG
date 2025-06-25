@@ -3,6 +3,7 @@
 #include "../../Object/BaseGameObject.h"
 #include "../../Screen.h"
 #include "../../Util/OutputSystem.h"
+#include "../../Util/InputSystem.h"
 
 SystemUIComp::SystemUIComp(BaseGameObject* owner)
 	: BaseComponent(owner, 10), m_playerInfo(DEFAULT_LEVEL)
@@ -72,11 +73,17 @@ void SystemUIComp::RenderSystemText(Screen* screen)
 		screen->Draw(GAME_PANEL_START_X + 1, y, clearLine);
 	}
 
-	for (size_t i = tempTexts.size(); i > 0; --i)
+	for (size_t i = 0; i < tempTexts.size(); ++i)
 	{
 		screen->Draw(GAME_PANEL_START_X + 1, outputY, tempTexts[i - 1]);
 		++outputY;
 	}
+
+	/*for (size_t i = tempTexts.size(); i > 0; --i)
+	{
+		screen->Draw(GAME_PANEL_START_X + 1, outputY, tempTexts[i - 1]);
+		++outputY;
+	}*/
 }
 
 
@@ -137,6 +144,13 @@ void SystemUIComp::RenderPlayerInfo(Screen* screen)
 	screen->Draw(0, SCREEN_HEIGHT - COMMAND_BLOCK_HEIGHT, L"│─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────│");
 	screen->Draw(0, SCREEN_HEIGHT - COMMAND_BLOCK_HEIGHT +1, L"│");
 	screen->Draw(2, SCREEN_HEIGHT - COMMAND_BLOCK_HEIGHT +1, L"명령 > " );
+
+	if (InputSystem::IsAcceptingTextInput())
+	{
+		//TODO 입력버퍼 위치조정
+		screen->Draw(7, SCREEN_HEIGHT - COMMAND_BLOCK_HEIGHT + 1, InputSystem::GetInputBuffer());
+	}
+
 	screen->Draw(SCREEN_WIDTH - 2, SCREEN_HEIGHT - COMMAND_BLOCK_HEIGHT + 1, L"│");
 	screen->Draw(0, SCREEN_HEIGHT-1, L"└─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘");
 

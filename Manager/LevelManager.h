@@ -27,5 +27,6 @@ public:
 	void ChangeLevel();
 
 	inline BaseLevel* GetCurrentLevel() const { return m_currentLevel; }
+	inline BaseLevel* GetNextLevel() const { return m_nextLevel; }
 };
 

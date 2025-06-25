@@ -14,6 +14,7 @@ private:
 	static wstring m_inputBuffer;
 	static wstring m_command;
 	static bool m_bIsAcceptingTextInput;
+	static bool m_bIsTextInputMode;
 
 	static bool m_currentKeyStates[256];
 	static bool m_previousKeyStates[256];
@@ -31,9 +32,12 @@ public:
 
 	static void StartTextInput();
 	static void StopTextInput();
+	static bool IsTextInputMode();
 	static bool IsAcceptingTextInput();
+	static void SetTextInputMode(bool isTextInputMode);
 	static const wstring& GetInputBuffer();
 	static const wstring GetCommand();
+	static void ProcessControlInput();
 	static void ProcessTextInput();
 
 	static InputAction* CreateAction(const wstring& actionName);

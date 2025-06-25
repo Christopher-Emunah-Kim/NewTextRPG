@@ -2,6 +2,8 @@
 #include "../Core/GameInstance.h"
 #include "../Object/UI/HUDUI.h"
 #include "../Screen.h"
+#include "../Util/InputSystem.h"
+#include "../Manager/LevelManager.h"
 
 
 void TitleLevel::Init()
@@ -30,13 +32,13 @@ void TitleLevel::Init()
 	gameInstance->UpdatePlayerInfo();
 	
 	gameInstance->DisplaySystemText(L"타이틀 화면입니다. 이동하려면 WASD를 누르세요");
-	gameInstance->DisplaySystemText(L"타이틀 화면입니다. 이동하려면 WASD를 누르세요");
-	gameInstance->DisplaySystemText(L"타이틀 화면입니다. 이동하려면 WASD를 누르세요");
-	gameInstance->DisplaySystemText(L"타이틀 화면입니다. 이동하려면 WASD를 누르세요");
-	gameInstance->DisplaySystemText(L"타이틀 화면입니다. 이동하려면 WASD를 누르세요");
-	gameInstance->DisplaySystemText(L"타이틀 화면입니다. 이동하려면 WASD를 누르세요");
-	gameInstance->DisplaySystemText(L"타이틀 화면입니다. 이동하려면 WASD를 누르세요");
+	gameInstance->DisplaySystemText(L"[메뉴 옵션]");
+	gameInstance->DisplaySystemText(L"1. 마을로 들어가기");
+	gameInstance->DisplaySystemText(L"2. 던전으로 이동하기");
+	gameInstance->DisplaySystemText(L"3. 게임 종료");
+	gameInstance->DisplaySystemText(L"원하는 옵션의 번호를 입력하세요.");
 
+	InputSystem::StartTextInput();
 
 	BaseLevel::Init();
 }
@@ -45,5 +47,44 @@ void TitleLevel::Update()
 {
 	BaseLevel::Update();
 
+	ProcessTitleMenuInput();
+}
 
+void TitleLevel::ProcessTitleMenuInput()
+{
+	wstring cmd = InputSystem::GetCommand();
+
+	if (cmd.empty())
+	{
+		return;
+	}
+
+	GameInstance* gameinstance = GameInstance::GetInstance();
+	
+	if (cmd == L"1")
+	{
+		gameinstance->DisplaySystemText(L"게임을 시작합니다...");
+		LevelManager::GetInstance()->SetNextLevel(L"VillageLevel"); // TODO 다음 레벨 설정
+		BaseLevel* nextLevel = LevelManager::GetInstance()->GetNextLevel();
+		gameinstance->ChangeLevelAreaSettings(nextLevel);
+		InputSystem::StopTextInput();
+	}
+	else if (cmd == L"2")
+	{
+		gameinstance->DisplaySystemText(L"던전으로 이동합니다...");
+		LevelManager::GetInstance()->SetNextLevel(L"DungeonLevel"); // TODO 다음 레벨 설정
+		BaseLevel* nextLevel = LevelManager::GetInstance()->GetNextLevel();
+		gameinstance->ChangeLevelAreaSettings(nextLevel);
+		InputSystem::StopTextInput();
+	}
+	else if (cmd == L"3")
+	{
+		gameinstance->DisplaySystemText(L"게임을 종료합니다...");
+		InputSystem::StopTextInput();
+		exit(0); // 게임 종료
+	}
+	else
+	{
+		gameinstance->DisplaySystemText(L"잘못된 입력입니다. 다시 시도하세요.");
+	}
 }

@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include "../../Common.h"
-#include "../Data/PlayerDataTablePerLevel.h"
+#include "../../Data/PlayerDataTablePerLevel.h"
 
 constexpr __int8 DEFAULT_LOWEST_DAMAGE = 5;
 

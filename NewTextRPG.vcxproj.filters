@@ -161,5 +161,8 @@
     <ClInclude Include="Component\Player\PlayerStatusComp.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Util\Type\PlayerInfo.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,53 +1,62 @@
 ﻿#pragma once
-#include "../Common.h"
+#include "../../Common.h"
+#include "../../Data/PlayerDataTablePerLevel.h"
+
+
 
 struct Experience
 {
-	Experience() = default;
-	explicit Experience(int8 level) : m_level(level), m_currentExp(0) { }
+	explicit Experience()
+		: m_currentExp(0), m_levelMaxExp(DEFAULT_PLAYER_MAX_EXPERIENCE)
+	{ }
 
 private:
-	int16 m_currentExp = 0;
-	int8 m_level = 1;
+	int16 m_currentExp;
+	int16 m_levelMaxExp;
 
-	
-	int16 GetRequiredExpForNextLevel() const
-	{
-		//TODO : LevelData에서 불러오기
-		return 3 + (m_level - 1) * 5;
-	}
 
 public:
-	bool AddExperience(int16 amount)
+	int16 AddExperience(int16 amount, int16 currentLevel)
 	{
 		m_currentExp += amount;
-		bool leveledUp = false;
+		m_levelMaxExp = PlayerDataTablePerLevel::GetRequiredMaxExp(currentLevel);
+		int16 levelUpCount = 0;
 
-		while (m_currentExp >= GetRequiredExpForNextLevel())
+
+		while (m_currentExp >= m_levelMaxExp)
 		{
-			m_currentExp -= GetRequiredExpForNextLevel();
-			m_level++;
-			leveledUp = true;
+			m_currentExp -= m_levelMaxExp;
+			currentLevel++;
+			levelUpCount++;
 		}
-		return leveledUp;
+
+		return levelUpCount;
 	}
+
+	void SetMaxExp(const int16& amount)
+	{
+		m_levelMaxExp = amount;
+	}
+
+	inline const int16& GetCurrentExp() const noexcept { return m_currentExp; }
+	inline const int16& GetMaxExp() const noexcept { return m_levelMaxExp; }
 };
 
 
 
 struct Gold
 {
-	Gold() = default;
-	explicit Gold(int16 initialAmount) : m_amount(initialAmount) { }
+	explicit Gold() 
+		: m_amount(DEFAULT_OWNED_GOLD) { }
 
 private:
-	int16 m_amount = 10000;
+	int16 m_amount;
 
 
 public:
-	void AddGold(int16 amount)
+	void GainGold(int16 amount)
 	{
-		int32 total = static_cast<int32>(m_amount) + amount;
+		int16 total = m_amount + amount;
 
 		if (total > INT16_MAX) 
 		{ 
@@ -55,11 +64,11 @@ public:
 		}
 		else 
 		{
-			m_amount = static_cast<int16>(total);
+			m_amount = total;
 		}
 	}
 
-	bool RemoveGold(int16 amount)
+	bool UseGold(int16 amount)
 	{
 		if (m_amount < amount)
 		{
@@ -70,4 +79,6 @@ public:
 		
 		return true;
 	}
+
+	inline int16 GetAmount() const noexcept { return m_amount; }
 };

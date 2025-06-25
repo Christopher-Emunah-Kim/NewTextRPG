@@ -64,20 +64,8 @@ void PlayerInfoDialog::UpdatePlayerInfoDialog(const Player& player)
 
 	if (m_renderComp)
 	{
-		const Status& status = statusComp->GetStatus();
-
-		m_renderComp->UpdateStatus(
-			statusComp->GetPlayerName(),
-			statusComp->GetPlayerLevel(),
-			statusComp->GetPlayerHealth(),
-			statusComp->GetPlayerMaxHealth(),
-			statusComp->GetPlayerExperience(),
-			statusComp->GetPlayerMaxExperience(),
-			status.GetAttack(),
-			status.GetDefense(),
-			status.GetAgility(),
-			statusComp->GetPlayerGold()
-		);
+		const FPlayerInfo& playerInfo = statusComp->GetPlayerInfo();
+		m_renderComp->UpdatePlayerInfo(playerInfo);
 	}
 	else
 	{

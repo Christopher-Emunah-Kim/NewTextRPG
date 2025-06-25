@@ -4,17 +4,7 @@
 #include "../../Util/OutputSystem.h"
 
 PlayerInfoRenderComp::PlayerInfoRenderComp(BaseGameObject* owner)
-	: BaseComponent(owner, 3),
-	m_playerName(L"Player"),
-	m_level(1),
-	m_health(DEFAULT_CHARACTER_MAX_HEALTH),
-	m_maxHealth(DEFAULT_CHARACTER_MAX_HEALTH),
-	m_experience(0),
-	m_maxExperience(DEFAULT_PLAYER_MAX_EXPERIENCE),
-	m_attack(DEFAULT_ATTACK),
-	m_defense(DEFAULT_DEFENSE),
-	m_agility(DEFAULT_AGILITY),
-	m_gold(0)
+	: BaseComponent(owner, 3), m_playerInfo(DEFAULT_LEVEL)
 {
 }
 
@@ -25,7 +15,6 @@ void PlayerInfoRenderComp::Render(Screen* screen)
 		return;
 	}
 
-	//OutputSystem::PrintInfoMsg(L"PlayerInfoRenderComp::Render 호출됨");
 
 	int8 leftMargin = 4;
 
@@ -35,33 +24,33 @@ void PlayerInfoRenderComp::Render(Screen* screen)
 	}
 
 	int16 y = 2;
-	screen->Draw(leftMargin, y++, L"플레이어  정보");
+	screen->Draw(leftMargin, ++y, L"플레이어  정보");
 	screen->Draw(leftMargin, y++, L"--------------------------");
 
-	y++;
+	++y;
 
-	screen->Draw(leftMargin, y++, L"아이디 : " + m_playerName);
-	screen->Draw(leftMargin, y++, L"레벨 : " + to_wstring(m_level));
+	screen->Draw(leftMargin, ++y, L"아이디 : " + m_playerInfo.name);
+	screen->Draw(leftMargin, ++y, L"레벨 : " + to_wstring(m_playerInfo.playerLevel));
 
-	y++;
+	++y;
 
-	screen->Draw(leftMargin, y++, L"체력 : " + to_wstring(m_health) + L" / " + to_wstring(m_maxHealth));
-	screen->Draw(leftMargin, y++, L"경험치 : " + to_wstring(m_experience) + L" / " + to_wstring(m_maxExperience));
-	screen->Draw(leftMargin, y++, L"보유 금액 : " + to_wstring(m_gold));
+	screen->Draw(leftMargin, ++y, L"체력 : " + to_wstring(m_playerInfo.health) + L" / " + to_wstring(m_playerInfo.maxHealth));
+	screen->Draw(leftMargin, ++y, L"경험치 : " + to_wstring(m_playerInfo.experience.GetCurrentExp()) + L" / " + to_wstring(m_playerInfo.experience.GetMaxExp()));
+	screen->Draw(leftMargin, ++y, L"보유 금액 : " + to_wstring(m_playerInfo.gold.GetAmount()));
 
-	y++;
-	y++;
+	++y;
+	++y;
 
-	screen->Draw(leftMargin, y++, L"플레이어  스테이터스");
-	screen->Draw(leftMargin, y++, L"--------------------------");
+	screen->Draw(leftMargin, ++y, L"플레이어  스테이터스");
+	screen->Draw(leftMargin, ++y, L"--------------------------");
 
-	y++;
+	++y;
 
-	screen->Draw(leftMargin, y++, L"공격력 : " + to_wstring(m_attack));
-	screen->Draw(leftMargin, y++, L"방어력 : " + to_wstring(m_defense));
-	screen->Draw(leftMargin, y++, L"민첩성 : " + to_wstring(m_agility));
+	screen->Draw(leftMargin, ++y, L"공격력 : " + to_wstring(m_playerInfo.status.GetAttack()));
+	screen->Draw(leftMargin, ++y, L"방어력 : " + to_wstring(m_playerInfo.status.GetDefense()));
+	screen->Draw(leftMargin, ++y, L"민첩성 : " + to_wstring(m_playerInfo.status.GetAgility()));
 
-	y++; 
+	++y;
 
 	for (int16 y = 0; y < SCREEN_HEIGHT; ++y)
 	{
@@ -70,16 +59,8 @@ void PlayerInfoRenderComp::Render(Screen* screen)
 
 }
 
-void PlayerInfoRenderComp::UpdateStatus(const wstring& name, int16 level, int32 health, int32 maxHealth, int32 exp, int32 maxExp, int16 attack, int16 defense, int16 agility, int32 gold)  
-{  
-    m_playerName = name;  
-    m_level = level;  
-    m_health = health;  
-    m_maxHealth = maxHealth;  
-    m_experience = exp;  
-    m_maxExperience = maxExp;  
-    m_attack = attack;  
-    m_defense = defense;  
-    m_agility = agility;  
-    m_gold = gold;  
+void PlayerInfoRenderComp::UpdatePlayerInfo(const FPlayerInfo& playerInfo)
+{
+	m_playerInfo = playerInfo;
 }
+

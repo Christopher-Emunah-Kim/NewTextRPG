@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include "../BaseComponent.h"
 
-class MeshUIComp : public BaseComponent
+class MeshUIComp final : public BaseComponent
 {
 public:
 	MeshUIComp(BaseGameObject* owner, const wstring& renderShape);

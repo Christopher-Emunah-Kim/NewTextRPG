@@ -17,6 +17,7 @@ constexpr __int16 DEFAULT_CHARACTER_MAX_HEALTH = 100;
 
 constexpr __int16 DEFAULT_OWNED_GOLD = 10000;
 
+
 struct FLevelProperties
 {
 	int32 maxExperiencePerLevel;
@@ -30,7 +31,7 @@ struct FLevelProperties
 static FLevelProperties levelDataArray[100]; 
 
 
-struct PlayerDataTablePerLevel
+struct FPlayerDataTablePerLevel
 {
 	void InitializeLevelData()
 	{

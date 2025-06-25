@@ -2,7 +2,7 @@
 #include "BaseComponent.h"
 #include "../Util/Type/EnumType.h"
 
-class ControllerComp : public BaseComponent
+class ControllerComp final : public BaseComponent
 {
 
 public:

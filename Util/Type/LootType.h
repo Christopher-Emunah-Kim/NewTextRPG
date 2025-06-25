@@ -19,7 +19,7 @@ public:
 	int16 AddExperience(int16 amount, int16 currentLevel)
 	{
 		m_currentExp += amount;
-		m_levelMaxExp = PlayerDataTablePerLevel::GetRequiredMaxExp(currentLevel);
+		m_levelMaxExp = FPlayerDataTablePerLevel::GetRequiredMaxExp(currentLevel);
 		int16 levelUpCount = 0;
 
 

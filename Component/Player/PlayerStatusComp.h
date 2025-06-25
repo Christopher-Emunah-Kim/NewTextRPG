@@ -3,7 +3,7 @@
 #include "../../Util/Type/PlayerInfo.h"
 
 
-class PlayerStatusComp : public BaseComponent
+class PlayerStatusComp final : public BaseComponent
 {
 public:
 	PlayerStatusComp(BaseGameObject* owner);

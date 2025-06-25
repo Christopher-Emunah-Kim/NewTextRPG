@@ -8,7 +8,7 @@ constexpr __int32 DEFAULT_BASE_Y = SCREEN_HEIGHT - MAX_LINES - 1;
 constexpr __int8 LEFT_MARGIN = 4;
 constexpr __int16 PLAYER_UI_BASE_Y = 10;
 
-class SystemUIComp : public BaseComponent
+class SystemUIComp final : public BaseComponent
 {
 public:
 	SystemUIComp(BaseGameObject* owner);
@@ -18,6 +18,10 @@ private:
 	queue<wstring> m_textQueue;
 	FPlayerInfo m_playerInfo;
 
+private:
+	void RenderPlayerInfo(Screen* screen);
+	void RenderSystemText(Screen* screen);
+
 public:
 	virtual void Render(Screen* screen) override;
 
@@ -26,10 +30,6 @@ public:
 	void ClearTexts();
 
 	void UpdatePlayerInfo(const FPlayerInfo& playerInfo);
-
-private:
-	void RenderPlayerInfo(Screen* screen);
-	void RenderSystemText(Screen* screen);
 
 };
 

@@ -5,7 +5,7 @@
 #include "../Object/UI/PlayerInfoDialog.h"
 
 
-class GameInstance : public Singleton<GameInstance>
+class GameInstance final : public Singleton<GameInstance>
 {
 private:
 

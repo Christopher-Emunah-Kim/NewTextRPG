@@ -14,25 +14,17 @@ BaseComponent::~BaseComponent()
 }
 
 void BaseComponent::Init()
-{
-
-}
+{}
 
 
 void BaseComponent::Update()
-{
-
-}
+{}
 
 void BaseComponent::Render(Screen* screen)
-{
-
-}
+{}
 
 void BaseComponent::Release()
-{
-
-}
+{}
 
 int32 BaseComponent::GetOrder() const
 {

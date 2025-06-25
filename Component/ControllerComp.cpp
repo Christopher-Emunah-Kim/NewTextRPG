@@ -5,7 +5,7 @@
 #include "../Screen.h"
 #include "../Common.h"
 #include <winuser.h>
-#include "UI/SystemTextUIComp.h"
+#include "UI/SystemUIComp.h"
 
 void ControllerComp::Init()
 {

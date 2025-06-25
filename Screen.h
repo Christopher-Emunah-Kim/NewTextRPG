@@ -11,7 +11,7 @@ constexpr int32 GAME_PANEL_START_X = PLAYERINFO_PANEL_WIDTH + 2; //MARGIN
 constexpr int8 BUFFER_SIZE = 2;
 
 
-class Screen : public Singleton<Screen>
+class Screen final : public Singleton<Screen>
 {
 public:
 	Screen() = default;

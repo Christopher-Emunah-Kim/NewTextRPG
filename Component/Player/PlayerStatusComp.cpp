@@ -24,7 +24,7 @@ bool PlayerStatusComp::GainExperience(const int32& exp)
 
 void PlayerStatusComp::LoadStatusByLevel()
 {
-	FLevelProperties levelProps = PlayerDataTablePerLevel::LoadPlayerLevelData(m_playerInfo.playerLevel);
+	FLevelProperties levelProps = FPlayerDataTablePerLevel::LoadPlayerLevelData(m_playerInfo.playerLevel);
 
 	m_playerInfo.maxHealth = levelProps.maxHealthPerLevel;
 	

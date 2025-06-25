@@ -5,7 +5,7 @@
 
 class BaseLevel;
 
-class LevelManager : public Singleton<LevelManager>, public IBehavior
+class LevelManager final : public Singleton<LevelManager>, public IBehavior
 {
 public:
 	LevelManager() = default;

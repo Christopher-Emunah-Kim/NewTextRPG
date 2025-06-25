@@ -5,6 +5,7 @@
 #include "../Screen.h"
 #include "../Common.h"
 #include <winuser.h>
+#include "UI/SystemTextUIComp.h"
 
 void ControllerComp::Init()
 {
@@ -85,9 +86,9 @@ void ControllerComp::HandleMovement(EInputEvent inputEvent, EMoveDirection direc
 	{
 		currentY = 0;
 	}
-	if (currentY >= SCREEN_HEIGHT)
+	if (currentY >= DEFAULT_BASE_Y)
 	{
-		currentY = SCREEN_HEIGHT - 1;
+		currentY = DEFAULT_BASE_Y - 1;
 	}
 
 	m_owner->SetPosition(currentX, currentY);

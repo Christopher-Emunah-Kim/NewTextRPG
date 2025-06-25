@@ -16,15 +16,16 @@ void PlayerInfoUIComp::Render(Screen* screen)
 	}
 
 
-	int8 leftMargin = 4;
+	int8 leftMargin = LEFT_MARGIN;
 
 	for (int16 y = 0; y < SCREEN_HEIGHT; ++y)
 	{
 		screen->Draw(2, y, L"|");
 	}
 
-	int16 y = 2;
-	screen->Draw(leftMargin, ++y, L"플레이어  정보");
+	int16 y = PLAYER_UI_BASE_Y;
+
+	screen->Draw(leftMargin, y++, L"플레이어  정보");
 	screen->Draw(leftMargin, y++, L"--------------------------");
 
 	++y;

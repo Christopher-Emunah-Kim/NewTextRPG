@@ -4,7 +4,7 @@
 
 
 constexpr int32 SCREEN_WIDTH = 128;
-constexpr int32 SCREEN_HEIGHT = 50;
+constexpr int32 SCREEN_HEIGHT = 42;
 constexpr int32 LAYOUT_RATIO = 4;
 constexpr int32 PLAYERINFO_PANEL_WIDTH = 32; //SCREEN_WIDTH / LAYOUT_RATIO
 constexpr int32 GAME_PANEL_START_X = PLAYERINFO_PANEL_WIDTH + 2; //MARGIN

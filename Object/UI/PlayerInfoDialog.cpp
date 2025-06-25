@@ -1,6 +1,6 @@
 ﻿#include "PlayerInfoDialog.h"
 #include "../../Level/BaseLevel.h"
-#include "../../Component/Player/PlayerInfoUIComp.h"
+#include "../../Component/UI/PlayerInfoUIComp.h"
 #include "../../Object/Player.h"
 #include "../../Util/OutputSystem.h"
 #include "../../Component/Player/PlayerStatusComp.h"

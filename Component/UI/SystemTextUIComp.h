@@ -2,8 +2,8 @@
 #include "../BaseComponent.h"
 #include <queue>
 
-constexpr int32 DEFAULT_BASE_Y = 5;
-constexpr int32 MAX_LINES = 20;
+constexpr int32 MAX_LINES = 10;
+constexpr int32 DEFAULT_BASE_Y = SCREEN_HEIGHT - MAX_LINES - 1;
 
 class SystemTextUIComp : public BaseComponent
 {

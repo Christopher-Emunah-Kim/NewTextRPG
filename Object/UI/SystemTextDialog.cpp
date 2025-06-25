@@ -11,7 +11,7 @@ SystemTextDialog::SystemTextDialog(BaseLevel* level)
 void SystemTextDialog::Init()
 {
 
-	SetPosition(0, SCREEN_HEIGHT / 2);
+	SetPosition(0, SCREEN_HEIGHT);
 
 	if (false == HasComponentType<SystemTextUIComp>())
 	{
@@ -28,14 +28,6 @@ void SystemTextDialog::Init()
 	SetSystemText(L"=== 예시로 시스템 메시지가 여기에 표시됩니다 5.");
 	SetSystemText(L"=== 예시로 시스템 메시지가 여기에 표시됩니다 6.");
 	SetSystemText(L"=== 예시로 시스템 메시지가 여기에 표시됩니다 7.");
-	SetSystemText(L"=== 예시로 시스템 메시지가 여기에 표시됩니다 8.");
-	SetSystemText(L"=== 예시로 시스템 메시지가 여기에 표시됩니다 9.");
-	SetSystemText(L"=== 예시로 시스템 메시지가 여기에 표시됩니다 10.");
-	SetSystemText(L"=== 예시로 시스템 메시지가 여기에 표시됩니다 11.");
-	SetSystemText(L"=== 예시로 시스템 메시지가 여기에 표시됩니다 12.");
-	SetSystemText(L"=== 예시로 시스템 메시지가 여기에 표시됩니다 13.");
-	SetSystemText(L"=== 예시로 시스템 메시지가 여기에 표시됩니다 14.");
-	SetSystemText(L"=== 예시로 시스템 메시지가 여기에 표시됩니다 15.");
 	SetSystemText(L"=== 예시로 시스템 메시지가 여기에 표시됩니다 16.");
 }
 

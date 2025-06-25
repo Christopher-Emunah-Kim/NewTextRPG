@@ -50,6 +50,36 @@ void SystemUIComp::UpdatePlayerInfo(const FPlayerInfo& playerInfo)
 }
 
 
+
+void SystemUIComp::RenderSystemText(Screen* screen)
+{
+	vector<wstring> tempTexts;
+	queue<wstring> copiedQueue = m_textQueue;
+
+	while (false == copiedQueue.empty())
+	{
+		tempTexts.push_back(copiedQueue.front());
+		copiedQueue.pop();
+	}
+
+	int32 outputY = DEFAULT_BASE_Y + 1;
+	int32 messageAreaWidth = SCREEN_WIDTH - GAME_PANEL_START_X - RIGHT_MARGIN;
+
+	wstring clearLine(messageAreaWidth, L' ');
+
+	for (int32 y = outputY; y < outputY + MAX_LINES; ++y)
+	{
+		screen->Draw(GAME_PANEL_START_X + 1, y, clearLine);
+	}
+
+	for (size_t i = tempTexts.size(); i > 0; --i)
+	{
+		screen->Draw(GAME_PANEL_START_X + 1, outputY, tempTexts[i - 1]);
+		++outputY;
+	}
+}
+
+
 void SystemUIComp::RenderPlayerInfo(Screen* screen)
 {
 
@@ -107,31 +137,3 @@ void SystemUIComp::RenderPlayerInfo(Screen* screen)
 	screen->Draw(GAME_PANEL_START_X, DEFAULT_BASE_Y, L"────────────────────────────────────────────────────────────────────────────────────────────");
 }
 
-
-void SystemUIComp::RenderSystemText(Screen* screen)
-{
-	vector<wstring> tempTexts;
-	queue<wstring> copiedQueue = m_textQueue;
-
-	while (false == copiedQueue.empty())
-	{
-		tempTexts.push_back(copiedQueue.front());
-		copiedQueue.pop();
-	}
-
-	int32 outputY = DEFAULT_BASE_Y + 1;
-	int32 messageAreaWidth = SCREEN_WIDTH - GAME_PANEL_START_X - RIGHT_MARGIN;
-
-	wstring clearLine(messageAreaWidth, L' ');
-
-	for (int32 y = outputY; y < outputY + MAX_LINES; ++y)
-	{
-		screen->Draw(GAME_PANEL_START_X + 1, y, clearLine);
-	}
-
-	for (size_t i = tempTexts.size(); i > 0; --i)
-	{
-		screen->Draw(GAME_PANEL_START_X + 1, outputY, tempTexts[i - 1]);
-		++outputY;
-	}
-}

@@ -1,11 +1,5 @@
 ﻿#include "Screen.h"
 
-Screen::Screen()
-	: m_writeBuffer(nullptr), m_backBufferIdx(0)
-{
-	m_consoleBuffers[0] = INVALID_HANDLE_VALUE;
-	m_consoleBuffers[1] = INVALID_HANDLE_VALUE;
-}
 
 Screen::~Screen()
 {

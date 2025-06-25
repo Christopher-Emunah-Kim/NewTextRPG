@@ -1,6 +1,6 @@
 Player Player "플레이어" [level=1,health=100,maxHealth=100,exp=0,maxExp=100,attack=12,defense=12,agility=12,gold=0]
 Enemy Goblin "고블린이 당신을 노려보고 있습니다." [health=30,maxHealth=30,attack=8,defense=3,agility=5,dropGold=10,dropExp=15,dropItem=IronSword]
 Enemy Bat "박쥐 떼가 천장에서 날아다닙니다." [health=15,maxHealth=15,attack=5,defense=1,agility=10,dropGold=5,dropExp=10,dropItem=HealthPotion]
-Item HealthPotion "하급 체력 회복 포션. 수준은 미약해보인다." [healAmount=20,buyValue=15,sellValue=8]
-Item IronSword "단단해보이는 검이다." [attack=4,defense=0,agility=0,buyValue=20,sellValue=10]
+Item HealthPotion "하급 체력 회복 포션. 수준은 미약해보인다." [healAmount=20,buyingValue=15,sellingValue=8]
+Item IronSword "단단해보이는 검이다." [attack=4,defense=0,agility=0,buyingValue=20,sellingValue=10]
 InfoPanel PlayerInfo "플레이어 상태 패널"

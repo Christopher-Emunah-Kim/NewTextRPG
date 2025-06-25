@@ -13,18 +13,16 @@ constexpr int8 BUFFER_SIZE = 2;
 
 class Screen : public Singleton<Screen>
 {
-	friend class Singleton<Screen>;
-
-private:
-	Screen();
-	~Screen();
+public:
+	Screen() = default;
+	virtual ~Screen();
 	Screen(const Screen&) = delete;
 	Screen& operator = (const Screen&) = delete;
 
 private:
-	HANDLE m_consoleBuffers[BUFFER_SIZE];
-	int32 m_backBufferIdx;
-	WCHAR* m_writeBuffer;
+	HANDLE m_consoleBuffers[BUFFER_SIZE] = { INVALID_HANDLE_VALUE, INVALID_HANDLE_VALUE };
+	int32 m_backBufferIdx = 0;
+	WCHAR* m_writeBuffer = nullptr;
 
 private:
 	void VisibleConsoleCursor(bool isVisible);

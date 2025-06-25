@@ -12,8 +12,7 @@ public:
 		wcerr << L"[Error] " << errorMessage << endl;
 	}
 	static void PrintInfoMsg(const wstring& infoMessage) {
-		//wcout << L"[Info] " << infoMessage << endl;
-		GameInstance::GetInstance()->DisplaySystemText(L"[Info] " + infoMessage);
+		wcerr << L"[Info] " << infoMessage << endl;
 	}
 	static void PrintWarningMsg(const wstring& warningMessage) {
 		//wcerr << L"[Warning] " << warningMessage << endl;
@@ -32,14 +31,4 @@ public:
 		system("cls");
 	}
 
-	/*static string ToLower(const string& str) {
-		string lowerStr = str;
-		transform(lowerStr.begin(), lowerStr.end(), lowerStr.begin(), ::tolower);
-		return lowerStr;
-	}
-	static string ToUpper(const string& str) {
-		string upperStr = str;
-		transform(upperStr.begin(), upperStr.end(), upperStr.begin(), ::toupper);
-		return upperStr;
-	}*/
 };

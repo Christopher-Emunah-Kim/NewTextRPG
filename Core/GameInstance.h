@@ -7,18 +7,16 @@
 
 class GameInstance : public Singleton<GameInstance>
 {
-	friend class Singleton<GameInstance>;
-	
 private:
-	GameInstance() = default;
 
 public:
+	GameInstance() = default;
 	virtual ~GameInstance() = default;
 
 private:
 	Player m_player;
-	SystemTextDialog* m_systemTextDialog;
-	PlayerInfoDialog* m_playerInfoDialog;
+	SystemTextDialog* m_systemTextDialog = nullptr;
+	PlayerInfoDialog* m_playerInfoDialog = nullptr;
 	bool m_bIsPlayerInitialzed = false;
 
 public:
@@ -35,6 +33,6 @@ public:
 	void UpdatePlayerInfo();
 
 	inline Player& GetPlayer() noexcept { return m_player; }
-	inline SystemTextDialog* GetSystemTextDialog() const { return m_systemTextDialog; }
-	inline PlayerInfoDialog* GetPlayerInfoDialog() const { return m_playerInfoDialog; }
+	inline SystemTextDialog* GetSystemTextDialog() noexcept { return m_systemTextDialog; }
+	inline PlayerInfoDialog* GetPlayerInfoDialog() noexcept { return m_playerInfoDialog; }
 };

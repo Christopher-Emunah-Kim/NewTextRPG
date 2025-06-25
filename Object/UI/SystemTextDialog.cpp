@@ -4,11 +4,13 @@
 
 SystemTextDialog::SystemTextDialog(BaseLevel* level)
 	: BaseGameObject(level, L"SystemTextDialog")
-{ }
+{
+}
 
 
 void SystemTextDialog::Init()
 {
+
 	SetPosition(0, SCREEN_HEIGHT / 2);
 
 	if (false == HasComponentType<SystemTextComp>())

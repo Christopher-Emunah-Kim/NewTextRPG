@@ -11,6 +11,7 @@ void GameInstance::Init()
 	m_bIsPlayerInitialzed = false;
 	m_systemTextDialog = nullptr;
 	m_playerInfoDialog = nullptr;
+
 }
 
 bool GameInstance::IsPlayerInitialzed() const
@@ -25,62 +26,54 @@ void GameInstance::SetPlayerInitialize(bool bIsInitialized)
 
 void GameInstance::SetSystemTextDialog(SystemTextDialog* systemDialogObj)
 {
-	m_systemTextDialog = systemDialogObj;
+	if (systemDialogObj != nullptr)
+	{
+		m_systemTextDialog = systemDialogObj;
+	}
+}
+
+void GameInstance::SetPlayerInfoDialog(PlayerInfoDialog* playerInfoObj)
+{
+	if (playerInfoObj != nullptr)
+	{
+		m_playerInfoDialog = playerInfoObj;
+
+	}
 }
 
 void GameInstance::DisplaySystemText(const wstring& text)
 {
-	if (m_systemTextDialog == nullptr)
+	if (m_systemTextDialog != nullptr)
 	{
-		m_systemTextDialog = new SystemTextDialog(nullptr);
-		m_systemTextDialog->Init();
-
 		BaseLevel* currentLevel = LevelManager::GetInstance()->GetCurrentLevel();
 		if (currentLevel)
 		{
 			m_systemTextDialog->RegisterSystemTextInNewLevel(currentLevel);
 		}
+
+		m_systemTextDialog->SetSystemText(text);
 	}
-
-	m_systemTextDialog->SetSystemText(text);
-
 }
 
 void GameInstance::ChangeLevelAreaSettings(BaseLevel* newLevel)
 {
-	if (m_systemTextDialog == nullptr)
-	{
-		m_systemTextDialog = new SystemTextDialog(nullptr);
-		m_systemTextDialog->Init();
-	}
-	else
+	if (m_systemTextDialog != nullptr && m_playerInfoDialog != nullptr)
 	{
 		m_systemTextDialog->RegisterSystemTextInNewLevel(newLevel);
-	}
-	DisplaySystemText(L"새로운 레벨(" + newLevel->GetTag() + L")에 진입했습니다.");
 
+		DisplaySystemText(L"새로운 레벨(" + newLevel->GetTag() + L")에 진입했습니다.");
 
-	if (m_playerInfoDialog == nullptr)
-	{
-		m_playerInfoDialog = new PlayerInfoDialog(newLevel);
-		m_playerInfoDialog->Init();
-	}
-	else
-	{
 		m_playerInfoDialog->RegisterPlayerInfoDialogInNewLevel(newLevel);
+
+		UpdatePlayerInfo();
 	}
-
-	UpdatePlayerInfo();
 }
 
-void GameInstance::SetPlayerInfoDialog(PlayerInfoDialog* playerInfoObj)
-{
-	m_playerInfoDialog = playerInfoObj;
-}
+
 
 void GameInstance::UpdatePlayerInfo()
 {
-	if (nullptr != m_playerInfoDialog)
+	if (m_playerInfoDialog != nullptr)
 	{
 		m_playerInfoDialog->UpdatePlayerInfoDialog(m_player);
 	}

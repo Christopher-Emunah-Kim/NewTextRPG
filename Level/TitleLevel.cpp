@@ -20,23 +20,17 @@ void TitleLevel::Init()
 	m_player->SetPosition(GAME_PANEL_START_X + (SCREEN_WIDTH - GAME_PANEL_START_X) / 2, SCREEN_HEIGHT / 2);
 
 
-	if (nullptr == gameInstance->GetPlayerInfoDialog())
+	if (nullptr == gameInstance->GetHUDUI())
 	{
-		PlayerInfoDialog* dialog = new PlayerInfoDialog(this);
-		dialog->Init();
-		gameInstance->SetPlayerInfoDialog(dialog);
+		HUDUI* playerHUD = new HUDUI(this);
+		playerHUD->Init();
+		gameInstance->SetHUDUI(playerHUD);
 	}
 
 	gameInstance->UpdatePlayerInfo();
-
-	if (nullptr == gameInstance->GetSystemTextDialog())
-	{
-		SystemTextDialog* systemDialog = new SystemTextDialog(this);
-		systemDialog->Init();
-		gameInstance->SetSystemTextDialog(systemDialog);
-	}
 	
 	gameInstance->DisplaySystemText(L"타이틀 화면입니다. 이동하려면 WASD를 누르세요");
+
 
 	BaseLevel::Init();
 }

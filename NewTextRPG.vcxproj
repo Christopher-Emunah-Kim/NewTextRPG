@@ -137,8 +137,7 @@
     <ClCompile Include="Object\BaseGameObject.cpp" />
     <ClCompile Include="Object\Player.cpp" />
     <ClCompile Include="Component\UI\MeshUIComp.cpp" />
-    <ClCompile Include="Object\UI\SystemTextDialog.cpp" />
-    <ClCompile Include="Object\UI\PlayerInfoDialog.cpp" />
+    <ClCompile Include="Object\UI\HUDUI.cpp" />
     <ClCompile Include="Screen.cpp" />
     <ClCompile Include="Util\InputSystem.cpp" />
     <ClCompile Include="Util\Singleton.h" />
@@ -161,8 +160,7 @@
     <ClInclude Include="Manager\LevelManager.h" />
     <ClInclude Include="Object\BaseGameObject.h" />
     <ClInclude Include="Object\Player.h" />
-    <ClInclude Include="Object\UI\SystemTextDialog.h" />
-    <ClInclude Include="Object\UI\PlayerInfoDialog.h" />
+    <ClInclude Include="Object\UI\HUDUI.h" />
     <ClInclude Include="Screen.h" />
     <ClInclude Include="Util\InputAction.h" />
     <ClInclude Include="Util\InputSystem.h" />

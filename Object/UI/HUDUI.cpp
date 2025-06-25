@@ -1,32 +1,31 @@
-﻿#include "PlayerInfoDialog.h"
+﻿#include "HUDUI.h"
 #include "../../Level/BaseLevel.h"
 #include "../../Object/Player.h"
 #include "../../Util/OutputSystem.h"
 #include "../../Component/UI/SystemUIComp.h"
 #include "../../Component/Player/PlayerStatusComp.h"
 
-PlayerInfoDialog::PlayerInfoDialog(BaseLevel* level)
-	: BaseGameObject(level, L"PlayerInfoDialog")
+HUDUI::HUDUI(BaseLevel* level)
+	: BaseGameObject(level, L"HUDUI")
 {
 }
 
-void PlayerInfoDialog::Init()
+void HUDUI::Init()
 {
 	SetPosition(0, 0);
 
-
 	if (false == HasComponentType<SystemUIComp>())
 	{
-		m_renderComp =  new SystemUIComp(this);
-		AddComponent(m_renderComp);
+		m_UIRenderComp =  new SystemUIComp(this);
+		AddComponent(m_UIRenderComp);
 	}
 	else
 	{
 		vector<BaseComponent*> comps = GetComponents();
 		for (size_t i = 0; i < comps.size(); ++i)
 		{
-			m_renderComp = dynamic_cast<SystemUIComp*>(comps[i]);
-			if (m_renderComp)
+			m_UIRenderComp = dynamic_cast<SystemUIComp*>(comps[i]);
+			if (m_UIRenderComp)
 			{
 				break;
 			}
@@ -34,9 +33,15 @@ void PlayerInfoDialog::Init()
 	}
 
 	BaseGameObject::Init();
+
+	SetSystemText(L"=== 예시로 시스템 메시지가 여기에 표시됩니다 0.");
+	SetSystemText(L"=== 예시로 시스템 메시지가 여기에 표시됩니다 1.");
+	SetSystemText(L"=== 예시로 시스템 메시지가 여기에 표시됩니다 2.");
+	SetSystemText(L"=== 예시로 시스템 메시지가 여기에 표시됩니다 3.");
+
 }
 
-void PlayerInfoDialog::UpdatePlayerInfoDialog(const Player& player)
+void HUDUI::UpdatePlayerInfoDialog(const Player& player)
 {
 	//TODO : 음 이걸 굳이 매번 새 객체포인터를 가지고 지정해야하는걸까?
 	const PlayerStatusComp* statusComp = nullptr;
@@ -58,10 +63,10 @@ void PlayerInfoDialog::UpdatePlayerInfoDialog(const Player& player)
 	}
 
 
-	if (m_renderComp)
+	if (m_UIRenderComp)
 	{
 		const FPlayerInfo& playerInfo = statusComp->GetPlayerInfo();
-		m_renderComp->UpdatePlayerInfo(playerInfo);
+		m_UIRenderComp->UpdatePlayerInfo(playerInfo);
 	}
 	else
 	{
@@ -71,7 +76,7 @@ void PlayerInfoDialog::UpdatePlayerInfoDialog(const Player& player)
 
 }
 
-void PlayerInfoDialog::RegisterPlayerInfoDialogInNewLevel(BaseLevel* newLevel)
+void HUDUI::RegisterInNewLevel(BaseLevel* newLevel)
 {
 	if (GetLevel() != newLevel)
 	{
@@ -86,5 +91,29 @@ void PlayerInfoDialog::RegisterPlayerInfoDialogInNewLevel(BaseLevel* newLevel)
 		{
 			newLevel->AddObject(this);
 		}
+	}
+}
+
+void HUDUI::SetSystemText(const wstring& text)
+{
+	if (m_UIRenderComp)
+	{
+		m_UIRenderComp->SetText(text);
+	}
+	else
+	{
+		OutputSystem::PrintErrorMsg(L"HUDUI에 SystemUIComp가 존재하지 않습니다.");
+	}
+}
+
+void HUDUI::ClearSystemText()
+{
+	if (m_UIRenderComp)
+	{
+		m_UIRenderComp->ClearTexts();
+	}
+	else
+	{
+		OutputSystem::PrintErrorMsg(L"HUDUI에 SystemUIComp가 존재하지 않습니다.");
 	}
 }

@@ -1,8 +1,7 @@
 ﻿#pragma once
 #include "../Util/Singleton.h"
 #include "../Object/Player.h"
-#include "../Object/UI/SystemTextDialog.h"
-#include "../Object/UI/PlayerInfoDialog.h"
+#include "../Object/UI/HUDUI.h"
 
 
 class GameInstance final : public Singleton<GameInstance>
@@ -15,8 +14,8 @@ public:
 
 private:
 	Player m_player;
-	SystemTextDialog* m_systemTextDialog = nullptr;
-	PlayerInfoDialog* m_playerInfoDialog = nullptr;
+	//SystemTextDialog* m_systemTextDialog = nullptr;
+	HUDUI* m_HUDUI = nullptr;
 	bool m_bIsPlayerInitialzed = false;
 
 public:
@@ -25,14 +24,14 @@ public:
 	bool IsPlayerInitialzed() const;
 	void SetPlayerInitialize(bool bIsInitialized);
 
-	void SetSystemTextDialog(SystemTextDialog* systemDialogObj);
+	//void SetSystemTextDialog(SystemTextDialog* systemDialogObj);
 	void DisplaySystemText(const wstring& text);
 	void ChangeLevelAreaSettings(BaseLevel* newLevel);
 
-	void SetPlayerInfoDialog(PlayerInfoDialog* playerInfoObj);
+	void SetHUDUI(HUDUI* playerInfoObj);
 	void UpdatePlayerInfo();
 
 	inline Player& GetPlayer() noexcept { return m_player; }
-	inline SystemTextDialog* GetSystemTextDialog() noexcept { return m_systemTextDialog; }
-	inline PlayerInfoDialog* GetPlayerInfoDialog() noexcept { return m_playerInfoDialog; }
+	//inline SystemTextDialog* GetSystemTextDialog() noexcept { return m_systemTextDialog; }
+	inline HUDUI* GetHUDUI() noexcept { return m_HUDUI; }
 };

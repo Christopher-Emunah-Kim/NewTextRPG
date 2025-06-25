@@ -57,7 +57,7 @@
     <ClCompile Include="Component\ControllerComp.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Component\MeshRenderComp.cpp">
+    <ClCompile Include="Component\UI\MeshUIComp.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Core\GameInstance.cpp">
@@ -134,7 +134,7 @@
     <ClInclude Include="Component\ControllerComp.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Component\MeshRenderComp.h">
+    <ClInclude Include="Component\UI\MeshUIComp.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Core\GameInstance.h">

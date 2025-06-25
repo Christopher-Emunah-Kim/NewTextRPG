@@ -1,7 +1,7 @@
 ﻿#include "Player.h"
 #include "../Screen.h"
 #include "../Component/ControllerComp.h"
-#include "../Component/MeshRenderComp.h"
+#include "../Component/UI/MeshUIComp.h"
 #include "../Level/BaseLevel.h"
 #include "../Component/Player/PlayerStatusComp.h"
 
@@ -15,9 +15,9 @@ void Player::Init()
 	{
 		AddComponent(new ControllerComp(this));
 	}
-	if (false == HasComponentType<MeshRenderComp>())
+	if (false == HasComponentType<MeshUIComp>())
 	{
-		AddComponent(new MeshRenderComp(this, L"@"));
+		AddComponent(new MeshUIComp(this, L"@"));
 	}
 	if (false == HasComponentType<PlayerStatusComp>())
 	{

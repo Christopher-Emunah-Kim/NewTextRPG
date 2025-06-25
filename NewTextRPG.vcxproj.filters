@@ -69,9 +69,6 @@
     <ClCompile Include="Component\UI\SystemUIComp.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Component\UI\PlayerInfoUIComp.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Object\UI\PlayerInfoDialog.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -150,9 +147,6 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Component\UI\SystemUIComp.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Component\UI\PlayerInfoUIComp.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Object\UI\PlayerInfoDialog.h">

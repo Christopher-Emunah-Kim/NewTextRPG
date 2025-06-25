@@ -14,13 +14,11 @@ void PlayerInfoDialog::Init()
 {
 	SetPosition(0, 0);
 
-	//OutputSystem::PrintInfoMsg(L"PlayerInfoDialog::Init 호출됨");
 
 	if (false == HasComponentType<SystemUIComp>())
 	{
 		m_renderComp =  new SystemUIComp(this);
 		AddComponent(m_renderComp);
-		//OutputSystem::PrintInfoMsg(L"PlayerInfoRenderComp 생성됨");
 	}
 	else
 	{
@@ -30,7 +28,6 @@ void PlayerInfoDialog::Init()
 			m_renderComp = dynamic_cast<SystemUIComp*>(comps[i]);
 			if (m_renderComp)
 			{
-				//OutputSystem::PrintInfoMsg(L"기존 PlayerInfoRenderComp 찾음");
 				break;
 			}
 		}

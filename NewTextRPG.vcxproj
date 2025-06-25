@@ -125,7 +125,6 @@
   <ItemGroup>
     <ClCompile Include="Component\BaseComponent.cpp" />
     <ClCompile Include="Component\ControllerComp.cpp" />
-    <ClCompile Include="Component\UI\PlayerInfoUIComp.cpp" />
     <ClCompile Include="Component\Player\PlayerStatusComp.cpp" />
     <ClCompile Include="Component\UI\SystemUIComp.cpp" />
     <ClCompile Include="Core\GameInstance.cpp" />
@@ -149,7 +148,6 @@
     <ClInclude Include="Common.h" />
     <ClInclude Include="Component\BaseComponent.h" />
     <ClInclude Include="Component\ControllerComp.h" />
-    <ClInclude Include="Component\UI\PlayerInfoUIComp.h" />
     <ClInclude Include="Component\Player\PlayerStatusComp.h" />
     <ClInclude Include="Component\UI\MeshUIComp.h" />
     <ClInclude Include="Component\UI\SystemUIComp.h" />

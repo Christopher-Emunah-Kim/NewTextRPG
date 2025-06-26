@@ -10,15 +10,19 @@ class ItemDataTable final : public Singleton<ItemDataTable>
 {
 public:
 	ItemDataTable() = default;
-	virtual ~ItemDataTable() = default;
+	virtual ~ItemDataTable();
 
 private:
 	ItemUMap m_itemDataTable;
 
 public:
 	void Init();
+	void Release();
+	
 	bool HasItem(const wstring& itemName) const;
+	EItemType StringToItemType(const string& itemType) const;
 	BaseItem* CreateItem(const wstring& itemName) const;
+
 
 	const BaseItem* GetItem(const wstring& itemName) const;
 	const ItemUMap& GetItemDataTable() const noexcept;

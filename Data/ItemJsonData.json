@@ -1,0 +1,50 @@
+﻿[
+	{
+		"name": "철검",
+		"type": "Weapon",
+		"description": "기본적인 철제 검입니다.",
+		"values": [ 100, 50, 5, 0, 0 ]
+	},
+	{
+		"name": "예리한 대검",
+		"type": "Weapon",
+		"description": "강력한 공격력을 지닌 대검입니다.",
+		"values": [ 250, 125, 12, 0, 2 ]
+	},
+	{
+		"name": "신속한 단검",
+		"type": "Weapon",
+		"description": "빠르게 공격할 수 있는 단검입니다.",
+		"values": [ 80, 40, 2, 4, 1 ]
+	},
+	{
+		"name": "강철 갑옷",
+		"type": "Armor",
+		"description": "튼튼한 강철 갑옷입니다.",
+		"values": [ 200, 100, 0, 10, 1 ]
+	},
+	{
+		"name": "가죽 갑옷",
+		"type": "Armor",
+		"description": "기본적인 가죽 갑옷입니다.",
+		"values": [ 80, 40, 0, 4, 4 ]
+	},
+	{
+		"name": "경량 갑옷",
+		"type": "Armor",
+		"description": "가볍고 움직임이 자유로운 갑옷입니다.",
+		"values": [ 180, 90, 0, 6, 5 ]
+	},
+	{
+		"name": "체력 포션",
+		"type": "Consumable",
+		"description": "체력을 회복시켜주는 물약입니다.",
+		"values": [ 30, 15, 0, 0, 0 ]
+	},
+	{
+		"name": "고블린 뼈",
+		"type": "Material",
+		"description": "고블린에게서 얻을 수 있는 뼈입니다.",
+		"values": [ 5, 2, 0, 0, 0 ]
+	}
+]

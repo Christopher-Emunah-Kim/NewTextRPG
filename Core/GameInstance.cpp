@@ -1,5 +1,6 @@
 ﻿#include "GameInstance.h"
 #include "../Data/PlayerDataTablePerLevel.h"
+#include "../Item/ItemDataTable.h"
 #include "../Util/OutputSystem.h"
 #include "../Level/BaseLevel.h"
 #include "../Manager/LevelManager.h"
@@ -11,6 +12,7 @@ void GameInstance::Init()
 	m_bIsPlayerInitialzed = false;
 	m_HUDUI = nullptr;
 
+	ItemDataTable::GetInstance()->Init();
 }
 
 bool GameInstance::IsPlayerInitialzed() const

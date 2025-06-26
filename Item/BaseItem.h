@@ -9,14 +9,14 @@ class BaseItem
 {
 public:
 	BaseItem()
-		: m_name(L"Unknown Item"), m_itemType(EItemType::None), m_description(L"Unknown Item"),
+		: m_itemId(10000), m_name(L"Unknown Item"), m_itemType(EItemType::None), m_description(L"Unknown Item"),
 		m_buyingPrice(0), m_sellingPrice(0), m_attack(0), m_defense(0), m_agility(0), m_count(0), m_maxCount(DEFAULT_ITEM_MAX_COUNT)
 	{	}
 
-	BaseItem(const wstring& name, EItemType itemType, const wstring& description,
+	BaseItem(const int32& id, const wstring& name, EItemType itemType, const wstring& description,
 		const int16& buyingPrice, const int16& sellingPrice,
 		const int16& attack = 0, const int16& defense = 0, const int16& agility = 0)
-		: m_name(name), m_itemType(itemType), m_description(description),
+		: m_itemId(id), m_name(name), m_itemType(itemType), m_description(description),
 		m_buyingPrice(buyingPrice), m_sellingPrice(sellingPrice),
 		m_attack(attack), m_defense(defense), m_agility(agility), m_count(0), m_maxCount(DEFAULT_ITEM_MAX_COUNT)
 	{	}
@@ -24,6 +24,7 @@ public:
 	virtual ~BaseItem() = default;
 
 private:
+	int32 m_itemId;
 	wstring m_name;
 	EItemType m_itemType;
 	wstring m_description;
@@ -71,6 +72,8 @@ public:
 
 	inline void SetMaxCount(const int16& maxCount) { m_maxCount = maxCount; }
 
+
+	inline const int32& GetItemID() const noexcept { return m_itemId; }
 	inline const wstring& GetName() const noexcept { return m_name; }
 	inline const EItemType& GetItemType() const noexcept { return m_itemType; }
 	inline const wstring& GetDescription() const noexcept { return m_description; }

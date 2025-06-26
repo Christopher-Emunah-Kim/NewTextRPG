@@ -2,8 +2,9 @@
 #include "BaseItem.h"
 #include "../Util/Type/EnumType.h"
 #include "../Util/OutputSystem.h"
+#include "../include/csv.h"
 
-using json = nlohmann::json;
+//using json = nlohmann::json;
 
 ItemDataTable::~ItemDataTable()
 {
@@ -12,7 +13,36 @@ ItemDataTable::~ItemDataTable()
 
 void ItemDataTable::Init()
 {
-	ifstream file("Data/ItemJsonData.json");
+	//CSV PARSING
+	io::CSVReader<CSV_COLUMN_NUM, io::trim_chars<>, io::no_quote_escape<','>> in("Data/ItemCSVData.csv");
+
+	in.read_header(io::ignore_extra_column, "id","name", "type", "description",
+		"buyingPrice", "sellingPrice", "itemAttack", "itemDefense", "itemAgility");
+
+	int32 itemId;
+	string nameStr, typeStr, descStr;
+	int16 buyingPrice, sellingPrice, itemAttack, itemDefense, itemAgility;
+
+	while (in.read_row(itemId, nameStr, typeStr, descStr, buyingPrice, sellingPrice, itemAttack, itemDefense, itemAgility))
+	{
+		wstring name(nameStr.begin(), nameStr.end());
+		wstring desc(descStr.begin(), descStr.end());
+
+		BaseItem* item = new BaseItem(
+			itemId,
+			name,
+			StringToItemType(typeStr),
+			desc,
+			buyingPrice, sellingPrice,
+			itemAttack, itemDefense, itemAgility
+		);
+
+		m_itemDataTable[name] = item;
+	}
+
+
+	//JSON PARSING
+	/*ifstream file("Data/ItemJsonData.json");
 
 	if (!file.is_open())
 	{
@@ -42,10 +72,10 @@ void ItemDataTable::Init()
 		);
 
 		m_itemDataTable[name] = item;
-	}
+	}*/
 
 
-
+	//ROW DATA
 	//// Weapon
 	//m_itemDataTable[L"철검"] = new BaseItem(L"철검", EItemType::Weapon,
 	//	L"기본적인 철제 검입니다.", 100, 50, 5, 0, 0);
@@ -116,6 +146,7 @@ EItemType ItemDataTable::StringToItemType(const string& itemType) const
 	OutputSystem::PrintErrorMsg(L"알 수 없는 아이템 타입: " + wstring(itemType.begin(), itemType.end()));
 	return EItemType::Material;
 }
+
 
 BaseItem* ItemDataTable::CreateItem(const wstring& itemName) const
 {

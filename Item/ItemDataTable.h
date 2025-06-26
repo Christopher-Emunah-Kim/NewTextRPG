@@ -7,6 +7,8 @@ class BaseItem;
 
 using ItemUMap = unordered_map<wstring, BaseItem*>;
 
+constexpr __int16 CSV_COLUMN_NUM = 8;
+
 class ItemDataTable final : public Singleton<ItemDataTable>
 {
 public:

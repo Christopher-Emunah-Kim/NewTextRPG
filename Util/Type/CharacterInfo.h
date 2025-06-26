@@ -7,13 +7,15 @@
 struct FCharacterInfo
 {
 	explicit FCharacterInfo(int16 level)
-		: name(L"Default Character"), level(level),	description(L"Default Character Description")
+		: name(L"Default Character"), characterLevel(level),description(L"Default Character Description")
 	{ }
 
 	wstring name;
-	int16 level;
+	int16 characterLevel;
 	wstring description;
 };
+
+
 
 struct FCombatCharacterInfo : public FCharacterInfo
 {
@@ -33,28 +35,16 @@ struct FCombatCharacterInfo : public FCharacterInfo
 };
 
 
-struct FPlayerInfo
+
+struct FPlayerInfo : public FCombatCharacterInfo
 {
 	explicit FPlayerInfo(int16 level)
+		: FCombatCharacterInfo(level)
 	{
-		FLevelProperties initialInfo = FPlayerDataTablePerLevel::LoadPlayerLevelData(level);
-
-		name = L"Default Player";
-		playerLevel = level;
-		health = initialInfo.maxHealthPerLevel;
-		maxHealth = initialInfo.maxHealthPerLevel;
-		status = Status::NewStatus(initialInfo.attackPerLevel, initialInfo.defensePerLevel, initialInfo.agilityPerLevel);
-		experience = Experience();
+		experience = Experience(0, FPlayerDataTablePerLevel::GetRequiredMaxExp(level));
 		gold = Gold();
 	}
 
-	wstring name;
-	int16 playerLevel;
-	int32 health;
-	int32 maxHealth;
-
-	Status status;
 	Experience experience;
 	Gold gold;
-
 };

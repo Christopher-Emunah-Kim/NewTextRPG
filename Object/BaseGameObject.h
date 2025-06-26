@@ -34,14 +34,9 @@ public:
 	void SetPosition(const int32& x, const int32& y) noexcept;
 
 	bool IsComponentsEmpty() const;
-	void UpdateLevel(BaseLevel* level);
+	void RegisterInLevelArea(BaseLevel* level);
 	void AddComponent(BaseComponent* component);
 	void RemoveComponent(BaseComponent* component);
-	
-	inline wstring		GetTag() const noexcept { return m_objectTag; }
-	inline BaseLevel* GetLevel() const noexcept { return m_levelArea; }
-	inline int32		GetX() const noexcept { return m_x; }
-	inline int32		GetY() const noexcept { return m_y; }
 
 	template<typename T>
 	bool HasComponentType() const
@@ -70,5 +65,11 @@ public:
 		}
 		return nullptr;
 	}
+
+	
+	inline wstring		GetTag() const noexcept { return m_objectTag; }
+	inline BaseLevel*	GetLevel() const noexcept { return m_levelArea; }
+	inline int32		GetX() const noexcept { return m_x; }
+	inline int32		GetY() const noexcept { return m_y; }
 };
 

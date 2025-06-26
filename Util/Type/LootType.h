@@ -6,7 +6,7 @@
 
 struct Experience
 {
-	explicit Experience()
+	explicit Experience(const int16& exp = 0, const int16& maxExp = 100)
 		: m_currentExp(0), m_levelMaxExp(DEFAULT_PLAYER_MAX_EXPERIENCE)
 	{ }
 

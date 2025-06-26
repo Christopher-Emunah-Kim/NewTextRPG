@@ -112,7 +112,7 @@ void BaseGameObject::SetLevel(BaseLevel* level)
 	m_levelArea = level;
 }
 
-void BaseGameObject::UpdateLevel(BaseLevel* level)
+void BaseGameObject::RegisterInLevelArea(BaseLevel* level)
 {
 	if (m_levelArea && m_levelArea != level)
 	{

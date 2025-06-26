@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "../Common.h"
+#include "../Util/Type/EnumType.h"
 #include "../Util/Singleton.h"
 
 class BaseItem;
@@ -18,7 +19,7 @@ private:
 public:
 	void Init();
 	void Release();
-	
+
 	bool HasItem(const wstring& itemName) const;
 	EItemType StringToItemType(const string& itemType) const;
 	BaseItem* CreateItem(const wstring& itemName) const;
@@ -26,5 +27,5 @@ public:
 
 	const BaseItem* GetItem(const wstring& itemName) const;
 	const ItemUMap& GetItemDataTable() const noexcept;
-}
 
+};

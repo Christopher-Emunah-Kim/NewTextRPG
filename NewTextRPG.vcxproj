@@ -138,6 +138,7 @@
     <ClCompile Include="Manager\LevelManager.cpp" />
     <ClCompile Include="NewTextRPG.cpp" />
     <ClCompile Include="Object\BaseGameObject.cpp" />
+    <ClCompile Include="Object\Character\BaseCharacter.cpp" />
     <ClCompile Include="Object\Player.cpp" />
     <ClCompile Include="Component\UI\MeshUIComp.cpp" />
     <ClCompile Include="Object\UI\HUDUI.cpp" />
@@ -165,6 +166,7 @@
     <ClInclude Include="Level\TitleLevel.h" />
     <ClInclude Include="Manager\LevelManager.h" />
     <ClInclude Include="Object\BaseGameObject.h" />
+    <ClInclude Include="Object\Character\BaseCharacter.h" />
     <ClInclude Include="Object\Player.h" />
     <ClInclude Include="Object\UI\HUDUI.h" />
     <ClInclude Include="Screen.h" />
@@ -173,7 +175,7 @@
     <ClInclude Include="Util\OutputSystem.h" />
     <ClInclude Include="Util\Type\EnumType.h" />
     <ClInclude Include="Util\Type\LootType.h" />
-    <ClInclude Include="Util\Type\PlayerInfo.h" />
+    <ClInclude Include="Util\Type\CharacterInfo.h" />
     <ClInclude Include="Util\Type\StatusType.h" />
     <ClInclude Include="Util\Timer.h" />
   </ItemGroup>

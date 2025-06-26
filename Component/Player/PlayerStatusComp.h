@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include "../BaseComponent.h"
-#include "../../Util/Type/PlayerInfo.h"
+#include "../../Util/Type/CharacterInfo.h"
 
 
 class PlayerStatusComp final : public BaseComponent

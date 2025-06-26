@@ -78,6 +78,9 @@
     <ClCompile Include="Component\Player\InventoryComp.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Object\Character\BaseCharacter.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\IBehavior.h">
@@ -155,7 +158,7 @@
     <ClInclude Include="Component\Player\PlayerStatusComp.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Util\Type\PlayerInfo.h">
+    <ClInclude Include="Util\Type\CharacterInfo.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Item\BaseItem.h">
@@ -165,6 +168,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Component\Player\InventoryComp.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\Character\BaseCharacter.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

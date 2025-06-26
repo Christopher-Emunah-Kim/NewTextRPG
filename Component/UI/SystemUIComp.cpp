@@ -75,7 +75,7 @@ void SystemUIComp::RenderSystemText(Screen* screen)
 
 	for (size_t i = 0; i < tempTexts.size(); ++i)
 	{
-		screen->Draw(GAME_PANEL_START_X + 1, outputY, tempTexts[i - 1]);
+		screen->Draw(GAME_PANEL_START_X + 1, outputY, tempTexts[i]);
 		++outputY;
 	}
 
@@ -148,7 +148,7 @@ void SystemUIComp::RenderPlayerInfo(Screen* screen)
 	if (InputSystem::IsAcceptingTextInput())
 	{
 		//TODO 입력버퍼 위치조정
-		screen->Draw(7, SCREEN_HEIGHT - COMMAND_BLOCK_HEIGHT + 1, InputSystem::GetInputBuffer());
+		screen->Draw(9, SCREEN_HEIGHT - COMMAND_BLOCK_HEIGHT + 1, InputSystem::GetInputBuffer());
 	}
 
 	screen->Draw(SCREEN_WIDTH - 2, SCREEN_HEIGHT - COMMAND_BLOCK_HEIGHT + 1, L"│");

@@ -34,11 +34,6 @@ void HUDUI::Init()
 
 	BaseGameObject::Init();
 
-	SetSystemText(L"=== 예시로 시스템 메시지가 여기에 표시됩니다 0.");
-	SetSystemText(L"=== 예시로 시스템 메시지가 여기에 표시됩니다 1.");
-	SetSystemText(L"=== 예시로 시스템 메시지가 여기에 표시됩니다 2.");
-	SetSystemText(L"=== 예시로 시스템 메시지가 여기에 표시됩니다 3.");
-
 }
 
 void HUDUI::UpdatePlayerInfoDialog(const Player& player)

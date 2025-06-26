@@ -49,6 +49,12 @@ void InputSystem::Update()
 		StartTextInput();
 		return;
 	}
+	else if (m_bIsTextInputMode && m_currentKeyStates[(uint8)EKeyCode::RETURN] == true && m_previousKeyStates[(uint8)EKeyCode::RETURN] == false)
+	{
+		m_bIsTextInputMode = false;
+		StopTextInput();
+		return;
+	}
 
 	if (false == m_bIsTextInputMode)
 	{
@@ -174,6 +180,7 @@ void InputSystem::ProcessTextInput()
 				m_command = m_inputBuffer;
 				m_inputBuffer.clear();
 				m_bIsTextInputMode = false;
+				//m_bIsAcceptingTextInput = false;
 			}
 		}
 		else if (wch == L'\b') //BaseSpace

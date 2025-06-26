@@ -173,8 +173,12 @@
     <ClInclude Include="Object\Character\BaseCharacter.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="include\CSVparser.hpp">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Data\ItemJsonData.json" />
+    <None Include="Data\ItemCSVData.csv" />
   </ItemGroup>
 </Project>

@@ -1,7 +1,7 @@
 ﻿#include "BaseCharacter.h"
 
 BaseCharacter::BaseCharacter(BaseLevel*, const wstring& tag)
-	: BaseGameObject(nullptr, tag)
+	: BaseGameObject(nullptr, tag), m_name(L"Default Character"), m_description(L"description.."), m_characterLevel(1)
 {
 }
 

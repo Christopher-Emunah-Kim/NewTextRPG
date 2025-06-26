@@ -159,6 +159,7 @@
     <ClInclude Include="Core\IBehavior.h" />
     <ClInclude Include="Data\PlayerDataTablePerLevel.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="include\CSVparser.hpp" />
     <ClInclude Include="Item\BaseItem.h" />
     <ClInclude Include="Item\ItemDataTable.h" />
     <ClInclude Include="Level\BaseLevel.h" />
@@ -180,6 +181,7 @@
     <ClInclude Include="Util\Timer.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Data\ItemCSVData.csv" />
     <None Include="Data\ItemJsonData.json" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -4,11 +4,11 @@
 #include "../Util/OutputSystem.h"
 
 BaseGameObject::BaseGameObject(BaseLevel* level, const wstring& tag)
-	: m_level{level}, m_objectTag(tag), m_x(0), m_y(0)
+	: m_levelArea{level}, m_objectTag(tag), m_x(0), m_y(0)
 {
-	if (m_level)
+	if (m_levelArea)
 	{
-		m_level->AddObject(this);
+		m_levelArea->AddObject(this);
 	}
 	else
 	{
@@ -109,21 +109,21 @@ void BaseGameObject::SetPosition(const int32& x, const int32& y) noexcept
 
 void BaseGameObject::SetLevel(BaseLevel* level)
 {
-	m_level = level;
+	m_levelArea = level;
 }
 
 void BaseGameObject::UpdateLevel(BaseLevel* level)
 {
-	if (m_level && m_level != level)
+	if (m_levelArea && m_levelArea != level)
 	{
-		m_level->DetachObject(this);
+		m_levelArea->DetachObject(this);
 	}
 
-	m_level = level;
+	m_levelArea = level;
 
-	if (m_level)
+	if (m_levelArea)
 	{
-		m_level->AddObject(this);
+		m_levelArea->AddObject(this);
 	}
 }
 

@@ -4,6 +4,7 @@
 #include "../Util/Type/LootType.h"
 #include "../Core/IBehavior.h"
 
+
 class BaseComponent;
 class BaseLevel;
 
@@ -13,10 +14,10 @@ public:
 	BaseGameObject(BaseLevel* level, const wstring& tag);
 	virtual ~BaseGameObject();
 
-private:
+protected:
 	int32 m_x;
 	int32 m_y;
-	BaseLevel* m_level = nullptr;
+	BaseLevel* m_levelArea = nullptr;
 	wstring m_objectTag = L" ";
 	vector<BaseComponent*> m_components;
 
@@ -38,7 +39,7 @@ public:
 	void RemoveComponent(BaseComponent* component);
 	
 	inline wstring		GetTag() const noexcept { return m_objectTag; }
-	inline BaseLevel* GetLevel() const noexcept { return m_level; }
+	inline BaseLevel* GetLevel() const noexcept { return m_levelArea; }
 	inline int32		GetX() const noexcept { return m_x; }
 	inline int32		GetY() const noexcept { return m_y; }
 

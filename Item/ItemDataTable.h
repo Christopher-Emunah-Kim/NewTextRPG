@@ -25,6 +25,7 @@ public:
 	bool HasItem(const wstring& itemName) const;
 	EItemType StringToItemType(const string& itemType) const;
 	BaseItem* CreateItem(const wstring& itemName) const;
+	void  ProcessCSVParsing();
 
 
 	const BaseItem* GetItem(const wstring& itemName) const;

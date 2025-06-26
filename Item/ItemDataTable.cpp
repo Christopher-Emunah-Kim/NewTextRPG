@@ -18,61 +18,7 @@ ItemDataTable::~ItemDataTable()
 void ItemDataTable::Init()
 {
 	//CSV PARSING
-	ifstream file("Data/ItemCSVData.csv");
-	if (!file.is_open()) 
-	{
-		OutputSystem::PrintErrorMsg(L"CSV 파일을 열 수 없습니다: Data/ItemCSVData.csv");
-		return;
-	}
-
-	CsvParser parser(file);
-	bool headerSkipped = false;
-
-	int32 itemId;
-	string nameStr, typeStr, descStr;
-	int16 buyingPrice, sellingPrice, itemAttack, itemDefense, itemAgility;
-
-	for (CsvParser::iterator it = parser.begin(); it != parser.end(); ++it)
-	{
-		const vector<string>& row = *it;
-		if (headerSkipped == false)
-		{
-			headerSkipped = true;
-			continue;
-		}
-		if (row.size() < CSV_COLUMN_NUM) 
-		{
-			OutputSystem::PrintErrorMsg(L"잘못된 열 수를 가진 CSV 행 발견, 건너뜁니다.");
-			continue;
-		}
-
-		itemId = (int32)stoi(row[0]);
-		nameStr = row[1];
-		typeStr = row[2];
-		descStr = row[3];
-		buyingPrice = (int16)stoi(row[4]);
-		sellingPrice = (int16)stoi(row[5]);
-		itemAttack = (int16)stoi(row[6]);
-		itemDefense = (int16)stoi(row[7]);
-		itemAgility = (int16)stoi(row[8]);
-
-
-		wstring name(nameStr.begin(), nameStr.end());
-		wstring desc(descStr.begin(), descStr.end());
-
-		BaseItem* item = new BaseItem(
-			itemId,
-			name,
-			StringToItemType(typeStr),
-			desc,
-			buyingPrice, sellingPrice,
-			itemAttack, itemDefense, itemAgility
-		);
-
-
-		m_itemDataTable[name] = item;
-	}
-
+	ProcessCSVParsing();
 
 	//JSON PARSING
 	/*ifstream file("Data/ItemJsonData.json");
@@ -131,6 +77,64 @@ void ItemDataTable::Init()
 	//m_itemDataTable[L"고블린 뼈"] = new BaseItem(L"고블린 뼈", EItemType::Material,
 	//	L"고블린에게서 얻을 수 있는 뼈입니다.", 5, 2, 0, 0, 0);
 
+}
+
+void ItemDataTable::ProcessCSVParsing()
+{
+	ifstream file("Data/ItemCSVData.csv");
+	if (!file.is_open())
+	{
+		OutputSystem::PrintErrorMsg(L"CSV 파일을 열 수 없습니다: Data/ItemCSVData.csv");
+		return;
+	}
+
+	CsvParser parser(file);
+	bool headerSkipped = false;
+
+	int32 itemId;
+	string nameStr, typeStr, descStr;
+	int16 buyingPrice, sellingPrice, itemAttack, itemDefense, itemAgility;
+
+	for (CsvParser::iterator it = parser.begin(); it != parser.end(); ++it)
+	{
+		const vector<string>& row = *it;
+		if (headerSkipped == false)
+		{
+			headerSkipped = true;
+			continue;
+		}
+		if (row.size() < CSV_COLUMN_NUM)
+		{
+			OutputSystem::PrintErrorMsg(L"잘못된 열 수를 가진 CSV 행 발견, 건너뜁니다.");
+			continue;
+		}
+
+		itemId = (int32)stoi(row[0]);
+		nameStr = row[1];
+		typeStr = row[2];
+		descStr = row[3];
+		buyingPrice = (int16)stoi(row[4]);
+		sellingPrice = (int16)stoi(row[5]);
+		itemAttack = (int16)stoi(row[6]);
+		itemDefense = (int16)stoi(row[7]);
+		itemAgility = (int16)stoi(row[8]);
+
+
+		wstring name(nameStr.begin(), nameStr.end());
+		wstring desc(descStr.begin(), descStr.end());
+
+		BaseItem* item = new BaseItem(
+			itemId,
+			name,
+			StringToItemType(typeStr),
+			desc,
+			buyingPrice, sellingPrice,
+			itemAttack, itemDefense, itemAgility
+		);
+
+
+		m_itemDataTable[name] = item;
+	}
 }
 
 void ItemDataTable::Release()

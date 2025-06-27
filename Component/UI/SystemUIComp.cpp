@@ -113,7 +113,7 @@ void SystemUIComp::RenderPlayerInfo(Screen* screen)
 	++y;
 	screen->Draw(LEFT_MARGIN, ++y, L"아이디 : " + m_playerInfo.name);
 	++y;
-	screen->Draw(LEFT_MARGIN, ++y, L"레벨 : " + to_wstring(m_playerInfo.playerLevel));
+	screen->Draw(LEFT_MARGIN, ++y, L"레벨 : " + to_wstring(m_playerInfo.characterLevel));
 	++y;
 	screen->Draw(LEFT_MARGIN - 2, ++y, L"───────────────────────────────");
 	++y;

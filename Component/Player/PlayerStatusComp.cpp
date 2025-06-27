@@ -10,11 +10,11 @@ PlayerStatusComp::PlayerStatusComp(BaseGameObject* owner)
 
 bool PlayerStatusComp::GainExperience(const int32& exp)
 {
-	int16 levelUpCount = m_playerInfo.experience.AddExperience(exp, m_playerInfo.playerLevel);
+	int16 levelUpCount = m_playerInfo.experience.AddExperience(exp, m_playerInfo.characterLevel);
 
 	if (levelUpCount > 0)
 	{
-		m_playerInfo.playerLevel += levelUpCount;
+		m_playerInfo.characterLevel += levelUpCount;
 		LoadStatusByLevel();
 		return true;
 	}
@@ -24,7 +24,7 @@ bool PlayerStatusComp::GainExperience(const int32& exp)
 
 void PlayerStatusComp::LoadStatusByLevel()
 {
-	FLevelProperties levelProps = FPlayerDataTablePerLevel::LoadPlayerLevelData(m_playerInfo.playerLevel);
+	FLevelProperties levelProps = FPlayerDataTablePerLevel::LoadPlayerLevelData(m_playerInfo.characterLevel);
 
 	m_playerInfo.maxHealth = levelProps.maxHealthPerLevel;
 	

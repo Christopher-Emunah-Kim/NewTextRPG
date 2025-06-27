@@ -116,7 +116,7 @@ bool Player::EquipWeapon(const wstring& itemId)
 	EquipmentComp* equipComp = GetComponentsByType<EquipmentComp>();
 	if (equipComp)
 	{
-		
+		return equipComp->EquipItem(itemId, EItemType::Weapon);
 	}
 
 	return false;
@@ -124,10 +124,22 @@ bool Player::EquipWeapon(const wstring& itemId)
 
 bool Player::EquipArmor(const wstring& itemId)
 {
+	EquipmentComp* equipComp = GetComponentsByType<EquipmentComp>();
+	if (equipComp)
+	{
+		return equipComp->EquipItem(itemId, EItemType::Armor);
+	}
+
 	return false;
 }
 
 bool Player::AddItemToInventory(const wstring& itemId)
 {
+	InventoryComp* inventoryComp = GetComponentsByType<InventoryComp>();
+	if (inventoryComp)
+	{
+		return inventoryComp->AddItem(itemId);
+	}
 	return false;
+
 }

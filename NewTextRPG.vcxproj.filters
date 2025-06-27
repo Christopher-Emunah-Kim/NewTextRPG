@@ -99,6 +99,9 @@
     <ClCompile Include="Component\Monster\MonsterAIComp.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Component\Player\EquipmentComp.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\IBehavior.h">
@@ -210,6 +213,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Component\Monster\MonsterAIComp.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Component\Player\EquipmentComp.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

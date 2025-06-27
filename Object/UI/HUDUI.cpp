@@ -80,7 +80,7 @@ void HUDUI::RegisterInNewLevel(BaseLevel* newLevel)
 			GetLevel()->DetachObject(this);
 		}
 
-		SetLevel(newLevel);
+		SetLevelArea(newLevel);
 		
 		if (newLevel)
 		{

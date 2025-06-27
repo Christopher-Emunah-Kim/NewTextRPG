@@ -129,6 +129,7 @@
     <ClCompile Include="Component\ControllerComp.cpp" />
     <ClCompile Include="Component\Monster\MonsterAIComp.cpp" />
     <ClCompile Include="Component\Monster\MonsterStatusComp.cpp" />
+    <ClCompile Include="Component\Player\EquipmentComp.cpp" />
     <ClCompile Include="Component\Player\InventoryComp.cpp" />
     <ClCompile Include="Component\Player\PlayerStatusComp.cpp" />
     <ClCompile Include="Component\UI\SystemUIComp.cpp" />
@@ -160,6 +161,7 @@
     <ClInclude Include="Component\ControllerComp.h" />
     <ClInclude Include="Component\Monster\MonsterAIComp.h" />
     <ClInclude Include="Component\Monster\MonsterStatusComp.h" />
+    <ClInclude Include="Component\Player\EquipmentComp.h" />
     <ClInclude Include="Component\Player\InventoryComp.h" />
     <ClInclude Include="Component\Player\PlayerStatusComp.h" />
     <ClInclude Include="Component\UI\MeshUIComp.h" />

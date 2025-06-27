@@ -25,7 +25,7 @@ void BaseCharacter::SetDescription(const wstring& description)
 	m_characterInfo.description = description;
 }
 
-void BaseCharacter::SetLevel(int16 level)
+void BaseCharacter::SetCharacterLevel(int16 level)
 {
 	m_characterInfo.characterLevel = level;
 }

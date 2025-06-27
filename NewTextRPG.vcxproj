@@ -125,6 +125,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Component\BaseComponent.cpp" />
+    <ClCompile Include="Component\BattleComponent.cpp" />
     <ClCompile Include="Component\ControllerComp.cpp" />
     <ClCompile Include="Component\Player\InventoryComp.cpp" />
     <ClCompile Include="Component\Player\PlayerStatusComp.cpp" />
@@ -139,7 +140,8 @@
     <ClCompile Include="NewTextRPG.cpp" />
     <ClCompile Include="Object\BaseGameObject.cpp" />
     <ClCompile Include="Object\Character\BaseCharacter.cpp" />
-    <ClCompile Include="Object\Player.cpp" />
+    <ClCompile Include="Object\Character\BattleCharacter.cpp" />
+    <ClCompile Include="Object\Character\Player.cpp" />
     <ClCompile Include="Component\UI\MeshUIComp.cpp" />
     <ClCompile Include="Object\UI\HUDUI.cpp" />
     <ClCompile Include="Screen.cpp" />
@@ -150,6 +152,7 @@
   <ItemGroup>
     <ClInclude Include="Common.h" />
     <ClInclude Include="Component\BaseComponent.h" />
+    <ClInclude Include="Component\BattleComponent.h" />
     <ClInclude Include="Component\ControllerComp.h" />
     <ClInclude Include="Component\Player\InventoryComp.h" />
     <ClInclude Include="Component\Player\PlayerStatusComp.h" />
@@ -168,7 +171,8 @@
     <ClInclude Include="Manager\LevelManager.h" />
     <ClInclude Include="Object\BaseGameObject.h" />
     <ClInclude Include="Object\Character\BaseCharacter.h" />
-    <ClInclude Include="Object\Player.h" />
+    <ClInclude Include="Object\Character\BattleCharacter.h" />
+    <ClInclude Include="Object\Character\Player.h" />
     <ClInclude Include="Object\UI\HUDUI.h" />
     <ClInclude Include="Screen.h" />
     <ClInclude Include="Util\InputAction.h" />

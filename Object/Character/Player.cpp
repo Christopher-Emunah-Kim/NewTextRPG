@@ -1,9 +1,9 @@
 ﻿#include "Player.h"
-#include "../Screen.h"
-#include "../Component/ControllerComp.h"
-#include "../Component/UI/MeshUIComp.h"
-#include "../Level/BaseLevel.h"
-#include "../Component/Player/PlayerStatusComp.h"
+#include "../../Screen.h"
+#include "../../Component/ControllerComp.h"
+#include "../../Component/UI/MeshUIComp.h"
+#include "../../Level/BaseLevel.h"
+#include "../../Component/Player/PlayerStatusComp.h"
 
 
 

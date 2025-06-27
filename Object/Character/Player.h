@@ -1,5 +1,5 @@
 ﻿#pragma once  
-#include "BaseGameObject.h"  
+#include "../BaseGameObject.h"  
 
 class Player final : public BaseGameObject  
 {  

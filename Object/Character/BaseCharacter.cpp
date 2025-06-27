@@ -1,8 +1,9 @@
 ﻿#include "BaseCharacter.h"
 
 BaseCharacter::BaseCharacter(BaseLevel*, const wstring& tag)
-	: BaseGameObject(nullptr, tag), m_name(L"Default Character"), m_description(L"description.."), m_characterLevel(1)
+	: BaseGameObject(nullptr, tag), m_characterInfo(DEFAULT_LEVEL)
 {
+	m_characterInfo.name = tag;
 }
 
 BaseCharacter::~BaseCharacter()
@@ -11,17 +12,20 @@ BaseCharacter::~BaseCharacter()
 
 void BaseCharacter::Init()
 {
-
+	BaseGameObject::Init();
 }
 
 void BaseCharacter::SetName(const wstring& name)
 {
+	m_characterInfo.name = name;
 }
 
-void BaseCharacter::SetDescription(const wstring& desc)
+void BaseCharacter::SetDescription(const wstring& description)
 {
+	m_characterInfo.description = description;
 }
 
 void BaseCharacter::SetLevel(int16 level)
 {
+	m_characterInfo.characterLevel = level;
 }

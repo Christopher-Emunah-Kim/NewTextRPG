@@ -1,16 +1,29 @@
 ﻿#pragma once  
-#include "../BaseGameObject.h"  
+#include "BattleCharacter.h"  
+#include "../../Util/Type/CharacterInfo.h"
 
-class Player final : public BaseGameObject  
+class Player final : public BattleCharacter  
 {  
 public:  
-	using BaseGameObject::BaseGameObject;  
 
-	Player() : BaseGameObject(nullptr, L"Player") { }
+	Player(BaseLevel* level, const wstring& tag);
+	virtual ~Player();
 
+private:
+	FPlayerInfo m_playerInfo;
 
 	virtual void Init() override;  
 
 	void RegisterNewLevelArea(BaseLevel* level);
 
+	void LevelUp();
+	bool GainExperience(int32 exp);
+	bool GainGold(int16 amount);
+	bool UseGold(int16 amount);
+
+	bool EquipWeapon(const wstring& itemId);
+	bool EquipArmor(const wstring& itemId);
+	bool AddItemToInventory(const wstring& itemId);
+
+	const FPlayerInfo& GetPlayerInfo() const { return m_playerInfo; }
 };

@@ -19,7 +19,7 @@ public:
 
 	void SetName(const wstring& name);
 	void SetDescription(const wstring& desc);
-	void SetLevel(int16 level);
+	void SetCharacterLevel(int16 level);
 
 	inline wstring GetName() const noexcept { return m_characterInfo.name; }
 	inline wstring GetDescription() const noexcept { return m_characterInfo.description; }

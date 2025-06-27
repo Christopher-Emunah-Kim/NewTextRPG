@@ -107,7 +107,7 @@ void BaseGameObject::SetPosition(const int32& x, const int32& y) noexcept
 	m_y = y;
 }
 
-void BaseGameObject::SetLevel(BaseLevel* level)
+void BaseGameObject::SetLevelArea(BaseLevel* level)
 {
 	m_levelArea = level;
 }

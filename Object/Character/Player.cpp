@@ -1,15 +1,28 @@
 ﻿#include "Player.h"
 #include "../../Screen.h"
+#include "../../Core/GameInstance.h"
 #include "../../Component/ControllerComp.h"
 #include "../../Component/UI/MeshUIComp.h"
 #include "../../Level/BaseLevel.h"
+#include "../../Component/Player/EquipmentComp.h"
 #include "../../Component/Player/PlayerStatusComp.h"
+#include "../../Component/Player/InventoryComp.h"
 
 
+
+Player::Player(BaseLevel* level, const wstring& tag)
+	:BattleCharacter(level, tag), m_playerInfo(DEFAULT_LEVEL)
+{
+}
+
+Player::~Player()
+{
+}
 
 void Player::Init()
 {
 	SetPosition(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+
 
 	if (false == HasComponentType<ControllerComp>())
 	{
@@ -23,8 +36,16 @@ void Player::Init()
 	{
 		AddComponent(new PlayerStatusComp(this));
 	}
+	if (false == HasComponentType<EquipmentComp>())
+	{
+		AddComponent(new EquipmentComp(this));
+	}
+	if (false == HasComponentType<InventoryComp>())
+	{
+		AddComponent(new InventoryComp(this));
+	}
 
-	BaseGameObject::Init();
+	BattleCharacter::Init();
 }
 
 void Player::RegisterNewLevelArea(BaseLevel* level)
@@ -41,7 +62,7 @@ void Player::RegisterNewLevelArea(BaseLevel* level)
 			GetLevel()->DetachObject(this);
 		}
 
-		SetLevel(level);
+		SetLevelArea(level);
 
 		if (IsComponentsEmpty())
 		{
@@ -53,4 +74,60 @@ void Player::RegisterNewLevelArea(BaseLevel* level)
 			level->AddObject(this);
 		}
 	}
+}
+
+void Player::LevelUp()
+{
+	++m_playerInfo.characterLevel;
+	PlayerStatusComp* statusComp = GetComponentsByType<PlayerStatusComp>();
+	if (statusComp)
+	{
+		statusComp->LoadStatusByLevel();
+		GameInstance::GetInstance()->DisplaySystemText(L"레벨업! 현재 레벨: " + to_wstring(m_playerInfo.characterLevel));
+	}
+}
+
+bool Player::GainExperience(int32 exp)
+{
+	PlayerStatusComp* statusComp = GetComponentsByType<PlayerStatusComp>();
+	if (statusComp)
+	{
+		return statusComp->GainExperience(exp);
+	}
+
+	return false;
+}
+
+bool Player::GainGold(int16 amount)
+{
+	m_playerInfo.gold.GainGold(amount);
+	GameInstance::GetInstance()->DisplaySystemText(to_wstring(amount) + L"골드를 획득했습니다. 현재 보유 골드 : " + to_wstring(m_playerInfo.gold.GetAmount()));
+
+	return true;
+}
+
+bool Player::UseGold(int16 amount)
+{
+	return m_playerInfo.gold.UseGold(amount);
+}
+
+bool Player::EquipWeapon(const wstring& itemId)
+{
+	EquipmentComp* equipComp = GetComponentsByType<EquipmentComp>();
+	if (equipComp)
+	{
+		
+	}
+
+	return false;
+}
+
+bool Player::EquipArmor(const wstring& itemId)
+{
+	return false;
+}
+
+bool Player::AddItemToInventory(const wstring& itemId)
+{
+	return false;
 }

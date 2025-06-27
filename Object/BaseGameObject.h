@@ -29,7 +29,7 @@ public:
 
 	vector<BaseComponent*>& GetComponents();
 
-	void SetLevel(BaseLevel* level);
+	void SetLevelArea(BaseLevel* level);
 	void SetTag(const wstring& tag) noexcept;
 	void SetPosition(const int32& x, const int32& y) noexcept;
 

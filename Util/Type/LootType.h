@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "../../Common.h"
 #include "../../Data/PlayerDataTablePerLevel.h"
+#include "Player.h"
 
 
 

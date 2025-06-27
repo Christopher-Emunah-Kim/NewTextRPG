@@ -13,7 +13,9 @@ private:
 
 public:
 	virtual void Init() override;
+
 	void DropRewards();
+
 
 
 	inline void SetDropGoldAmount(const int16& amount) { m_monsterInfo.dropGold = amount; }

@@ -23,9 +23,11 @@ public:
 
 	int32 CalculateDamage(BattleCharacter* target) const;
 
+
 	void SetHealth(const int32& health);
 	void SetMaxHealth(const int32& maxHealth);
 	void SetStatus(const Status& status);
+
 
 	int32 GetHealth() const noexcept { return m_battleCharacterInfo.health; }
 	int32 GetMaxHealth() const noexcept { return m_battleCharacterInfo.maxHealth; }

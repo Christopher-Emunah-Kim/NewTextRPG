@@ -1,7 +1,7 @@
-﻿#include "BattleComponent.h"
+﻿#include "BattleComp.h"
 #include "../Util/OutputSystem.h"
 
-BattleComponent::BattleComponent(BaseGameObject* owner, int32 order)
+BattleComp::BattleComp(BaseGameObject* owner, int32 order)
 	: BaseComponent(owner, order), m_currentTarget(nullptr), m_bIsBattleActive(false), m_bIsPlayerTurn(false)
 {
 	m_owner = dynamic_cast<BattleCharacter*>(owner);
@@ -11,11 +11,11 @@ BattleComponent::BattleComponent(BaseGameObject* owner, int32 order)
 	}
 }
 
-BattleComponent::~BattleComponent()
+BattleComp::~BattleComp()
 {
 }
 
-void BattleComponent::InitiateBattle(BattleCharacter* target)
+void BattleComp::InitiateBattle(BattleCharacter* target)
 {
 	if (target == nullptr || m_owner == nullptr)
 	{
@@ -32,7 +32,7 @@ void BattleComponent::InitiateBattle(BattleCharacter* target)
 	ProcessBattleTurn();
 }
 
-void BattleComponent::EndBattle()
+void BattleComp::EndBattle()
 {
 	if (false == m_bIsBattleActive)
 	{
@@ -47,7 +47,7 @@ void BattleComponent::EndBattle()
 	GameInstance::GetInstance()->DisplaySystemText(L"전투가 종료되었습니다.");
 }
 
-void BattleComponent::ProcessBattleTurn()
+void BattleComp::ProcessBattleTurn()
 {
 	if (false == m_bIsBattleActive || nullptr == m_currentTarget || nullptr == m_owner)
 	{
@@ -78,7 +78,7 @@ void BattleComponent::ProcessBattleTurn()
 	}
 }
 
-bool BattleComponent::DetermineFirstAttacker()
+bool BattleComp::DetermineFirstAttacker()
 {
 	if (nullptr == m_currentTarget || nullptr == m_owner)
 	{
@@ -102,7 +102,7 @@ bool BattleComponent::DetermineFirstAttacker()
 	return true;
 }
 
-void BattleComponent::ExecuteAttack()
+void BattleComp::ExecuteAttack()
 {
 	if (nullptr == m_currentTarget || nullptr == m_owner)
 	{
@@ -119,7 +119,7 @@ void BattleComponent::ExecuteAttack()
 	}
 }
 
-bool BattleComponent::CheckBattleEnd()
+bool BattleComp::CheckBattleEnd()
 {
 	if (nullptr == m_currentTarget || nullptr == m_owner)
 	{
@@ -141,7 +141,7 @@ bool BattleComponent::CheckBattleEnd()
 	return false;
 }
 
-void BattleComponent::HandleBattleRewards()
+void BattleComp::HandleBattleRewards()
 {
 	if (nullptr == m_currentTarget || nullptr == m_owner)
 	{

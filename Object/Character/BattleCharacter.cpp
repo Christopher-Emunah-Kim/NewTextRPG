@@ -1,6 +1,6 @@
 ﻿#include "BattleCharacter.h"
 #include "../../Core/GameInstance.h"
-#include "../../Component/BattleComponent.h"
+#include "../../Component/BattleComp.h"
 
 
 BattleCharacter::BattleCharacter(BaseLevel* level, const wstring& tag)
@@ -16,9 +16,9 @@ void BattleCharacter::Init()
 {
 	BaseCharacter::Init();
 
-	if (!HasComponentType<BattleComponent>())
+	if (!HasComponentType<BattleComp>())
 	{
-		AddComponent(new BattleComponent(this));
+		AddComponent(new BattleComp(this));
 	}
 }
 
@@ -27,7 +27,7 @@ void BattleCharacter::Interact(BaseCharacter* other)
 	BattleCharacter* battleTarget = dynamic_cast<BattleCharacter*>(other);
 	if (battleTarget && IsAlive() && battleTarget->IsAlive())
 	{
-		BattleComponent* battleComp = GetComponentsByType<BattleComponent>();
+		BattleComp* battleComp = GetComponentsByType<BattleComp>();
 		if (battleComp)
 		{
 			battleComp->InitiateBattle(battleTarget);

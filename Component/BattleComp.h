@@ -3,11 +3,11 @@
 #include "../Object/Character/BattleCharacter.h"
 
 
-class BattleComponent final : public BaseComponent
+class BattleComp final : public BaseComponent
 {
 public:
-	BattleComponent(BaseGameObject* owner, int32 order = 0);
-	virtual ~BattleComponent();
+	BattleComp(BaseGameObject* owner, int32 order = 0);
+	virtual ~BattleComp();
 
 private:
 	BattleCharacter* m_owner;

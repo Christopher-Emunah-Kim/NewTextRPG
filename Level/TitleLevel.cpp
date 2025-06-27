@@ -9,16 +9,16 @@
 void TitleLevel::Init()
 {
 	GameInstance* gameInstance = GameInstance::GetInstance();
-	Player& player = gameInstance->GetPlayer();
+	Player* player = gameInstance->GetPlayer();
 
-	player.RegisterNewLevelArea(this);
+	player->RegisterNewLevelArea(this);
 
 	if (false == gameInstance->IsPlayerInitialzed())
 	{
 		gameInstance->SetPlayerInitialize(true);
 	}
 
-	m_player = &player;
+	m_player = player;
 	m_player->SetPosition(GAME_PANEL_START_X + (SCREEN_WIDTH - GAME_PANEL_START_X) / 2, SCREEN_HEIGHT / 2);
 
 

@@ -4,7 +4,7 @@
 
 constexpr __int32 DEFAULT_DAMAGE = 3;
 
-class BattleCharacter  abstract : public BaseCharacter
+class BattleCharacter abstract : public BaseCharacter
 {
 public:
 	BattleCharacter(BaseLevel* level, const wstring& tag);

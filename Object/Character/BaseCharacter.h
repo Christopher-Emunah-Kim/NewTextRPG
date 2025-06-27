@@ -14,7 +14,7 @@ protected:
 public:
 	virtual void Init() override;
 
-	virtual void Interact(BaseCharacter* other) {};
+	virtual void Interact(BaseCharacter* other) = 0;
 
 
 	void SetName(const wstring& name);

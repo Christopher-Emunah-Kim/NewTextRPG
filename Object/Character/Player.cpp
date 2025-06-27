@@ -10,14 +10,11 @@
 
 
 
-Player::Player(BaseLevel* level, const wstring& tag)
-	:BattleCharacter(level, tag), m_playerInfo(DEFAULT_LEVEL)
+Player::Player()
+	:BattleCharacter(nullptr, L"Player"), m_playerInfo(DEFAULT_LEVEL)
 {
 }
 
-Player::~Player()
-{
-}
 
 void Player::Init()
 {

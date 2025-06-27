@@ -1,9 +1,8 @@
 ﻿#pragma once
 #include "../../Common.h"
 #include "../../Data/PlayerDataTablePerLevel.h"
-#include "../../Object/Character/Player.h"
 
-
+class Player;
 
 struct Experience
 {

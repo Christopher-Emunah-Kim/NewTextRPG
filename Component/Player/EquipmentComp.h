@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "../BaseComponent.h"
+#include "../../Util/Type/EnumType.h"
 
 class EquipmentComp final : public BaseComponent
 {

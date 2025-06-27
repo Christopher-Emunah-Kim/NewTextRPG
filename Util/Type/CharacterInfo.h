@@ -4,6 +4,10 @@
 #include "StatusType.h"
 #include "LootType.h"
 
+struct Experience;
+struct Gold;
+
+
 struct FCharacterInfo
 {
 	explicit FCharacterInfo(int16 level)

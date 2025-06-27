@@ -4,7 +4,7 @@
 #include "../Level/TestLevel.h"
 #include "../Level/TitleLevel.h"
 #include "../Util/OutputSystem.h"
-#include "../Object/Player.h"
+#include "../Object/Character/Player.h"
 #include "../Screen.h"
 #include "../Object/UI/HUDUI.h"
 
@@ -85,10 +85,10 @@ void LevelManager::ChangeLevel()
 {
 	if (m_nextLevel)
 	{
-		Player& player = GameInstance::GetInstance()->GetPlayer();
+		Player* player = GameInstance::GetInstance()->GetPlayer();
 		BaseGameObject* currentPlayerObject = m_currentLevel->FindObject(L"Player");
 
-		if (currentPlayerObject && currentPlayerObject == &player)
+		if (currentPlayerObject && currentPlayerObject == player)
 		{
 			m_currentLevel->DetachObject(currentPlayerObject);
 		}
@@ -100,7 +100,7 @@ void LevelManager::ChangeLevel()
 		m_currentLevel = m_nextLevel;
 		m_currentLevel->Init();
 
-		player.RegisterNewLevelArea(m_currentLevel);
+		player->RegisterNewLevelArea(m_currentLevel);
 
 
 		/*GameInstance* gameInstance = GameInstance::GetInstance();

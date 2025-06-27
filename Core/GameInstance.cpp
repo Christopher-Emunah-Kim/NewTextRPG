@@ -8,9 +8,11 @@
 
 void GameInstance::Init()
 {
-	m_player = Player();
+	m_player = new Player();
 	m_bIsPlayerInitialzed = false;
 	m_HUDUI = nullptr;
+
+
 
 	ItemDataTable::GetInstance()->Init();
 }
@@ -66,7 +68,7 @@ void GameInstance::UpdatePlayerInfo()
 {
 	if (m_HUDUI != nullptr)
 	{
-		m_HUDUI->UpdatePlayerInfoDialog(m_player);
+		m_HUDUI->UpdatePlayerInfoDialog(*m_player);
 	}
 }
 

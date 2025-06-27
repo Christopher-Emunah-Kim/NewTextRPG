@@ -6,12 +6,13 @@ class Player final : public BattleCharacter
 {  
 public:  
 
-	Player(BaseLevel* level, const wstring& tag);
-	virtual ~Player();
+	Player();
+	virtual ~Player() = default;
 
 private:
 	FPlayerInfo m_playerInfo;
 
+public:
 	virtual void Init() override;  
 
 	void RegisterNewLevelArea(BaseLevel* level);

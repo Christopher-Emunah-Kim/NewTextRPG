@@ -1,5 +1,5 @@
 ﻿#include "PlayerStatusComp.h"
-#include "../../Object/Player.h"
+#include "../../Object/Character/Player.h"
 
 PlayerStatusComp::PlayerStatusComp(BaseGameObject* owner)
 	:BaseComponent(owner), m_playerInfo(DEFAULT_LEVEL)

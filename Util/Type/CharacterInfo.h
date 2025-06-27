@@ -17,9 +17,9 @@ struct FCharacterInfo
 
 
 
-struct FCombatCharacterInfo : public FCharacterInfo
+struct FBattleCharacterInfo : public FCharacterInfo
 {
-	explicit FCombatCharacterInfo(int16 level)
+	explicit FBattleCharacterInfo(int16 level)
 		: FCharacterInfo(level)
 	{
 		FLevelProperties initialInfo = FPlayerDataTablePerLevel::LoadPlayerLevelData(level);
@@ -36,10 +36,10 @@ struct FCombatCharacterInfo : public FCharacterInfo
 
 
 
-struct FPlayerInfo : public FCombatCharacterInfo
+struct FPlayerInfo : public FBattleCharacterInfo
 {
 	explicit FPlayerInfo(int16 level)
-		: FCombatCharacterInfo(level)
+		: FBattleCharacterInfo(level)
 	{
 		experience = Experience(0, FPlayerDataTablePerLevel::GetRequiredMaxExp(level));
 		gold = Gold();
@@ -47,4 +47,18 @@ struct FPlayerInfo : public FCombatCharacterInfo
 
 	Experience experience;
 	Gold gold;
+};
+
+
+struct FMonsterInfo : public FBattleCharacterInfo
+{
+	explicit FMonsterInfo(int16 level)
+		: FBattleCharacterInfo(level)
+	{
+		//TODO 몬스터 테이블에서 드랍정보 불러오기
+	}
+
+	Gold dropGold;
+	Experience experience;
+	int32 dropItemId;
 };

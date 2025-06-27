@@ -1,6 +1,6 @@
 ﻿#include "HUDUI.h"
 #include "../../Level/BaseLevel.h"
-#include "../../Object/Player.h"
+#include "../../Object/Character/Player.h"
 #include "../../Util/OutputSystem.h"
 #include "../../Component/UI/SystemUIComp.h"
 #include "../../Component/Player/PlayerStatusComp.h"

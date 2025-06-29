@@ -71,7 +71,7 @@ void Screen::Clear()
 	}
 }
 
-void Screen::Draw(const int32& x, const int32& y, const wstring& str)
+void Screen::Draw(int32 x,  int32 y, const wstring& str)
 {
 	if (false == IsValidCoordinate(x, y))
 	{
@@ -84,7 +84,6 @@ void Screen::Draw(const int32& x, const int32& y, const wstring& str)
 	{
 		Draw(currentX, y, str[i]);
 
-		// NOTE: 한글은 2자리를 차지합니다.
 		if (IsHangulSyllable(str[i]))
 		{
 			currentX += 2;
@@ -97,7 +96,7 @@ void Screen::Draw(const int32& x, const int32& y, const wstring& str)
 	}
 }
 
-void Screen::Draw(const int32& x, const int32& y, const wchar_t& c)
+void Screen::Draw(int32 x,  int32 y, const wchar_t& c)
 {
 	if (false == IsValidCoordinate(x, y))
 	{
@@ -107,7 +106,7 @@ void Screen::Draw(const int32& x, const int32& y, const wchar_t& c)
 	m_writeBuffer[y][x] = c;
 }
 
-bool Screen::IsValidCoordinate(const int32& x, const int32& y)
+bool Screen::IsValidCoordinate(int32 x,  int32 y)
 {
 	if (0 <= x && x < SCREEN_WIDTH && 0 <= y && y < SCREEN_HEIGHT)
 	{
@@ -121,7 +120,7 @@ bool Screen::IsValidCoordinate(const int32& x, const int32& y)
 
 bool Screen::IsHangulSyllable(const wchar_t& c) const
 {
-	// NOTE: 0xAC00(가) ~ 0xD7A3(핳)
+	// 0xAC00(가) ~ 0xD7A3(핳)
 	if (c >= (int32)0xAC00 && c <= (int32)0xD7A3)
 	{
 		return true;
@@ -151,7 +150,7 @@ void Screen::SwapBuffer()
 		SCREEN_WIDTH - 1, 
 		SCREEN_HEIGHT - 1 };
 
-	WriteConsoleOutputW(hBackBuffer, tempBuffer, bufferSize, bufferCoord, &writeRegion);
+	WriteConsoleOutputW(hBackBuffer, reinterpret_cast<const CHAR_INFO*>(tempBuffer), bufferSize, bufferCoord, &writeRegion);
 
 	SetConsoleActiveScreenBuffer(hBackBuffer);
 

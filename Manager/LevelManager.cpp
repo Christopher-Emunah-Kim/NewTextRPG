@@ -9,7 +9,7 @@
 #include "../Object/UI/HUDUI.h"
 
 #include "../Level/CsmLevel.h"
-#include "../Level/SampleLevel.h"
+//#include "../Level/SampleLevel.h"
 
 
 LevelManager::~LevelManager()
@@ -91,10 +91,12 @@ void LevelManager::ChangeLevel()
 		//Player* player = GameInstance::GetInstance()->GetPlayer();
 		BaseGameObject* currentPlayerObject = m_currentLevel->FindObject(L"Player");
 
+		m_currentLevel->DetachObject(currentPlayerObject);
+
 		//if (currentPlayerObject && currentPlayerObject == player)
-		{
+		/*{
 			m_currentLevel->DetachObject(currentPlayerObject);
-		}
+		}*/
 
 		//m_currentLevel->RemoveObject(L"SystemTextDialog");
 		GameInstance::GetInstance()->ChangeLevelAreaSettings(m_nextLevel);

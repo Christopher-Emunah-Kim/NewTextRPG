@@ -5,8 +5,6 @@ int main()
 {  
 	std::locale::global(std::locale("ko_KR.UTF-8"));
 
-
-
     Game game;  
 
 	if (false == game.Init())

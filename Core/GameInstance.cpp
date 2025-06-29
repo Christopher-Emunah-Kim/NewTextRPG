@@ -12,8 +12,6 @@ void GameInstance::Init()
 	m_bIsPlayerInitialzed = false;
 	m_HUDUI = nullptr;
 
-
-
 	ItemDataTable::GetInstance()->Init();
 }
 
@@ -32,7 +30,6 @@ void GameInstance::SetHUDUI(HUDUI* hudUI)
 	if (hudUI != nullptr)
 	{
 		m_HUDUI = hudUI;
-
 	}
 }
 

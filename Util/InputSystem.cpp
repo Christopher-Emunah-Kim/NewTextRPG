@@ -13,16 +13,23 @@ void InputSystem::ProcessTextInput()
 		switch (wch)
 		{
 		case L'\r':
+		{
 			ProcessAction(std::move(s_inputBuffer));
-			break;
+		}
+		break;
 		case L'\b':
+		{
 			if (false == s_inputBuffer.empty())
 			{
 				s_inputBuffer.pop_back();
 			}
-			break;
+		}
+		break;
+
 		default:
+		{
 			s_inputBuffer.push_back(wch);
+		}
 			break;
 		}
 	}
@@ -40,9 +47,9 @@ void InputSystem::BindAction(const wstring& command, InputAction action)
 
 void InputSystem::BindAction(initializer_list<pair<wstring, InputAction>> actions)
 {
-	for (const auto& action : actions)
+	for (initializer_list<pair<wstring, InputAction>>::const_iterator it = actions.begin(); it != actions.end(); ++it)
 	{
-		s_actions[action.first] = action.second;
+		s_actions[it->first] = it->second;
 	}
 }
 
@@ -63,7 +70,7 @@ const wstring& InputSystem::GetBuffer()
 
 void InputSystem::ProcessAction(wstring command)
 {
-	auto it = s_actions.find(command);
+	unordered_map<wstring, InputAction>::iterator it = s_actions.find(command);
 	if (it != s_actions.end())
 	{
 		it->second(); // Execute the bound action

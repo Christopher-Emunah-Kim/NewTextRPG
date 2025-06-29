@@ -24,7 +24,7 @@ private:
 
 private:
 	void VisibleConsoleCursor(bool isVisible);
-	bool IsValidCoordinate(const int32& x, const int32& y);
+	bool IsValidCoordinate(int32 x, int32 y);
 	bool IsHangulSyllable(const wchar_t& c) const;
 
 public:
@@ -32,8 +32,8 @@ public:
 	void Release();
 	void Clear();
 	void SwapBuffer();
-	void Draw(const int32& x, const int32& y, const wchar_t& c);
-	void Draw(const int32& x, const int32& y, const wstring& str);
+	void Draw(int32 x, int32 y, const wchar_t& c);
+	void Draw(int32 x, int32 y, const wstring& str);
 
 };
 

@@ -135,7 +135,7 @@
     <ClCompile Include="Component\Player\InventoryComp.cpp" />
     <ClCompile Include="Component\Player\PlayerStatusComp.cpp" />
     <ClCompile Include="Component\UI\SystemUIComp.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Core\GameInstance.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -145,9 +145,7 @@
     <ClCompile Include="Level\TestLevel.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="Level\TitleLevel.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClCompile>
+    <ClCompile Include="Level\TitleLevel.cpp" />
     <ClCompile Include="Manager\LevelManager.cpp" />
     <ClCompile Include="Component\Monster\MonsterLootComp.cpp" />
     <ClCompile Include="NewTextRPG.cpp" />
@@ -181,7 +179,7 @@
     <ClInclude Include="Component\Player\PlayerStatusComp.h" />
     <ClInclude Include="Component\UI\MeshUIComp.h" />
     <ClInclude Include="Component\UI\SystemUIComp.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="Core\GameInstance.h" />
     <ClInclude Include="Core\IBehavior.h" />
@@ -195,9 +193,7 @@
     <ClInclude Include="Level\TestLevel.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="Level\TitleLevel.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClInclude>
+    <ClInclude Include="Level\TitleLevel.h" />
     <ClInclude Include="Manager\LevelManager.h" />
     <ClInclude Include="Component\Monster\MonsterLootComp.h" />
     <ClInclude Include="Object\BaseGameObject.h" />

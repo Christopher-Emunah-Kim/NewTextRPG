@@ -29,7 +29,7 @@ public:
 	void ChangeLevelAreaSettings(BaseLevel* newLevel);
 
 	void SetHUDUI(HUDUI* playerInfoObj);
-	void UpdatePlayerInfo();
+	//void UpdatePlayerInfo();
 
 	//inline Player* GetPlayer() noexcept { return m_player; }
 	//inline SystemTextDialog* GetSystemTextDialog() noexcept { return m_systemTextDialog; }

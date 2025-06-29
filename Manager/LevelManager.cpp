@@ -21,9 +21,11 @@ LevelManager::~LevelManager()
 void LevelManager::Init()
 {
 	//m_levels[L"Test"] = new TestLevel(L"Test");
-	//m_levels[L"Title"] = new TitleLevel(L"Title");
+	m_levels[L"Title"] = new TitleLevel(L"Title");
 
-	m_currentLevel = new CsmLevel(L"Csm"); //TODO : 이후 Title로 변경
+	m_currentLevel = m_levels[L"Title"];
+
+	//m_currentLevel = new CsmLevel(L"Csm"); //TODO : 이후 Title로 변경
 
 	//GameInstance::GetInstance()->ChangeLevelAreaSettings(m_currentLevel);
 

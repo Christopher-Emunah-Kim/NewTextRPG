@@ -55,19 +55,19 @@ void GameInstance::ChangeLevelAreaSettings(BaseLevel* newLevel)
 
 		DisplaySystemText(L"새로운 레벨(" + newLevel->GetTag() + L")에 진입했습니다.");
 
-		UpdatePlayerInfo();
+		//UpdatePlayerInfo();
 	}
 }
 
 
 
-void GameInstance::UpdatePlayerInfo()
-{
-	if (m_HUDUI != nullptr)
-	{
-		//m_HUDUI->UpdatePlayerInfoDialog(*m_player);
-	}
-}
+//void GameInstance::UpdatePlayerInfo()
+//{
+//	if (m_HUDUI != nullptr)
+//	{
+//		//m_HUDUI->UpdatePlayerInfoDialog(*m_player);
+//	}
+//}
 
 
 //bool GameInstance::LoadSerializedDataFromFile(BaseLevel* level, const wstring& filePath)

@@ -145,11 +145,11 @@ void SystemUIComp::RenderPlayerInfo(Screen* screen)
 	screen->Draw(0, SCREEN_HEIGHT - COMMAND_BLOCK_HEIGHT +1, L"│");
 	screen->Draw(2, SCREEN_HEIGHT - COMMAND_BLOCK_HEIGHT +1, L"명령 > " );
 
-	if (InputSystem::IsAcceptingTextInput())
-	{
-		//TODO 입력버퍼 위치조정
-		screen->Draw(9, SCREEN_HEIGHT - COMMAND_BLOCK_HEIGHT + 1, InputSystem::GetInputBuffer());
-	}
+	//if (InputSystem::IsAcceptingTextInput())
+	//{
+	//	//TODO 입력버퍼 위치조정
+	//	screen->Draw(9, SCREEN_HEIGHT - COMMAND_BLOCK_HEIGHT + 1, InputSystem::GetInputBuffer());
+	//}
 
 	screen->Draw(SCREEN_WIDTH - 2, SCREEN_HEIGHT - COMMAND_BLOCK_HEIGHT + 1, L"│");
 	screen->Draw(0, SCREEN_HEIGHT-1, L"└─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘");

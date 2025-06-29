@@ -13,7 +13,7 @@ public:
 	virtual ~GameInstance() = default;
 
 private:
-	Player* m_player = nullptr;
+	//Player* m_player = nullptr;
 	HUDUI* m_HUDUI = nullptr;
 	bool m_bIsPlayerInitialzed = false;
 
@@ -31,7 +31,7 @@ public:
 	void SetHUDUI(HUDUI* playerInfoObj);
 	void UpdatePlayerInfo();
 
-	inline Player* GetPlayer() noexcept { return m_player; }
+	//inline Player* GetPlayer() noexcept { return m_player; }
 	//inline SystemTextDialog* GetSystemTextDialog() noexcept { return m_systemTextDialog; }
 	inline HUDUI* GetHUDUI() noexcept { return m_HUDUI; }
 };

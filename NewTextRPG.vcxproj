@@ -126,19 +126,28 @@
   <ItemGroup>
     <ClCompile Include="Component\BaseComponent.cpp" />
     <ClCompile Include="Component\BattleComp.cpp" />
-    <ClCompile Include="Component\ControllerComp.cpp" />
+    <ClCompile Include="Component\ControllerComp.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="Component\Monster\MonsterAIComp.cpp" />
     <ClCompile Include="Component\Monster\MonsterStatusComp.cpp" />
     <ClCompile Include="Component\Player\EquipmentComp.cpp" />
     <ClCompile Include="Component\Player\InventoryComp.cpp" />
     <ClCompile Include="Component\Player\PlayerStatusComp.cpp" />
-    <ClCompile Include="Component\UI\SystemUIComp.cpp" />
+    <ClCompile Include="Component\UI\SystemUIComp.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="Core\GameInstance.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Item\ItemDataTable.cpp" />
     <ClCompile Include="Level\BaseLevel.cpp" />
-    <ClCompile Include="Level\TestLevel.cpp" />
-    <ClCompile Include="Level\TitleLevel.cpp" />
+    <ClCompile Include="Level\CsmLevel.cpp" />
+    <ClCompile Include="Level\TestLevel.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Level\TitleLevel.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="Manager\LevelManager.cpp" />
     <ClCompile Include="Component\Monster\MonsterLootComp.cpp" />
     <ClCompile Include="NewTextRPG.cpp" />
@@ -146,9 +155,13 @@
     <ClCompile Include="Object\Character\BaseCharacter.cpp" />
     <ClCompile Include="Object\Character\BattleCharacter.cpp" />
     <ClCompile Include="Object\Character\Monster.cpp" />
-    <ClCompile Include="Object\Character\Player.cpp" />
+    <ClCompile Include="Object\Character\Player.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="Component\UI\MeshUIComp.cpp" />
-    <ClCompile Include="Object\UI\HUDUI.cpp" />
+    <ClCompile Include="Object\UI\HUDUI.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="Screen.cpp" />
     <ClCompile Include="Util\InputSystem.cpp" />
     <ClCompile Include="Util\Singleton.h" />
@@ -158,14 +171,18 @@
     <ClInclude Include="Common.h" />
     <ClInclude Include="Component\BaseComponent.h" />
     <ClInclude Include="Component\BattleComp.h" />
-    <ClInclude Include="Component\ControllerComp.h" />
+    <ClInclude Include="Component\ControllerComp.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="Component\Monster\MonsterAIComp.h" />
     <ClInclude Include="Component\Monster\MonsterStatusComp.h" />
     <ClInclude Include="Component\Player\EquipmentComp.h" />
     <ClInclude Include="Component\Player\InventoryComp.h" />
     <ClInclude Include="Component\Player\PlayerStatusComp.h" />
     <ClInclude Include="Component\UI\MeshUIComp.h" />
-    <ClInclude Include="Component\UI\SystemUIComp.h" />
+    <ClInclude Include="Component\UI\SystemUIComp.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="Core\GameInstance.h" />
     <ClInclude Include="Core\IBehavior.h" />
     <ClInclude Include="Data\PlayerDataTablePerLevel.h" />
@@ -174,16 +191,25 @@
     <ClInclude Include="Item\BaseItem.h" />
     <ClInclude Include="Item\ItemDataTable.h" />
     <ClInclude Include="Level\BaseLevel.h" />
-    <ClInclude Include="Level\TestLevel.h" />
-    <ClInclude Include="Level\TitleLevel.h" />
+    <ClInclude Include="Level\CsmLevel.h" />
+    <ClInclude Include="Level\TestLevel.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="Level\TitleLevel.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="Manager\LevelManager.h" />
     <ClInclude Include="Component\Monster\MonsterLootComp.h" />
     <ClInclude Include="Object\BaseGameObject.h" />
     <ClInclude Include="Object\Character\BaseCharacter.h" />
     <ClInclude Include="Object\Character\BattleCharacter.h" />
     <ClInclude Include="Object\Character\Monster.h" />
-    <ClInclude Include="Object\Character\Player.h" />
-    <ClInclude Include="Object\UI\HUDUI.h" />
+    <ClInclude Include="Object\Character\Player.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="Object\UI\HUDUI.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="Screen.h" />
     <ClInclude Include="Util\InputAction.h" />
     <ClInclude Include="Util\InputSystem.h" />

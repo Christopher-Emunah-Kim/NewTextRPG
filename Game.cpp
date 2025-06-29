@@ -12,7 +12,6 @@ Game::~Game() noexcept
 
 bool Game::Init()  
 {  
-	
 	m_screen->Init();
 	GameInstance::GetInstance()->Init();
 	LevelManager::GetInstance()->Init();
@@ -44,7 +43,7 @@ void Game::Run()
 
 void Game::ProcessInput()  
 {  
-	InputSystem::Update();
+	InputSystem::ProcessTextInput();
 }  
 
 void Game::Update()  

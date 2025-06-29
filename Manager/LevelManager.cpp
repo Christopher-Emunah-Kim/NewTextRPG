@@ -8,6 +8,9 @@
 #include "../Screen.h"
 #include "../Object/UI/HUDUI.h"
 
+#include "../Level/CsmLevel.h"
+#include "../Level/SampleLevel.h"
+
 
 LevelManager::~LevelManager()
 {
@@ -17,10 +20,10 @@ LevelManager::~LevelManager()
 
 void LevelManager::Init()
 {
-	m_levels[L"Test"] = new TestLevel(L"Test");
-	m_levels[L"Title"] = new TitleLevel(L"Title");
+	//m_levels[L"Test"] = new TestLevel(L"Test");
+	//m_levels[L"Title"] = new TitleLevel(L"Title");
 
-	m_currentLevel = m_levels[L"Title"]; //TODO : 이후 Title로 변경
+	m_currentLevel = new CsmLevel(L"Csm"); //TODO : 이후 Title로 변경
 
 	//GameInstance::GetInstance()->ChangeLevelAreaSettings(m_currentLevel);
 
@@ -85,10 +88,10 @@ void LevelManager::ChangeLevel()
 {
 	if (m_nextLevel)
 	{
-		Player* player = GameInstance::GetInstance()->GetPlayer();
+		//Player* player = GameInstance::GetInstance()->GetPlayer();
 		BaseGameObject* currentPlayerObject = m_currentLevel->FindObject(L"Player");
 
-		if (currentPlayerObject && currentPlayerObject == player)
+		//if (currentPlayerObject && currentPlayerObject == player)
 		{
 			m_currentLevel->DetachObject(currentPlayerObject);
 		}
@@ -100,7 +103,7 @@ void LevelManager::ChangeLevel()
 		m_currentLevel = m_nextLevel;
 		m_currentLevel->Init();
 
-		player->RegisterNewLevelArea(m_currentLevel);
+		//player->RegisterNewLevelArea(m_currentLevel);
 
 
 		/*GameInstance* gameInstance = GameInstance::GetInstance();

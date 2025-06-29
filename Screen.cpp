@@ -1,6 +1,5 @@
 ﻿#include "Screen.h"
 
-
 Screen::~Screen()
 {
 	Release();
@@ -21,9 +20,7 @@ void Screen::VisibleConsoleCursor(bool isVisible)
 
 void Screen::Init()
 {
-	SetConsoleOutputCP(CP_UTF8);
-
-	for (int8 i = 0; i < BUFFER_SIZE; ++i)
+	for (int32 i = 0; i < BUFFER_SIZE; ++i)
 	{
 		m_consoleBuffers[i] = CreateConsoleScreenBuffer(
 			GENERIC_READ | GENERIC_WRITE, //dwDesiredAccess
@@ -44,7 +41,6 @@ void Screen::Init()
 		SetConsoleWindowInfo(m_consoleBuffers[i], TRUE, &rect);
 	}
 
-	m_writeBuffer = new WCHAR[SCREEN_WIDTH * SCREEN_HEIGHT];
 	m_backBufferIdx = 0;
 	Clear();
 
@@ -53,12 +49,6 @@ void Screen::Init()
 
 void Screen::Release()
 {
-	if (m_writeBuffer)
-	{
-		delete[] m_writeBuffer;
-		m_writeBuffer = nullptr;
-	}
-
 	if (m_consoleBuffers[0] != INVALID_HANDLE_VALUE)
 	{
 		CloseHandle(m_consoleBuffers[0]);
@@ -72,9 +62,12 @@ void Screen::Release()
 
 void Screen::Clear()
 {
-	for (int32 i = 0; i < SCREEN_HEIGHT * SCREEN_WIDTH; ++i)
+	for (int32 y = 0; y < SCREEN_HEIGHT; ++y)
 	{
-		m_writeBuffer[i] = L' ';
+		for (int32 x = 0; x < SCREEN_WIDTH; ++x)
+		{
+			m_writeBuffer[y][x] = L' ';
+		}
 	}
 }
 
@@ -91,7 +84,8 @@ void Screen::Draw(const int32& x, const int32& y, const wstring& str)
 	{
 		Draw(currentX, y, str[i]);
 
-		if (IsWideCharacter(str[i]))
+		// NOTE: 한글은 2자리를 차지합니다.
+		if (IsHangulSyllable(str[i]))
 		{
 			currentX += 2;
 		}
@@ -110,7 +104,7 @@ void Screen::Draw(const int32& x, const int32& y, const wchar_t& c)
 		return;
 	}
 
-	m_writeBuffer[y * SCREEN_WIDTH + x] = c;
+	m_writeBuffer[y][x] = c;
 }
 
 bool Screen::IsValidCoordinate(const int32& x, const int32& y)
@@ -125,8 +119,9 @@ bool Screen::IsValidCoordinate(const int32& x, const int32& y)
 	}
 }
 
-bool Screen::IsWideCharacter(const wchar_t& c) const
+bool Screen::IsHangulSyllable(const wchar_t& c) const
 {
+	// NOTE: 0xAC00(가) ~ 0xD7A3(핳)
 	if (c >= (int32)0xAC00 && c <= (int32)0xD7A3)
 	{
 		return true;
@@ -138,21 +133,17 @@ bool Screen::IsWideCharacter(const wchar_t& c) const
 void Screen::SwapBuffer()
 {
 	HANDLE hBackBuffer = m_consoleBuffers[m_backBufferIdx];
-	DWORD bytesWritten = 0;
 
-	const int32 screenSize = SCREEN_WIDTH * SCREEN_HEIGHT;
-	CHAR_INFO* tempBuffer = new CHAR_INFO[screenSize];
-
-	for (int32 i = 0; i < screenSize; ++i)
-	{
-		tempBuffer[i].Char.UnicodeChar = static_cast<WCHAR>(m_writeBuffer[i]);
-		tempBuffer[i].Attributes = FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE; //text color(white)
+	CHAR_INFO tempBuffer[SCREEN_HEIGHT][SCREEN_WIDTH] = { };
+	for (int32 y = 0; y < SCREEN_HEIGHT; ++y) {
+		for (int32 x = 0; x < SCREEN_WIDTH; ++x) {
+			tempBuffer[y][x].Char.UnicodeChar = m_writeBuffer[y][x];
+			tempBuffer[y][x].Attributes = FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE;
+		}
 	}
-
 
 	COORD bufferSize = { SCREEN_WIDTH, SCREEN_HEIGHT };
 	COORD bufferCoord = { 0, 0 };
-
 
 	SMALL_RECT writeRegion = { 
 		0, 
@@ -162,10 +153,7 @@ void Screen::SwapBuffer()
 
 	WriteConsoleOutputW(hBackBuffer, tempBuffer, bufferSize, bufferCoord, &writeRegion);
 
-
 	SetConsoleActiveScreenBuffer(hBackBuffer);
 
 	m_backBufferIdx = (m_backBufferIdx) % 2;
-
-	delete[] tempBuffer;
 }

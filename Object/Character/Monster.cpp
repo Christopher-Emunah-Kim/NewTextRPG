@@ -17,6 +17,7 @@ Monster::Monster(BaseLevel* level, const wstring& tag, const FMonsterInfo& info)
 {
 	m_monsterInfo.name = tag;
 	m_monsterInfo.description = L"야생의 " + tag;
+	m_battleCharacterInfo = info;
 }
 
 Monster::~Monster()

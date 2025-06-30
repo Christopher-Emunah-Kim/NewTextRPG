@@ -17,8 +17,6 @@ public:
 
 	void RegisterNewLevelArea(BaseLevel* level);
 
-	void LevelUp();
-
 	inline const FPlayerInfo& GetPlayerInfo() const noexcept { return m_playerInfo; }
 	inline void SetPlayerInfo(const FPlayerInfo& info) { m_playerInfo = info; }
 };

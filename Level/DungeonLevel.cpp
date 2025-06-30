@@ -64,7 +64,7 @@ void DungeonLevel::SetDungeonStage()
 	FMonsterInfo customInfo(1);
 	customInfo.health = 15;
 	customInfo.maxHealth = 15;
-	customInfo.status = Status::NewStatus(8, 10, 6);
+	customInfo.status = Status::NewStatus(8, 10, 20);
 	m_monster = new Monster(this, L"허약한 고블린", customInfo);
 
 }

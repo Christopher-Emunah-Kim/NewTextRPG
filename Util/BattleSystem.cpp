@@ -13,7 +13,9 @@ void BattleSystem::StartBattle(BattleCharacter* attacker, BattleCharacter* defen
 		return;
 	}
 
+	SetText(L"");
 	SetText(attacker->GetName() + L"와(과) " + defender->GetName() + L"가(이) 전투를 시작합니다.");
+	SetText(L"");
 
 	bool isAttackerTurn = DetermineFirstAttacker(attacker, defender);
 	ProcessBattleTurn(attacker, defender, isAttackerTurn);
@@ -27,12 +29,16 @@ bool BattleSystem::DetermineFirstAttacker(BattleCharacter* attacker, BattleChara
 
 	if (attackerAgility >= defenderAgility)
 	{
-		SetText(attacker->GetName() + L"가 먼저 공격을 시도합니다.");
+		SetText(L"");
+		SetText(attacker->GetName() + L"가(이) 먼저 공격을 시도합니다.");
+		SetText(L"");
 		return true;
 	}
 	else
 	{
-		SetText(defender->GetName() + L"가 먼저 공격을 시도합니다.");
+		SetText(L"");
+		SetText(defender->GetName() + L"가(이) 먼저 공격을 시도합니다.");
+		SetText(L"");
 		return false;
 	}
 }
@@ -63,16 +69,22 @@ bool BattleSystem::CheckBattleEnd(BattleCharacter* attacker, BattleCharacter* de
 {
 	if (!defender->IsAlive())
 	{
+		SetText(L"");
 		SetText(defender->GetName() + L"가 쓰러졌습니다.");
 		HandleBattleRewards(attacker, defender);
+		SetText(L"");
 		SetText(L"전투가 종료되었습니다.");
+		SetText(L"");
 		return true;
 	}
 	if (!attacker->IsAlive())
 	{
+		SetText(L"");
 		SetText(attacker->GetName() + L"가 쓰러졌습니다.");
 		HandleBattleRewards(defender, attacker);
+		SetText(L"");
 		SetText(L"전투가 종료되었습니다.");
+		SetText(L"");
 		return true;
 	}
 	return false;

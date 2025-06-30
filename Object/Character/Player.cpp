@@ -1,7 +1,6 @@
 ﻿#include "Player.h"
 #include "../../Screen.h"
 #include "../../Core/GameInstance.h"
-#include "../../Component/ControllerComp.h"
 #include "../../Level/BaseLevel.h"
 #include "../../Component/Player/EquipmentComp.h"
 #include "../../Component/Player/PlayerStatusComp.h"
@@ -63,16 +62,6 @@ void Player::RegisterNewLevelArea(BaseLevel* level)
 	}
 }
 
-void Player::LevelUp()
-{
-	++m_playerInfo.characterLevel;
-	PlayerStatusComp* statusComp = GetComponentsByType<PlayerStatusComp>();
-	if (statusComp)
-	{
-		statusComp->LoadStatusByLevel();
-		AddSystemText(L"레벨업! 현재 레벨: " + to_wstring(m_playerInfo.characterLevel));
-	}
-}
 
 
 

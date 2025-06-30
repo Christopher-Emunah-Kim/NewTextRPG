@@ -1,7 +1,8 @@
 ﻿#include "Monster.h"
-#include "../../Component/Monster/MonsterLootComp.h"
+
+/*#include "../../Component/Monster/MonsterLootComp.h"
 #include "../../Component/Monster/MonsterStatusComp.h"
-#include "../../Component/Monster/MonsterAIComp.h"
+#include "../../Component/Monster/MonsterAIComp.h"*/
 
 Monster::Monster(BaseLevel* level, const wstring& tag)
 	:BattleCharacter(level, tag), m_monsterInfo(DEFAULT_LEVEL)
@@ -26,7 +27,7 @@ void Monster::Init()
 {
 	BattleCharacter::Init();
 
-	if (!HasComponentType<MonsterLootComp>())
+	/*if (!HasComponentType<MonsterLootComp>())
 	{
 		AddComponent(new MonsterLootComp(this));
 	}
@@ -39,7 +40,7 @@ void Monster::Init()
 	if (!HasComponentType<MonsterAIComp>())
 	{
 		AddComponent(new MonsterAIComp(this));
-	}
+	}*/
 
 	//TODO 랜덤 드롭아이템 세팅
 
@@ -47,9 +48,9 @@ void Monster::Init()
 
 void Monster::DropRewards()
 {
-	MonsterLootComp* lootComp = GetComponentsByType<MonsterLootComp>();
+	/*MonsterLootComp* lootComp = GetComponentsByType<MonsterLootComp>();
 	if (lootComp)
 	{
 		lootComp->DropLoot();
-	}
+	}*/
 }

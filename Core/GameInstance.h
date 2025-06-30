@@ -25,7 +25,6 @@ public:
         }
     }
 
-
 	inline Player& GetPlayer() { return m_Player; }
 	inline HUDUI* GetHUDUI() noexcept { return m_HUDUI; }
 };

@@ -44,21 +44,11 @@ void TitleLevel::SetTitleLevel()
 {
 	GameInstance* gameInstance = GameInstance::GetInstance();
 
-	if (nullptr == gameInstance->GetHUDUI())
-	{
-		//m_HUDUI = new HUDUI(this);
-		m_HUDUI->Init();
-		gameInstance->SetHUDUI(m_HUDUI);
-	}
-
+	m_HUDUI->Init();
 	Player& player = GameInstance::GetInstance()->GetPlayer();
-	PlayerStatusComp* statusComp = player.GetComponentsByType<PlayerStatusComp>();
-	if (statusComp)
-	{
-		statusComp->LoadStatusByLevel();
-		const FPlayerInfo& info = player.GetPlayerInfo();
-		m_HUDUI->UpdatePlayerInfo(info);
-	}
+	gameInstance->SetHUDUI(m_HUDUI);
+	m_HUDUI->UpdatePlayerInfoDialog(player);
+
 }
 
 void TitleLevel::ProcessTitleMenu()

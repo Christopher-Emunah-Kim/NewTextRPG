@@ -4,6 +4,7 @@
 
 constexpr __int8 DEFAULT_LOWEST_DAMAGE = 5;
 
+
 struct Status
 {
 	Status()

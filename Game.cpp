@@ -13,9 +13,11 @@ Game::~Game() noexcept
 
 bool Game::Init()  
 {  
+	FPlayerDataTablePerLevel::InitializeLevelData();
 	m_screen->Init();
 	ItemDataTable::GetInstance()->Init();
 	LevelManager::GetInstance()->Init();
+
 
 	return true;
 }  

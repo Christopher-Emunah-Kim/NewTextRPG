@@ -51,22 +51,15 @@ void DungeonLevel::SetDungeonStage()
 
 	m_HUDUI->Init();
 	gameInstance->SetHUDUI(m_HUDUI);
+	Player& player = gameInstance->GetPlayer();
+	m_HUDUI->UpdatePlayerInfoDialog(player);
+
 
 	if (m_monster)
 	{
 		delete m_monster;
 		m_monster = nullptr;
 	}
-
-	Player& player = GameInstance::GetInstance()->GetPlayer();
-	PlayerStatusComp* statusComp = player.GetComponentsByType<PlayerStatusComp>();
-	if (statusComp)
-	{
-		statusComp->LoadStatusByLevel();
-		const FPlayerInfo& info = player.GetPlayerInfo();
-		m_HUDUI->UpdatePlayerInfo(info);
-	}
-
 
 	FMonsterInfo customInfo(1);
 	customInfo.health = 15;

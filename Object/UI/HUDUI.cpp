@@ -8,6 +8,7 @@
 #include "../../Util/InputSystem.h"
 
 
+
 HUDUI::HUDUI(BaseLevel* level)
 	: BaseGameObject(level, L"HUDUI"), m_playerInfo(DEFAULT_LEVEL)
 {

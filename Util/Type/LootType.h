@@ -2,7 +2,9 @@
 #include "../../Common.h"
 #include "../../Data/PlayerDataTablePerLevel.h"
 
+
 class Player;
+
 
 struct Experience
 {

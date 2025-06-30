@@ -3,6 +3,7 @@
 
 
 class HUDUI;
+struct Status;
 
 class DungeonLevel : public BaseLevel
 {
@@ -14,6 +15,10 @@ private:
 	vector<wstring> m_systemTexts;
 	HUDUI* m_HUDUI = nullptr;
 
+
+	wstring currentMonsterName;
+	Status currentMonsterStatus;
+
 public:
 	virtual void Init() override;
 	virtual void Render(Screen* screen) override;
@@ -21,9 +26,13 @@ public:
 
 private:
 	void SetHUDUI();
+	void SetDungeonStage();
 	void Welcome();
 	void EnterStage();
 	void BackToVillage();
+	void StartBattle();
+	void RunToEnterance();
+	bool DeicdeFirstAttacker();
 
 	void AddText(const wstring& text);
 	void ClearText();

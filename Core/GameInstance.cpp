@@ -8,7 +8,6 @@
 
 void GameInstance::Init()
 {
-	//m_player = new Player();
 	m_bIsPlayerInitialzed = false;
 	m_HUDUI = nullptr;
 
@@ -54,20 +53,10 @@ void GameInstance::ChangeLevelAreaSettings(BaseLevel* newLevel)
 		m_HUDUI->RegisterInNewLevel(newLevel);
 
 		DisplaySystemText(L"새로운 레벨(" + newLevel->GetTag() + L")에 진입했습니다.");
-
-		//UpdatePlayerInfo();
 	}
 }
 
 
-
-//void GameInstance::UpdatePlayerInfo()
-//{
-//	if (m_HUDUI != nullptr)
-//	{
-//		//m_HUDUI->UpdatePlayerInfoDialog(*m_player);
-//	}
-//}
 
 
 //bool GameInstance::LoadSerializedDataFromFile(BaseLevel* level, const wstring& filePath)

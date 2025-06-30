@@ -2,7 +2,6 @@
 #include "../../Screen.h"
 #include "../../Core/GameInstance.h"
 #include "../../Component/ControllerComp.h"
-#include "../../Component/UI/MeshUIComp.h"
 #include "../../Level/BaseLevel.h"
 #include "../../Component/Player/EquipmentComp.h"
 #include "../../Component/Player/PlayerStatusComp.h"
@@ -20,15 +19,6 @@ void Player::Init()
 {
 	SetPosition(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
 
-
-	if (false == HasComponentType<ControllerComp>())
-	{
-		AddComponent(new ControllerComp(this));
-	}
-	if (false == HasComponentType<MeshUIComp>())
-	{
-		AddComponent(new MeshUIComp(this, L"@"));
-	}
 	if (false == HasComponentType<PlayerStatusComp>())
 	{
 		AddComponent(new PlayerStatusComp(this));

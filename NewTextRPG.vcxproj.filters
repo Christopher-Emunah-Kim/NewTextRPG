@@ -54,13 +54,7 @@
     <ClCompile Include="Component\ControllerComp.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Component\UI\MeshUIComp.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Core\GameInstance.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Component\UI\SystemUIComp.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Object\UI\HUDUI.cpp">
@@ -155,9 +149,6 @@
     <ClInclude Include="Component\ControllerComp.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Component\UI\MeshUIComp.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Core\GameInstance.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -165,9 +156,6 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Util\InputAction.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Component\UI\SystemUIComp.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Object\UI\HUDUI.h">

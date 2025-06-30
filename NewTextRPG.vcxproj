@@ -134,9 +134,6 @@
     <ClCompile Include="Component\Player\EquipmentComp.cpp" />
     <ClCompile Include="Component\Player\InventoryComp.cpp" />
     <ClCompile Include="Component\Player\PlayerStatusComp.cpp" />
-    <ClCompile Include="Component\UI\SystemUIComp.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="Core\GameInstance.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Item\ItemDataTable.cpp" />
@@ -153,7 +150,6 @@
     <ClCompile Include="Object\Character\Player.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="Component\UI\MeshUIComp.cpp" />
     <ClCompile Include="Object\UI\HUDUI.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
@@ -174,10 +170,6 @@
     <ClInclude Include="Component\Player\EquipmentComp.h" />
     <ClInclude Include="Component\Player\InventoryComp.h" />
     <ClInclude Include="Component\Player\PlayerStatusComp.h" />
-    <ClInclude Include="Component\UI\MeshUIComp.h" />
-    <ClInclude Include="Component\UI\SystemUIComp.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClInclude>
     <ClInclude Include="Core\GameInstance.h" />
     <ClInclude Include="Core\IBehavior.h" />
     <ClInclude Include="Data\PlayerDataTablePerLevel.h" />

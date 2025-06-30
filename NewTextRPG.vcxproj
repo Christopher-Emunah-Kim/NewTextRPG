@@ -141,10 +141,7 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Item\ItemDataTable.cpp" />
     <ClCompile Include="Level\BaseLevel.cpp" />
-    <ClCompile Include="Level\CsmLevel.cpp" />
-    <ClCompile Include="Level\TestLevel.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClCompile>
+    <ClCompile Include="Level\DungeonLevel.cpp" />
     <ClCompile Include="Level\TitleLevel.cpp" />
     <ClCompile Include="Manager\LevelManager.cpp" />
     <ClCompile Include="Component\Monster\MonsterLootComp.cpp" />
@@ -189,10 +186,7 @@
     <ClInclude Include="Item\BaseItem.h" />
     <ClInclude Include="Item\ItemDataTable.h" />
     <ClInclude Include="Level\BaseLevel.h" />
-    <ClInclude Include="Level\CsmLevel.h" />
-    <ClInclude Include="Level\TestLevel.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClInclude>
+    <ClInclude Include="Level\DungeonLevel.h" />
     <ClInclude Include="Level\TitleLevel.h" />
     <ClInclude Include="Manager\LevelManager.h" />
     <ClInclude Include="Component\Monster\MonsterLootComp.h" />

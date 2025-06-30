@@ -8,60 +8,55 @@
 
 void TitleLevel::Init()
 {
-	GameInstance* gameInstance = GameInstance::GetInstance();
-	
-	if (nullptr == gameInstance->GetHUDUI())
-	{
-		m_HUDUI = new HUDUI(this);
-		m_HUDUI->Init();
-		gameInstance->SetHUDUI(m_HUDUI);
-	}
+	SetHUDUI();
 
 	Welcome();
-
-	//Player* player = gameInstance->GetPlayer();
-
-	//player->RegisterNewLevelArea(this);
-
-	//if (false == gameInstance->IsPlayerInitialzed())
-	//{
-	//	gameInstance->SetPlayerInitialize(true);
-	//}
-
-	//m_player = player;
-	//m_player->SetPosition(GAME_PANEL_START_X + (SCREEN_WIDTH - GAME_PANEL_START_X) / 2, SCREEN_HEIGHT / 2);
-
 
 	BaseLevel::Init();
 }
 
 void TitleLevel::Render(Screen* screen)
 {
+	m_HUDUI->ClearSystemText();
+
 	for (size_t line = 0; line < m_systemTexts.size(); ++line)
 	{
 		m_HUDUI->EnqueueText(m_systemTexts[line]);
-		//screen->Draw(0, line, m_systemTexts[line]);
 	}
-	//screen->Draw(0, 10, L"입력 : " + InputSystem::GetBuffer());
 
 	BaseLevel::Render(screen);
 }
 
 void TitleLevel::Release()
 {
-
+	delete m_HUDUI;
+	m_HUDUI = nullptr;
+	GameInstance::GetInstance()->SetHUDUI(nullptr);
 }
 
+void TitleLevel::SetHUDUI()
+{
+	GameInstance* gameInstance = GameInstance::GetInstance();
+
+	if (nullptr == gameInstance->GetHUDUI())
+	{
+		m_HUDUI = new HUDUI(this);
+		m_HUDUI->Init();
+		gameInstance->SetHUDUI(m_HUDUI);
+	}
+}
 
 void TitleLevel::Welcome()
 {
-	AddText(L"==========================");
+	ClearText();
+
+	AddText(L"============================================");
 	AddText(L"TEXT RPG 에 오신 것을 환영합니다.");
 	AddText(L"[메뉴 옵션]");
 	AddText(L"1. 마을로 들어가기");
 	AddText(L"2. 던전으로 이동하기");
 	AddText(L"3. 게임 종료");
-	AddText(L"==========================");
+	AddText(L"============================================");
 	AddText(L"원하는 옵션의 번호를 입력하세요.");
 
 	InputSystem::BindAction(
@@ -84,28 +79,28 @@ void TitleLevel::Welcome()
 
 void TitleLevel::EnterVillage()
 {
-	ClearText();
+	AddText(L"마을로 입장합니다...");
 
-	AddText(L"마을로 돌아가기는 개뿔 다시 처음부터입니다.");
+	LevelManager::GetInstance()->SetNextLevel(L"Village"); 
+	BaseLevel* nextLevel = LevelManager::GetInstance()->GetNextLevel();
+	GameInstance::GetInstance()->ChangeLevelAreaSettings(nextLevel);
 
 	InputSystem::Clear();
-	Welcome();
 }
 
 void TitleLevel::EnterDungeon()
 {
-	ClearText();
+	AddText(L"끝없는 모험이 당신을 반깁니다...");
 
-	AddText(L"던전으로 이동하기는 개뿔 다시 처음부터입니다.");
+	LevelManager::GetInstance()->SetNextLevel(L"Dungeon");
+	BaseLevel* nextLevel = LevelManager::GetInstance()->GetNextLevel();
+	GameInstance::GetInstance()->ChangeLevelAreaSettings(nextLevel);
 
 	InputSystem::Clear();
-	Welcome();
 }
 
 void TitleLevel::GoToHell()
 {
-	ClearText();
-
 	AddText(L"무한 지옥에 오신 것을 환영합니다.");
 	AddText(L"ㅎㅎ 장난이에요");
 
@@ -122,50 +117,3 @@ void TitleLevel::ClearText()
 	m_systemTexts.clear();
 }
 
-
-
-//void TitleLevel::ProcessTitleMenuInput()
-//{
-//	if (!InputSystem::IsAcceptingTextInput())
-//	{
-//		return;
-//	}
-//
-//	wstring cmd = InputSystem::GetCommand();
-//
-//	if (cmd.empty())
-//	{
-//		return;
-//	}
-//
-//	GameInstance* gameinstance = GameInstance::GetInstance();
-//	
-//
-//	if (cmd == L"1")
-//	{
-//		gameinstance->DisplaySystemText(L"게임을 시작합니다...");
-//		LevelManager::GetInstance()->SetNextLevel(L"VillageLevel"); // TODO 다음 레벨 설정
-//		BaseLevel* nextLevel = LevelManager::GetInstance()->GetNextLevel();
-//		gameinstance->ChangeLevelAreaSettings(nextLevel);
-//		InputSystem::StopTextInput();
-//	}
-//	else if (cmd == L"2")
-//	{
-//		gameinstance->DisplaySystemText(L"던전으로 이동합니다...");
-//		LevelManager::GetInstance()->SetNextLevel(L"DungeonLevel"); // TODO 다음 레벨 설정
-//		BaseLevel* nextLevel = LevelManager::GetInstance()->GetNextLevel();
-//		gameinstance->ChangeLevelAreaSettings(nextLevel);
-//		InputSystem::StopTextInput();
-//	}
-//	else if (cmd == L"3")
-//	{
-//		gameinstance->DisplaySystemText(L"게임을 종료합니다...");
-//		InputSystem::StopTextInput();
-//		exit(0); // 게임 종료
-//	}
-//	else
-//	{
-//		InputSystem::StopTextInput();
-//		InputSystem::StartTextInput();
-//	}
-//}

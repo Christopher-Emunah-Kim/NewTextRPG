@@ -19,23 +19,6 @@ void HUDUI::Init()
 {
 	SetPosition(0, 0);
 
-	/*if (false == HasComponentType<SystemUIComp>())
-	{
-		m_UIRenderComp =  new SystemUIComp(this);
-		AddComponent(m_UIRenderComp);
-	}
-	else
-	{
-		vector<BaseComponent*> comps = GetComponents();
-		for (size_t i = 0; i < comps.size(); ++i)
-		{
-			m_UIRenderComp = dynamic_cast<SystemUIComp*>(comps[i]);
-			if (m_UIRenderComp)
-			{
-				break;
-			}
-		}
-	}*/
 
 	BaseGameObject::Init();
 
@@ -77,16 +60,7 @@ void HUDUI::UpdatePlayerInfoDialog(const Player& player)
 
 	const FPlayerInfo& playerInfo = statusComp->GetPlayerInfo();
 	UpdatePlayerInfo(playerInfo);
-
-	/*if (m_UIRenderComp)
-	{
-		const FPlayerInfo& playerInfo = statusComp->GetPlayerInfo();
-		m_UIRenderComp->UpdatePlayerInfo(playerInfo);
-	}
-	else
-	{
-		OutputSystem::PrintErrorMsg(L"PlayerInfoDialog에 PlayerInfoRenderComp가 존재하지 않습니다.");
-	}*/
+	
 }
 
 void HUDUI::RegisterInNewLevel(BaseLevel* newLevel)
@@ -110,14 +84,7 @@ void HUDUI::RegisterInNewLevel(BaseLevel* newLevel)
 void HUDUI::SetSystemText(const wstring& text)
 {
 	EnqueueText(text);
-	/*if (m_UIRenderComp)
-	{
-		m_UIRenderComp->SetText(text);
-	}
-	else
-	{
-		OutputSystem::PrintErrorMsg(L"HUDUI에 SystemUIComp가 존재하지 않습니다.");
-	}*/
+	
 }
 
 void HUDUI::EnqueueText(const wstring& text)
@@ -135,14 +102,7 @@ void HUDUI::ClearSystemText()
 	queue<wstring> emptyQueue;
 	m_textQueue.swap(emptyQueue);
 
-	/*if (m_UIRenderComp)
-	{
-		m_UIRenderComp->ClearTexts();
-	}
-	else
-	{
-		OutputSystem::PrintErrorMsg(L"HUDUI에 SystemUIComp가 존재하지 않습니다.");
-	}*/
+	
 }
 
 void HUDUI::UpdatePlayerInfo(const FPlayerInfo& playerInfo)
@@ -215,7 +175,7 @@ void HUDUI::RenderPlayerInfo(Screen* screen)
 	screen->Draw(SCREEN_WIDTH - 2, SCREEN_HEIGHT - COMMAND_BLOCK_HEIGHT + 1, L"│");
 	screen->Draw(0, SCREEN_HEIGHT - 1, L"└─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘");
 
-	screen->Draw(GAME_PANEL_START_X, DEFAULT_BASE_Y, L"────────────────────────────────────────────────────────────────────────────────────────────");
+	//screen->Draw(GAME_PANEL_START_X, DEFAULT_BASE_Y, L"────────────────────────────────────────────────────────────────────────────────────────────");
 }
 
 void HUDUI::RenderSystemText(Screen* screen)
@@ -229,7 +189,7 @@ void HUDUI::RenderSystemText(Screen* screen)
 		copiedQueue.pop();
 	}
 
-	int32 outputY = DEFAULT_BASE_Y + 1;
+	int32 outputY = SYSTEM_TEXT_BASE_Y;
 	int32 messageAreaWidth = SCREEN_WIDTH - GAME_PANEL_START_X - RIGHT_MARGIN;
 
 	wstring clearLine(messageAreaWidth, L' ');

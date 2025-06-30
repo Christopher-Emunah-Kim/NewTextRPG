@@ -3,12 +3,13 @@
 #include "../../Util/Type/CharacterInfo.h"
 #include <queue>
 
-constexpr __int32 MAX_LINES = 10;
+constexpr __int32 MAX_LINES = 35;
 constexpr __int32 DEFAULT_BASE_Y = SCREEN_HEIGHT - MAX_LINES - 4;
 constexpr __int8 LEFT_MARGIN = 3;
 constexpr __int8 RIGHT_MARGIN = 4;
 constexpr __int8 COMMAND_BLOCK_HEIGHT = 3;
 constexpr __int16 PLAYER_UI_BASE_Y = 1;
+constexpr __int16 SYSTEM_TEXT_BASE_Y = 3;
 
 class Player;
 class BaseLevel;

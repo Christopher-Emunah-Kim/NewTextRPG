@@ -19,5 +19,6 @@ public:
 
 	void LevelUp();
 
-	const FPlayerInfo& GetPlayerInfo() const { return m_playerInfo; }
+	inline const FPlayerInfo& GetPlayerInfo() const noexcept { return m_playerInfo; }
+	inline void SetPlayerInfo(const FPlayerInfo& info) { m_playerInfo = info; }
 };

@@ -19,7 +19,7 @@ public:
 	virtual void Release() override;
 
 private:
-	void SetHUDUI();
+	void SetTitleLevel();
 	void ProcessTitleMenu();
 
 	void OnEnterVillage();

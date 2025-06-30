@@ -5,6 +5,7 @@
 #include "../Util/InputSystem.h"
 #include "../Manager/LevelManager.h"
 #include "../Object/Character/Monster.h"
+#include "../Component/Player/PlayerStatusComp.h"
 
 
 DungeonLevel::DungeonLevel(const wstring& tag)
@@ -48,11 +49,30 @@ void DungeonLevel::SetDungeonStage()
 {
 	GameInstance* gameInstance = GameInstance::GetInstance();
 
-	//m_HUDUI = new HUDUI(this);
 	m_HUDUI->Init();
 	gameInstance->SetHUDUI(m_HUDUI);
 
-	m_monster = new Monster(this, L"Goblin");
+	if (m_monster)
+	{
+		delete m_monster;
+		m_monster = nullptr;
+	}
+
+	Player& player = GameInstance::GetInstance()->GetPlayer();
+	PlayerStatusComp* statusComp = player.GetComponentsByType<PlayerStatusComp>();
+	if (statusComp)
+	{
+		statusComp->LoadStatusByLevel();
+		const FPlayerInfo& info = player.GetPlayerInfo();
+		m_HUDUI->UpdatePlayerInfo(info);
+	}
+
+
+	FMonsterInfo customInfo(1);
+	customInfo.health = 15;
+	customInfo.maxHealth = 15;
+	customInfo.status = Status::NewStatus(8, 10, 6);
+	m_monster = new Monster(this, L"허약한 고블린", customInfo);
 
 }
 
@@ -127,7 +147,7 @@ void DungeonLevel::OnEnterStage()
 		}
 	);
 
-	InputSystem::Clear();
+	//InputSystem::Clear();
 }
 
 void DungeonLevel::OnBackToVillage()
@@ -142,6 +162,7 @@ void DungeonLevel::OnBackToVillage()
 void DungeonLevel::OnStartBattle()
 {
 	Player& player = GameInstance::GetInstance()->GetPlayer();
+	
 
 	player.Interact(m_monster);
 

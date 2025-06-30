@@ -6,29 +6,16 @@
 #include "../Manager/LevelManager.h"
 
 
+//
+//
+//void GameInstance::SetHUDUI(HUDUI* hudUI)
+//{
+//	if (hudUI != nullptr)
+//	{
+//		m_HUDUI = hudUI;
+//	}
+//}
 
-
-void GameInstance::SetHUDUI(HUDUI* hudUI)
-{
-	if (hudUI != nullptr)
-	{
-		m_HUDUI = hudUI;
-	}
-}
-
-void GameInstance::DisplaySystemText(const wstring& text)
-{
-	if (m_HUDUI != nullptr)
-	{
-		BaseLevel* currentLevel = LevelManager::GetInstance()->GetCurrentLevel();
-		if (currentLevel)
-		{
-			m_HUDUI->RegisterInNewLevel(currentLevel);
-		}
-
-		m_HUDUI->SetSystemText(text);
-	}
-}
 
 //void GameInstance::ChangeLevelAreaSettings(BaseLevel* newLevel)
 //{

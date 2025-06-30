@@ -11,6 +11,13 @@ Monster::Monster(BaseLevel* level, const wstring& tag)
 	//TODO 몬스터테이블에서 불러오기
 }
 
+Monster::Monster(BaseLevel* level, const wstring& tag, const FMonsterInfo& info)
+	:BattleCharacter(level, tag), m_monsterInfo(info)
+{
+	m_monsterInfo.name = tag;
+	m_monsterInfo.description = L"야생의 " + tag;
+}
+
 Monster::~Monster()
 {
 }

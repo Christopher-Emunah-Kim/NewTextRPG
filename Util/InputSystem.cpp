@@ -71,6 +71,7 @@ const wstring& InputSystem::GetBuffer()
 void InputSystem::ProcessAction(wstring command)
 {
 	unordered_map<wstring, InputAction>::iterator it = s_actions.find(command);
+
 	if (it != s_actions.end())
 	{
 		it->second(); // Execute the bound action

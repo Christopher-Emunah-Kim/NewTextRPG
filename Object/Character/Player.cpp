@@ -23,14 +23,14 @@ void Player::Init()
 	{
 		AddComponent(new PlayerStatusComp(this));
 	}
-	if (false == HasComponentType<EquipmentComp>())
+	/*if (false == HasComponentType<EquipmentComp>())
 	{
 		AddComponent(new EquipmentComp(this));
 	}
 	if (false == HasComponentType<InventoryComp>())
 	{
 		AddComponent(new InventoryComp(this));
-	}
+	}*/
 
 	BattleCharacter::Init();
 }
@@ -70,7 +70,7 @@ void Player::LevelUp()
 	if (statusComp)
 	{
 		statusComp->LoadStatusByLevel();
-		GameInstance::GetInstance()->DisplaySystemText(L"레벨업! 현재 레벨: " + to_wstring(m_playerInfo.characterLevel));
+		AddSystemText(L"레벨업! 현재 레벨: " + to_wstring(m_playerInfo.characterLevel));
 	}
 }
 

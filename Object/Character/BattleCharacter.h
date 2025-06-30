@@ -16,6 +16,9 @@ protected:
 private:
 	int32 CalculateDamage(BattleCharacter* target) const;
 
+protected:
+	void AddSystemText(const wstring& text);
+
 public:
 	virtual void Init() override;
 	virtual void Interact(BaseCharacter* other) override;

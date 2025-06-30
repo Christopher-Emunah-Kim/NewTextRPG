@@ -4,6 +4,7 @@
 #include "../Screen.h"
 #include "../Util/InputSystem.h"
 #include "../Manager/LevelManager.h"
+#include "../Component/Player/PlayerStatusComp.h"
 
 
 TitleLevel::TitleLevel(const wstring& tag)
@@ -13,7 +14,7 @@ TitleLevel::TitleLevel(const wstring& tag)
 
 void TitleLevel::Init()
 {
-	SetHUDUI();
+	SetTitleLevel();
 
 	ProcessTitleMenu();
 
@@ -39,7 +40,7 @@ void TitleLevel::Release()
 	GameInstance::GetInstance()->SetHUDUI(nullptr);
 }
 
-void TitleLevel::SetHUDUI()
+void TitleLevel::SetTitleLevel()
 {
 	GameInstance* gameInstance = GameInstance::GetInstance();
 
@@ -48,6 +49,15 @@ void TitleLevel::SetHUDUI()
 		//m_HUDUI = new HUDUI(this);
 		m_HUDUI->Init();
 		gameInstance->SetHUDUI(m_HUDUI);
+	}
+
+	Player& player = GameInstance::GetInstance()->GetPlayer();
+	PlayerStatusComp* statusComp = player.GetComponentsByType<PlayerStatusComp>();
+	if (statusComp)
+	{
+		statusComp->LoadStatusByLevel();
+		const FPlayerInfo& info = player.GetPlayerInfo();
+		m_HUDUI->UpdatePlayerInfo(info);
 	}
 }
 

@@ -2,6 +2,9 @@
 #include "../Core/GameInstance.h"
 #include "../Object/Character/Player.h"
 #include "../Object/Character/Monster.h"
+#include "../Level/DungeonLevel.h"
+#include "../Manager/LevelManager.h"
+
 
 void BattleSystem::StartBattle(BattleCharacter* attacker, BattleCharacter* defender)
 {
@@ -10,9 +13,7 @@ void BattleSystem::StartBattle(BattleCharacter* attacker, BattleCharacter* defen
 		return;
 	}
 
-	GameInstance::GetInstance()->DisplaySystemText(
-		attacker->GetName() + L"와(과) " + defender->GetName() + L"가(이) 전투를 시작합니다."
-	);
+	SetText(attacker->GetName() + L"와(과) " + defender->GetName() + L"가(이) 전투를 시작합니다.");
 
 	bool isAttackerTurn = DetermineFirstAttacker(attacker, defender);
 	ProcessBattleTurn(attacker, defender, isAttackerTurn);
@@ -26,12 +27,12 @@ bool BattleSystem::DetermineFirstAttacker(BattleCharacter* attacker, BattleChara
 
 	if (attackerAgility >= defenderAgility)
 	{
-		GameInstance::GetInstance()->DisplaySystemText(attacker->GetName() + L"가 먼저 공격을 시도합니다.");
+		SetText(attacker->GetName() + L"가 먼저 공격을 시도합니다.");
 		return true;
 	}
 	else
 	{
-		GameInstance::GetInstance()->DisplaySystemText(defender->GetName() + L"가 먼저 공격을 시도합니다.");
+		SetText(defender->GetName() + L"가 먼저 공격을 시도합니다.");
 		return false;
 	}
 }
@@ -62,16 +63,16 @@ bool BattleSystem::CheckBattleEnd(BattleCharacter* attacker, BattleCharacter* de
 {
 	if (!defender->IsAlive())
 	{
-		GameInstance::GetInstance()->DisplaySystemText(defender->GetName() + L"가 쓰러졌습니다.");
+		SetText(defender->GetName() + L"가 쓰러졌습니다.");
 		HandleBattleRewards(attacker, defender);
-		GameInstance::GetInstance()->DisplaySystemText(L"전투가 종료되었습니다.");
+		SetText(L"전투가 종료되었습니다.");
 		return true;
 	}
 	if (!attacker->IsAlive())
 	{
-		GameInstance::GetInstance()->DisplaySystemText(attacker->GetName() + L"가 쓰러졌습니다.");
+		SetText(attacker->GetName() + L"가 쓰러졌습니다.");
 		HandleBattleRewards(defender, attacker);
-		GameInstance::GetInstance()->DisplaySystemText(L"전투가 종료되었습니다.");
+		SetText(L"전투가 종료되었습니다.");
 		return true;
 	}
 	return false;
@@ -88,5 +89,14 @@ void BattleSystem::HandleBattleRewards(BattleCharacter* winner, BattleCharacter*
 		// player->GainExperience(monster->GetDropExperience());
 		// player->GainGold(monster->GetDropGold());
 		monster->DropRewards();
+	}
+}
+
+void BattleSystem::SetText(const wstring& text)
+{
+	DungeonLevel* dungeonLevel = dynamic_cast<DungeonLevel*>(LevelManager::GetInstance()->GetCurrentLevel());
+	if (dungeonLevel)
+	{
+		dungeonLevel->AddText(text);
 	}
 }

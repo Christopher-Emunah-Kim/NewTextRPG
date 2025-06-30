@@ -5,7 +5,9 @@
 class Monster final : public BattleCharacter
 {
 public:
-	Monster(BaseLevel* level, const wstring& tag);
+	Monster(BaseLevel* level, const wstring& tag); 
+	Monster(BaseLevel* level, const wstring& tag, const FMonsterInfo& info);
+
 	virtual ~Monster();
 
 private:

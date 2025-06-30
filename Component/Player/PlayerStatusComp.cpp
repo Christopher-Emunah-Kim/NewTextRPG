@@ -28,7 +28,7 @@ void PlayerStatusComp::LoadStatusByLevel()
 
 	m_playerInfo.maxHealth = levelProps.maxHealthPerLevel;
 	
-	if(m_playerInfo.health > m_playerInfo.maxHealth)
+	if(m_playerInfo.health > m_playerInfo.maxHealth || m_playerInfo.health <= 0)
 	{
 		m_playerInfo.health = m_playerInfo.maxHealth;
 	}

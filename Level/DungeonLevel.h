@@ -16,7 +16,7 @@ public:
 private:
 	vector<wstring> m_systemTexts;
 	HUDUI* m_HUDUI = nullptr;
-	Monster* m_monster;
+	Monster* m_monster = nullptr;
 
 
 public:

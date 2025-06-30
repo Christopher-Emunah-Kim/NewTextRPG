@@ -17,12 +17,15 @@ private:
 	Player m_Player;
 
 public:
+    void SetHUDUI(HUDUI* hudUI)
+    {
+        if (hudUI != nullptr) 
+        {
+            m_HUDUI = hudUI;
+        }
+    }
+
+
 	inline Player& GetPlayer() { return m_Player; }
-
-
-	void DisplaySystemText(const wstring& text);
-
-	//void ChangeLevelAreaSettings(BaseLevel* newLevel);
-	void SetHUDUI(HUDUI* playerInfoObj);
 	inline HUDUI* GetHUDUI() noexcept { return m_HUDUI; }
 };

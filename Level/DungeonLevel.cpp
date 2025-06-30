@@ -4,12 +4,16 @@
 #include "../Screen.h"
 #include "../Util/InputSystem.h"
 #include "../Manager/LevelManager.h"
+#include "../Object/Character/Monster.h"
 
+
+DungeonLevel::DungeonLevel(const wstring& tag)
+	:BaseLevel(tag), m_HUDUI(new HUDUI(this))
+{
+}
 
 void DungeonLevel::Init()
 {
-	SetHUDUI();
-
 	SetDungeonStage();
 
 	Welcome();
@@ -34,21 +38,22 @@ void DungeonLevel::Release()
 	delete m_HUDUI;
 	m_HUDUI = nullptr;
 	GameInstance::GetInstance()->SetHUDUI(nullptr);
+
+	delete m_monster;
+	m_monster = nullptr;
 }
 
-void DungeonLevel::SetHUDUI()
-{
-	GameInstance* gameInstance = GameInstance::GetInstance();
-
-	m_HUDUI = new HUDUI(this);
-	m_HUDUI->Init();
-	gameInstance->SetHUDUI(m_HUDUI);
-}
 
 void DungeonLevel::SetDungeonStage()
 {
-	currentMonsterName = L"허접한 고블린";
-	currentMonsterStatus = Status(10, 10, 10);
+	GameInstance* gameInstance = GameInstance::GetInstance();
+
+	//m_HUDUI = new HUDUI(this);
+	m_HUDUI->Init();
+	gameInstance->SetHUDUI(m_HUDUI);
+
+	m_monster = new Monster(this, L"Goblin");
+
 }
 
 void DungeonLevel::Welcome()
@@ -73,8 +78,8 @@ void DungeonLevel::Welcome()
 
 	InputSystem::BindAction(
 		{
-			{L"1", bind(&DungeonLevel::EnterStage, this)},
-			{L"2", bind(&DungeonLevel::BackToVillage, this)},
+			{L"1", bind(&DungeonLevel::OnEnterStage, this)},
+			{L"2", bind(&DungeonLevel::OnBackToVillage, this)},
 		}
 	);
 
@@ -88,13 +93,13 @@ void DungeonLevel::Welcome()
 	);
 }
 
-void DungeonLevel::EnterStage()
+void DungeonLevel::OnEnterStage()
 {
 	AddText(L"");
 	AddText(L"던전에 입장합니다.");
 	AddText(L"");
 
-	AddText(L"당신의 눈 앞에 " + currentMonsterName + L"가(이) 등장했습니다!");
+	AddText(L"당신의 눈 앞에 " + m_monster->GetName() + L"가(이) 등장했습니다!");
 	AddText(L"상대는 아직 당신을 눈치채지 못했습니다.");
 	AddText(L"전투를 시작할까요?");
 
@@ -108,8 +113,8 @@ void DungeonLevel::EnterStage()
 
 	InputSystem::BindAction(
 		{
-			{L"1", bind(&DungeonLevel::StartBattle, this)},
-			{L"2", bind(&DungeonLevel::RunToEnterance, this)},
+			{L"1", bind(&DungeonLevel::OnStartBattle, this)},
+			{L"2", bind(&DungeonLevel::OnEscape, this)},
 		}
 		);
 
@@ -125,7 +130,7 @@ void DungeonLevel::EnterStage()
 	InputSystem::Clear();
 }
 
-void DungeonLevel::BackToVillage()
+void DungeonLevel::OnBackToVillage()
 {
 	AddText(L"");
 	AddText(L"때로는 한발 물러서는 것이 현명할 수 있습니다....");
@@ -134,20 +139,23 @@ void DungeonLevel::BackToVillage()
 	InputSystem::Clear();
 }
 
-void DungeonLevel::StartBattle()
+void DungeonLevel::OnStartBattle()
 {
+	Player& player = GameInstance::GetInstance()->GetPlayer();
+
+	player.Interact(m_monster);
 
 }
 
-void DungeonLevel::RunToEnterance()
+void DungeonLevel::OnEscape()
 {
 	AddText(L"");
 	AddText(L"당신은 빠르게 몸을 돌려 던전 입구로 뛰어갑니다.");
 
 	if (rand() % 3 == 0)
 	{
-		AddText(L"필사적으로 뛰었지만, "+ currentMonsterName+ L"가(이) 먼저 당신의 앞을 가로 막았습니다.");
-		AddText(currentMonsterName + L"가(이) 당신을 공격합니다..");
+		AddText(L"필사적으로 뛰었지만, "+ m_monster->GetName() + L"가(이) 먼저 당신의 앞을 가로 막았습니다.");
+		AddText(m_monster->GetName() + L"가(이) 당신을 공격합니다..");
 		//TODO : 몬스터 공격턴 
 	}
 	else
@@ -156,13 +164,7 @@ void DungeonLevel::RunToEnterance()
 		Welcome();
 	}
 
-
 	InputSystem::Clear();
-}
-
-bool DungeonLevel::DeicdeFirstAttacker()
-{
-	return false;
 }
 
 

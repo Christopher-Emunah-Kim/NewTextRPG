@@ -1,21 +1,17 @@
 ﻿#pragma once
 #include "BaseLevel.h"
 
-class InputSystem;
-class Player;
 class HUDUI;
 
 class TitleLevel final : public BaseLevel
 {
 public:
-	using BaseLevel::BaseLevel;
+	TitleLevel(const wstring& tag);
 	virtual ~TitleLevel() = default;
 
 private:
-	//Player* m_player = nullptr;
 	vector<wstring> m_systemTexts;
 	HUDUI* m_HUDUI = nullptr;
-
 
 public:
 	virtual void Init() override;
@@ -24,15 +20,14 @@ public:
 
 private:
 	void SetHUDUI();
-	void Welcome();
-	void EnterVillage();
-	void EnterDungeon();
-	void GoToHell();
+	void ProcessTitleMenu();
+
+	void OnEnterVillage();
+	void OnEnterDungeon();
+	void OnQuitGame();
 
 	void AddText(const wstring& text);
 	void ClearText();
 
-public:
-	
 };
 

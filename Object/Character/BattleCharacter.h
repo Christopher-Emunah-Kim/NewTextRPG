@@ -13,6 +13,9 @@ public:
 protected:
 	FBattleCharacterInfo m_battleCharacterInfo;
 
+private:
+	int32 CalculateDamage(BattleCharacter* target) const;
+
 public:
 	virtual void Init() override;
 	virtual void Interact(BaseCharacter* other) override;
@@ -21,17 +24,6 @@ public:
 	virtual void TakeDamage(const int32& damage);
 	virtual bool IsAlive() const;
 
-	int32 CalculateDamage(BattleCharacter* target) const;
-
-
-	void SetHealth(const int32& health);
-	void SetMaxHealth(const int32& maxHealth);
-	void SetStatus(const Status& status);
-
-
-	int32 GetHealth() const noexcept { return m_battleCharacterInfo.health; }
-	int32 GetMaxHealth() const noexcept { return m_battleCharacterInfo.maxHealth; }
-	const Status& GetStatus() const noexcept { return m_battleCharacterInfo.status; }
 	const FBattleCharacterInfo& GetBattleCharacterInfo() const noexcept { return m_battleCharacterInfo; }
 };
 

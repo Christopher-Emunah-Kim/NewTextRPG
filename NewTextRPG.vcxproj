@@ -148,12 +148,13 @@
     <ClCompile Include="Object\Character\BattleCharacter.cpp" />
     <ClCompile Include="Object\Character\Monster.cpp" />
     <ClCompile Include="Object\Character\Player.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Object\UI\HUDUI.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Screen.cpp" />
+    <ClCompile Include="Util\BattleSystem.cpp" />
     <ClCompile Include="Util\InputSystem.cpp" />
     <ClCompile Include="Util\Singleton.h" />
     <ClCompile Include="Util\Timer.cpp" />
@@ -187,12 +188,13 @@
     <ClInclude Include="Object\Character\BattleCharacter.h" />
     <ClInclude Include="Object\Character\Monster.h" />
     <ClInclude Include="Object\Character\Player.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="Object\UI\HUDUI.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="Screen.h" />
+    <ClInclude Include="Util\BattleSystem.h" />
     <ClInclude Include="Util\InputAction.h" />
     <ClInclude Include="Util\InputSystem.h" />
     <ClInclude Include="Util\OutputSystem.h" />

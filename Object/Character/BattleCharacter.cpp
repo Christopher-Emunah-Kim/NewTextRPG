@@ -1,6 +1,6 @@
 ﻿#include "BattleCharacter.h"
 #include "../../Core/GameInstance.h"
-#include "../../Component/BattleComp.h"
+#include "../../Util/BattleSystem.h"
 
 
 BattleCharacter::BattleCharacter(BaseLevel* level, const wstring& tag)
@@ -15,11 +15,6 @@ BattleCharacter::~BattleCharacter()
 void BattleCharacter::Init()
 {
 	BaseCharacter::Init();
-
-	if (!HasComponentType<BattleComp>())
-	{
-		AddComponent(new BattleComp(this));
-	}
 }
 
 void BattleCharacter::Interact(BaseCharacter* other)
@@ -27,15 +22,7 @@ void BattleCharacter::Interact(BaseCharacter* other)
 	BattleCharacter* battleTarget = dynamic_cast<BattleCharacter*>(other);
 	if (battleTarget && IsAlive() && battleTarget->IsAlive())
 	{
-		BattleComp* battleComp = GetComponentsByType<BattleComp>();
-		if (battleComp)
-		{
-			battleComp->InitiateBattle(battleTarget);
-		}
-		else
-		{
-			Attack(battleTarget);
-		}
+		BattleSystem::StartBattle(this, battleTarget);
 	}
 }
 
@@ -76,7 +63,7 @@ bool BattleCharacter::IsAlive() const
 
 int32 BattleCharacter::CalculateDamage(BattleCharacter* target) const
 {
-	int32 damage = m_battleCharacterInfo.status.GetAttack() - target->GetStatus().GetDefense();
+	int32 damage = m_battleCharacterInfo.status.GetAttack() - target->GetBattleCharacterInfo().status.GetDefense();
 
 	if (damage > 0)
 	{
@@ -86,23 +73,4 @@ int32 BattleCharacter::CalculateDamage(BattleCharacter* target) const
 	{
 		return DEFAULT_DAMAGE;
 	}
-}
-
-void BattleCharacter::SetHealth(const int32& health)
-{
-	m_battleCharacterInfo.health = health;
-	if (m_battleCharacterInfo.health > m_battleCharacterInfo.maxHealth)
-	{
-		m_battleCharacterInfo.health = m_battleCharacterInfo.maxHealth;
-	}
-}
-
-void BattleCharacter::SetMaxHealth(const int32& maxHealth)
-{
-	m_battleCharacterInfo.maxHealth = maxHealth;
-}
-
-void BattleCharacter::SetStatus(const Status& status)
-{
-	m_battleCharacterInfo.status = status;
 }

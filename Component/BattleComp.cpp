@@ -85,8 +85,8 @@ bool BattleComp::DetermineFirstAttacker()
 		return true;
 	}
 
-	int16 ownerAgility = m_owner->GetStatus().GetAgility();
-	int16 targetAgility = m_currentTarget->GetStatus().GetAgility();
+	int16 ownerAgility = m_owner->GetBattleCharacterInfo().status.GetAgility();
+	int16 targetAgility = m_currentTarget->GetBattleCharacterInfo().status.GetAgility();
 
 	if (ownerAgility >= targetAgility)
 	{

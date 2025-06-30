@@ -16,8 +16,6 @@ public:
 
 	void DropRewards();
 
-
-
 	inline void SetDropGoldAmount(const int16& amount) { m_monsterInfo.dropGold = amount; }
 	inline void SetDropExperienceAmount(const int16& amount) { m_monsterInfo.dropExperience = amount; }
 	inline void SetDropItemId(const int32& id) { m_monsterInfo.dropItemId = id; }

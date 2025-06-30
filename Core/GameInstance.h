@@ -14,18 +14,15 @@ public:
 
 private:
 	HUDUI* m_HUDUI = nullptr;
-	bool m_bIsPlayerInitialzed = false;
+	Player m_Player;
 
 public:
-	void Init();
+	inline Player& GetPlayer() { return m_Player; }
 
-	
-	bool IsPlayerInitialzed() const;
-	void SetPlayerInitialize(bool bIsInitialized);
 
 	void DisplaySystemText(const wstring& text);
-	void ChangeLevelAreaSettings(BaseLevel* newLevel);
 
+	//void ChangeLevelAreaSettings(BaseLevel* newLevel);
 	void SetHUDUI(HUDUI* playerInfoObj);
 	inline HUDUI* GetHUDUI() noexcept { return m_HUDUI; }
 };

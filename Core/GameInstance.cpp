@@ -6,23 +6,7 @@
 #include "../Manager/LevelManager.h"
 
 
-void GameInstance::Init()
-{
-	m_bIsPlayerInitialzed = false;
-	m_HUDUI = nullptr;
 
-	ItemDataTable::GetInstance()->Init();
-}
-
-bool GameInstance::IsPlayerInitialzed() const
-{
-	return m_bIsPlayerInitialzed;
-}
-
-void GameInstance::SetPlayerInitialize(bool bIsInitialized)
-{
-	m_bIsPlayerInitialzed = bIsInitialized;
-}
 
 void GameInstance::SetHUDUI(HUDUI* hudUI)
 {
@@ -46,15 +30,13 @@ void GameInstance::DisplaySystemText(const wstring& text)
 	}
 }
 
-void GameInstance::ChangeLevelAreaSettings(BaseLevel* newLevel)
-{
-	if (m_HUDUI != nullptr)
-	{
-		m_HUDUI->RegisterInNewLevel(newLevel);
-
-		DisplaySystemText(L"새로운 레벨(" + newLevel->GetTag() + L")에 진입했습니다.");
-	}
-}
+//void GameInstance::ChangeLevelAreaSettings(BaseLevel* newLevel)
+//{
+//	if (m_HUDUI != nullptr)
+//	{
+//		m_HUDUI->RegisterInNewLevel(newLevel);
+//	}
+//}
 
 
 

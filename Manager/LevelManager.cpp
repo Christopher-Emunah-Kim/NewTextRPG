@@ -8,7 +8,6 @@
 #include "../Screen.h"
 #include "../Object/UI/HUDUI.h"
 
-//#include "../Level/SampleLevel.h"
 
 
 LevelManager::~LevelManager()
@@ -24,8 +23,6 @@ void LevelManager::Init()
 
 	m_currentLevel = m_levels[L"Title"];
 
-
-	//GameInstance::GetInstance()->ChangeLevelAreaSettings(m_currentLevel);
 
 	m_currentLevel->Init();
 }
@@ -88,47 +85,12 @@ void LevelManager::ChangeLevel()
 {
 	if (m_nextLevel)
 	{
-		//Player* player = GameInstance::GetInstance()->GetPlayer();
 		BaseGameObject* currentPlayerObject = m_currentLevel->FindObject(L"Player");
-
 		m_currentLevel->DetachObject(currentPlayerObject);
-
-		//if (currentPlayerObject && currentPlayerObject == player)
-		/*{
-			m_currentLevel->DetachObject(currentPlayerObject);
-		}*/
-
-		//m_currentLevel->RemoveObject(L"SystemTextDialog");
-		GameInstance::GetInstance()->ChangeLevelAreaSettings(m_nextLevel);
 
 		m_currentLevel->Release();
 		m_currentLevel = m_nextLevel;
 		m_currentLevel->Init();
-
-		//player->RegisterNewLevelArea(m_currentLevel);
-
-
-		/*GameInstance* gameInstance = GameInstance::GetInstance();
-
-		vector<BaseGameObject*> objects = m_currentLevel->GetObjects();
-		for (size_t i = 0; i < objects.size(); ++i)
-		{
-			BaseGameObject* obj = objects[i];
-			wstring type = obj->GetType();
-
-			if (type == L"Player" || type == L"SystemText")
-			{
-				gameInstance->SaveObjectState(obj);
-			}
-		}
-
-		gameInstance->ChangeLevelAreaSettings(m_nextLevel);
-		m_currentLevel->Release();
-		m_currentLevel = m_nextLevel;
-
-		wstring levelFilePath = L"DataDriven/" + m_currentLevel->GetTag() + L".txt";
-
-		gameInstance->LoadSerializedDataFromFile(m_currentLevel, levelFilePath);*/
 
 		m_nextLevel = nullptr;
 	}

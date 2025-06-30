@@ -3,6 +3,7 @@
 #include "Util/InputSystem.h"
 #include "Util/Timer.h"  
 #include "Core/GameInstance.h"
+#include "Item/ItemDataTable.h"
 #include "Screen.h"
 
 Game::~Game() noexcept  
@@ -13,7 +14,7 @@ Game::~Game() noexcept
 bool Game::Init()  
 {  
 	m_screen->Init();
-	GameInstance::GetInstance()->Init();
+	ItemDataTable::GetInstance()->Init();
 	LevelManager::GetInstance()->Init();
 
 	return true;

@@ -2,7 +2,6 @@
 #include "../../Level/BaseLevel.h"
 #include "../../Object/Character/Player.h"
 #include "../../Util/OutputSystem.h"
-#include "../../Component/UI/SystemUIComp.h"
 #include "../../Component/Player/PlayerStatusComp.h"
 #include "../../Data/PlayerDataTablePerLevel.h"
 #include "../../Screen.h"
@@ -101,8 +100,6 @@ void HUDUI::ClearSystemText()
 {
 	queue<wstring> emptyQueue;
 	m_textQueue.swap(emptyQueue);
-
-	
 }
 
 void HUDUI::UpdatePlayerInfo(const FPlayerInfo& playerInfo)

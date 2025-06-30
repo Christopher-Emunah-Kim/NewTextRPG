@@ -3,38 +3,36 @@
 
 
 class HUDUI;
+class Monster;
 struct Status;
 
 class DungeonLevel : public BaseLevel
 {
+
 public:
-	using BaseLevel::BaseLevel;
+	DungeonLevel(const wstring& tag);
 	virtual ~DungeonLevel() = default;
 
 private:
 	vector<wstring> m_systemTexts;
 	HUDUI* m_HUDUI = nullptr;
+	Monster* m_monster;
 
-
-	wstring currentMonsterName;
-	Status currentMonsterStatus;
 
 public:
 	virtual void Init() override;
 	virtual void Render(Screen* screen) override;
 	virtual void Release() override;
 
+	void AddText(const wstring& text);
 private:
-	void SetHUDUI();
 	void SetDungeonStage();
 	void Welcome();
-	void EnterStage();
-	void BackToVillage();
-	void StartBattle();
-	void RunToEnterance();
-	bool DeicdeFirstAttacker();
+	void OnEnterStage();
+	void OnBackToVillage();
+	void OnStartBattle();
+	void OnEscape();
 
-	void AddText(const wstring& text);
 	void ClearText();
 
 };

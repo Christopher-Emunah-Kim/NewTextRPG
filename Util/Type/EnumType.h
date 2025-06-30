@@ -30,6 +30,14 @@ enum class EItemType : int8
 	Max
 };
 
+enum class EBattleState : int8
+{
+	BattleStart,
+	BattleEnd,
+	PlayerTurn,
+	MonsterTurn,
+	WaitForPlayerInput
+};
 
 enum class EKeyCode : uint8
 {

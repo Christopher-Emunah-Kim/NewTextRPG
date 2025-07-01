@@ -56,6 +56,7 @@ void InputSystem::BindAction(initializer_list<pair<wstring, InputAction>> action
 void InputSystem::Clear()
 {
 	s_actions.clear();
+	s_actionOnError = nullptr;
 }
 
 void InputSystem::Clear(const wstring& command)

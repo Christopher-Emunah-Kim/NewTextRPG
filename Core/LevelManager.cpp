@@ -1,12 +1,10 @@
 ﻿#include "LevelManager.h"
 #include "../Core/GameInstance.h"
+#include "../Util/OutputSystem.h"
 #include "../Level/BaseLevel.h"
 #include "../Level/TitleLevel.h"
 #include "../Level/DungeonLevel.h"
-#include "../Util/OutputSystem.h"
-#include "../Object/Character/Player.h"
 #include "../Screen.h"
-#include "../HUD.h"
 
 
 

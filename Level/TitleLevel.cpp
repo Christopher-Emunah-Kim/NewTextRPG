@@ -1,10 +1,7 @@
 ﻿#include "TitleLevel.h"
 #include "../Core/GameInstance.h"
-#include "../HUD.h"
-#include "../Screen.h"
 #include "../Util/InputSystem.h"
 #include "../Core/LevelManager.h"
-#include "../Component/Player/PlayerStatusComp.h"
 
 
 void TitleLevel::Init()

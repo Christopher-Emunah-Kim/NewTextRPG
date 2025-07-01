@@ -1,9 +1,5 @@
 ﻿#include "Monster.h"
 
-/*#include "../../Component/Monster/MonsterLootComp.h"
-#include "../../Component/Monster/MonsterStatusComp.h"
-#include "../../Component/Monster/MonsterAIComp.h"*/
-
 Monster::Monster(BaseLevel* level, const wstring& tag)
 	:BattleCharacter(level, tag), m_monsterInfo(DEFAULT_LEVEL)
 {

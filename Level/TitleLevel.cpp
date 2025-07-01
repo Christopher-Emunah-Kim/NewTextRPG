@@ -7,49 +7,14 @@
 #include "../Component/Player/PlayerStatusComp.h"
 
 
-//TitleLevel::TitleLevel(const wstring& tag)
-//	:BaseLevel(tag), m_HUDUI(new HUD(this))
-//{
-//}
-
 void TitleLevel::Init()
 {
-	SetTitleLevel();
-
 	ProcessTitleMenu();
 
 	BaseLevel::Init();
 }
 
-//void TitleLevel::Render(Screen* screen)
-//{
-//	m_HUDUI->ClearText();
-//
-//	for (size_t line = 0; line < m_systemTexts.size(); ++line)
-//	{
-//		m_HUDUI->EnqueueText(m_systemTexts[line]);
-//	}
-//
-//	BaseLevel::Render(screen);
-//}
 
-void TitleLevel::Release()
-{
-	/*delete m_HUDUI;
-	m_HUDUI = nullptr;
-	GameInstance::GetInstance()->SetHUDUI(nullptr);*/
-}
-
-void TitleLevel::SetTitleLevel()
-{
-	//GameInstance* gameInstance = GameInstance::GetInstance();
-
-	//m_HUDUI->Init();
-	//Player& player = GameInstance::GetInstance()->GetPlayer();
-	//gameInstance->SetHUDUI(m_HUDUI);
-	//m_HUDUI->UpdatePlayerInfoDialog(player);
-
-}
 
 void TitleLevel::ProcessTitleMenu()
 {
@@ -86,7 +51,6 @@ void TitleLevel::ProcessTitleMenu()
 	);
 }
 
-
 void TitleLevel::OnEnterVillage()
 {
 	GameInstance::GetInstance()->EnqueueText(L"마을로 입장합니다...");
@@ -114,16 +78,4 @@ void TitleLevel::OnQuitGame()
 
 	exit(0); // exit game
 }
-
-
-
-//void TitleLevel::EnqueueText(const wstring& text)
-//{
-//	m_systemTexts.push_back(text);
-//}
-//
-//void TitleLevel::ClearText()
-//{
-//	m_systemTexts.clear();
-//}
 

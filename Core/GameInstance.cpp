@@ -54,26 +54,15 @@ void GameInstance::RenderHud(Screen& screen) const
 
 
 
-////void GameInstance::SetHUDUI(HUDUI* hudUI)
-////{
-////	if (hudUI != nullptr)
-////	{
-////		m_HUDUI = hudUI;
-////	}
-////}
-//
-//
-////void GameInstance::ChangeLevelAreaSettings(BaseLevel* newLevel)
-////{
-////	if (m_HUDUI != nullptr)
-////	{
-////		m_HUDUI->RegisterInNewLevel(newLevel);
-////	}
-////}
-//
-//
-//
-//
+
+
+
+
+
+
+
+
+
 ////bool GameInstance::LoadSerializedDataFromFile(BaseLevel* level, const wstring& filePath)
 ////{
 ////	if (nullptr == level)

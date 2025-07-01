@@ -17,10 +17,10 @@ class SystemUIComp;
 
 struct FHudData final
 {
-	// 레벨 데이터
+	// level area data
 	wstring levelAreaName;
 
-	// 플레이어 데이터
+	// player data
 	wstring playerName;
 	int16 playerLevel;
 	int32 currentHealth;
@@ -56,17 +56,6 @@ public:
 
 	void EnqueueText(const wstring& text);
 	void ClearText();
-
-
-
-	/*virtual void Init() override;
-
-	void UpdatePlayerInfoDialog(const Player& player);
-	void RegisterInNewLevel(BaseLevel* newLevel);
-
-	void SetSystemText(const wstring& text);
-	void UpdatePlayerInfo(const FPlayerInfo& playerInfo);*/
-
 
 };
 

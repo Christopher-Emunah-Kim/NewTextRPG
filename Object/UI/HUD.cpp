@@ -5,22 +5,6 @@
 #include "../../Util/OutputSystem.h"
 
 
-
-//HUD::HUD(BaseLevel* level)
-//	: BaseGameObject(level, L"HUDUI"), m_playerInfo(DEFAULT_LEVEL)
-//{
-//}
-
-
-//void HUD::Init()
-//{
-//	SetPosition(0, 0);
-//
-//
-//	BaseGameObject::Init();
-//
-//}
-
 void HUD::Render(Screen& screen) const
 {
 
@@ -31,54 +15,6 @@ void HUD::Render(Screen& screen) const
 	RenderInputBuffer(screen);
 }
 
-//void HUD::UpdatePlayerInfoDialog(const Player& player)
-//{
-//	const PlayerStatusComp* statusComp = nullptr;
-//    const vector<BaseComponent*>& playerComps = const_cast<Player&>(player).GetComponents();
-//
-//	for (size_t i = 0; i < playerComps.size(); ++i)
-//	{
-//		statusComp = dynamic_cast<PlayerStatusComp*>(playerComps[i]);
-//		if (statusComp)
-//		{
-//			break;
-//		}
-//	}
-//
-//	if (nullptr == statusComp)
-//	{
-//		OutputSystem::PrintErrorMsg(L"플레이어에 PlayerStatusComp가 없습니다.");
-//		return;
-//	}
-//
-//	const FPlayerInfo& playerInfo = statusComp->GetPlayerInfo();
-//	UpdatePlayerInfo(playerInfo);
-//	
-//}
-//
-//void HUD::RegisterInNewLevel(BaseLevel* newLevel)
-//{
-//	if (GetLevel() != newLevel)
-//	{
-//		if (GetLevel())
-//		{
-//			GetLevel()->DetachObject(this);
-//		}
-//
-//		SetLevelArea(newLevel);
-//		
-//		if (newLevel)
-//		{
-//			newLevel->AddObject(this);
-//		}
-//	}
-//}
-//
-//void HUD::SetSystemText(const wstring& text)
-//{
-//	EnqueueText(text);
-//	
-//}
 
 void HUD::EnqueueText(const wstring& text)
 {
@@ -94,11 +30,6 @@ void HUD::ClearText()
 {
 	m_systemTextQueue.clear();
 }
-
-//void HUD::UpdatePlayerInfo(const FPlayerInfo& playerInfo)
-//{
-//	m_playerInfo = playerInfo;
-//}
 
 
 
@@ -163,53 +94,29 @@ void HUD::RenderPlayerInfo(Screen& screen) const
 	screen.Draw(SCREEN_WIDTH - 2, SCREEN_HEIGHT - COMMAND_BLOCK_HEIGHT + 1, L"│");
 	screen.Draw(0, SCREEN_HEIGHT - 1, L"└─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘");
 
-	//screen->Draw(GAME_PANEL_START_X, DEFAULT_BASE_Y, L"────────────────────────────────────────────────────────────────────────────────────────────");
+	
 }
 
 void HUD::RenderSystemText(Screen& screen) const
 {
-	/*constexpr size_t textPositionY = DEFAULT_BASE_Y - MAX_LINES;
-	for (size_t index = 0; index < m_systemTextQueue.size(); ++index)
-	{
-		if (textPositionY + index >= static_cast<size_t>(INT32_MAX))
-		{
-			OutputSystem::PrintErrorMsg(L"텍스트 위치가 INT32 범위를 초과했습니다.");
-			break;
-		}
-
-		screen.Draw(GAME_PANEL_START_X + 1, static_cast<int32>(textPositionY + index), m_systemTextQueue[index]);
-	}*/
-
-	vector<wstring> tempTexts;
-	deque<wstring> copiedQueue = m_systemTextQueue;
-
-	while (false == copiedQueue.empty())
-	{
-		tempTexts.push_back(copiedQueue.front());
-		copiedQueue.pop_front();
-	}
-
-	int32 outputY = SYSTEM_TEXT_BASE_Y;
 	int32 messageAreaWidth = SCREEN_WIDTH - GAME_PANEL_START_X - RIGHT_MARGIN;
-
 	wstring clearLine(messageAreaWidth, L' ');
 
-	for (int32 y = outputY; y < outputY + MAX_LINES; ++y)
+	for (int32 y = SYSTEM_TEXT_BASE_Y; y < SYSTEM_TEXT_BASE_Y + MAX_LINES; ++y)
 	{
 		screen.Draw(GAME_PANEL_START_X + 1, y, clearLine);
 	}
 
-	for (size_t i = 0; i < tempTexts.size(); ++i)
+	int32 outputY = SYSTEM_TEXT_BASE_Y;
+	for (const auto& text : m_systemTextQueue)
 	{
-		screen.Draw(GAME_PANEL_START_X + 1, outputY, tempTexts[i]);
+		screen.Draw(GAME_PANEL_START_X + 1, outputY, text);
 		++outputY;
 	}
 }
 
 void HUD::RenderInputBuffer(Screen& screen) const
 {
-	//TODO 입력버퍼 위치조정
-	/*screen.Draw(LEFT_MARGIN, COMMAND_BLOCK_HEIGHT, format(L"입력 > {}", InputSystem::GetBuffer()));*/
 	screen.Draw(2, SCREEN_HEIGHT - COMMAND_BLOCK_HEIGHT + 1, L"명령 > ");
 	screen.Draw(9, SCREEN_HEIGHT - COMMAND_BLOCK_HEIGHT + 1, InputSystem::GetBuffer());
 }

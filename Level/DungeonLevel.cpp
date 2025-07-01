@@ -8,10 +8,6 @@
 #include "../Component/Player/PlayerStatusComp.h"
 
 
-//DungeonLevel::DungeonLevel(const wstring& tag)
-//	:BaseLevel(tag), m_HUDUI(new HUD(this))
-//{
-//}
 
 void DungeonLevel::Init()
 {
@@ -22,24 +18,9 @@ void DungeonLevel::Init()
 	BaseLevel::Init();
 }
 
-//void DungeonLevel::Render(Screen* screen)
-//{
-//	m_HUDUI->ClearText();
-//
-//	for (size_t line = 0; line < m_systemTexts.size(); ++line)
-//	{
-//		m_HUDUI->EnqueueText(m_systemTexts[line]);
-//	}
-//
-//	BaseLevel::Render(screen);
-//}
 
 void DungeonLevel::Release()
 {
-	/*delete m_HUDUI;
-	m_HUDUI = nullptr;
-	GameInstance::GetInstance()->SetHUDUI(nullptr);*/
-
 	delete m_monster;
 	m_monster = nullptr;
 }
@@ -47,14 +28,6 @@ void DungeonLevel::Release()
 
 void DungeonLevel::SetDungeonStage()
 {
-	/*GameInstance* gameInstance = GameInstance::GetInstance();
-
-	m_HUDUI->Init();
-	gameInstance->SetHUDUI(m_HUDUI);
-	Player& player = gameInstance->GetPlayer();
-	m_HUDUI->UpdatePlayerInfoDialog(player);*/
-
-
 	if (m_monster)
 	{
 		delete m_monster;
@@ -141,7 +114,6 @@ void DungeonLevel::OnEnterStage()
 		}
 	);
 
-	//InputSystem::Clear();
 }
 
 void DungeonLevel::OnBackToVillage()
@@ -181,15 +153,3 @@ void DungeonLevel::OnEscape()
 
 	InputSystem::Clear();
 }
-
-
-
-//void DungeonLevel::AddText(const wstring& text)
-//{
-//	m_systemTexts.push_back(text);
-//}
-//
-//void DungeonLevel::ClearText()
-//{
-//	m_systemTexts.clear();
-//}

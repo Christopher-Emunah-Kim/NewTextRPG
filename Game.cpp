@@ -18,7 +18,6 @@ bool Game::Init()
 	ItemDataTable::GetInstance()->Init();
 	LevelManager::GetInstance()->Init();
 
-
 	return true;
 }  
 
@@ -40,7 +39,6 @@ void Game::Run()
 			Render();  
 		}  
 	}  
-
 }  
 
 void Game::ProcessInput()  
@@ -58,7 +56,6 @@ void Game::Render()
 	m_screen->Clear();
 
 	GameInstance::GetInstance()->RenderHud(*m_screen);
-	//LevelManager::GetInstance()->Render(m_screen);
 
 	m_screen->SwapBuffer();
 }  

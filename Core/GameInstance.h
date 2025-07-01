@@ -6,8 +6,6 @@
 
 class GameInstance final : public Singleton<GameInstance>
 {
-private:
-
 public:
 	GameInstance() = default;
 	virtual ~GameInstance() = default;

@@ -54,7 +54,7 @@
     <ClCompile Include="Core\GameInstance.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Object\UI\HUDUI.cpp">
+    <ClCompile Include="Object\UI\HUD.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Component\Player\PlayerStatusComp.cpp">
@@ -149,7 +149,7 @@
     <ClInclude Include="Util\InputAction.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Object\UI\HUDUI.h">
+    <ClInclude Include="Object\UI\HUD.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Component\Player\PlayerStatusComp.h">

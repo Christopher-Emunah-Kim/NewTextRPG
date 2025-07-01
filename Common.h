@@ -5,6 +5,7 @@
 #include <conio.h>
 
 #include <functional>
+#include <format>
 
 #include <vector>
 #include <string>

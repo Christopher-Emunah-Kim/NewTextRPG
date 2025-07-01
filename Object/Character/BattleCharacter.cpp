@@ -35,7 +35,7 @@ void BattleCharacter::Attack(BattleCharacter* target)
 	}
 
 	int32 clculatedDamage = CalculateDamage(target);
-	AddSystemText(GetName() + L"가(이) " + target->GetName() + L" 을(를) 공격합니다!");
+	GameInstance::GetInstance()->EnqueueText(GetName() + L"가(이) " + target->GetName() + L" 을(를) 공격합니다!");
 
 	target->TakeDamage(clculatedDamage);
 }
@@ -54,7 +54,7 @@ void BattleCharacter::TakeDamage(const int32& damage)
 		m_battleCharacterInfo.health = 0;
 	}
 
-	AddSystemText(GetName() + L"가(이) " + to_wstring(damage) + L" 의 피해를 입었습니다.");
+	GameInstance::GetInstance()->EnqueueText(GetName() + L"가(이) " + to_wstring(damage) + L" 의 피해를 입었습니다.");
 }
 
 bool BattleCharacter::IsAlive() const
@@ -73,14 +73,5 @@ int32 BattleCharacter::CalculateDamage(BattleCharacter* target) const
 	else
 	{
 		return DEFAULT_DAMAGE;
-	}
-}
-
-void BattleCharacter::AddSystemText(const wstring& text)
-{
-	DungeonLevel* dungeonLevel = dynamic_cast<DungeonLevel*>(m_levelArea);
-	if (dungeonLevel)
-	{
-		dungeonLevel->AddText(text);
 	}
 }

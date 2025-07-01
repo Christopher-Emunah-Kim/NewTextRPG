@@ -1,13 +1,59 @@
-﻿//#include "GameInstance.h"
-//#include "../Data/PlayerDataTablePerLevel.h"
-//#include "../Item/ItemDataTable.h"
-//#include "../Util/OutputSystem.h"
-//#include "../Level/BaseLevel.h"
-//#include "../Manager/LevelManager.h"
-//
-//
-////
-////
+﻿#include "GameInstance.h"
+
+
+void GameInstance::UpdateLevelName(const wstring& levelName)
+{
+	m_Hud.UpdateLevelName(levelName);
+}
+
+void GameInstance::UpdatePlayerName(const wstring& playerName)
+{
+	m_Hud.UpdatePlayerName(playerName);
+}
+
+void GameInstance::UpdatePlayerLevel(int16 level)
+{
+	m_Hud.UpdatePlayerLevel(level);
+}
+
+void GameInstance::UpdatePlayerHealth(int32 health, int32 maxHealth)
+{
+	m_Hud.UpdatePlayerHealth(health, maxHealth);
+}
+
+void GameInstance::UpdatePlayerStatus(const Status& status)
+{
+	m_Hud.UpdatePlayerStatus(status);
+}
+
+void GameInstance::EnqueueText(const wstring& text)
+{
+	m_Hud.EnqueueText(text);
+}
+
+void GameInstance::ClearText()
+{
+	m_Hud.ClearText();
+}
+
+void GameInstance::RenderHud(Screen& screen) const
+{
+	m_Hud.Render(screen);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ////void GameInstance::SetHUDUI(HUDUI* hudUI)
 ////{
 ////	if (hudUI != nullptr)

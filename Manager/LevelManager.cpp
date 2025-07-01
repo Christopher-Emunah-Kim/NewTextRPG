@@ -6,7 +6,7 @@
 #include "../Util/OutputSystem.h"
 #include "../Object/Character/Player.h"
 #include "../Screen.h"
-#include "../Object/UI/HUDUI.h"
+#include "../Object/UI/HUD.h"
 
 
 
@@ -85,8 +85,8 @@ void LevelManager::ChangeLevel()
 {
 	if (m_nextLevel)
 	{
-		BaseGameObject* currentPlayerObject = m_currentLevel->FindObject(L"Player");
-		m_currentLevel->DetachObject(currentPlayerObject);
+		//BaseGameObject* currentPlayerObject = m_currentLevel->FindObject(L"Player");
+		//m_currentLevel->DetachObject(currentPlayerObject);
 
 		m_currentLevel->Release();
 		m_currentLevel = m_nextLevel;

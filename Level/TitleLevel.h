@@ -1,21 +1,22 @@
 ﻿#pragma once
 #include "BaseLevel.h"
 
-class HUDUI;
+class HUD;
 
 class TitleLevel final : public BaseLevel
 {
 public:
-	TitleLevel(const wstring& tag);
+	using BaseLevel::BaseLevel;
+	//TitleLevel(const wstring& tag);
 	virtual ~TitleLevel() = default;
 
 private:
-	vector<wstring> m_systemTexts;
-	HUDUI* m_HUDUI = nullptr;
+	/*vector<wstring> m_systemTexts;
+	HUD* m_HUDUI = nullptr;*/
 
 public:
 	virtual void Init() override;
-	virtual void Render(Screen* screen) override;
+	//virtual void Render(Screen* screen) override;
 	virtual void Release() override;
 
 private:
@@ -26,8 +27,8 @@ private:
 	void OnEnterDungeon();
 	void OnQuitGame();
 
-	void AddText(const wstring& text);
-	void ClearText();
+	/*void AddText(const wstring& text);
+	void ClearText();*/
 
 };
 

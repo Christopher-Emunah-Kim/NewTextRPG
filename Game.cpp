@@ -25,7 +25,6 @@ bool Game::Init()
 void Game::Run()  
 {  
 	Timer::Init();  
-	Init();
 
 	while (true)  
 	{  
@@ -58,7 +57,8 @@ void Game::Render()
 {  
 	m_screen->Clear();
 
-	LevelManager::GetInstance()->Render(m_screen);
+	GameInstance::GetInstance()->RenderHud(*m_screen);
+	//LevelManager::GetInstance()->Render(m_screen);
 
 	m_screen->SwapBuffer();
 }  

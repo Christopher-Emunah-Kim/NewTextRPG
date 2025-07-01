@@ -18,14 +18,14 @@ class SystemUIComp;
 struct FHudData final
 {
 	// level area data
-	wstring levelAreaName;
+	wstring levelAreaName = L"DEFAULT";
 
 	// player data
-	wstring playerName;
-	int16 playerLevel;
-	int32 currentHealth;
-	int32 maxHealth;
-	Status status;
+	wstring playerName = L"발할라 전사";
+	int16 playerLevel = 1;
+	int32 currentHealth = 100;
+	int32 maxHealth = 100;
+	Status status = Status(1,1,1);
 	Experience experience;
 	Gold gold;
 };

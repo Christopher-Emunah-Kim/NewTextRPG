@@ -14,7 +14,7 @@ Game::~Game() noexcept
 bool Game::Init()  
 {  
 	FPlayerDataTablePerLevel::InitializeLevelData();
-	m_screen->Init();
+	m_screen.Init();
 	ItemDataTable::GetInstance()->Init();
 	LevelManager::GetInstance()->Init();
 
@@ -53,16 +53,16 @@ void Game::Update()
 
 void Game::Render()  
 {  
-	m_screen->Clear();
+	m_screen.Clear();
 
-	GameInstance::GetInstance()->RenderHud(*m_screen);
+	GameInstance::GetInstance()->RenderHud(m_screen);
 
-	m_screen->SwapBuffer();
+	m_screen.SwapBuffer();
 }  
 
 void Game::Release()  
 {  
 	LevelManager::GetInstance()->Release();
 
-	m_screen->Release();
+	m_screen.Release();
 }

@@ -7,11 +7,11 @@ class Screen;
 class Game
 {
 public:
-	explicit Game() : m_screen(Screen::GetInstance()) { }
+	//explicit Game() : m_screen(Screen::GetInstance()) { }
 	virtual ~Game() noexcept;
 
 private:
-	Screen* m_screen;
+	Screen m_screen;
 
 public:
 	bool Init();

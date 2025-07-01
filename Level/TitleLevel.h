@@ -13,6 +13,7 @@ public:
 	virtual void Init() override;
 
 private:
+	void SetTitleLevel();
 	void ProcessTitleMenu();
 
 	void OnEnterVillage();

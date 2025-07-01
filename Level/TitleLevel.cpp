@@ -16,6 +16,11 @@ void TitleLevel::Init()
 
 
 
+void TitleLevel::SetTitleLevel()
+{
+	GameInstance::GetInstance()->UpdateLevelName(GetTag());
+}
+
 void TitleLevel::ProcessTitleMenu()
 {
 	GameInstance* gameInstance = GameInstance::GetInstance();

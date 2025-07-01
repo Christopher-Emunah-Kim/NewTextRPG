@@ -30,5 +30,6 @@ public:
 
 	const BaseItem* GetItem(const wstring& itemName) const;
 	const ItemUMap& GetItemDataTable() const noexcept;
-
+	const vector<wstring> GetItemNames() const noexcept;
+	
 };

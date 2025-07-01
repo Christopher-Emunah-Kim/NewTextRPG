@@ -181,3 +181,15 @@ const ItemUMap& ItemDataTable::GetItemDataTable() const noexcept
 {
 	return m_itemDataTable;
 }
+
+const vector<wstring> ItemDataTable::GetItemNames() const noexcept
+{
+	vector<wstring> itemNames;
+
+	for (unordered_map<wstring, BaseItem*>::const_iterator it = m_itemDataTable.begin(); it != m_itemDataTable.end(); ++it)
+	{
+		itemNames.push_back(it->first);
+	}
+
+	return itemNames;
+}

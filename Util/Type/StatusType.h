@@ -28,6 +28,23 @@ struct Status
 		return *this;
 	}
 
+	Status operator+(const Status& other) const
+	{
+		return Status(
+			this->attack + other.attack,
+			this->defense + other.defense,
+			this->agility + other.agility
+		);
+	}
+
+	Status& operator+=(const Status& other)
+	{
+		const_cast<int16&>(attack) += other.attack;
+		const_cast<int16&>(defense) += other.defense;
+		const_cast<int16&>(agility) += other.agility;
+		return *this;
+	}
+
 private:
 	const int16 attack;
 	const int16 defense;
@@ -50,6 +67,15 @@ public:
 			self.attack + other.attack,
 			self.defense + other.defense,
 			self.agility + other.agility
+		);
+	}
+
+	static Status RemoveStatus(const Status& self, const Status& other)
+	{
+		return Status(
+			self.attack - other.attack,
+			self.defense - other.defense,
+			self.agility - other.agility
 		);
 	}
 

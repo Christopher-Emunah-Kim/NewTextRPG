@@ -3,7 +3,7 @@
 #include "../Object/Character/Player.h"
 #include "../Object/Character/Monster.h"
 #include "../Level/DungeonLevel.h"
-#include "../Manager/LevelManager.h"
+#include "../Core/LevelManager.h"
 
 
 void BattleSystem::StartBattle(BattleCharacter* attacker, BattleCharacter* defender)

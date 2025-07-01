@@ -6,7 +6,7 @@
 #include "../Util/OutputSystem.h"
 #include "../Object/Character/Player.h"
 #include "../Screen.h"
-#include "../Object/UI/HUD.h"
+#include "../HUD.h"
 
 
 

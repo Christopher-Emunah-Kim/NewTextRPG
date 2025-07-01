@@ -39,7 +39,7 @@
     <ClCompile Include="Game.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Manager\LevelManager.cpp">
+    <ClCompile Include="Core\LevelManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Object\Character\Player.cpp">
@@ -122,7 +122,7 @@
     <ClInclude Include="Game.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Manager\LevelManager.h">
+    <ClInclude Include="Core\LevelManager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Util\OutputSystem.h">

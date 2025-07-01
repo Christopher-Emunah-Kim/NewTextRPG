@@ -1,5 +1,5 @@
 ﻿#include "InventoryComp.h"
-#include "../../Item/ItemDataTable.h"
+#include "../../Data/ItemDataTable.h"
 #include "../../Object/BaseGameObject.h"
 
 InventoryComp::InventoryComp(BaseGameObject* owner)

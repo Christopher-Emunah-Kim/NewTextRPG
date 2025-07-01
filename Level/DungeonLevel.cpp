@@ -1,9 +1,9 @@
 ﻿#include "DungeonLevel.h"
 #include "../Core/GameInstance.h"
-#include "../Object/UI/HUD.h"
+#include "../HUD.h"
 #include "../Screen.h"
 #include "../Util/InputSystem.h"
-#include "../Manager/LevelManager.h"
+#include "../Core/LevelManager.h"
 #include "../Object/Character/Monster.h"
 #include "../Component/Player/PlayerStatusComp.h"
 

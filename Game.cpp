@@ -1,9 +1,9 @@
 ﻿#include "Game.h"  
-#include "Manager/LevelManager.h"
+#include "Core/LevelManager.h"
 #include "Util/InputSystem.h"
 #include "Util/Timer.h"  
 #include "Core/GameInstance.h"
-#include "Item/ItemDataTable.h"
+#include "Data/ItemDataTable.h"
 #include "Screen.h"
 
 Game::~Game() noexcept  

@@ -47,7 +47,7 @@ void HUD::RenderPlayerInfo(Screen& screen) const
 	screen.Draw(LEFT_MARGIN + 5, 1, L"[ WELCOM TO TRPG ]");
 
 	//TODO : 맵이름 UI에 설정하기
-	screen.Draw((int32)(SCREEN_WIDTH * 0.55f), 1, L"<< 맵 이름 >>");
+	screen.Draw((int32)(SCREEN_WIDTH * 0.55f), 1, L"<< "+ m_hudData.levelAreaName + L" >>");
 
 	int16 y = PLAYER_UI_BASE_Y;
 

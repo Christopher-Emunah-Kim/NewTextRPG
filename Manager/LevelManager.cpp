@@ -90,6 +90,7 @@ void LevelManager::ChangeLevel()
 
 		m_currentLevel->Release();
 		m_currentLevel = m_nextLevel;
+		GameInstance::GetInstance()->UpdateLevelName(m_currentLevel->GetTag());
 		m_currentLevel->Init();
 
 		m_nextLevel = nullptr;

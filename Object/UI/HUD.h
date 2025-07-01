@@ -18,7 +18,7 @@ class SystemUIComp;
 struct FHudData final
 {
 	// level area data
-	wstring levelAreaName = L"DEFAULT";
+	wstring levelAreaName = L"TITLE";
 
 	// player data
 	wstring playerName = L"발할라 전사";

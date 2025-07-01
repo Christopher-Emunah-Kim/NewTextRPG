@@ -1,6 +1,6 @@
 ﻿#pragma once
-#include "../BaseGameObject.h"
-#include "../../Util/Type/CharacterInfo.h"
+#include "Object/BaseGameObject.h"
+#include "Util/Type/CharacterInfo.h"
 #include <queue>
 
 constexpr __int32 MAX_LINES = 35;

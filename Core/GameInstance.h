@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include "../Util/Singleton.h"
 #include "../Object/Character/Player.h"
-#include "../Object/UI/HUD.h"
+#include "../HUD.h"
 
 
 class GameInstance final : public Singleton<GameInstance>

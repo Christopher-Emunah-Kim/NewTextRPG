@@ -184,7 +184,7 @@ void Screen::SwapBuffer()
 
 	SetConsoleActiveScreenBuffer(hBackBuffer);
 
-	m_backBufferIdx = (m_backBufferIdx) % 2;
+	m_backBufferIdx = (m_backBufferIdx + 1) % 2;
 
 	//delete[] tempBuffer;
 }

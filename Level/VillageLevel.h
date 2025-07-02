@@ -8,6 +8,7 @@ public:
 	virtual ~VillageLevel() = default;
 
 private:
+	int32 healerCost = 100;
 
 public:
 	virtual void Init() override;
@@ -21,6 +22,7 @@ private:
 	void BuySelectedItem(const wstring& itemName);
 	void OnSellIItem();
 	void OnEnterHealerShop();
+	void OnRecoverPlayer();
 	void OnExitVillage();
 };
 

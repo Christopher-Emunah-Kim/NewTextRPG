@@ -2,8 +2,11 @@
 #include "BattleCharacter.h"  
 #include "../../Util/Type/CharacterInfo.h"
 
+
+
 class Player final : public BattleCharacter  
 {  
+
 public:  
 
 	Player();
@@ -14,6 +17,8 @@ private:
 
 public:
 	virtual void Init() override;  
+
+	void InitializeComponents();
 
 	void RegisterNewLevelArea(BaseLevel* level);
 

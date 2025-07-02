@@ -1,5 +1,6 @@
 ﻿#include "EquipmentComp.h"
 #include "PlayerStatusComp.h"
+#include "../../Core/GameInstance.h"
 #include "../../Object/BaseGameObject.h"
 
 
@@ -32,10 +33,16 @@ bool EquipmentComp::EquipItem(BaseItem* item)
 			return false;
 		}
 
-		if (m_weaponSlot != nullptr || m_armorSlot != nullptr)
+		BaseItem* existingItem = nullptr;
+		if (itemType == EItemType::Weapon && m_weaponSlot != nullptr)
 		{
+			existingItem = m_weaponSlot;
 			// TODO 같은 타입의 장비가 있으면 인벤토리로 이동
-			//return false;
+		}
+		else if (itemType == EItemType::Armor && m_armorSlot != nullptr)
+		{
+			existingItem = m_armorSlot;
+			// TODO 같은 타입의 장비가 있으면 인벤토리로 이동
 		}
 
 		if (itemType == EItemType::Weapon)
@@ -51,12 +58,13 @@ bool EquipmentComp::EquipItem(BaseItem* item)
 			return false;
 		}
 
+		GameInstance* gameInstance = GameInstance::GetInstance();
+		gameInstance->UpdateEquippedItem(item->GetName(), itemType);
+
 		PlayerStatusComp* statusComp = m_owner->GetComponentsByType<PlayerStatusComp>();
 		if (statusComp)
 		{
-			Status currentStatus = statusComp->GetPlayerInfo().status;
-			Status itemStatus = item->GetItemStatus();
-			statusComp->GetPlayerInfo().status.AddStatus(currentStatus, itemStatus);
+			GameInstance::GetInstance()->UpdatePlayerStatus(statusComp->GetTotalStatus());
 		}
 
 		return true;
@@ -69,6 +77,15 @@ bool EquipmentComp::EquipItem(BaseItem* item)
 
 bool EquipmentComp::IsEquipped(EItemType itemType) const
 {
+	if (itemType == EItemType::Weapon)
+	{
+		return m_weaponSlot != nullptr;
+	}
+	else if (itemType == EItemType::Armor)
+	{
+		return m_armorSlot != nullptr;
+	}
+
 	return false;
 }
 
@@ -95,23 +112,28 @@ BaseItem* EquipmentComp::UnequipItem(EItemType itemType)
 	{
 		unequippedItem = m_weaponSlot;
 		m_weaponSlot = nullptr;
+		GameInstance::GetInstance()->UpdateEquippedItem(L"없음", EItemType::Weapon);
+
 	}
 	else if (itemType == EItemType::Armor)
 	{
 		unequippedItem = m_armorSlot;
 		m_armorSlot = nullptr;
+		GameInstance::GetInstance()->UpdateEquippedItem(L"없음", EItemType::Armor);
+
 	}
 	else
 	{
 		return nullptr; 
 	}
 
-	PlayerStatusComp* statusComp = m_owner->GetComponentsByType<PlayerStatusComp>();
-	if (statusComp)
+	if (unequippedItem)
 	{
-		Status currentStatus = statusComp->GetPlayerInfo().status;
-		Status itemStatus = unequippedItem->GetItemStatus();
-		statusComp->GetPlayerInfo().status.RemoveStatus(currentStatus, itemStatus);
+		PlayerStatusComp* statusComp = m_owner->GetComponentsByType<PlayerStatusComp>();
+		if (statusComp)
+		{
+			GameInstance::GetInstance()->UpdatePlayerStatus(statusComp->GetTotalStatus());
+		}
 	}
 
 	return unequippedItem;
@@ -134,3 +156,19 @@ BaseItem* EquipmentComp::GetEquippedItem(EItemType itemType) const
 }
 
 
+Status EquipmentComp::GetTotalEquipmentStatus() const
+{
+	Status totalStatus;
+
+	if (m_weaponSlot)
+	{
+		totalStatus += m_weaponSlot->GetItemStatus();
+	}
+
+	if (m_armorSlot)
+	{
+		totalStatus += m_armorSlot->GetItemStatus();
+	}
+
+	return totalStatus;
+}

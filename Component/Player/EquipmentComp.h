@@ -3,6 +3,7 @@
 #include "../../Util/Type/EnumType.h"
 #include "../../Item/BaseItem.h"
 
+
 class EquipmentComp final : public BaseComponent
 {
 public:
@@ -20,5 +21,6 @@ public:
 	bool IsEquipped(EItemType itemType) const;
 	BaseItem* UnequipItem(EItemType itemType);
 	BaseItem* GetEquippedItem(EItemType itemType) const;
+	Status GetTotalEquipmentStatus() const;
 };
 

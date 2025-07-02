@@ -24,6 +24,10 @@ public:
 	void UpdatePlayerGold(const Gold& gold);
 	void UpdateEquippedItem(const wstring& name, EItemType type);
 	void UpdateInvetoryItems(const wstring& name);
+	void SyncAllHudData(const wstring& levelName, const wstring& playerName, int16 level,
+		int32 health, int32 maxHealth, const Status& status, const Experience& experience,
+		const Gold& gold, const wstring& weaponName, EItemType weaponType, const wstring& armorName, EItemType armorType,
+		const vector<wstring>& inventoryItems);
 
 	void EnqueueText(const wstring& text);
 	void ClearText();

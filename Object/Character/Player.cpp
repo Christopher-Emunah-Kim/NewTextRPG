@@ -89,10 +89,10 @@ void Player::RegisterNewLevelArea(BaseLevel* level)
 			return;
 		}
 
-		if (GetLevel() != nullptr)
+		/*if (GetLevel() != nullptr)
 		{
 			GetLevel()->DetachObject(this);
-		}
+		}*/
 
 		SetLevelArea(level);
 

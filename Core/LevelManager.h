@@ -16,6 +16,9 @@ private:
 	BaseLevel* m_nextLevel = nullptr;
 	unordered_map<wstring, BaseLevel*> m_levels;
 
+private:
+	void InitializePlayer();
+
 public:
 	virtual void Init() override;
 	virtual void Update() override;

@@ -5,6 +5,7 @@
 #include "../Level/TitleLevel.h"
 #include "../Level/DungeonLevel.h"
 #include "../Level/VillageLevel.h"
+#include "../Object/Character/Player.h"
 #include "../Screen.h"
 
 
@@ -24,6 +25,7 @@ void LevelManager::Init()
 	m_currentLevel = m_levels[L"Title"];
 	GameInstance::GetInstance()->UpdateLevelName(m_currentLevel->GetTag());
 
+	InitializePlayer();
 
 	m_currentLevel->Init();
 }
@@ -62,6 +64,37 @@ void LevelManager::Release()
 }
 
 
+void LevelManager::InitializePlayer()
+{
+	Player& player = GameInstance::GetInstance()->GetPlayer();
+	player.SetLevelArea(m_currentLevel);
+
+	if (m_currentLevel->FindObject(L"Player") == nullptr)
+	{
+		m_currentLevel->AddObject(&player);
+	}
+
+	if (player.IsComponentsEmpty())
+	{
+		player.Init();
+	}
+
+	GameInstance::GetInstance()->SyncAllHudData(
+		m_currentLevel->GetTag(),
+		player.GetPlayerInfo().name,
+		player.GetCharacterLevel(),
+		player.GetPlayerInfo().health,
+		player.GetPlayerInfo().maxHealth,
+		player.GetPlayerInfo().status,
+		player.GetPlayerInfo().experience,
+		player.GetPlayerInfo().gold,
+		L"없음", EItemType::Weapon,
+		L"없음", EItemType::Armor,
+		{ L"없음" }
+	);
+}
+
+
 bool LevelManager::IsSetNextLevel() const
 {
 	return m_nextLevel != nullptr;
@@ -90,11 +123,13 @@ void LevelManager::ChangeLevel()
 {
 	if (m_nextLevel)
 	{
+		Player& player = GameInstance::GetInstance()->GetPlayer();
+		m_currentLevel->DetachObject(&player);  
+
 		m_currentLevel->Release();
 		m_currentLevel = m_nextLevel;
 		GameInstance::GetInstance()->UpdateLevelName(m_currentLevel->GetTag());
 
-		Player& player = GameInstance::GetInstance()->GetPlayer();
 		player.RegisterNewLevelArea(m_currentLevel);
 
 		m_currentLevel->Init();

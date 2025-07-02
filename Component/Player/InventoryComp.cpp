@@ -1,5 +1,6 @@
 ﻿#include "InventoryComp.h"
 #include "../../Data/ItemDataTable.h"
+#include "../../Core/GameInstance.h"
 #include "../../Object/BaseGameObject.h"
 
 InventoryComp::InventoryComp(BaseGameObject* owner)
@@ -43,6 +44,7 @@ bool InventoryComp::AddItem(const wstring& itemName, int16 count)
 		if (newItem->AddItemCount(count))
 		{
 			m_inventoryItems.push_back(newItem);
+			GameInstance::GetInstance()->UpdateInvetoryItems(itemName);
 			return true;
 		}
 		else
@@ -76,6 +78,7 @@ bool InventoryComp::AddItem(BaseItem* item)
 		}
 	}
 	m_inventoryItems.push_back(item);
+	GameInstance::GetInstance()->UpdateInvetoryItems(item->GetName());
 
 	return true;
 }
@@ -94,6 +97,7 @@ bool InventoryComp::RemoveItem(const wstring& itemName, int16 count)
 					delete item;
 					m_inventoryItems.erase(m_inventoryItems.begin() + i);
 				}
+
 				return true;
 			}
 			return false;
@@ -101,6 +105,21 @@ bool InventoryComp::RemoveItem(const wstring& itemName, int16 count)
 	}
 	return false;
 }
+
+bool InventoryComp::HasItem(const wstring& itemName, int16 count) const
+{
+	for (size_t i = 0; i < m_inventoryItems.size(); ++i)
+	{
+		BaseItem* item = m_inventoryItems[i];
+		if (item && item->GetName() == itemName && item->GetCount() >= count)
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
 
 BaseItem* InventoryComp::GetItem(const wstring& itemName) const
 {
@@ -113,6 +132,23 @@ BaseItem* InventoryComp::GetItem(const wstring& itemName) const
 		}
 	}
 	return nullptr;
+}
+
+vector<BaseItem*> InventoryComp::GetItemsByType(EItemType type) const
+{
+	vector<BaseItem*> resultItems;
+
+	for (size_t i = 0; i < m_inventoryItems.size(); ++i)
+	{
+		BaseItem* item = m_inventoryItems[i];
+		if (item && item->GetItemType() == type)
+		{
+			resultItems.push_back(item);
+		}
+	}
+
+	return resultItems;
+
 }
 
 Status InventoryComp::GetTotalStatus() const

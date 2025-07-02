@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "Object/BaseGameObject.h"
 #include "Util/Type/CharacterInfo.h"
+#include "Util/Type/EnumType.h"
 #include <queue>
 
 constexpr __int32 MAX_LINES = 35;
@@ -18,16 +19,19 @@ class SystemUIComp;
 struct FHudData final
 {
 	// level area data
-	wstring levelAreaName = L"TITLE";
+	wstring levelAreaName;
 
 	// player data
-	wstring playerName = L"발할라 전사";
-	int16 playerLevel = 1;
-	int32 currentHealth = 100;
-	int32 maxHealth = 100;
-	Status status = Status(1,1,1);
+	wstring playerName;
+	int16 playerLevel;
+	int32 currentHealth;
+	int32 maxHealth;
+	Status status;
 	Experience experience;
 	Gold gold;
+	wstring weaponName;
+	wstring armorName;
+	vector<wstring> inventoryItems;
 };
 
 class HUD final
@@ -44,6 +48,7 @@ private:
 	void RenderPlayerInfo(Screen& screen) const;
 	void RenderSystemText(Screen& screen) const;
 	void RenderInputBuffer(Screen& screen) const;
+	const wstring vectorToString(const vector<wstring>& vec) const;
 
 public:
 	void Render(Screen& screen) const;
@@ -53,6 +58,10 @@ public:
 	void UpdatePlayerLevel(int16 level);
 	void UpdatePlayerHealth(int32 health, int32 maxHealth);
 	void UpdatePlayerStatus(const Status& status);
+	void UpdatePlayerExperience(const Experience& experience);
+	void UpdatePlayerGold(const Gold& gold);
+	void UpdateEquippedItem(const wstring& name, EItemType type);
+	void UpdateInvetoryItems(const wstring& name);
 
 	void EnqueueText(const wstring& text);
 	void ClearText();

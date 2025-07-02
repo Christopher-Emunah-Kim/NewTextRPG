@@ -21,6 +21,18 @@ void HUD::RenderInputBuffer(Screen& screen) const
 	screen.Draw(9, SCREEN_HEIGHT - COMMAND_BLOCK_HEIGHT + 1, InputSystem::GetBuffer());
 }
 
+const wstring HUD::vectorToString(const vector<wstring>& vec) const
+{
+	const vector<wstring>& tempVec = m_hudData.inventoryItems;
+	wstring result;
+	for (size_t i = 0; i < tempVec.size(); ++i)
+	{
+		result += tempVec[i];
+	}
+
+	return result;
+}
+
 void HUD::UpdateLevelName(const wstring& levelName)
 {
 	m_hudData.levelAreaName = levelName;
@@ -45,6 +57,33 @@ void HUD::UpdatePlayerHealth(int32 health, int32 maxHealth)
 void HUD::UpdatePlayerStatus(const Status& status)
 {
 	m_hudData.status = status;
+}
+
+void HUD::UpdatePlayerExperience(const Experience& experience)
+{
+	m_hudData.experience = experience;
+}
+
+void HUD::UpdatePlayerGold(const Gold& gold)
+{
+	m_hudData.gold = gold;
+}
+
+void HUD::UpdateEquippedItem(const wstring& name, EItemType type)
+{
+	if (type == EItemType::Weapon)
+	{
+		m_hudData.weaponName = name;
+	}
+	else if (type == EItemType::Armor)
+	{
+		m_hudData.armorName = name;
+	}
+}
+
+void HUD::UpdateInvetoryItems(const wstring& name)
+{
+	m_hudData.inventoryItems.push_back(name);
 }
 
 
@@ -105,11 +144,11 @@ void HUD::RenderPlayerInfo(Screen& screen) const
 	screen.Draw(LEFT_MARGIN, PLAYER_UI_BASE_Y + 26, L"민첩성 : " + to_wstring(m_hudData.status.GetAgility()));
 	PLAYER_UI_BASE_Y + 27;
 	screen.Draw(LEFT_MARGIN - 2, PLAYER_UI_BASE_Y + 28, L"───────────────────────────────");
-	screen.Draw(LEFT_MARGIN, PLAYER_UI_BASE_Y + 29, L"사용 무기: ");
+	screen.Draw(LEFT_MARGIN, PLAYER_UI_BASE_Y + 29, L"사용 무기: " + m_hudData.weaponName);
 	PLAYER_UI_BASE_Y + 30;
-	screen.Draw(LEFT_MARGIN, PLAYER_UI_BASE_Y + 31, L"사용 방어구: ");
+	screen.Draw(LEFT_MARGIN, PLAYER_UI_BASE_Y + 31, L"사용 방어구: " + m_hudData.armorName);
 	PLAYER_UI_BASE_Y + 32;
-	screen.Draw(LEFT_MARGIN, PLAYER_UI_BASE_Y + 33, L"가방: ");
+	screen.Draw(LEFT_MARGIN, PLAYER_UI_BASE_Y + 33, L"가방: " + vectorToString(m_hudData.inventoryItems));
 	PLAYER_UI_BASE_Y + 34;
 
 	screen.Draw(0, SCREEN_HEIGHT - COMMAND_BLOCK_HEIGHT, L"│─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────│");

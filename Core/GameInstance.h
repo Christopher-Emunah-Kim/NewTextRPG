@@ -20,6 +20,10 @@ public:
 	void UpdatePlayerLevel(int16 level);
 	void UpdatePlayerHealth(int32 health, int32 maxHealth);
 	void UpdatePlayerStatus(const Status& status);
+	void UpdatePlayerExperience(const Experience& experience);
+	void UpdatePlayerGold(const Gold& gold);
+	void UpdateEquippedItem(const wstring& name, EItemType type);
+	void UpdateInvetoryItems(const wstring& name);
 
 	void EnqueueText(const wstring& text);
 	void ClearText();

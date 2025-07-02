@@ -2,10 +2,6 @@
 #include "../../Common.h"
 #include "../../Data/PlayerDataTablePerLevel.h"
 #include "StatusType.h"
-#include "LootType.h"
-
-struct Experience;
-struct Gold;
 
 
 struct FCharacterInfo
@@ -39,6 +35,8 @@ struct FBattleCharacterInfo : public FCharacterInfo
 };
 
 
+struct Experience;
+struct Gold;
 
 struct FPlayerInfo : public FBattleCharacterInfo
 {
@@ -57,7 +55,7 @@ struct FPlayerInfo : public FBattleCharacterInfo
 struct FMonsterInfo : public FBattleCharacterInfo
 {
 	explicit FMonsterInfo(int16 level)
-		: FBattleCharacterInfo(level), dropGold(level * 5), dropExperience(level*10), dropItemId(10000)
+		: FBattleCharacterInfo(level), dropGold(level * 5), dropExperience(level * 10), dropItemId(10000)
 	{
 		//TODO 몬스터 테이블에서 드랍정보 불러오기
 

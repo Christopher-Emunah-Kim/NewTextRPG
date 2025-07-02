@@ -26,6 +26,26 @@ void GameInstance::UpdatePlayerStatus(const Status& status)
 	m_Hud.UpdatePlayerStatus(status);
 }
 
+void GameInstance::UpdatePlayerExperience(const Experience& experience)
+{
+	m_Hud.UpdatePlayerExperience(experience);
+}
+
+void GameInstance::UpdatePlayerGold(const Gold& gold)
+{
+	m_Hud.UpdatePlayerGold(gold);
+}
+
+void GameInstance::UpdateEquippedItem(const wstring& name, EItemType type)
+{
+	m_Hud.UpdateEquippedItem(name, type);
+}
+
+void GameInstance::UpdateInvetoryItems(const wstring& name)
+{
+	m_Hud.UpdateInvetoryItems(name);
+}
+
 void GameInstance::EnqueueText(const wstring& text)
 {
 	m_Hud.EnqueueText(text);

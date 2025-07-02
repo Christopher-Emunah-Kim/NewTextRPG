@@ -28,8 +28,9 @@ public:
 		while (m_currentExp >= m_levelMaxExp)
 		{
 			m_currentExp -= m_levelMaxExp;
-			++currentLevel;
 			++levelUpCount;
+			++currentLevel;
+			m_levelMaxExp = FPlayerDataTablePerLevel::GetRequiredMaxExp(currentLevel);
 		}
 
 		return levelUpCount;
@@ -69,6 +70,7 @@ public:
 			m_amount = total;
 		}
 	}
+
 
 	bool UseGold(int16 amount)
 	{

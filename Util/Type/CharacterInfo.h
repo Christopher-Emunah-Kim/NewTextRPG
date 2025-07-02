@@ -55,13 +55,16 @@ struct FPlayerInfo : public FBattleCharacterInfo
 struct FMonsterInfo : public FBattleCharacterInfo
 {
 	explicit FMonsterInfo(int16 level)
-		: FBattleCharacterInfo(level), dropGold(level * 5), dropExperience(level * 10), dropItemId(10000)
+		: FBattleCharacterInfo(level), dropGold(0), dropExperience(0), monsterId(0)
 	{
-		//TODO 몬스터 테이블에서 드랍정보 불러오기
+	}
 
+	FMonsterInfo()
+		: FBattleCharacterInfo(1), dropGold(0), dropExperience(0), monsterId(0)
+	{
 	}
 
 	int16 dropGold;
 	int16 dropExperience;
-	int32 dropItemId;
+	int32 monsterId;
 };

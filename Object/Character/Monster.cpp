@@ -5,7 +5,6 @@ Monster::Monster(BaseLevel* level, const wstring& tag)
 {
 	m_monsterInfo.name = tag;
 	m_monsterInfo.description = L"야생의 " + tag;
-	//TODO 몬스터테이블에서 불러오기
 }
 
 Monster::Monster(BaseLevel* level, const wstring& tag, const FMonsterInfo& info)
@@ -24,30 +23,10 @@ void Monster::Init()
 {
 	BattleCharacter::Init();
 
-	/*if (!HasComponentType<MonsterLootComp>())
-	{
-		AddComponent(new MonsterLootComp(this));
-	}
-
-	if (!HasComponentType<MonsterStatusComp>())
-	{
-		AddComponent(new MonsterStatusComp(this));
-	}
-
-	if (!HasComponentType<MonsterAIComp>())
-	{
-		AddComponent(new MonsterAIComp(this));
-	}*/
-
-	//TODO 랜덤 드롭아이템 세팅
 
 }
 
 void Monster::DropRewards()
 {
-	/*MonsterLootComp* lootComp = GetComponentsByType<MonsterLootComp>();
-	if (lootComp)
-	{
-		lootComp->DropLoot();
-	}*/
+	
 }

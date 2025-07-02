@@ -5,6 +5,7 @@
 #include "../Item/BaseItem.h"
 #include "Component/Player/InventoryComp.h"
 #include "Component/Player/PlayerStatusComp.h"
+#include <Component/Player/EquipmentComp.h>
 
 void VillageLevel::Init()
 {
@@ -198,10 +199,10 @@ void VillageLevel::BuySelectedItem(const wstring& itemName)
 		Player& player = gameInstance->GetPlayer();
 
 		PlayerStatusComp* statusComp = player.GetComponentByType<PlayerStatusComp>();
-		InventoryComp* inventoryComp = player.GetComponentByType<InventoryComp>();
+		EquipmentComp* equipmentComp = player.GetComponentByType<EquipmentComp>();
 
 
-		if (!statusComp || !inventoryComp) 
+		if (!statusComp || !equipmentComp)
 		{
 			gameInstance->EnqueueText(L"오류: 플레이어 컴포넌트를 찾을 수 없습니다.");
 			return;
@@ -210,21 +211,22 @@ void VillageLevel::BuySelectedItem(const wstring& itemName)
 		
 		if (statusComp->UseGold(selectedItem->GetBuyingPrice()))
 		{
-			
-			bool bIsItemAdded = inventoryComp->AddItem(itemName, 1);
+			BaseItem* newItem = selectedItem->CreateItem();
 
-			if (bIsItemAdded) 
+			if (equipmentComp->EquipItem(newItem))
 			{
 				gameInstance->ClearText();
-				gameInstance->EnqueueText(selectedItem->GetName() + L"을(를) 구매했습니다!");
+				gameInstance->EnqueueText(selectedItem->GetName() + L"을(를) 구매 후 장착했습니다!");
 				gameInstance->EnqueueText(L"남은 골드: " + to_wstring(statusComp->GetPlayerInfo().gold.GetAmount()));
 			}
-			else 
+			else
 			{
 				statusComp->GainGold(selectedItem->GetBuyingPrice());
+				delete newItem; 
 				gameInstance->ClearText();
-				gameInstance->EnqueueText(L"인벤토리가 가득 찼습니다.");
+				gameInstance->EnqueueText(L"아이템 장착에 실패했습니다.");
 			}
+
 		}
 		else 
 		{

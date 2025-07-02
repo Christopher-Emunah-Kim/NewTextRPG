@@ -48,7 +48,6 @@ private:
 	void RenderPlayerInfo(Screen& screen) const;
 	void RenderSystemText(Screen& screen) const;
 	void RenderInputBuffer(Screen& screen) const;
-	const wstring vectorToString(const vector<wstring>& vec) const;
 
 public:
 	void Render(Screen& screen) const;

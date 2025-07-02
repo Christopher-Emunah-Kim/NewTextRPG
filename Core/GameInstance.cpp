@@ -46,24 +46,6 @@ void GameInstance::UpdateInvetoryItems(const wstring& name)
 	m_Hud.UpdateInvetoryItems(name);
 }
 
-void GameInstance::SyncAllHudData(const wstring& levelName, const wstring& playerName, int16 level, int32 health, int32 maxHealth, const Status& status, const Experience& experience, const Gold& gold, const wstring& weaponName, EItemType weaponType, const wstring& armorName, EItemType armorType, const vector<wstring>& inventoryItems)
-{
-	m_Hud.UpdateLevelName(levelName);
-	m_Hud.UpdatePlayerName(playerName);
-	m_Hud.UpdatePlayerLevel(level);
-	m_Hud.UpdatePlayerHealth(health, maxHealth);
-	m_Hud.UpdatePlayerStatus(status);
-	m_Hud.UpdatePlayerExperience(experience);
-	m_Hud.UpdatePlayerGold(gold);
-	m_Hud.UpdateEquippedItem(weaponName, weaponType);
-	m_Hud.UpdateEquippedItem(armorName, armorType);
-	for (size_t i = 0; i < inventoryItems.size(); ++i)
-	{
-		m_Hud.UpdateInvetoryItems(inventoryItems[i]);
-	}
-}
-
-
 void GameInstance::EnqueueText(const wstring& text)
 {
 	m_Hud.EnqueueText(text);
@@ -81,7 +63,22 @@ void GameInstance::RenderHud(Screen& screen) const
 
 
 
-
+void GameInstance::SyncAllHudData(const wstring& levelName, const wstring& playerName, int16 level, int32 health, int32 maxHealth, const Status& status, const Experience& experience, const Gold& gold, const wstring& weaponName, EItemType weaponType, const wstring& armorName, EItemType armorType, const vector<wstring>& inventoryItems)
+{
+	m_Hud.UpdateLevelName(levelName);
+	m_Hud.UpdatePlayerName(playerName);
+	m_Hud.UpdatePlayerLevel(level);
+	m_Hud.UpdatePlayerHealth(health, maxHealth);
+	m_Hud.UpdatePlayerStatus(status);
+	m_Hud.UpdatePlayerExperience(experience);
+	m_Hud.UpdatePlayerGold(gold);
+	m_Hud.UpdateEquippedItem(weaponName, weaponType);
+	m_Hud.UpdateEquippedItem(armorName, armorType);
+	for (size_t i = 0; i < inventoryItems.size(); ++i)
+	{
+		m_Hud.UpdateInvetoryItems(inventoryItems[i]);
+	}
+}
 
 
 

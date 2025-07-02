@@ -14,25 +14,6 @@ void HUD::Render(Screen& screen) const
 	RenderInputBuffer(screen);
 }
 
-
-void HUD::RenderInputBuffer(Screen& screen) const
-{
-	screen.Draw(2, SCREEN_HEIGHT - COMMAND_BLOCK_HEIGHT + 1, L"명령 > ");
-	screen.Draw(9, SCREEN_HEIGHT - COMMAND_BLOCK_HEIGHT + 1, InputSystem::GetBuffer());
-}
-
-const wstring HUD::vectorToString(const vector<wstring>& vec) const
-{
-	const vector<wstring>& tempVec = m_hudData.inventoryItems;
-	wstring result;
-	for (size_t i = 0; i < tempVec.size(); ++i)
-	{
-		result += tempVec[i];
-	}
-
-	return result;
-}
-
 void HUD::UpdateLevelName(const wstring& levelName)
 {
 	m_hudData.levelAreaName = levelName;
@@ -83,6 +64,11 @@ void HUD::UpdateEquippedItem(const wstring& name, EItemType type)
 
 void HUD::UpdateInvetoryItems(const wstring& name)
 {
+	if (!m_hudData.inventoryItems.empty() && m_hudData.inventoryItems[0] == L"없음")
+	{
+		m_hudData.inventoryItems.clear();
+	}
+
 	m_hudData.inventoryItems.push_back(name);
 }
 
@@ -148,9 +134,23 @@ void HUD::RenderPlayerInfo(Screen& screen) const
 	PLAYER_UI_BASE_Y + 30;
 	screen.Draw(LEFT_MARGIN, PLAYER_UI_BASE_Y + 31, L"사용 방어구: " + m_hudData.armorName);
 	PLAYER_UI_BASE_Y + 32;
-	screen.Draw(LEFT_MARGIN, PLAYER_UI_BASE_Y + 33, L"가방: " + vectorToString(m_hudData.inventoryItems));
-	PLAYER_UI_BASE_Y + 34;
+	screen.Draw(LEFT_MARGIN, PLAYER_UI_BASE_Y + 33, L"가방: " );
 
+	if (m_hudData.inventoryItems.empty())
+	{
+		screen.Draw(LEFT_MARGIN + 6, PLAYER_UI_BASE_Y + 33, L"없음");
+	}
+	else
+	{
+		screen.Draw(LEFT_MARGIN + 6, PLAYER_UI_BASE_Y + 33, L"[" + m_hudData.inventoryItems[0] + L"]");
+
+		for (size_t i = 1; i < m_hudData.inventoryItems.size(); ++i)
+		{
+			screen.Draw(LEFT_MARGIN + 6, PLAYER_UI_BASE_Y + 33 + (int32)i,
+				L"[" + m_hudData.inventoryItems[i] + L"]");
+		}
+	}
+	
 	screen.Draw(0, SCREEN_HEIGHT - COMMAND_BLOCK_HEIGHT, L"│─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────│");
 	screen.Draw(0, SCREEN_HEIGHT - COMMAND_BLOCK_HEIGHT + 1, L"│");
 
@@ -178,4 +178,10 @@ void HUD::RenderSystemText(Screen& screen) const
 		screen.Draw(GAME_PANEL_START_X + 1, outputY, text);
 		++outputY;
 	}
+}
+
+void HUD::RenderInputBuffer(Screen& screen) const
+{
+	screen.Draw(2, SCREEN_HEIGHT - COMMAND_BLOCK_HEIGHT + 1, L"명령 > ");
+	screen.Draw(9, SCREEN_HEIGHT - COMMAND_BLOCK_HEIGHT + 1, InputSystem::GetBuffer());
 }

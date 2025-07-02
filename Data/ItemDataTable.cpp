@@ -63,8 +63,8 @@ void ItemDataTable::ProcessCSVParsing()
 		itemAgility = (int16)stoi(row[8]);
 
 
-		wstring name(nameStr.begin(), nameStr.end());
-		wstring desc(descStr.begin(), descStr.end());
+		wstring name = StringToWString(nameStr); 
+		wstring desc = StringToWString(descStr);
 
 		BaseItem* item = new BaseItem(
 			itemId,
@@ -96,6 +96,21 @@ void ItemDataTable::Release()
 bool ItemDataTable::HasItem(const wstring& itemName) const
 {
 	return m_itemDataTable.find(itemName) != m_itemDataTable.end();
+}
+
+wstring ItemDataTable::StringToWString(const string& str) const
+{
+	if (str.empty())
+	{
+		return wstring();
+	}
+
+	int size_needed = MultiByteToWideChar(CP_UTF8, 0, &str[0], (int)str.size(), NULL, 0);
+
+	wstring resultWstr(size_needed, 0);
+	MultiByteToWideChar(CP_UTF8, 0, &str[0], (int)str.size(), &resultWstr[0], size_needed);
+
+	return resultWstr;
 }
 
 EItemType ItemDataTable::StringToItemType(const string& itemType) const

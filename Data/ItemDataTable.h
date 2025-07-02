@@ -23,6 +23,7 @@ public:
 	void Release();
 
 	bool HasItem(const wstring& itemName) const;
+	wstring StringToWString(const string& str) const;
 	EItemType StringToItemType(const string& itemType) const;
 	BaseItem* CreateItem(const wstring& itemName) const;
 	void  ProcessCSVParsing();

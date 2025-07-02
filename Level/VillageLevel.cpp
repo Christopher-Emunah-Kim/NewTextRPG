@@ -113,6 +113,10 @@ void VillageLevel::OnBuyItem()
 	gameInstance->EnqueueText(L"0: 뒤로가기");
 	gameInstance->EnqueueText(L"");
 
+	//DEBUG
+	//vector<wstring> availableItems = itemDataTable->GetItemNames();
+	//gameInstance->EnqueueText(L"디버깅: 총 " + to_wstring(availableItems.size()) + L"개의 아이템이 데이터베이스에 있습니다.");
+
 	vector<wstring> selectedItemNames = 
 	{
 		L"묵직한 대검",
@@ -130,6 +134,10 @@ void VillageLevel::OnBuyItem()
 		if (item) 
 		{
 			selectedItems.push_back(item);
+		}
+		else
+		{
+			gameInstance->EnqueueText(L"디버깅: '" + itemName + L"' 아이템을 찾을 수 없습니다.");
 		}
 	}
 
@@ -150,6 +158,11 @@ void VillageLevel::OnBuyItem()
 		gameInstance->EnqueueText(itemInfo);
 		gameInstance->EnqueueText(L"   " + item->GetDescription());
 		gameInstance->EnqueueText(L"");
+	}
+
+	if (selectedItems.empty()) 
+	{
+		gameInstance->EnqueueText(L"현재 판매 중인 상품이 없습니다.");
 	}
 
 	gameInstance->EnqueueText(L"============================================");

@@ -1,6 +1,8 @@
 ﻿#pragma once
 #include "BaseLevel.h"
 
+constexpr __int32 HEALER_COST = 100;
+
 class VillageLevel : public BaseLevel
 {
 public:
@@ -8,7 +10,7 @@ public:
 	virtual ~VillageLevel() = default;
 
 private:
-	int32 healerCost = 100;
+	int32 healerCost;
 
 public:
 	virtual void Init() override;

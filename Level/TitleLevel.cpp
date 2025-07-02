@@ -29,7 +29,9 @@ void TitleLevel::ProcessTitleMenu()
 	gameInstance->EnqueueText(L"[메뉴 옵션]");
 	gameInstance->EnqueueText(L"");
 	gameInstance->EnqueueText(L"1. 마을로 들어가기");
+	gameInstance->EnqueueText(L"");
 	gameInstance->EnqueueText(L"2. 던전으로 이동하기");
+	gameInstance->EnqueueText(L"");
 	gameInstance->EnqueueText(L"3. 게임 종료");
 	gameInstance->EnqueueText(L"");
 	gameInstance->EnqueueText(L"============================================");

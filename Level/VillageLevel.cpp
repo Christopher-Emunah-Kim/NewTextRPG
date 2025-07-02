@@ -263,15 +263,19 @@ void VillageLevel::OnEnterHealerShop()
 	gameInstance->EnqueueText(L"치유의 집에 들어갑니다.");
 	gameInstance->EnqueueText(L"치유사 스칼드 가 당신을 반깁니다.");
 	gameInstance->EnqueueText(L"");
-	gameInstance->EnqueueText(L"반가워요. 당신이 바로 그..." + player.GetName() + L" 용사군요.");
+	gameInstance->EnqueueText(L"반가워요. 당신이 바로 그..." + player.GetPlayerInfo().name + L" 용사군요.");
 	gameInstance->EnqueueText(L"");
 	gameInstance->EnqueueText(L"치유사가 당신의 상태를 살펴봅니다.");
 
 	gameInstance->EnqueueText(L"");
-	gameInstance->EnqueueText(L"1. 퍼펙트 힐링 요청하기(소모골드 : " + to_wstring(healerCost) + L" )");
+	healerCost = HEALER_COST;
+	wstring costText = to_wstring(healerCost);
+	gameInstance->EnqueueText(L"1. 퍼펙트 힐링 요청하기(소모골드 : " + costText + L" )");
 	gameInstance->EnqueueText(L"");
 	gameInstance->EnqueueText(L"2. 치유의 집에서 나가기");
 	gameInstance->EnqueueText(L"");
+	gameInstance->EnqueueText(L"============================================");
+	gameInstance->EnqueueText(L"원하는 옵션의 번호를 입력하세요.");
 
 	InputSystem::BindAction(
 		{
@@ -305,34 +309,57 @@ void VillageLevel::OnRecoverPlayer()
 		OnEnterHealerShop();
 		return;
 	}
+	int32 healAmount = player.GetPlayerInfo().maxHealth - player.GetPlayerInfo().health;
 
-	if (statusComp->UseGold(healerCost))
+	if (healAmount <= 0)
 	{
-		int32 healAmount = player.GetPlayerInfo().maxHealth - player.GetPlayerInfo().health;
-		statusComp->RecoverHealth(healAmount);
-
 		gameInstance->ClearText();
-		gameInstance->EnqueueText(L"치유사 스칼드가 당신의 상처를 완벽하게 치유했습니다.");
-		gameInstance->EnqueueText(L"체력이 " + to_wstring(healAmount) + L"회복됩니다.");
-		gameInstance->EnqueueText(L"체력이 최대치로 회복되었습니다!");
-		gameInstance->EnqueueText(L"남은 골드: " + to_wstring(statusComp->GetPlayerInfo().gold.GetAmount()));
+		gameInstance->EnqueueText(L"치유사 스칼드가 당신을 살펴봅니다.");
+		gameInstance->EnqueueText(L"이미 건강 상태가 완벽하시군요. 치유가 필요하지 않습니다.");
 	}
 	else
 	{
-		gameInstance->ClearText();
-		gameInstance->EnqueueText(L"골드가 부족합니다. 치유를 받을 수 없습니다.");
-		gameInstance->EnqueueText(L"필요 골드: " + to_wstring(healerCost) + L", 보유 골드: " +
-			to_wstring(statusComp->GetPlayerInfo().gold.GetAmount()));
+		healerCost = HEALER_COST;
+		if (statusComp->UseGold(healerCost))
+		{
+			statusComp->RecoverHealth(healAmount);
+
+			gameInstance->ClearText();
+			gameInstance->EnqueueText(L"치유사 스칼드가 당신의 상처를 완벽하게 치유했습니다.");
+			gameInstance->EnqueueText(L"체력이 " + to_wstring(healAmount) + L"회복됩니다.");
+			gameInstance->EnqueueText(L"체력이 최대치로 회복되었습니다!");
+			gameInstance->EnqueueText(L"남은 골드: " + to_wstring(statusComp->GetPlayerInfo().gold.GetAmount()));
+		}
+		else
+		{
+			gameInstance->ClearText();
+			gameInstance->EnqueueText(L"골드가 부족합니다. 치유를 받을 수 없습니다.");
+			wstring costText = to_wstring(healerCost);
+			gameInstance->EnqueueText(L"필요 골드: " + costText + L", 보유 골드: " +
+				to_wstring(statusComp->GetPlayerInfo().gold.GetAmount()));
+		}
 	}
 
 	gameInstance->EnqueueText(L"");
 	gameInstance->EnqueueText(L"치유사 스칼드가 당신에게 따스한 미소를 건넵니다.");
 	gameInstance->EnqueueText(L"당신의 앞날에 평온이 가득하기를");
 	gameInstance->EnqueueText(L"");
-	gameInstance->EnqueueText(L"치유의 집을 나갑니다. 마을로 돌아갑니다..");
+	gameInstance->EnqueueText(L"치유의 집을 나갑니다... ");
+	gameInstance->EnqueueText(L"이제 어떻게 할까?");
 	gameInstance->EnqueueText(L"");
+	gameInstance->EnqueueText(L"1. 마을로 돌아가기");
+	gameInstance->EnqueueText(L"2. 타이틀로 돌아가기");
+	gameInstance->EnqueueText(L"");
+	gameInstance->EnqueueText(L"============================================");
+	gameInstance->EnqueueText(L"원하는 옵션의 번호를 입력하세요.");
 
-	Welcome();
+
+	InputSystem::BindAction(
+		{
+			{L"1", bind(&VillageLevel::Welcome, this)},
+			{L"2", bind(&VillageLevel::OnExitVillage, this)},
+		}
+		);
 
 }
 

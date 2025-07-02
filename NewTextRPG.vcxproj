@@ -131,6 +131,7 @@
     <ClCompile Include="Component\Player\InventoryComp.cpp" />
     <ClCompile Include="Component\Player\PlayerStatusComp.cpp" />
     <ClCompile Include="Core\GameInstance.cpp" />
+    <ClCompile Include="Data\MonsterDataTable.cpp" />
     <ClCompile Include="Data\PlayerDataTablePerLevel.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Data\ItemDataTable.cpp" />
@@ -164,6 +165,7 @@
     <ClInclude Include="Component\Player\PlayerStatusComp.h" />
     <ClInclude Include="Core\GameInstance.h" />
     <ClInclude Include="Core\IBehavior.h" />
+    <ClInclude Include="Data\MonsterDataTable.h" />
     <ClInclude Include="Data\PlayerDataTablePerLevel.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="include\CSVparser.hpp" />

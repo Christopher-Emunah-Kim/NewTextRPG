@@ -4,6 +4,7 @@
 #include "../Level/BaseLevel.h"
 #include "../Level/TitleLevel.h"
 #include "../Level/DungeonLevel.h"
+#include "../Level/VillageLevel.h"
 #include "../Screen.h"
 
 
@@ -18,6 +19,7 @@ void LevelManager::Init()
 {
 	m_levels[L"Title"] = new TitleLevel(L"Title");
 	m_levels[L"Dungeon"] = new DungeonLevel(L"Dungeon");
+	m_levels[L"Village"] = new VillageLevel(L"Village");
 
 	m_currentLevel = m_levels[L"Title"];
 
@@ -83,9 +85,6 @@ void LevelManager::ChangeLevel()
 {
 	if (m_nextLevel)
 	{
-		//BaseGameObject* currentPlayerObject = m_currentLevel->FindObject(L"Player");
-		//m_currentLevel->DetachObject(currentPlayerObject);
-
 		m_currentLevel->Release();
 		m_currentLevel = m_nextLevel;
 		GameInstance::GetInstance()->UpdateLevelName(m_currentLevel->GetTag());

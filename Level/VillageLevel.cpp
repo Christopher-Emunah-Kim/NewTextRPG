@@ -3,6 +3,8 @@
 #include "../Util/InputSystem.h"
 #include "Data/ItemDataTable.h"
 #include "../Item/BaseItem.h"
+#include "Component/Player/InventoryComp.h"
+#include "Component/Player/PlayerStatusComp.h"
 
 void VillageLevel::Init()
 {
@@ -111,7 +113,8 @@ void VillageLevel::OnBuyItem()
 	gameInstance->EnqueueText(L"0: 뒤로가기");
 	gameInstance->EnqueueText(L"");
 
-	vector<wstring> selectedItemNames = {
+	vector<wstring> selectedItemNames = 
+	{
 		L"묵직한 대검",
 		L"신속한 단검",
 		L"강철 갑옷",
@@ -174,46 +177,58 @@ void VillageLevel::OnBuyItem()
 
 void VillageLevel::BuySelectedItem(const wstring& itemName)
 {
-	//GameInstance* gameInstance = GameInstance::GetInstance();
-	//const BaseItem* item = ItemDataTable::GetInstance()->GetItem(itemName);
+	GameInstance* gameInstance = GameInstance::GetInstance();
+	const BaseItem* selectedItem = ItemDataTable::GetInstance()->GetItem(itemName);
 
-	//if (item) 
-	//{
-	//	Player& player = gameInstance->GetPlayer();
-	//	Gold& playerGold = const_cast<Gold&>(player.GetPlayerInfo().gold);
+	if (selectedItem)
+	{
+		Player& player = gameInstance->GetPlayer();
 
-	//	if (playerGold.UseGold(item->GetBuyingPrice())) 
-	//	{
-	//		// 아이템 인벤토리에 추가
-	//		bool added = player.AddItemToInventory(itemName, 1);
+		PlayerStatusComp* statusComp = player.GetComponentsByType<PlayerStatusComp>();
+		InventoryComp* inventoryComp = player.GetComponentsByType<InventoryComp>();
 
-	//		if (added) {
-	//			gameInstance->ClearText();
-	//			gameInstance->EnqueueText(item->GetName() + L"을(를) 구매했습니다!");
-	//			gameInstance->EnqueueText(L"남은 골드: " + to_wstring(playerGold.GetAmount()));
-	//		}
-	//		else {
-	//			// 인벤토리가 가득 찼을 경우 골드 환불
-	//			playerGold.GainGold(item->GetBuyingPrice());
-	//			gameInstance->ClearText();
-	//			gameInstance->EnqueueText(L"인벤토리가 가득 찼습니다.");
-	//		}
-	//	}
-	//	else {
-	//		gameInstance->ClearText();
-	//		gameInstance->EnqueueText(L"골드가 부족합니다.");
-	//	}
-	//}
+		if (!statusComp || !inventoryComp) 
+		{
+			gameInstance->EnqueueText(L"오류: 플레이어 컴포넌트를 찾을 수 없습니다.");
+			return;
+		}
 
-	//// 잠시 후 상점 메뉴로 돌아갑니다
-	//gameInstance->EnqueueText(L"");
-	//gameInstance->EnqueueText(L"1. 계속 쇼핑하기");
-	//gameInstance->EnqueueText(L"2. 상점 나가기");
+		
+		if (statusComp->UseGold(selectedItem->GetBuyingPrice()))
+		{
+			
+			bool bIsItemAdded = inventoryComp->AddItem(itemName, 1);
 
-	//InputSystem::BindAction({
-	//	{L"1", bind(&VillageLevel::OnBuyItem, this)},
-	//	{L"2", bind(&VillageLevel::OnEnterItemShop, this)}
-	//	});
+			if (bIsItemAdded) 
+			{
+				gameInstance->ClearText();
+				gameInstance->EnqueueText(selectedItem->GetName() + L"을(를) 구매했습니다!");
+				gameInstance->EnqueueText(L"남은 골드: " + to_wstring(statusComp->GetPlayerInfo().gold.GetAmount()));
+			}
+			else 
+			{
+				statusComp->GainGold(selectedItem->GetBuyingPrice());
+				gameInstance->ClearText();
+				gameInstance->EnqueueText(L"인벤토리가 가득 찼습니다.");
+			}
+		}
+		else 
+		{
+			gameInstance->ClearText();
+			gameInstance->EnqueueText(L"골드가 부족합니다.");
+		}
+	}
+
+	gameInstance->EnqueueText(L"");
+	gameInstance->EnqueueText(L"1. 계속 쇼핑하기");
+	gameInstance->EnqueueText(L"2. 상점 메뉴로 돌아가기");
+
+	InputSystem::BindAction({
+		{L"1", bind(&VillageLevel::OnBuyItem, this)},
+		{L"2", bind(&VillageLevel::OnEnterItemShop, this)}
+		});
+
+
 }
 
 void VillageLevel::OnSellIItem()

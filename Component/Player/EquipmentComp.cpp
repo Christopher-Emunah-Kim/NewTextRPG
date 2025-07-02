@@ -61,7 +61,7 @@ bool EquipmentComp::EquipItem(BaseItem* item)
 		GameInstance* gameInstance = GameInstance::GetInstance();
 		gameInstance->UpdateEquippedItem(item->GetName(), itemType);
 
-		PlayerStatusComp* statusComp = m_owner->GetComponentsByType<PlayerStatusComp>();
+		PlayerStatusComp* statusComp = m_owner->GetComponentByType<PlayerStatusComp>();
 		if (statusComp)
 		{
 			GameInstance::GetInstance()->UpdatePlayerStatus(statusComp->GetTotalStatus());
@@ -129,7 +129,7 @@ BaseItem* EquipmentComp::UnequipItem(EItemType itemType)
 
 	if (unequippedItem)
 	{
-		PlayerStatusComp* statusComp = m_owner->GetComponentsByType<PlayerStatusComp>();
+		PlayerStatusComp* statusComp = m_owner->GetComponentByType<PlayerStatusComp>();
 		if (statusComp)
 		{
 			GameInstance::GetInstance()->UpdatePlayerStatus(statusComp->GetTotalStatus());

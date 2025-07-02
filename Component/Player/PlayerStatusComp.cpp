@@ -6,13 +6,14 @@
 PlayerStatusComp::PlayerStatusComp(BaseGameObject* owner)
 	:BaseComponent(owner), m_playerInfo(DEFAULT_LEVEL)
 {
-	m_playerInfo.name = owner->GetTag();
 	LoadStatusByLevel();
+	m_playerInfo.name = owner->GetTag();
 }
 
 void PlayerStatusComp::LoadStatusByLevel()
 {
 	FLevelProperties levelProps = FPlayerDataTablePerLevel::LoadPlayerLevelData(m_playerInfo.characterLevel);
+
 
 	m_playerInfo.maxHealth = levelProps.maxHealthPerLevel;
 
@@ -37,7 +38,7 @@ Status PlayerStatusComp::GetTotalStatus() const
 {
 	Status baseStatus = m_playerInfo.status;
 
-	EquipmentComp* equipComp = m_owner->GetComponentsByType<EquipmentComp>();
+	EquipmentComp* equipComp = m_owner->GetComponentByType<EquipmentComp>();
 	if (equipComp)
 	{
 		Status equipStatus = equipComp->GetTotalEquipmentStatus();

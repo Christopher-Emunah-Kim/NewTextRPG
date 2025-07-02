@@ -15,10 +15,8 @@ public:
 	virtual ~BaseGameObject();
 
 protected:
-	int32 m_x;
-	int32 m_y;
 	BaseLevel* m_levelArea = nullptr;
-	wstring m_objectTag = L" ";
+	wstring m_objectTag = L"";
 	vector<BaseComponent*> m_components;
 
 public:
@@ -31,7 +29,6 @@ public:
 
 	void SetLevelArea(BaseLevel* level);
 	void SetTag(const wstring& tag) noexcept;
-	void SetPosition(const int32& x, const int32& y) noexcept;
 
 	bool IsComponentsEmpty() const;
 	void RegisterInLevelArea(BaseLevel* level);
@@ -53,7 +50,7 @@ public:
 	}
 
 	template<typename T>
-	T* GetComponentsByType() const
+	T* GetComponentByType() const
 	{
 		for (size_t i = 0; i < m_components.size(); ++i)
 		{
@@ -69,7 +66,5 @@ public:
 	
 	inline wstring		GetTag() const noexcept { return m_objectTag; }
 	inline BaseLevel*	GetLevel() const noexcept { return m_levelArea; }
-	inline int32		GetX() const noexcept { return m_x; }
-	inline int32		GetY() const noexcept { return m_y; }
 };
 

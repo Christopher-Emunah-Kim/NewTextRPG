@@ -15,8 +15,6 @@ Player::Player()
 
 void Player::Init()
 {
-	SetPosition(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
-
 	InitializeComponents();
 
 	BattleCharacter::Init();
@@ -25,6 +23,10 @@ void Player::Init()
 
 void Player::InitializeComponents()
 {
+	//debug
+	//GameInstance::GetInstance()->EnqueueText(L"InitializeComponents 호출");
+
+
 	if (false == HasComponentType<PlayerStatusComp>())
 	{
 		AddComponent(new PlayerStatusComp(this));
@@ -41,7 +43,7 @@ void Player::InitializeComponents()
 
 	GameInstance* gameInstance = GameInstance::GetInstance();
 
-	PlayerStatusComp* statusComp = GetComponentsByType<PlayerStatusComp>();
+	PlayerStatusComp* statusComp = GetComponentByType<PlayerStatusComp>();
 	if (statusComp)
 	{
 		const FPlayerInfo& info = statusComp->GetPlayerInfo();
@@ -51,7 +53,7 @@ void Player::InitializeComponents()
 		gameInstance->UpdatePlayerStatus(statusComp->GetTotalStatus());
 	}
 
-	EquipmentComp* equipComp = GetComponentsByType<EquipmentComp>();
+	EquipmentComp* equipComp = GetComponentByType<EquipmentComp>();
 	if (equipComp)
 	{
 		BaseItem* weapon = equipComp->GetEquippedItem(EItemType::Weapon);
@@ -61,7 +63,7 @@ void Player::InitializeComponents()
 		gameInstance->UpdateEquippedItem(armor ? armor->GetName() : L"없음", EItemType::Armor);
 	}
 
-	InventoryComp* invComp = GetComponentsByType<InventoryComp>();
+	InventoryComp* invComp = GetComponentByType<InventoryComp>();
 	if (invComp)
 	{
 		const vector<BaseItem*>& items = invComp->GetInventoryItems();
@@ -77,6 +79,11 @@ void Player::RegisterNewLevelArea(BaseLevel* level)
 {
 	if (level != nullptr)
 	{
+		//debug
+		//GameInstance::GetInstance()->EnqueueText(L"RegisterNewLevelArea 호출: " + level->GetTag());
+		//GameInstance::GetInstance()->EnqueueText(L"컴포넌트 상태: " + std::to_wstring(IsComponentsEmpty()));
+
+
 		if (GetLevel() == level)
 		{
 			return;
@@ -89,15 +96,21 @@ void Player::RegisterNewLevelArea(BaseLevel* level)
 
 		SetLevelArea(level);
 
-		if (IsComponentsEmpty())
-		{
-			Init();
-		}
-
 		if (level->FindObject(L"Player") == nullptr)
 		{
 			level->AddObject(this);
 		}
+
+		if (IsComponentsEmpty())
+		{
+			Init();
+		}
+		else
+		{
+			InitializeComponents();
+		}
+
+		
 	}
 }
 

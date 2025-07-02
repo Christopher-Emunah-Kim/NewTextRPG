@@ -22,6 +22,7 @@ void LevelManager::Init()
 	m_levels[L"Village"] = new VillageLevel(L"Village");
 
 	m_currentLevel = m_levels[L"Title"];
+	GameInstance::GetInstance()->UpdateLevelName(m_currentLevel->GetTag());
 
 
 	m_currentLevel->Init();
@@ -29,6 +30,10 @@ void LevelManager::Init()
 
 void LevelManager::Update()
 {
+	if (IsSetNextLevel())
+	{
+		ChangeLevel();
+	}
 	m_currentLevel->Update();
 }
 
@@ -88,8 +93,11 @@ void LevelManager::ChangeLevel()
 		m_currentLevel->Release();
 		m_currentLevel = m_nextLevel;
 		GameInstance::GetInstance()->UpdateLevelName(m_currentLevel->GetTag());
-		m_currentLevel->Init();
 
+		Player& player = GameInstance::GetInstance()->GetPlayer();
+		player.RegisterNewLevelArea(m_currentLevel);
+
+		m_currentLevel->Init();
 		m_nextLevel = nullptr;
 	}
 }

@@ -4,7 +4,7 @@
 #include "../Util/OutputSystem.h"
 
 BaseGameObject::BaseGameObject(BaseLevel* level, const wstring& tag)
-	: m_levelArea{level}, m_objectTag(tag), m_x(0), m_y(0)
+	: m_levelArea{level}, m_objectTag(tag)
 {
 	if (m_levelArea)
 	{
@@ -77,11 +77,6 @@ void BaseGameObject::Release()
 void BaseGameObject::AddComponent(BaseComponent* component)
 {
 	m_components.push_back(component);
-
-	sort(m_components.begin(), m_components.end(),
-		[](const BaseComponent* left, const BaseComponent* right) {
-			return left->GetOrder() < right->GetOrder();
-		});
 }
 
 void BaseGameObject::RemoveComponent(BaseComponent* component)
@@ -101,11 +96,6 @@ void BaseGameObject::SetTag(const wstring& tag) noexcept
 	m_objectTag = tag;
 }
 
-void BaseGameObject::SetPosition(const int32& x, const int32& y) noexcept
-{
-	m_x = x;
-	m_y = y;
-}
 
 void BaseGameObject::SetLevelArea(BaseLevel* level)
 {

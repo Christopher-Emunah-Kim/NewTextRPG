@@ -197,8 +197,9 @@ void VillageLevel::BuySelectedItem(const wstring& itemName)
 	{
 		Player& player = gameInstance->GetPlayer();
 
-		PlayerStatusComp* statusComp = player.GetComponentsByType<PlayerStatusComp>();
-		InventoryComp* inventoryComp = player.GetComponentsByType<InventoryComp>();
+		PlayerStatusComp* statusComp = player.GetComponentByType<PlayerStatusComp>();
+		InventoryComp* inventoryComp = player.GetComponentByType<InventoryComp>();
+
 
 		if (!statusComp || !inventoryComp) 
 		{

@@ -117,7 +117,7 @@ void HUD::RenderPlayerInfo(Screen& screen) const
 	screen.Draw(LEFT_MARGIN + 5, 1, L"[ WELCOM TO TRPG ]");
 	screen.Draw((int32)(SCREEN_WIDTH * 0.55f), 1, L"<< "+ m_hudData.levelAreaName + L" >>");
 	screen.Draw(LEFT_MARGIN - 2, PLAYER_UI_BASE_Y + 1, L"───────────────────────────────");
-	screen.Draw(GAME_PANEL_START_X, PLAYER_UI_BASE_Y + 2, L"────────────────────────────────────────────────────────────────────────────────────────────");
+	screen.Draw(GAME_PANEL_START_X, PLAYER_UI_BASE_Y + 1, L"────────────────────────────────────────────────────────────────────────────────────────────");
 	screen.Draw(LEFT_MARGIN, PLAYER_UI_BASE_Y + 3, L"     [ 플레이어  정보 ]");
 	screen.Draw(LEFT_MARGIN - 2, PLAYER_UI_BASE_Y + 4, L"───────────────────────────────");
 	PLAYER_UI_BASE_Y + 5;

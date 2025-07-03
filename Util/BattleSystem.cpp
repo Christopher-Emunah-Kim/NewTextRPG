@@ -124,17 +124,23 @@ void BattleSystem::HandleBattleRewards(BattleCharacter* winner, BattleCharacter*
 		gameInstance->WriteLine(L"골드 " + to_wstring(goldAmount) + L"을(를) 획득했습니다!");
 
 		ItemDataTable* itemDataTable = ItemDataTable::GetInstance();
-		vector<wstring> availableItems = itemDataTable->GetItemNames();
+		vector<int32> availableItemIds = itemDataTable->GetItemIds();
 
-		if (!availableItems.empty())
+		if (!availableItemIds.empty())
 		{
-			int randomIndex = rand() % availableItems.size();
-			wstring randomItemName = availableItems[randomIndex];
+			int randomIndex = rand() % availableItemIds.size();
+			int32 randomItemId = availableItemIds[randomIndex];
 
-			BaseItem* droppedItem = itemDataTable->CreateItem(randomItemName);
+			const BaseItem* templateItem = itemDataTable->GetItem(randomItemId);
 
-			if (droppedItem)
+			if (templateItem)
 			{
+				BaseItem* droppedItem = templateItem->CreateItem();
+				if (droppedItem)
+				{
+					droppedItem->AddItemCount(1);
+				}
+				
 				gameInstance->WriteLine(L"");
 				gameInstance->WriteLine(monster->GetName() + L"에게서 " + droppedItem->GetName() + L"을(를) 획득했습니다!");
 

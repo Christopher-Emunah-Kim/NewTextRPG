@@ -83,6 +83,11 @@ struct Status
 		}
 	}
 
+	wstring ToString() const
+	{
+		return L"공격력: " + to_wstring(attack) + L", 방어력: " + to_wstring(defense) + L", 민첩성 : " + to_wstring(agility);
+	}
+
 	const int16& GetAttack() const { return attack; }
 	const int16& GetDefense() const { return defense; }
 	const int16& GetAgility() const { return agility; }

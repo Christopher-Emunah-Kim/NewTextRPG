@@ -93,6 +93,9 @@
     <ClCompile Include="NPC\Healer.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="NPC\Merchant.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\IBehavior.h">
@@ -201,6 +204,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="NPC\Healer.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="NPC\Merchant.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

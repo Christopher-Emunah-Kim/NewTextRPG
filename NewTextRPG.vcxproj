@@ -140,6 +140,7 @@
     <ClCompile Include="Core\LevelManager.cpp" />
     <ClCompile Include="Level\VillageLevel.cpp" />
     <ClCompile Include="NewTextRPG.cpp" />
+    <ClCompile Include="NPC\Merchant.cpp" />
     <ClCompile Include="Object\BaseGameObject.cpp" />
     <ClCompile Include="Object\Character\BaseCharacter.cpp" />
     <ClCompile Include="Object\Character\BattleCharacter.cpp" />
@@ -175,6 +176,7 @@
     <ClInclude Include="Level\TitleLevel.h" />
     <ClInclude Include="Core\LevelManager.h" />
     <ClInclude Include="Level\VillageLevel.h" />
+    <ClInclude Include="NPC\Merchant.h" />
     <ClInclude Include="Object\BaseGameObject.h" />
     <ClInclude Include="Object\Character\BaseCharacter.h" />
     <ClInclude Include="Object\Character\BattleCharacter.h" />

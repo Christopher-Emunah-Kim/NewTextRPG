@@ -9,7 +9,6 @@
 
 using namespace aria::csv;
 
-//using json = nlohmann::json;
 
 ItemDataTable::~ItemDataTable()
 {
@@ -18,7 +17,6 @@ ItemDataTable::~ItemDataTable()
 
 void ItemDataTable::Init()
 {
-	//CSV PARSING
 	ProcessCSVParsing();
 }
 
@@ -46,59 +44,54 @@ void ItemDataTable::ProcessCSVParsing()
 			headerSkipped = true;
 			continue;
 		}
-		if (row.size() < CSV_COLUMN_NUM)
-		{
-			GameInstance::GetInstance()->WriteLine(L"잘못된 열 수를 가진 CSV 행 발견, 건너뜁니다.");
-			continue;
-		}
 
 		itemId = (int32)stoi(row[0]);
 		nameStr = row[1];
-		typeStr = row[2];
-		descStr = row[3];
-		buyingPrice = (int16)stoi(row[4]);
-		sellingPrice = (int16)stoi(row[5]);
-		itemAttack = (int16)stoi(row[6]);
-		itemDefense = (int16)stoi(row[7]);
-		itemAgility = (int16)stoi(row[8]);
+		descStr = row[2];
+		buyingPrice = (int16)stoi(row[3]);
+		sellingPrice = (int16)stoi(row[4]);
+		itemAttack = (int16)stoi(row[5]);
+		itemDefense = (int16)stoi(row[6]);
+		itemAgility = (int16)stoi(row[7]);
 
 
-		wstring name = StringToWString(nameStr); 
-		wstring desc = StringToWString(descStr);
+		wstring name = ToWideStr(nameStr); 
+		wstring desc = ToWideStr(descStr);
 
 		BaseItem* item = new BaseItem(
 			itemId,
 			name,
-			StringToItemType(typeStr),
+			GetItemType(itemId),
 			desc,
 			buyingPrice, sellingPrice,
 			itemAttack, itemDefense, itemAgility
 		);
 
-
-		m_itemDataTable[name] = item;
+		m_itemDataTable[itemId] = item;
 	}
 }
 
-void ItemDataTable::Release()
+const BaseItem* ItemDataTable::GetItem(int32 itemId) const
 {
-	for (unordered_map<wstring, BaseItem*>::iterator it = m_itemDataTable.begin(); it != m_itemDataTable.end(); ++it)
+	if (m_itemDataTable.find(itemId) == m_itemDataTable.end())
 	{
-		if (it->second)
-		{
-			delete it->second;
-			it->second = nullptr;
-		}
+		throw invalid_argument("존재하지 않는 아이템 ID: " + to_string(itemId));
 	}
-	m_itemDataTable.clear();
+
+	return m_itemDataTable.at(itemId);
 }
 
-bool ItemDataTable::HasItem(const wstring& itemName) const
+vector<int32> ItemDataTable::GetItemIds() const
 {
-	return m_itemDataTable.find(itemName) != m_itemDataTable.end();
+	vector<int32> itemIds;
+	for (unordered_map<int32, BaseItem*>::const_iterator it = m_itemDataTable.begin(); it != m_itemDataTable.end(); ++it)
+	{
+		itemIds.push_back(it->first);
+	}
+	return itemIds;
 }
 
-wstring ItemDataTable::StringToWString(const string& str) const
+wstring ItemDataTable::ToWideStr(const string& str)
 {
 	if (str.empty())
 	{
@@ -113,65 +106,46 @@ wstring ItemDataTable::StringToWString(const string& str) const
 	return resultWstr;
 }
 
-EItemType ItemDataTable::StringToItemType(const string& itemType) const
+void ItemDataTable::Release()
 {
-	if (itemType == "Weapon")
+	for (unordered_map<int32, BaseItem*>::iterator it = m_itemDataTable.begin(); it != m_itemDataTable.end(); ++it)
 	{
+		if (it->second)
+		{
+			delete it->second;
+			it->second = nullptr;
+		}
+	}
+	m_itemDataTable.clear();
+}
+
+EItemType ItemDataTable::GetItemType(int32 itemId) const
+{
+	const int32 typeDigit = itemId / 10000;
+	switch (typeDigit)
+	{
+	case 1:
 		return EItemType::Weapon;
-	}
-	else if (itemType == "Armor")
-	{
+	case 2:
 		return EItemType::Armor;
-	}
-	else if (itemType == "Consumable")
-	{
+	case 3:
 		return EItemType::Consumable;
-	}
-	else if (itemType == "Material")
-	{
+	case 4:
 		return EItemType::Material;
+	default:
+		throw invalid_argument("알 수 없는 아이템 ID: " + to_string(itemId));
 	}
-
-	GameInstance::GetInstance()->WriteLine(L"알 수 없는 아이템 타입: " + wstring(itemType.begin(), itemType.end()));
-	return EItemType::Material;
 }
 
-
-BaseItem* ItemDataTable::CreateItem(const wstring& itemName) const
+bool ItemDataTable::IsEquippable(int32 itemId) const
 {
-	unordered_map<wstring, BaseItem*>::const_iterator it = m_itemDataTable.find(itemName);
-	if (it != m_itemDataTable.end())
+	EItemType itemType = GetItemType(itemId);
+	if (itemType == EItemType::Material || itemType == EItemType::Consumable)
 	{
-		return it->second->CreateItem();
+		return false;
 	}
-	GameInstance::GetInstance()->WriteLine(L"존재하지 않는 아이템입니다: " + itemName);
-	return nullptr;
-}
-
-const BaseItem* ItemDataTable::GetItem(const wstring& itemName) const
-{
-	unordered_map<wstring, BaseItem*>::const_iterator it = m_itemDataTable.find(itemName);
-	if (it != m_itemDataTable.end())
+	else
 	{
-		return it->second;
+		return true;
 	}
-	GameInstance::GetInstance()->WriteLine(L"존재하지 않는 아이템입니다: " + itemName);
-	return nullptr;
-}
-
-const ItemUMap& ItemDataTable::GetItemDataTable() const noexcept
-{
-	return m_itemDataTable;
-}
-
-const vector<wstring> ItemDataTable::GetItemNames() const noexcept
-{
-	vector<wstring> itemNames;
-
-	for (unordered_map<wstring, BaseItem*>::const_iterator it = m_itemDataTable.begin(); it != m_itemDataTable.end(); ++it)
-	{
-		itemNames.push_back(it->first);
-	}
-
-	return itemNames;
 }

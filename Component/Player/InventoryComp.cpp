@@ -22,7 +22,7 @@ void InventoryComp::Release()
 	m_inventoryItems.clear();
 }
 
-bool InventoryComp::AddItem(const wstring& itemName, int16 count)
+bool InventoryComp::AddItem(int32 itemId, int16 count)
 {
 	if (m_inventoryItems.size() >= m_maxInventorySize)
 	{
@@ -32,19 +32,20 @@ bool InventoryComp::AddItem(const wstring& itemName, int16 count)
 	for (size_t i = 0; i < m_inventoryItems.size(); ++i)
 	{
 		BaseItem* item = m_inventoryItems[i];
-		if (item && item->GetName() == itemName)
+		if (item && item->GetItemID() == itemId)
 		{
 			return item->AddItemCount(count);
 		}
 	}
 
-	BaseItem* newItem = ItemDataTable::GetInstance()->CreateItem(itemName);
-	if (newItem != nullptr)
+	const BaseItem* templateItem = ItemDataTable::GetInstance()->GetItem(itemId);
+	if (templateItem != nullptr)
 	{
+		BaseItem* newItem = templateItem->CreateItem();
 		if (newItem->AddItemCount(count))
 		{
 			m_inventoryItems.push_back(newItem);
-			GameInstance::GetInstance()->UpdateInvetoryItems(itemName);
+			GameInstance::GetInstance()->UpdateInvetoryItems(newItem->GetName());
 			return true;
 		}
 		else
@@ -83,12 +84,12 @@ bool InventoryComp::AddItem(BaseItem* item)
 	return true;
 }
 
-bool InventoryComp::RemoveItem(const wstring& itemName, int16 count)
+bool InventoryComp::RemoveItem(int32 itemId, int16 count)
 {
 	for (size_t i = 0; i < m_inventoryItems.size(); ++i)
 	{
 		BaseItem* item = m_inventoryItems[i];
-		if (item && item->GetName() == itemName)
+		if (item && item->GetItemID() == itemId)
 		{
 			if (item->RemoveItemCount(count))
 			{
@@ -106,12 +107,12 @@ bool InventoryComp::RemoveItem(const wstring& itemName, int16 count)
 	return false;
 }
 
-bool InventoryComp::HasItem(const wstring& itemName, int16 count) const
+bool InventoryComp::HasItem(int32 itemId, int16 count) const
 {
 	for (size_t i = 0; i < m_inventoryItems.size(); ++i)
 	{
 		BaseItem* item = m_inventoryItems[i];
-		if (item && item->GetName() == itemName && item->GetCount() >= count)
+		if (item && item->GetItemID() == itemId && item->GetCount() >= count)
 		{
 			return true;
 		}
@@ -121,12 +122,12 @@ bool InventoryComp::HasItem(const wstring& itemName, int16 count) const
 }
 
 
-BaseItem* InventoryComp::GetItem(const wstring& itemName) const
+BaseItem* InventoryComp::GetItem(int32 itemId) const
 {
 	for (size_t i = 0; i < m_inventoryItems.size(); ++i)
 	{
 		BaseItem* item = m_inventoryItems[i];
-		if (item && item->GetName() == itemName)
+		if (item && item->GetItemID() == itemId)
 		{
 			return item;
 		}

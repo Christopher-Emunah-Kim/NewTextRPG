@@ -65,9 +65,10 @@ public:
 	inline const int16& GetAttack() const noexcept { return m_attack; }
 	inline const int16& GetDefense() const noexcept { return m_defense; }
 	inline const int16& GetAgility() const noexcept { return m_agility; }
+	inline Status GetAddableStatus() const {	 return Status::NewStatus(m_attack, m_defense, m_agility);	}
 	inline const int16& GetCount() const noexcept { return m_count; }
 	inline const int16& GetMaxCount() const noexcept { return m_maxCount; }
-
+	
 private:
 	int32 m_itemId;
 	wstring m_name;

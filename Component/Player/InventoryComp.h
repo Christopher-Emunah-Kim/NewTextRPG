@@ -11,12 +11,12 @@ public:
 public:
 	virtual void Release() override;
 
-	bool AddItem(const wstring& itemName, int16 count = 1);
+	bool AddItem(int32 itemId, int16 count = 1);
 	bool AddItem(BaseItem* item);
-	bool RemoveItem(const wstring& itemName, int16 count = 1);
-	bool HasItem(const wstring& itemName, int16 count = 1) const;
+	bool RemoveItem(int32 itemId, int16 count = 1);
+	bool HasItem(int32 itemId, int16 count = 1) const;
 
-	BaseItem* GetItem(const wstring& itemName) const;
+	BaseItem* GetItem(int32 itemId) const;
 	vector<BaseItem*> GetItemsByType(EItemType type) const;
 	Status GetTotalStatus() const;
 

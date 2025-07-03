@@ -64,8 +64,7 @@ void DungeonLevel::CreateRandomMonster()
 		if (m_currentMonster == nullptr) 
 		{
 			FMonsterInfo customInfo(1);
-			customInfo.health = 15;
-			customInfo.maxHealth = 15;
+			customInfo.health.New(15);
 			customInfo.status = Status::NewStatus(8, 10, 20);
 			m_currentMonster = new Monster(this, L"허약한 고블린", customInfo);
 		}

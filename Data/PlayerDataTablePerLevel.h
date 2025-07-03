@@ -16,9 +16,6 @@ constexpr __int16 DEFAULT_MAX_LEVEL = 100;
 constexpr __int16 DEFAULT_PLAYER_MAX_EXPERIENCE = 100;
 constexpr __int16 DEFAULT_CHARACTER_MAX_HEALTH = 100;
 
-constexpr __int16 DEFAULT_OWNED_GOLD = 10000;
-
-
 struct FLevelProperties
 {
 	int32 maxExperiencePerLevel;

@@ -79,19 +79,17 @@ void LevelManager::InitializePlayer()
 		player.Init();
 	}
 
-	GameInstance::GetInstance()->SyncAllHudData(
-		m_currentLevel->GetTag(),
-		player.GetPlayerInfo().name,
-		player.GetCharacterLevel(),
-		player.GetPlayerInfo().health,
-		player.GetPlayerInfo().maxHealth,
-		player.GetPlayerInfo().status,
-		player.GetPlayerInfo().experience,
-		player.GetPlayerInfo().gold,
-		L"없음", EItemType::Weapon,
-		L"없음", EItemType::Armor,
-		{ L"없음" }
-	);
+	GameInstance* gi = GameInstance::GetInstance();
+	gi->UpdateLevelName(m_currentLevel->GetTag());
+	gi->UpdatePlayerName(player.GetPlayerInfo().name);
+	gi->UpdatePlayerLevel(player.GetCharacterLevel());
+	gi->UpdatePlayerHealth(player.GetHealth());
+	gi->UpdatePlayerStatus(player.GetPlayerInfo().status);
+	gi->UpdatePlayerGold(player.GetGold());
+	gi->UpdateEquippedItem(L"없음", EItemType::Weapon);
+	gi->UpdateEquippedItem(L"없음", EItemType::Armor);
+	gi->UpdateInvetoryItems({ L"없음" });
+
 }
 
 

@@ -14,8 +14,6 @@ public:
 
 	void SetPlayerInfo(const FPlayerInfo& newInfo);
 	bool GainExperience(int32 exp);
-	bool UseGold(int16 amount);
-	void GainGold(int16 amount);
 	bool RecoverHealth(int32 amount);
 	bool TakeDamage(int32 amount);
 

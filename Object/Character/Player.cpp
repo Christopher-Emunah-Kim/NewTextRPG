@@ -8,7 +8,7 @@
 
 
 Player::Player()
-	:BattleCharacter(nullptr, L"Player"), m_playerInfo(DEFAULT_LEVEL)
+	:BattleCharacter(nullptr, L"Player"), m_playerInfo(DEFAULT_LEVEL), m_gold(DEFAULT_OWNED_GOLD)
 {
 }
 
@@ -23,9 +23,6 @@ void Player::Init()
 
 void Player::InitializeComponents()
 {
-	//debug
-	//GameInstance::GetInstance()->EnqueueText(L"InitializeComponents 호출");
-
 
 	if (false == HasComponentType<PlayerStatusComp>())
 	{
@@ -49,7 +46,7 @@ void Player::InitializeComponents()
 		const FPlayerInfo& info = statusComp->GetPlayerInfo();
 		gameInstance->UpdatePlayerName(GetTag());
 		gameInstance->UpdatePlayerLevel(info.characterLevel);
-		gameInstance->UpdatePlayerHealth(info.health, info.maxHealth);
+		gameInstance->UpdatePlayerHealth(info.health);
 		gameInstance->UpdatePlayerStatus(statusComp->GetTotalStatus());
 	}
 
@@ -79,20 +76,10 @@ void Player::RegisterNewLevelArea(BaseLevel* level)
 {
 	if (level != nullptr)
 	{
-		//debug
-		//GameInstance::GetInstance()->EnqueueText(L"RegisterNewLevelArea 호출: " + level->GetTag());
-		//GameInstance::GetInstance()->EnqueueText(L"컴포넌트 상태: " + std::to_wstring(IsComponentsEmpty()));
-
-
 		if (GetLevel() == level)
 		{
 			return;
 		}
-
-		/*if (GetLevel() != nullptr)
-		{
-			GetLevel()->DetachObject(this);
-		}*/
 
 		SetLevelArea(level);
 
@@ -115,4 +102,55 @@ void Player::RegisterNewLevelArea(BaseLevel* level)
 }
 
 
+void Player::TakeDamage(int32 amount)
+{
+	m_playerInfo.health = m_playerInfo.health.TakeDamage(amount);
+}
+
+Health Player::GetHealth() const
+{
+	return m_playerInfo.health;
+}
+
+bool Player::CanAfford(int32 cost) const
+{
+	return m_gold.CanAfford(cost);
+}
+
+bool Player::IsFullHealth() const
+{
+	return m_playerInfo.health.IsFull();
+}
+
+void Player::Recover(int32 amount)
+{
+	m_playerInfo.health = m_playerInfo.health.Recover(amount);
+}
+
+bool Player::UseGold(int32 amount)
+{
+	m_gold = m_gold.Use(amount);
+
+	if (m_gold.GetAmount() > 0)
+	{
+		return true;
+	}
+
+	return false;
+}
+
+void Player::GainGold(int32 amount)
+{
+	m_gold = m_gold.Gain(amount);
+}
+
+Gold Player::GetGold() const
+{
+	return m_gold;
+}
+
+int32 Player::GetGoldAmount() const
+{
+	return m_gold.GetAmount();
+}
 

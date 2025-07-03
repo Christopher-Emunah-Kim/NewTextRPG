@@ -13,7 +13,7 @@ public:
 	void UpdateLevelName(const wstring& levelName);
 	void UpdatePlayerName(const wstring& playerName);
 	void UpdatePlayerLevel(int16 level);
-	void UpdatePlayerHealth(int32 health, int32 maxHealth);
+	void UpdatePlayerHealth(const Health& health);
 	void UpdatePlayerStatus(const Status& status);
 	void UpdatePlayerExperience(const Experience& experience);
 	void UpdatePlayerGold(const Gold& gold);
@@ -25,11 +25,7 @@ public:
 
 	void RenderHud(Screen& screen) const;
 
-	void SyncAllHudData(const wstring& levelName, const wstring& playerName, int16 level,
-		int32 health, int32 maxHealth, const Status& status, const Experience& experience,
-		const Gold& gold, const wstring& weaponName, EItemType weaponType, const wstring& armorName, EItemType armorType,
-		const vector<wstring>& inventoryItems);
-
+	inline HUD& GetHUD() { return m_Hud; }
 	inline Player& GetPlayer() { return m_Player; }
 
 private:

@@ -3,7 +3,6 @@
 #include "../../Data/PlayerDataTablePerLevel.h"
 
 
-class Player;
 
 
 struct Experience
@@ -45,41 +44,4 @@ private:
 
 
 
-struct Gold
-{
-	explicit Gold() 
-		: m_amount(DEFAULT_OWNED_GOLD) { }
 
-
-	void GainGold(int16 amount)
-	{
-		int16 total = m_amount + amount;
-
-		if (total > INT16_MAX) 
-		{ 
-			m_amount = INT16_MAX;
-		}
-		else 
-		{
-			m_amount = total;
-		}
-	}
-
-
-	bool UseGold(int16 amount)
-	{
-		if (m_amount < amount)
-		{
-			return false;
-		}
-
-		m_amount -= amount;
-		
-		return true;
-	}
-
-	inline int16 GetAmount() const noexcept { return m_amount; }
-
-private:
-	int16 m_amount;
-};

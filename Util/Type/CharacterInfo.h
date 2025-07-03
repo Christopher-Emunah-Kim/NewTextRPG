@@ -2,7 +2,10 @@
 #include "../../Common.h"
 #include "../../Data/PlayerDataTablePerLevel.h"
 #include "StatusType.h"
+#include "Health.h"
 
+
+struct Experience;
 
 struct FCharacterInfo
 {
@@ -16,27 +19,21 @@ struct FCharacterInfo
 };
 
 
-
 struct FBattleCharacterInfo : public FCharacterInfo
 {
 	explicit FBattleCharacterInfo(int16 level)
-		: FCharacterInfo(level)
+		: FCharacterInfo(level), health(Health::New(0))
 	{
 		FLevelProperties initialInfo = FPlayerDataTablePerLevel::LoadPlayerLevelData(level);
 
-		health = initialInfo.maxHealthPerLevel;
-		maxHealth = initialInfo.maxHealthPerLevel;
+		health = Health::New(initialInfo.maxHealthPerLevel);
 		status = Status::NewStatus(initialInfo.attackPerLevel, initialInfo.defensePerLevel, initialInfo.agilityPerLevel);
 	}
 	
-	int32 health;
-	int32 maxHealth;
+	Health health;
 	Status status;
 };
 
-
-struct Experience;
-struct Gold;
 
 struct FPlayerInfo : public FBattleCharacterInfo
 {
@@ -44,11 +41,9 @@ struct FPlayerInfo : public FBattleCharacterInfo
 		: FBattleCharacterInfo(level)
 	{
 		experience = Experience(0, FPlayerDataTablePerLevel::GetRequiredMaxExp(level));
-		gold = Gold();
 	}
 
 	Experience experience;
-	Gold gold;
 };
 
 

@@ -93,6 +93,9 @@
     <ClCompile Include="Data\MonsterDataTable.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Object\NPC\Healer.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\IBehavior.h">
@@ -107,7 +110,7 @@
     <ClInclude Include="Util\Type\StatusType.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Util\Type\LootType.h">
+    <ClInclude Include="Util\Type\Experience.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Data\PlayerDataTablePerLevel.h">
@@ -195,6 +198,15 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Data\MonsterDataTable.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Util\Type\Gold.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Util\Type\Health.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\NPC\Healer.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

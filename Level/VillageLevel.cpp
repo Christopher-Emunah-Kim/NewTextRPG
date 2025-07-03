@@ -7,10 +7,18 @@
 #include "Component/Player/InventoryComp.h"
 #include "Component/Player/PlayerStatusComp.h"
 #include "Component/Player/EquipmentComp.h"
+#include "Object/NPC/Healer.h"
+
+VillageLevel::~VillageLevel()
+{
+	delete m_healer;
+	m_healer = nullptr;
+}
 
 void VillageLevel::Init()
 {
-	gi = GameInstance::GetInstance();
+	constexpr int32 HEAL_COST = 100;
+	m_healer = new Healer(HEAL_COST);
 
 	Welcome();
 
@@ -19,7 +27,7 @@ void VillageLevel::Init()
 
 void VillageLevel::Welcome()
 {
-	gi->ClearText();
+	GameInstance::GetInstance()->ClearText();
 	gi->WriteLine(L"============================================");
 	gi->WriteLine();
 	gi->WriteLine(L"당신은 마을에 도착했습니다.");
@@ -189,18 +197,18 @@ void VillageLevel::BuySelectedItem(const wstring& itemName)
 	{
 		Player& player = gi->GetPlayer();
 
-		PlayerStatusComp* statusComp = player.GetComponentByType<PlayerStatusComp>();
+		//PlayerStatusComp* statusComp = player.GetComponentByType<PlayerStatusComp>();
 		EquipmentComp* equipmentComp = player.GetComponentByType<EquipmentComp>();
 
 
-		if (!statusComp || !equipmentComp)
+		if (!equipmentComp)
 		{
 			gi->WriteLine(L"오류: 플레이어 컴포넌트를 찾을 수 없습니다.");
 			return;
 		}
 
 		
-		if (statusComp->UseGold(selectedItem->GetBuyingPrice()))
+		if (player.UseGold(selectedItem->GetBuyingPrice()))
 		{
 			BaseItem* newItem = selectedItem->CreateItem();
 
@@ -208,11 +216,11 @@ void VillageLevel::BuySelectedItem(const wstring& itemName)
 			{
 				gi->ClearText();
 				gi->WriteLine(selectedItem->GetName() + L"을(를) 구매 후 장착했습니다!");
-				gi->WriteLine(L"남은 골드: " + to_wstring(statusComp->GetPlayerInfo().gold.GetAmount()));
+				gi->WriteLine(L"남은 골드: " + to_wstring(player.GetGoldAmount()));
 			}
 			else
 			{
-				statusComp->GainGold(selectedItem->GetBuyingPrice());
+				player.GainGold(selectedItem->GetBuyingPrice());
 				delete newItem; 
 				gi->ClearText();
 				gi->WriteLine(L"아이템 장착에 실패했습니다.");
@@ -244,20 +252,18 @@ void VillageLevel::OnSellIItem()
 
 void VillageLevel::OnEnterHealerShop()
 {
-	Player& player = gi->GetPlayer();
+	const wstring& playerName = gi->GetPlayer().GetPlayerInfo().name;
 
 	gi->WriteLine();
 	gi->WriteLine(L"치유의 집에 들어갑니다.");
 	gi->WriteLine(L"치유사 스칼드 가 당신을 반깁니다.");
 	gi->WriteLine();
-	gi->WriteLine(L"반가워요. 당신이 바로 그..." + player.GetPlayerInfo().name + L" 용사군요.");
+	gi->WriteLine(L"반가워요. 당신이 바로 그..." + playerName + L" 용사군요.");
 	gi->WriteLine();
 	gi->WriteLine(L"치유사가 당신의 상태를 살펴봅니다.");
 
 	gi->WriteLine();
-	healerCost = HEALER_COST;
-	wstring costText = to_wstring(healerCost);
-	gi->WriteLine(L"1. 퍼펙트 힐링 요청하기(소모골드 : " + costText + L" )");
+	gi->WriteLine(L"1. 퍼펙트 힐링 요청하기(소모골드 : " + to_wstring(m_healer->GetHealCost()) + L" )");
 	gi->WriteLine();
 	gi->WriteLine(L"2. 치유의 집에서 나가기");
 	gi->WriteLine();
@@ -285,44 +291,45 @@ void VillageLevel::OnRecoverPlayer()
 {
 	Player& player = gi->GetPlayer();
 
-	PlayerStatusComp* statusComp = player.GetComponentByType<PlayerStatusComp>();
-	if (!statusComp)
+	EHealResult result = m_healer->CheckHealAvailable(player);
+	switch (result)	
+	{
+	case EHealResult::RequestAccept:
+	{
+		int32 healAmount = m_healer->Heal(player);
+		gi->UpdatePlayerGold(player.GetGold());
+		gi->UpdatePlayerHealth(player.GetHealth());
+
+		gi->ClearText();
+		gi->WriteLine(L"치유사 스칼드가 당신의 상처를 완벽하게 치유했습니다.");
+		gi->WriteLine(L"체력이 " + to_wstring(healAmount) + L"회복됩니다.");
+		gi->WriteLine(L"체력이 최대치로 회복되었습니다!");
+	}
+		break;
+	case EHealResult::NotEnoughGold:
 	{
 		gi->ClearText();
-		gi->WriteLine(L"오류: 플레이어 상태 정보를 찾을 수 없습니다.");
-		OnEnterHealerShop();
-		return;
+		gi->WriteLine(L"골드가 부족합니다. 치유를 받을 수 없습니다.");
+		wstring costText = to_wstring(m_healer->GetHealCost());
+		gi->WriteLine(L"필요 골드: " + costText + L", 보유 골드: " +
+			to_wstring(player.GetGold().GetAmount()));
 	}
-	int32 healAmount = player.GetPlayerInfo().maxHealth - player.GetPlayerInfo().health;
-
-	if (healAmount <= 0)
+		break;
+	case EHealResult::AlreadyMaxHealth:
 	{
 		gi->ClearText();
 		gi->WriteLine(L"치유사 스칼드가 당신을 살펴봅니다.");
 		gi->WriteLine(L"이미 건강 상태가 완벽하시군요. 치유가 필요하지 않습니다.");
 	}
-	else
-	{
-		healerCost = HEALER_COST;
-		if (statusComp->UseGold(healerCost))
-		{
-			statusComp->RecoverHealth(healAmount);
+		break;
 
-			gi->ClearText();
-			gi->WriteLine(L"치유사 스칼드가 당신의 상처를 완벽하게 치유했습니다.");
-			gi->WriteLine(L"체력이 " + to_wstring(healAmount) + L"회복됩니다.");
-			gi->WriteLine(L"체력이 최대치로 회복되었습니다!");
-			gi->WriteLine(L"남은 골드: " + to_wstring(statusComp->GetPlayerInfo().gold.GetAmount()));
-		}
-		else
-		{
-			gi->ClearText();
-			gi->WriteLine(L"골드가 부족합니다. 치유를 받을 수 없습니다.");
-			wstring costText = to_wstring(healerCost);
-			gi->WriteLine(L"필요 골드: " + costText + L", 보유 골드: " +
-				to_wstring(statusComp->GetPlayerInfo().gold.GetAmount()));
-		}
+	default:
+	{
+		gi->WriteLine(L"치유사 스칼드가 당신을 꼼꼼히 살펴보지만, 큰 이상이 없다고 진단합니다.");
 	}
+		break;
+	}
+
 
 	gi->WriteLine();
 	gi->WriteLine(L"치유사 스칼드가 당신에게 따스한 미소를 건넵니다.");

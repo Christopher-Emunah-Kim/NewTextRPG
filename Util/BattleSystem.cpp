@@ -122,7 +122,7 @@ void BattleSystem::HandleBattleRewards(BattleCharacter* winner, BattleCharacter*
 		}
 
 		int16 goldAmount = monster->GetDropGold();
-		statusComp->GainGold(goldAmount);
+		player->GainGold(goldAmount);
 		gameInstance->WriteLine(L"골드 " + to_wstring(goldAmount) + L"을(를) 획득했습니다!");
 
 		ItemDataTable* itemDataTable = ItemDataTable::GetInstance();

@@ -102,8 +102,7 @@ void MonsterDataTable::ProcessCSVParsing()
 		FMonsterInfo monsterInfo(characterLevel);
 		monsterInfo.name = name;
 		monsterInfo.description = desc;
-		monsterInfo.health = health;
-		monsterInfo.maxHealth = maxHealth;
+		monsterInfo.health = Health::New(maxHealth);
 		monsterInfo.status = Status::NewStatus(monsterAttack, monsterDefense, monsterAgility);
 		monsterInfo.dropGold = dropGold;
 		monsterInfo.dropExperience = dropExperience;

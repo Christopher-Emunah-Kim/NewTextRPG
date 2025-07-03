@@ -1,15 +1,15 @@
 ﻿#pragma once
 #include "BaseLevel.h"
 
-constexpr __int32 HEALER_COST = 100;
 
 class GameInstance;
+class Healer;
 
 class VillageLevel : public BaseLevel
 {
 public:
 	using BaseLevel::BaseLevel;
-	virtual ~VillageLevel() = default;
+	virtual ~VillageLevel();
 
 	virtual void Init() override;
 
@@ -24,7 +24,6 @@ private:
 	void OnExitVillage();
 
 private:
-	int32 healerCost;
-	GameInstance* gi;
+	Healer* m_healer;
 };
 

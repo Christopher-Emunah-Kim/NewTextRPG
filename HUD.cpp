@@ -29,10 +29,9 @@ void HUD::UpdatePlayerLevel(int16 level)
 	m_hudData.playerLevel = level;
 }
 
-void HUD::UpdatePlayerHealth(int32 health, int32 maxHealth)
+void HUD::UpdatePlayerHealth(const Health& health)
 {
-	m_hudData.currentHealth = health;
-	m_hudData.maxHealth = maxHealth;
+	m_hudData.health = health;
 }
 
 void HUD::UpdatePlayerStatus(const Status& status)
@@ -113,7 +112,7 @@ void HUD::RenderPlayerInfo(Screen& screen) const
 	PLAYER_UI_BASE_Y + 9;
 	screen.Draw(LEFT_MARGIN - 2, PLAYER_UI_BASE_Y + 10, L"───────────────────────────────");
 	PLAYER_UI_BASE_Y + 11;
-	screen.Draw(LEFT_MARGIN, PLAYER_UI_BASE_Y + 12, L"체력 : " + to_wstring(m_hudData.currentHealth) + L" / " + to_wstring(m_hudData.maxHealth));
+	screen.Draw(LEFT_MARGIN, PLAYER_UI_BASE_Y + 12, L"체력 : " + to_wstring(m_hudData.health.GetCurrentAmount()) + L" / " + to_wstring(m_hudData.health.GetMaxAmount()));
 	PLAYER_UI_BASE_Y + 13;
 	screen.Draw(LEFT_MARGIN, PLAYER_UI_BASE_Y + 14, L"경험치 : " + to_wstring(m_hudData.experience.GetCurrentExp()) + L" / " + to_wstring(m_hudData.experience.GetMaxExp()));
 	PLAYER_UI_BASE_Y + 15;

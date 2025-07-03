@@ -2,6 +2,10 @@
 #include "Object/BaseGameObject.h"
 #include "Util/Type/CharacterInfo.h"
 #include "Util/Type/EnumType.h"
+#include "Util/Type/Gold.h"
+#include "Util/Type/Health.h"
+#include "Util/Type/StatusType.h"
+#include "Util/Type/Experience.h"
 #include <queue>
 
 constexpr __int32 MAX_LINES = 35;
@@ -24,8 +28,7 @@ struct FHudData final
 	// player data
 	wstring playerName;
 	int16 playerLevel;
-	int32 currentHealth;
-	int32 maxHealth;
+	Health health;
 	Status status;
 	Experience experience;
 	Gold gold;
@@ -53,7 +56,7 @@ public:
 	void UpdateLevelName(const wstring& levelName);
 	void UpdatePlayerName(const wstring& playerName);
 	void UpdatePlayerLevel(int16 level);
-	void UpdatePlayerHealth(int32 health, int32 maxHealth);
+	void UpdatePlayerHealth(const Health& health);
 	void UpdatePlayerStatus(const Status& status);
 	void UpdatePlayerExperience(const Experience& experience);
 	void UpdatePlayerGold(const Gold& gold);

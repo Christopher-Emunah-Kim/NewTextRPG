@@ -14,14 +14,7 @@ void PlayerStatusComp::LoadStatusByLevel()
 {
 	FLevelProperties levelProps = FPlayerDataTablePerLevel::LoadPlayerLevelData(m_playerInfo.characterLevel);
 
-
-	m_playerInfo.maxHealth = levelProps.maxHealthPerLevel;
-
-	if (m_playerInfo.health > m_playerInfo.maxHealth || m_playerInfo.health <= 0)
-	{
-		m_playerInfo.health = m_playerInfo.maxHealth;
-	}
-
+	m_playerInfo.health = Health::New(levelProps.maxHealthPerLevel);
 	m_playerInfo.experience.SetMaxExp(levelProps.maxExperiencePerLevel);
 
 	m_playerInfo.status = Status(
@@ -30,7 +23,7 @@ void PlayerStatusComp::LoadStatusByLevel()
 		levelProps.agilityPerLevel
 	);
 
-	GameInstance::GetInstance()->UpdatePlayerHealth(m_playerInfo.health, m_playerInfo.maxHealth);
+	GameInstance::GetInstance()->UpdatePlayerHealth(m_playerInfo.health);
 	GameInstance::GetInstance()->UpdatePlayerStatus(GetTotalStatus());
 }
 
@@ -69,41 +62,12 @@ bool PlayerStatusComp::GainExperience(int32 exp)
 	return false;
 }
 
-bool PlayerStatusComp::UseGold(int16 amount)
-{
-	bool result =  m_playerInfo.gold.UseGold(amount);
-
-	if (result)
-	{
-		GameInstance::GetInstance()->UpdatePlayerGold(m_playerInfo.gold);
-	}
-
-	return result;
-}
-
-void PlayerStatusComp::GainGold(int16 amount)
-{
-	m_playerInfo.gold.GainGold(amount);
-
-	GameInstance::GetInstance()->UpdatePlayerGold(m_playerInfo.gold);
-	
-}
 
 bool PlayerStatusComp::RecoverHealth(int32 amount)
 {
-	if (m_playerInfo.health >= m_playerInfo.maxHealth)
-	{
-		return false;
-	}
+	m_playerInfo.health.Recover(amount);
 
-	m_playerInfo.health += amount;
-
-	if (m_playerInfo.health > m_playerInfo.maxHealth)
-	{
-		m_playerInfo.health = m_playerInfo.maxHealth;
-	}
-
-	GameInstance::GetInstance()->UpdatePlayerHealth(m_playerInfo.health, m_playerInfo.maxHealth);
+	GameInstance::GetInstance()->UpdatePlayerHealth(m_playerInfo.health);
 	return true;
 }
 
@@ -113,16 +77,11 @@ bool PlayerStatusComp::TakeDamage(int32 amount)
 	{
 		return false;
 	}
+	m_playerInfo.health.TakeDamage(amount);
 
-	m_playerInfo.health -= amount;
+	GameInstance::GetInstance()->UpdatePlayerHealth(m_playerInfo.health);
 
-	if (m_playerInfo.health < 0)
-	{
-		m_playerInfo.health = 0;
-	}
-
-	GameInstance::GetInstance()->UpdatePlayerHealth(m_playerInfo.health, m_playerInfo.maxHealth);
-	return m_playerInfo.health > 0;
+	return !m_playerInfo.health.IsDead();
 }
 
 
@@ -133,8 +92,7 @@ void PlayerStatusComp::SetPlayerInfo(const FPlayerInfo& newInfo)
 	GameInstance* gameInstance = GameInstance::GetInstance();
 	gameInstance->UpdatePlayerName(m_playerInfo.name);
 	gameInstance->UpdatePlayerLevel(m_playerInfo.characterLevel);
-	gameInstance->UpdatePlayerHealth(m_playerInfo.health, m_playerInfo.maxHealth);
+	gameInstance->UpdatePlayerHealth(m_playerInfo.health);
 	gameInstance->UpdatePlayerStatus(GetTotalStatus());
 	gameInstance->UpdatePlayerExperience(m_playerInfo.experience);
-	gameInstance->UpdatePlayerGold(m_playerInfo.gold);
 }

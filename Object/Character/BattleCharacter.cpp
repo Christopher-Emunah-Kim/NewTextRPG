@@ -49,11 +49,13 @@ void BattleCharacter::TakeDamage(int32 damage)
 		return;
 	}
 
-	m_battleCharacterInfo.health -= damage;
+	//TODO Health 사용방식이 이게 맞나?
+	m_battleCharacterInfo.health.TakeDamage(damage);
 
-	if (m_battleCharacterInfo.health < 0)
+
+	if (m_battleCharacterInfo.health.GetCurrentAmount() < 0)
 	{
-		m_battleCharacterInfo.health = 0;
+		m_battleCharacterInfo.health.New(0);
 	}
 
 	GameInstance::GetInstance()->WriteLine(L"");
@@ -63,7 +65,7 @@ void BattleCharacter::TakeDamage(int32 damage)
 
 bool BattleCharacter::IsAlive() const
 {
-	return m_battleCharacterInfo.health > 0;
+	return false == m_battleCharacterInfo.health.IsDead();
 }
 
 int32 BattleCharacter::CalculateDamage(BattleCharacter* target) const

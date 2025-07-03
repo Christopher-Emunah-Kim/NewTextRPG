@@ -8,7 +8,6 @@ struct FMonsterInfo;
 class BaseLevel;
 class Monster;
 
-using MonsterInfoUMap = unordered_map<wstring, FMonsterInfo>;
 
 class MonsterDataTable final : public Singleton<MonsterDataTable>
 {
@@ -20,15 +19,14 @@ public:
 	void Release();
 
 	bool HasMonster(const wstring& monsterName) const;
-	wstring StringToWString(const string& str) const;
+	wstring ToWideStr(const string& str) const;
 	Monster* CreateMonster(BaseLevel* level, const wstring& monsterName) const;
 	void ProcessCSVParsing();
 
-	const MonsterInfoUMap& GetMonsterDataTable() const noexcept;
 	const FMonsterInfo* GetMonsterInfo(const wstring& monsterName) const;
 	const vector<wstring> GetMonsterNames() const noexcept;
 
 private:
-	MonsterInfoUMap m_monsterDataTable;
+	unordered_map<wstring, FMonsterInfo> m_monsterDataTable;
 };
 

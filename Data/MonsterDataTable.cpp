@@ -26,23 +26,24 @@ bool MonsterDataTable::HasMonster(const wstring& monsterName) const
 	return m_monsterDataTable.find(monsterName) != m_monsterDataTable.end();
 }
 
-wstring MonsterDataTable::StringToWString(const string& str) const
+wstring MonsterDataTable::ToWideStr(const string& str) const
 {
 	if (str.empty())
 	{
 		return wstring();
 	}
 
-	int size_needed = MultiByteToWideChar(CP_UTF8, 0, &str[0], (int)str.size(), NULL, 0);
+	int size_needed = MultiByteToWideChar(CP_ACP, 0, &str[0], (int)str.size(), NULL, 0);
+
 	wstring resultWstr(size_needed, 0);
-	MultiByteToWideChar(CP_UTF8, 0, &str[0], (int)str.size(), &resultWstr[0], size_needed);
+	MultiByteToWideChar(CP_ACP, 0, &str[0], (int)str.size(), &resultWstr[0], size_needed);
 
 	return resultWstr;
 }
 
 Monster* MonsterDataTable::CreateMonster(BaseLevel* level, const wstring& monsterName) const
 {
-	MonsterInfoUMap::const_iterator it = m_monsterDataTable.find(monsterName);
+	unordered_map<wstring, FMonsterInfo>::const_iterator it = m_monsterDataTable.find(monsterName);
 	if (it != m_monsterDataTable.end())
 	{
 		return new Monster(level, monsterName, it->second);
@@ -95,8 +96,8 @@ void MonsterDataTable::ProcessCSVParsing()
 		dropGold = (int16)stoi(row[9]);
 		dropExperience = (int16)stoi(row[10]);
 
-		wstring name = StringToWString(nameStr);
-		wstring desc = StringToWString(descStr);
+		wstring name = ToWideStr(nameStr);
+		wstring desc = ToWideStr(descStr);
 
 		
 		FMonsterInfo monsterInfo(characterLevel);
@@ -112,14 +113,10 @@ void MonsterDataTable::ProcessCSVParsing()
 	}
 }
 
-const MonsterInfoUMap& MonsterDataTable::GetMonsterDataTable() const noexcept
-{
-	return m_monsterDataTable;
-}
 
 const FMonsterInfo* MonsterDataTable::GetMonsterInfo(const wstring& monsterName) const
 {
-	MonsterInfoUMap::const_iterator it = m_monsterDataTable.find(monsterName);
+	unordered_map<wstring, FMonsterInfo>::const_iterator it = m_monsterDataTable.find(monsterName);
 	if (it != m_monsterDataTable.end())
 	{
 		return &(it->second);
@@ -132,7 +129,7 @@ const vector<wstring> MonsterDataTable::GetMonsterNames() const noexcept
 {
 	vector<wstring> monsterNames;
 
-	for (MonsterInfoUMap::const_iterator it = m_monsterDataTable.begin(); it != m_monsterDataTable.end(); ++it)
+	for (unordered_map<wstring, FMonsterInfo>::const_iterator it = m_monsterDataTable.begin(); it != m_monsterDataTable.end(); ++it)
 	{
 		monsterNames.push_back(it->first);
 	}

@@ -3,6 +3,7 @@
 #include "Util/Type/CharacterInfo.h"
 #include "Util/Type/Health.h"
 #include "Util/Type/Gold.h"
+#include "Util/Type/Experience.h"
 
 
 constexpr __int32 DEFAULT_OWNED_GOLD = 10000;
@@ -10,31 +11,34 @@ constexpr __int32 DEFAULT_OWNED_GOLD = 10000;
 
 class Player final : public BattleCharacter  
 {  
-
 public:  
 	Player();
 	virtual ~Player() = default;
+
+private:
+	void LoadLevelPropertiesByLevel();
+
+public:
 
 	virtual void Init() override;  
 
 	void InitializeComponents();
 	void RegisterNewLevelArea(BaseLevel* level);
 
-	void TakeDamage(int32 amount);
-	Health GetHealth() const;
 	bool CanAfford(int32 cost) const;
 	bool IsFullHealth() const;
 	void Recover(int32 amount);
+	Health GetHealth() const;
 
 	bool UseGold(int32 amount);
 	void GainGold(int32 amount);
-	Gold GetGold() const;
 	int32 GetGoldAmount() const;
+	Gold GetGold() const;
 
-	inline const FPlayerInfo& GetPlayerInfo() const noexcept { return m_playerInfo; }
-	inline void SetPlayerInfo(const FPlayerInfo& info) { m_playerInfo = info; }
-
+	bool GainExperience(int32 exp);
+	Status GetTotalStatus() const;
+	
 private:
-	FPlayerInfo m_playerInfo;
 	Gold m_gold;
+	Experience m_experience;
 };

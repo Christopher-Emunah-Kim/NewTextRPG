@@ -254,7 +254,7 @@ void VillageLevel::OnSellIItem()
 
 void VillageLevel::OnEnterHealerShop()
 {
-	const wstring& playerName = gi->GetPlayer().GetPlayerInfo().name;
+	const wstring& playerName = gi->GetPlayer().GetBattleCharacterInfo().name;
 
 	gi->WriteLine();
 	gi->WriteLine(L"치유의 집에 들어갑니다.");

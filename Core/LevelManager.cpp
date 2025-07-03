@@ -81,10 +81,10 @@ void LevelManager::InitializePlayer()
 
 	GameInstance* gi = GameInstance::GetInstance();
 	gi->UpdateLevelName(m_currentLevel->GetTag());
-	gi->UpdatePlayerName(player.GetPlayerInfo().name);
+	gi->UpdatePlayerName(player.GetBattleCharacterInfo().name);
 	gi->UpdatePlayerLevel(player.GetCharacterLevel());
 	gi->UpdatePlayerHealth(player.GetHealth());
-	gi->UpdatePlayerStatus(player.GetPlayerInfo().status);
+	gi->UpdatePlayerStatus(player.GetBattleCharacterInfo().status);
 	gi->UpdatePlayerGold(player.GetGold());
 	gi->UpdateEquippedItem(L"없음", EItemType::Weapon);
 	gi->UpdateEquippedItem(L"없음", EItemType::Armor);

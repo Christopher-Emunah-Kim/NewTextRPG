@@ -1,5 +1,4 @@
 ﻿#include "EquipmentComp.h"
-#include "PlayerStatusComp.h"
 #include "../../Core/GameInstance.h"
 #include "../../Object/BaseGameObject.h"
 
@@ -61,10 +60,10 @@ bool EquipmentComp::EquipItem(BaseItem* item)
 		GameInstance* gameInstance = GameInstance::GetInstance();
 		gameInstance->UpdateEquippedItem(item->GetName(), itemType);
 
-		PlayerStatusComp* statusComp = m_owner->GetComponentByType<PlayerStatusComp>();
-		if (statusComp)
+		Player* player = dynamic_cast<Player*>(m_owner);
+		if (player)
 		{
-			GameInstance::GetInstance()->UpdatePlayerStatus(statusComp->GetTotalStatus());
+			GameInstance::GetInstance()->UpdatePlayerStatus(player->GetTotalStatus());
 		}
 
 		return true;
@@ -129,10 +128,10 @@ BaseItem* EquipmentComp::UnequipItem(EItemType itemType)
 
 	if (unequippedItem)
 	{
-		PlayerStatusComp* statusComp = m_owner->GetComponentByType<PlayerStatusComp>();
-		if (statusComp)
+		Player* player = dynamic_cast<Player*>(m_owner);
+		if (player)
 		{
-			GameInstance::GetInstance()->UpdatePlayerStatus(statusComp->GetTotalStatus());
+			GameInstance::GetInstance()->UpdatePlayerStatus(player->GetTotalStatus());
 		}
 	}
 

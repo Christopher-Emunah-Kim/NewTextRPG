@@ -57,9 +57,6 @@
     <ClCompile Include="HUD.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Component\Player\PlayerStatusComp.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Data\ItemDataTable.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -156,9 +153,6 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="HUD.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Component\Player\PlayerStatusComp.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Util\Type\CharacterInfo.h">

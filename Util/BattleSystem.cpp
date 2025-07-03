@@ -4,7 +4,6 @@
 #include "../Object/Character/Monster.h"
 #include "../Level/DungeonLevel.h"
 #include "../Core/LevelManager.h"
-#include "../Component/Player/PlayerStatusComp.h"
 #include "../Component/Player/EquipmentComp.h"
 #include "../Component/Player/InventoryComp.h"
 #include "../Data/ItemDataTable.h"
@@ -105,18 +104,17 @@ void BattleSystem::HandleBattleRewards(BattleCharacter* winner, BattleCharacter*
 	{
 		GameInstance* gameInstance = GameInstance::GetInstance();
 
-		PlayerStatusComp* statusComp = player->GetComponentByType<PlayerStatusComp>();
 		InventoryComp* inventoryComp = player->GetComponentByType<InventoryComp>();
 		EquipmentComp* equipmentComp = player->GetComponentByType<EquipmentComp>();
 
-		if (!statusComp || !inventoryComp || !equipmentComp)
+		if (!inventoryComp || !equipmentComp)
 		{
 			gameInstance->WriteLine(L"오류: 플레이어 컴포넌트를 찾을 수 없습니다.");
 			return;
 		}
 
 		int16 expAmount = monster->GetDropExperience();
-		if (statusComp->GainExperience(expAmount))
+		if (player->GainExperience(expAmount))
 		{
 			gameInstance->WriteLine(L"경험치 " + to_wstring(expAmount) + L"을(를) 획득했습니다!");
 		}

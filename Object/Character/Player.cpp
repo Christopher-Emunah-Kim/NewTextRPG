@@ -3,15 +3,13 @@
 #include "../../Core/GameInstance.h"
 #include "../../Level/BaseLevel.h"
 #include "../../Component/Player/EquipmentComp.h"
-#include "../../Component/Player/PlayerStatusComp.h"
 #include "../../Component/Player/InventoryComp.h"
 
 
 Player::Player()
-	:BattleCharacter(nullptr, L"Player"), m_playerInfo(DEFAULT_LEVEL), m_gold(DEFAULT_OWNED_GOLD)
-{
-}
-
+	:BattleCharacter(nullptr, L"Player"), m_gold(DEFAULT_OWNED_GOLD),
+	m_experience(0, FPlayerDataTablePerLevel::GetRequiredMaxExp(DEFAULT_LEVEL))
+{ }
 
 void Player::Init()
 {
@@ -20,14 +18,8 @@ void Player::Init()
 	BattleCharacter::Init();
 }
 
-
 void Player::InitializeComponents()
 {
-
-	if (false == HasComponentType<PlayerStatusComp>())
-	{
-		AddComponent(new PlayerStatusComp(this));
-	}
 	if (false == HasComponentType<InventoryComp>())
 	{
 		AddComponent(new InventoryComp(this));
@@ -40,15 +32,11 @@ void Player::InitializeComponents()
 
 	GameInstance* gameInstance = GameInstance::GetInstance();
 
-	PlayerStatusComp* statusComp = GetComponentByType<PlayerStatusComp>();
-	if (statusComp)
-	{
-		const FPlayerInfo& info = statusComp->GetPlayerInfo();
-		gameInstance->UpdatePlayerName(GetTag());
-		gameInstance->UpdatePlayerLevel(info.characterLevel);
-		gameInstance->UpdatePlayerHealth(info.health);
-		gameInstance->UpdatePlayerStatus(statusComp->GetTotalStatus());
-	}
+	gameInstance->UpdatePlayerName(GetTag());
+	gameInstance->UpdatePlayerLevel(m_battleCharacterInfo.characterLevel);
+	gameInstance->UpdatePlayerHealth(m_battleCharacterInfo.health);
+	gameInstance->UpdatePlayerStatus(GetTotalStatus());
+	gameInstance->UpdatePlayerExperience(m_experience);
 
 	EquipmentComp* equipComp = GetComponentByType<EquipmentComp>();
 	if (equipComp)
@@ -96,20 +84,12 @@ void Player::RegisterNewLevelArea(BaseLevel* level)
 		{
 			InitializeComponents();
 		}
-
-		
 	}
-}
-
-
-void Player::TakeDamage(int32 amount)
-{
-	m_playerInfo.health = m_playerInfo.health.TakeDamage(amount);
 }
 
 Health Player::GetHealth() const
 {
-	return m_playerInfo.health;
+	return m_battleCharacterInfo.health;
 }
 
 bool Player::CanAfford(int32 cost) const
@@ -119,12 +99,12 @@ bool Player::CanAfford(int32 cost) const
 
 bool Player::IsFullHealth() const
 {
-	return m_playerInfo.health.IsFull();
+	return m_battleCharacterInfo.health.IsFull();
 }
 
 void Player::Recover(int32 amount)
 {
-	m_playerInfo.health = m_playerInfo.health.Recover(amount);
+	m_battleCharacterInfo.health = m_battleCharacterInfo.health.Recover(amount);
 }
 
 bool Player::UseGold(int32 amount)
@@ -152,5 +132,55 @@ Gold Player::GetGold() const
 int32 Player::GetGoldAmount() const
 {
 	return m_gold.GetAmount();
+}
+
+bool Player::GainExperience(int32 exp)
+{
+	int16 levelUpCount = m_experience.AddExperience(exp, m_battleCharacterInfo.characterLevel);
+
+	GameInstance::GetInstance()->UpdatePlayerExperience(m_experience);
+
+	if (levelUpCount > 0)
+	{
+		m_battleCharacterInfo.characterLevel += levelUpCount;
+
+		LoadLevelPropertiesByLevel();
+
+		GameInstance::GetInstance()->UpdatePlayerLevel(m_battleCharacterInfo.characterLevel);
+		GameInstance::GetInstance()->UpdatePlayerHealth(m_battleCharacterInfo.health);
+		GameInstance::GetInstance()->UpdatePlayerStatus(GetTotalStatus());
+
+		return true;
+	}
+
+	return false;
+}
+
+void Player::LoadLevelPropertiesByLevel()
+{
+	FLevelProperties levelProps = FPlayerDataTablePerLevel::LoadPlayerLevelData(m_battleCharacterInfo.characterLevel);
+
+	m_battleCharacterInfo.health = Health::New(levelProps.maxHealthPerLevel);
+	m_experience.SetMaxExp(levelProps.maxExperiencePerLevel);
+
+	m_battleCharacterInfo.status = Status(
+		levelProps.attackPerLevel,
+		levelProps.defensePerLevel,
+		levelProps.agilityPerLevel
+	);
+}
+
+Status Player::GetTotalStatus() const
+{
+	Status baseStatus = m_battleCharacterInfo.status;
+
+	EquipmentComp* equipComp = GetComponentByType<EquipmentComp>();
+	if (equipComp)
+	{
+		Status equipStatus = equipComp->GetTotalEquipmentStatus();
+		baseStatus = Status::AddStatus(baseStatus, equipStatus);
+	}
+
+	return baseStatus;
 }
 

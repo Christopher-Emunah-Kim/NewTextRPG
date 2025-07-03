@@ -27,13 +27,11 @@ EHealResult Healer::CheckHealAvailable(const Player& player) const
 	return EHealResult::RequestAccept;
 }
 
-int32 Healer::Heal(Player& player) const
+void Healer::Heal(Player& player) const
 {
 	Health health = player.GetHealth();
 	const int32 healAmount = health.GetMaxAmount() - health.GetCurrentAmount();
 
 	player.Recover(healAmount);
 	player.UseGold(m_healCost);
-
-	return healAmount;
 }

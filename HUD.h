@@ -28,7 +28,7 @@ struct FHudData final
 	// player data
 	wstring playerName;
 	int16 playerLevel;
-	Health health;
+	Health health = Health::New(0);
 	Status status;
 	Experience experience;
 	Gold gold;

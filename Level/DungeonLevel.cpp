@@ -25,12 +25,6 @@ void DungeonLevel::Release()
 
 void DungeonLevel::SetDungeonStage()
 {
-	/*if (m_currentMonster)
-	{
-		delete m_currentMonster;
-		m_currentMonster = nullptr;
-	}*/
-
 	MonsterDataTable* monsterDataTable = MonsterDataTable::GetInstance();
 	m_monsterNames = monsterDataTable->GetMonsterNames();
 
@@ -47,12 +41,6 @@ void DungeonLevel::SetDungeonStage()
 
 void DungeonLevel::CreateRandomMonster()
 {
-	/*if (m_currentMonster)
-	{
-		delete m_currentMonster;
-		m_currentMonster = nullptr;
-	}*/
-
 	if (!m_monsterNames.empty())
 	{
 		int randomIndex = rand() % m_monsterNames.size();
@@ -259,12 +247,6 @@ void DungeonLevel::OnStartBattle()
 void DungeonLevel::OnMonsterDefeated()
 {
 	--m_activeMonseters;
-
-	/*if (m_currentMonster)
-	{
-		delete m_currentMonster;
-		m_currentMonster = nullptr;
-	}*/
 
 	ContinueExploration();
 }

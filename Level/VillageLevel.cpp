@@ -7,7 +7,7 @@
 #include "Component/Player/InventoryComp.h"
 #include "Component/Player/PlayerStatusComp.h"
 #include "Component/Player/EquipmentComp.h"
-#include "Object/NPC/Healer.h"
+#include "NPC/Healer.h"
 
 VillageLevel::~VillageLevel()
 {
@@ -19,6 +19,8 @@ void VillageLevel::Init()
 {
 	constexpr int32 HEAL_COST = 100;
 	m_healer = new Healer(HEAL_COST);
+
+	gi = GameInstance::GetInstance();
 
 	Welcome();
 
@@ -296,13 +298,12 @@ void VillageLevel::OnRecoverPlayer()
 	{
 	case EHealResult::RequestAccept:
 	{
-		int32 healAmount = m_healer->Heal(player);
+		m_healer->Heal(player);
 		gi->UpdatePlayerGold(player.GetGold());
 		gi->UpdatePlayerHealth(player.GetHealth());
 
 		gi->ClearText();
 		gi->WriteLine(L"치유사 스칼드가 당신의 상처를 완벽하게 치유했습니다.");
-		gi->WriteLine(L"체력이 " + to_wstring(healAmount) + L"회복됩니다.");
 		gi->WriteLine(L"체력이 최대치로 회복되었습니다!");
 	}
 		break;
@@ -325,7 +326,7 @@ void VillageLevel::OnRecoverPlayer()
 
 	default:
 	{
-		gi->WriteLine(L"치유사 스칼드가 당신을 꼼꼼히 살펴보지만, 큰 이상이 없다고 진단합니다.");
+		throw invalid_argument("힐러의 집에서 디폴트 에러 발생. 조치 바람.");
 	}
 		break;
 	}

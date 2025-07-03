@@ -144,7 +144,7 @@
     <ClCompile Include="Object\BaseGameObject.cpp" />
     <ClCompile Include="Object\Character\BaseCharacter.cpp" />
     <ClCompile Include="Object\Character\BattleCharacter.cpp" />
-    <ClCompile Include="Object\NPC\Healer.cpp" />
+    <ClCompile Include="NPC\Healer.cpp" />
     <ClCompile Include="Object\Character\Monster.cpp" />
     <ClCompile Include="Object\Character\Player.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
@@ -180,7 +180,7 @@
     <ClInclude Include="Object\BaseGameObject.h" />
     <ClInclude Include="Object\Character\BaseCharacter.h" />
     <ClInclude Include="Object\Character\BattleCharacter.h" />
-    <ClInclude Include="Object\NPC\Healer.h" />
+    <ClInclude Include="NPC\Healer.h" />
     <ClInclude Include="Object\Character\Monster.h" />
     <ClInclude Include="Object\Character\Player.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>

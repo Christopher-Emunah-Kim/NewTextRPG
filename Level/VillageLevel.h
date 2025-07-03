@@ -25,5 +25,6 @@ private:
 
 private:
 	Healer* m_healer;
+	GameInstance* gi;
 };
 

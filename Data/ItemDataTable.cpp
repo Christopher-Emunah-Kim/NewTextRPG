@@ -27,7 +27,7 @@ void ItemDataTable::ProcessCSVParsing()
 	ifstream file("Data/ItemCSVData.csv");
 	if (!file.is_open())
 	{
-		GameInstance::GetInstance()->EnqueueText(L"CSV 파일을 열 수 없습니다: Data/ItemCSVData.csv");
+		GameInstance::GetInstance()->WriteLine(L"CSV 파일을 열 수 없습니다: Data/ItemCSVData.csv");
 		return;
 	}
 
@@ -48,7 +48,7 @@ void ItemDataTable::ProcessCSVParsing()
 		}
 		if (row.size() < CSV_COLUMN_NUM)
 		{
-			GameInstance::GetInstance()->EnqueueText(L"잘못된 열 수를 가진 CSV 행 발견, 건너뜁니다.");
+			GameInstance::GetInstance()->WriteLine(L"잘못된 열 수를 가진 CSV 행 발견, 건너뜁니다.");
 			continue;
 		}
 
@@ -132,7 +132,7 @@ EItemType ItemDataTable::StringToItemType(const string& itemType) const
 		return EItemType::Material;
 	}
 
-	GameInstance::GetInstance()->EnqueueText(L"알 수 없는 아이템 타입: " + wstring(itemType.begin(), itemType.end()));
+	GameInstance::GetInstance()->WriteLine(L"알 수 없는 아이템 타입: " + wstring(itemType.begin(), itemType.end()));
 	return EItemType::Material;
 }
 
@@ -144,7 +144,7 @@ BaseItem* ItemDataTable::CreateItem(const wstring& itemName) const
 	{
 		return it->second->CreateItem();
 	}
-	GameInstance::GetInstance()->EnqueueText(L"존재하지 않는 아이템입니다: " + itemName);
+	GameInstance::GetInstance()->WriteLine(L"존재하지 않는 아이템입니다: " + itemName);
 	return nullptr;
 }
 
@@ -155,7 +155,7 @@ const BaseItem* ItemDataTable::GetItem(const wstring& itemName) const
 	{
 		return it->second;
 	}
-	GameInstance::GetInstance()->EnqueueText(L"존재하지 않는 아이템입니다: " + itemName);
+	GameInstance::GetInstance()->WriteLine(L"존재하지 않는 아이템입니다: " + itemName);
 	return nullptr;
 }
 

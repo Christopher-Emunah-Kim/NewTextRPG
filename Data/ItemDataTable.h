@@ -3,11 +3,11 @@
 #include "../Util/Type/EnumType.h"
 #include "../Util/Singleton.h"
 
+constexpr __int16 CSV_COLUMN_NUM = 9;
+
 class BaseItem;
 
 using ItemUMap = unordered_map<wstring, BaseItem*>;
-
-constexpr __int16 CSV_COLUMN_NUM = 9;
 
 class ItemDataTable final : public Singleton<ItemDataTable>
 {
@@ -15,10 +15,6 @@ public:
 	ItemDataTable() = default;
 	virtual ~ItemDataTable();
 
-private:
-	ItemUMap m_itemDataTable;
-
-public:
 	void Init();
 	void Release();
 
@@ -28,9 +24,11 @@ public:
 	BaseItem* CreateItem(const wstring& itemName) const;
 	void  ProcessCSVParsing();
 
-
 	const BaseItem* GetItem(const wstring& itemName) const;
 	const ItemUMap& GetItemDataTable() const noexcept;
 	const vector<wstring> GetItemNames() const noexcept;
+
+private:
+	ItemUMap m_itemDataTable;
 	
 };

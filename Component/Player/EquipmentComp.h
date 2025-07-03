@@ -10,11 +10,6 @@ public:
 	EquipmentComp(BaseGameObject* owner);
 	virtual ~EquipmentComp();
 
-private:
-	BaseItem* m_weaponSlot;
-	BaseItem* m_armorSlot;
-
-public:
 	virtual void Release() override;
 
 	bool EquipItem(BaseItem* item);
@@ -22,5 +17,9 @@ public:
 	BaseItem* UnequipItem(EItemType itemType);
 	BaseItem* GetEquippedItem(EItemType itemType) const;
 	Status GetTotalEquipmentStatus() const;
+
+private:
+	BaseItem* m_weaponSlot;
+	BaseItem* m_armorSlot;
 };
 

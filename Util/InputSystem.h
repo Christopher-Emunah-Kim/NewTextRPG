@@ -5,6 +5,9 @@ using InputAction = function<void()>;
 
 class InputSystem
 {
+private:
+	static void ProcessAction(wstring command);
+
 public:
 	static void ProcessTextInput();
 	static void BindActionOnInputError(InputAction action);
@@ -14,9 +17,6 @@ public:
 	static void Clear(const wstring& command);
 
 	static const wstring& GetBuffer();
-
-private:
-	static void ProcessAction(wstring command);
 
 private:
 	static wstring s_inputBuffer;

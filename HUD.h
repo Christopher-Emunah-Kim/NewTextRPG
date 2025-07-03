@@ -41,16 +41,14 @@ public:
 	virtual ~HUD() = default;
 
 private:
-	deque<wstring> m_systemTextQueue;
-	FHudData m_hudData;
-
-private:
 	void RenderPlayerInfo(Screen& screen) const;
 	void RenderSystemText(Screen& screen) const;
 	void RenderInputBuffer(Screen& screen) const;
 
 public:
 	void Render(Screen& screen) const;
+	void WriteLine(const wstring& text);
+	void ClearText();
 
 	void UpdateLevelName(const wstring& levelName);
 	void UpdatePlayerName(const wstring& playerName);
@@ -62,8 +60,9 @@ public:
 	void UpdateEquippedItem(const wstring& name, EItemType type);
 	void UpdateInvetoryItems(const wstring& name);
 
-	void EnqueueText(const wstring& text);
-	void ClearText();
+private:
+	deque<wstring> m_systemTextQueue;
+	FHudData m_hudData;
 
 };
 

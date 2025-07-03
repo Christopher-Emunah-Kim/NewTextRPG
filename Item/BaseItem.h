@@ -23,20 +23,6 @@ public:
 
 	virtual ~BaseItem() = default;
 
-private:
-	int32 m_itemId;
-	wstring m_name;
-	EItemType m_itemType;
-	wstring m_description;
-	int16 m_buyingPrice;
-	int16 m_sellingPrice;
-	int16 m_attack;
-	int16 m_defense;
-	int16 m_agility;
-	int16 m_count;
-	int16 m_maxCount = DEFAULT_ITEM_MAX_COUNT;
-
-public:
 	virtual BaseItem* CreateItem() const
 	{
 		return new BaseItem(*this);
@@ -69,10 +55,7 @@ public:
 
 	inline bool IsFull() const { return m_count >= m_maxCount; }
 	inline bool IsEmpty() const { return m_count <= 0; }
-
 	inline void SetMaxCount(const int16& maxCount) { m_maxCount = maxCount; }
-
-
 	inline const int32& GetItemID() const noexcept { return m_itemId; }
 	inline const wstring& GetName() const noexcept { return m_name; }
 	inline const EItemType& GetItemType() const noexcept { return m_itemType; }
@@ -84,4 +67,18 @@ public:
 	inline const int16& GetAgility() const noexcept { return m_agility; }
 	inline const int16& GetCount() const noexcept { return m_count; }
 	inline const int16& GetMaxCount() const noexcept { return m_maxCount; }
+
+private:
+	int32 m_itemId;
+	wstring m_name;
+	EItemType m_itemType;
+	wstring m_description;
+	int16 m_buyingPrice;
+	int16 m_sellingPrice;
+	int16 m_attack;
+	int16 m_defense;
+	int16 m_agility;
+	int16 m_count;
+	int16 m_maxCount = DEFAULT_ITEM_MAX_COUNT;
+
 };

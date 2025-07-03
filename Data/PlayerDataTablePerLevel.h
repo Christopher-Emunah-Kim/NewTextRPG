@@ -38,7 +38,7 @@ struct FPlayerDataTablePerLevel
 	
 	static FLevelProperties LoadPlayerLevelData(int16 level);
 	
-	static int16 GetRequiredMaxExp(const int16 level);
+	static int16 GetRequiredMaxExp(int16 level);
 	
 };
 

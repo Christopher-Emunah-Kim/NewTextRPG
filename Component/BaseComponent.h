@@ -13,12 +13,6 @@ public:
 	BaseComponent(BaseGameObject* owner, int32 order = 100);
 	virtual ~BaseComponent();
 
-private:
-	int32 m_componentOrder = 100;
-
-protected:
-	BaseGameObject* m_owner = nullptr;
-
 public:
 	virtual void Init() override;
 	virtual void Update() override;
@@ -27,5 +21,10 @@ public:
 
 	int32 GetOrder() const;
 	
+private:
+	int32 m_componentOrder = 100;
+
+protected:
+	BaseGameObject* m_owner = nullptr;
 };
 

@@ -12,16 +12,15 @@ class Timer
 public:
 	Timer() = delete;
 
-private:
-	static TimePoint	m_prevTimePoint;
-	static float		m_deltaTime;
-	static float		m_timeScale;
-	
-
 public:
 	static void		Init();
 	static bool		CanUpdate();
 	static float	GetDeltaTime();
+
+private:
+	static TimePoint	m_prevTimePoint;
+	static float		m_deltaTime;
+	static float		m_timeScale;
 
 };
 

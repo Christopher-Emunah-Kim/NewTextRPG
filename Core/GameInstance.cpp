@@ -46,9 +46,9 @@ void GameInstance::UpdateInvetoryItems(const wstring& name)
 	m_Hud.UpdateInvetoryItems(name);
 }
 
-void GameInstance::EnqueueText(const wstring& text)
+void GameInstance::WriteLine(const wstring& text)
 {
-	m_Hud.EnqueueText(text);
+	m_Hud.WriteLine(text);
 }
 
 void GameInstance::ClearText()

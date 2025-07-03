@@ -12,12 +12,6 @@ struct Experience
 		: m_currentExp(0), m_levelMaxExp(DEFAULT_PLAYER_MAX_EXPERIENCE)
 	{ }
 
-private:
-	int16 m_currentExp;
-	int16 m_levelMaxExp;
-
-
-public:
 	int16 AddExperience(int16 amount, int16 currentLevel)
 	{
 		m_currentExp += amount;
@@ -43,6 +37,10 @@ public:
 
 	inline const int16& GetCurrentExp() const noexcept { return m_currentExp; }
 	inline const int16& GetMaxExp() const noexcept { return m_levelMaxExp; }
+
+private:
+	int16 m_currentExp;
+	int16 m_levelMaxExp;
 };
 
 
@@ -52,11 +50,7 @@ struct Gold
 	explicit Gold() 
 		: m_amount(DEFAULT_OWNED_GOLD) { }
 
-private:
-	int16 m_amount;
 
-
-public:
 	void GainGold(int16 amount)
 	{
 		int16 total = m_amount + amount;
@@ -85,4 +79,7 @@ public:
 	}
 
 	inline int16 GetAmount() const noexcept { return m_amount; }
+
+private:
+	int16 m_amount;
 };

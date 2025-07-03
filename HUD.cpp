@@ -73,7 +73,7 @@ void HUD::UpdateInvetoryItems(const wstring& name)
 }
 
 
-void HUD::EnqueueText(const wstring& text)
+void HUD::WriteLine(const wstring& text)
 {
 	if (m_systemTextQueue.size() >= MAX_LINES)
 	{

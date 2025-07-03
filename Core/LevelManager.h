@@ -12,11 +12,6 @@ public:
 	virtual ~LevelManager();
 
 private:
-	BaseLevel* m_currentLevel = nullptr;
-	BaseLevel* m_nextLevel = nullptr;
-	unordered_map<wstring, BaseLevel*> m_levels;
-
-private:
 	void InitializePlayer();
 
 public:
@@ -31,5 +26,10 @@ public:
 
 	inline BaseLevel* GetCurrentLevel() const { return m_currentLevel; }
 	inline BaseLevel* GetNextLevel() const { return m_nextLevel; }
+
+private:
+	BaseLevel* m_currentLevel = nullptr;
+	BaseLevel* m_nextLevel = nullptr;
+	unordered_map<wstring, BaseLevel*> m_levels;
 };
 

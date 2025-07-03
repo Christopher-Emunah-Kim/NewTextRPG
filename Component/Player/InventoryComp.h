@@ -8,10 +8,6 @@ public:
 	InventoryComp(BaseGameObject* owner);
 	virtual ~InventoryComp() = default;
 
-private:
-	vector<BaseItem*> m_inventoryItems; 
-	int16 m_maxInventorySize = DEFAULT_ITEM_MAX_COUNT;
-
 public:
 	virtual void Release() override;
 
@@ -28,5 +24,9 @@ public:
 	inline const int16& GetMaxInventorySize() const { return m_maxInventorySize; }
 	inline void SetMaxInventorySize(int16 size) { m_maxInventorySize = size; }
 	inline bool IsInventoryFull() const { return m_inventoryItems.size() >= m_maxInventorySize; }
+
+private:
+	vector<BaseItem*> m_inventoryItems; 
+	int16 m_maxInventorySize = DEFAULT_ITEM_MAX_COUNT;
 };
 

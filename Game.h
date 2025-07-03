@@ -10,9 +10,6 @@ public:
 	//explicit Game() : m_screen(Screen::GetInstance()) { }
 	virtual ~Game() noexcept;
 
-private:
-	Screen m_screen;
-
 public:
 	bool Init();
 	void Run();
@@ -22,6 +19,9 @@ private:
 	void Update();
 	void Render();
 	void Release();
+
+private:
+	Screen m_screen;
 
 };
 

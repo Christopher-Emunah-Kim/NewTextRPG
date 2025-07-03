@@ -45,18 +45,8 @@ struct Status
 		return *this;
 	}
 
-private:
-	const int16 attack;
-	const int16 defense;
-	const int16 agility;
 
-
-public:
-	const int16& GetAttack() const { return attack; }
-	const int16& GetDefense() const { return defense; }
-	const int16& GetAgility() const { return agility; }
-
-	static Status NewStatus(const int16& atk, const int16& def, const int16& agi)
+	static Status NewStatus(int16 atk, int16 def, int16 agi)
 	{
 		return Status(atk, def, agi);
 	}
@@ -93,4 +83,12 @@ public:
 		}
 	}
 
+	const int16& GetAttack() const { return attack; }
+	const int16& GetDefense() const { return defense; }
+	const int16& GetAgility() const { return agility; }
+
+private:
+	const int16 attack;
+	const int16 defense;
+	const int16 agility;
 };

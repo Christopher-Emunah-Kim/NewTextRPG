@@ -10,11 +10,6 @@ public:
 	GameInstance() = default;
 	virtual ~GameInstance() = default;
 
-private:
-	HUD m_Hud;
-	Player m_Player;
-
-public:
 	void UpdateLevelName(const wstring& levelName);
 	void UpdatePlayerName(const wstring& playerName);
 	void UpdatePlayerLevel(int16 level);
@@ -25,7 +20,7 @@ public:
 	void UpdateEquippedItem(const wstring& name, EItemType type);
 	void UpdateInvetoryItems(const wstring& name);
 
-	void EnqueueText(const wstring& text);
+	void WriteLine(const wstring& text = L"");
 	void ClearText();
 
 	void RenderHud(Screen& screen) const;
@@ -36,4 +31,8 @@ public:
 		const vector<wstring>& inventoryItems);
 
 	inline Player& GetPlayer() { return m_Player; }
+
+private:
+	HUD m_Hud;
+	Player m_Player;
 };

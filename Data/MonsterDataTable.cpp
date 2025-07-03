@@ -47,7 +47,7 @@ Monster* MonsterDataTable::CreateMonster(BaseLevel* level, const wstring& monste
 	{
 		return new Monster(level, monsterName, it->second);
 	}
-	GameInstance::GetInstance()->EnqueueText(L"존재하지 않는 몬스터입니다: " + monsterName);
+	GameInstance::GetInstance()->WriteLine(L"존재하지 않는 몬스터입니다: " + monsterName);
 	return nullptr;
 }
 
@@ -56,7 +56,7 @@ void MonsterDataTable::ProcessCSVParsing()
 	ifstream file("Data/MonsterCSVData.csv");
 	if (!file.is_open())
 	{
-		GameInstance::GetInstance()->EnqueueText(L"CSV 파일을 열 수 없습니다: Data/MonsterCSVData.csv");
+		GameInstance::GetInstance()->WriteLine(L"CSV 파일을 열 수 없습니다: Data/MonsterCSVData.csv");
 		return;
 	}
 
@@ -79,7 +79,7 @@ void MonsterDataTable::ProcessCSVParsing()
 		}
 		if (row.size() < MONSTER_CSV_COLUMN_NUM)
 		{
-			GameInstance::GetInstance()->EnqueueText(L"잘못된 열 수를 가진 CSV 행 발견, 건너뜁니다.");
+			GameInstance::GetInstance()->WriteLine(L"잘못된 열 수를 가진 CSV 행 발견, 건너뜁니다.");
 			continue;
 		}
 
@@ -125,7 +125,7 @@ const FMonsterInfo* MonsterDataTable::GetMonsterInfo(const wstring& monsterName)
 	{
 		return &(it->second);
 	}
-	GameInstance::GetInstance()->EnqueueText(L"존재하지 않는 몬스터입니다: " + monsterName);
+	GameInstance::GetInstance()->WriteLine(L"존재하지 않는 몬스터입니다: " + monsterName);
 	return nullptr;
 }
 

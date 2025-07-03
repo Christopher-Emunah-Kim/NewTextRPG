@@ -7,7 +7,7 @@
 struct FCharacterInfo
 {
 	explicit FCharacterInfo(int16 level)
-		: name(L"Default Character"), characterLevel(level),description(L"Default Character Description")
+		: name(L"최강워로드"), characterLevel(level),description(L"스칼드로서의 삶에 회한을 느낀 전사")
 	{ }
 
 	wstring name;

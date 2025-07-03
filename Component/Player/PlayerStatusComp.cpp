@@ -49,7 +49,7 @@ Status PlayerStatusComp::GetTotalStatus() const
 
 }
 
-bool PlayerStatusComp::GainExperience(const int32& exp)
+bool PlayerStatusComp::GainExperience(int32 exp)
 {
 	int16 levelUpCount = m_playerInfo.experience.AddExperience(exp, m_playerInfo.characterLevel);
 

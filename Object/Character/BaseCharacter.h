@@ -8,14 +8,8 @@ public:
 	BaseCharacter(BaseLevel*, const wstring& tag);
 	virtual ~BaseCharacter();
 
-protected:
-	FCharacterInfo m_characterInfo;
-
-public:
 	virtual void Init() override;
-
 	virtual void Interact(BaseCharacter* other) = 0;
-
 
 	void SetName(const wstring& name);
 	void SetDescription(const wstring& desc);
@@ -25,5 +19,8 @@ public:
 	inline wstring GetDescription() const noexcept { return m_characterInfo.description; }
 	inline int16 GetCharacterLevel() const noexcept { return m_characterInfo.characterLevel; }
 	inline const FCharacterInfo& GetCharacterInfo() const noexcept { return m_characterInfo; }
+
+protected:
+	FCharacterInfo m_characterInfo;
 };
 

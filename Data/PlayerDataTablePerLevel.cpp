@@ -32,7 +32,7 @@ FLevelProperties FPlayerDataTablePerLevel::LoadPlayerLevelData(int16 level)
 	return levelDataArray[level - 1];
 }
 
-int16 FPlayerDataTablePerLevel::GetRequiredMaxExp(const int16 level)
+int16 FPlayerDataTablePerLevel::GetRequiredMaxExp(int16 level)
 {
 	if (level < DEFAULT_LEVEL || level > DEFAULT_MAX_LEVEL)
 	{

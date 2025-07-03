@@ -9,19 +9,10 @@ struct Status;
 
 class DungeonLevel : public BaseLevel
 {
-
 public:
 	using BaseLevel::BaseLevel;
 	virtual ~DungeonLevel() = default;
 
-private:
-	vector<wstring> m_monsterNames;
-	Monster* m_currentMonster = nullptr;
-	int16 m_activeMonseters = 0;
-	int16 m_maxMonsters = DUNGEON_MAX_MONSTERS;
-
-
-public:
 	virtual void Init() override;
 	virtual void Release() override;
 
@@ -36,5 +27,12 @@ private:
 	void OnStartBattle();
 	void OnMonsterDefeated();
 	void OnEscape();
+
+private:
+	vector<wstring> m_monsterNames;
+	Monster* m_currentMonster = nullptr;
+	int16 m_activeMonseters = 0;
+	int16 m_maxMonsters = DUNGEON_MAX_MONSTERS;
+
 };
 

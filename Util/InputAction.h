@@ -11,10 +11,6 @@ class InputAction
 public:
 	InputAction(const wstring& actionName) : actionName(actionName) {}
 
-private:
-	wstring actionName;
-	InputActionCallback m_callbackFuncPtr;
-
 public:
 	const wstring& GetActionName() const { return actionName; }
 
@@ -30,5 +26,9 @@ public:
 			m_callbackFuncPtr(eventType);
 		}
 	}
+
+private:
+	wstring actionName;
+	InputActionCallback m_callbackFuncPtr;
 };
 

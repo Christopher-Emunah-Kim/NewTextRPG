@@ -14,15 +14,9 @@ class Screen final
 {
 public:
 	~Screen();
-	
 	/*Screen() = default;
 	Screen(const Screen&) = delete;
 	Screen& operator = (const Screen&) = delete;*/
-
-private:
-	HANDLE m_consoleBuffers[BUFFER_SIZE] = { INVALID_HANDLE_VALUE, INVALID_HANDLE_VALUE };
-	int32 m_backBufferIdx = 0;
-	WCHAR m_writeBuffer[SCREEN_HEIGHT][SCREEN_WIDTH] = { };
 
 private:
 	void VisibleConsoleCursor(bool isVisible);
@@ -36,6 +30,11 @@ public:
 	void SwapBuffer();
 	void Draw(int32 x, int32 y, const wchar_t& c);
 	void Draw(int32 x, int32 y, const wstring& str);
+
+private:
+	HANDLE m_consoleBuffers[BUFFER_SIZE] = { INVALID_HANDLE_VALUE, INVALID_HANDLE_VALUE };
+	int32 m_backBufferIdx = 0;
+	WCHAR m_writeBuffer[SCREEN_HEIGHT][SCREEN_WIDTH] = { };
 
 };
 

@@ -2,11 +2,11 @@
 #include "../Common.h"
 #include "../Util/Singleton.h"
 
+constexpr __int16 MONSTER_CSV_COLUMN_NUM = 11;
+
 struct FMonsterInfo;
 class BaseLevel;
 class Monster;
-
-constexpr __int16 MONSTER_CSV_COLUMN_NUM = 11;
 
 using MonsterInfoUMap = unordered_map<wstring, FMonsterInfo>;
 
@@ -16,10 +16,6 @@ public:
 	MonsterDataTable() = default;
 	virtual ~MonsterDataTable();
 
-private:
-	MonsterInfoUMap m_monsterDataTable;
-
-public:
 	void Init();
 	void Release();
 
@@ -31,5 +27,8 @@ public:
 	const MonsterInfoUMap& GetMonsterDataTable() const noexcept;
 	const FMonsterInfo* GetMonsterInfo(const wstring& monsterName) const;
 	const vector<wstring> GetMonsterNames() const noexcept;
+
+private:
+	MonsterInfoUMap m_monsterDataTable;
 };
 

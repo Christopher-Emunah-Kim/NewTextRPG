@@ -9,7 +9,6 @@ public:
 	using BaseLevel::BaseLevel;
 	virtual ~TitleLevel() = default;
 
-public:
 	virtual void Init() override;
 
 private:
@@ -19,6 +18,7 @@ private:
 	void OnEnterVillage();
 	void OnEnterDungeon();
 	void OnQuitGame();
+
 
 };
 

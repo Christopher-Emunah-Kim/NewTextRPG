@@ -3,21 +3,17 @@
 
 constexpr __int32 HEALER_COST = 100;
 
+class GameInstance;
+
 class VillageLevel : public BaseLevel
 {
 public:
 	using BaseLevel::BaseLevel;
 	virtual ~VillageLevel() = default;
 
-private:
-	int32 healerCost;
-
-public:
 	virtual void Init() override;
-	virtual void Release() override;
 
 private:
-	void SetVillageStage();
 	void Welcome();
 	void OnEnterItemShop();
 	void OnBuyItem();
@@ -26,5 +22,9 @@ private:
 	void OnEnterHealerShop();
 	void OnRecoverPlayer();
 	void OnExitVillage();
+
+private:
+	int32 healerCost;
+	GameInstance* gi;
 };
 

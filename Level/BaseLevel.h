@@ -10,11 +10,6 @@ public:
 	BaseLevel(const wstring& tag);
 	virtual ~BaseLevel();
 
-protected:
-	wstring m_levelTag = L" ";
-	vector<BaseGameObject*> m_gameObjects;
-
-public:
 	virtual void Init() override;
 	virtual void Update() override;
 	virtual void Render(Screen* screen) override;
@@ -26,5 +21,10 @@ public:
 	BaseGameObject* FindObject(const wstring& tag);
 
 	inline const wstring& GetTag() const noexcept { return m_levelTag; }
+
+protected:
+	wstring m_levelTag = L" ";
+	vector<BaseGameObject*> m_gameObjects;
+
 };
 

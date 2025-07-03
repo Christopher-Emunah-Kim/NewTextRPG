@@ -14,12 +14,6 @@ public:
 	BaseGameObject(BaseLevel* level, const wstring& tag);
 	virtual ~BaseGameObject();
 
-protected:
-	BaseLevel* m_levelArea = nullptr;
-	wstring m_objectTag = L"";
-	vector<BaseComponent*> m_components;
-
-public:
 	virtual void Init() override;
 	virtual void Update() override;
 	virtual void Render(Screen* screen) override;
@@ -62,9 +56,13 @@ public:
 		}
 		return nullptr;
 	}
-
 	
 	inline wstring		GetTag() const noexcept { return m_objectTag; }
 	inline BaseLevel*	GetLevel() const noexcept { return m_levelArea; }
+
+protected:
+	BaseLevel* m_levelArea = nullptr;
+	wstring m_objectTag = L"";
+	vector<BaseComponent*> m_components;
 };
 

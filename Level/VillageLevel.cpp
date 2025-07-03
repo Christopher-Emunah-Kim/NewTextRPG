@@ -5,9 +5,9 @@
 #include "../Item/BaseItem.h"
 #include "Data/ItemDataTable.h"
 #include "Component/Player/InventoryComp.h"
-#include "Component/Player/PlayerStatusComp.h"
 #include "Component/Player/EquipmentComp.h"
 #include "NPC/Healer.h"
+#include "NPC/Merchant.h"
 
 VillageLevel::~VillageLevel()
 {
@@ -19,6 +19,12 @@ void VillageLevel::Init()
 {
 	constexpr int32 HEAL_COST = 100;
 	m_healer = new Healer(HEAL_COST);
+
+	m_merchant = new Merchant();
+	m_merchant->AddSaleItem(13001);
+	m_merchant->AddSaleItem(12001);
+	m_merchant->AddSaleItem(23001);
+	m_merchant->AddSaleItem(22001);
 
 	gi = GameInstance::GetInstance();
 
@@ -116,54 +122,27 @@ void VillageLevel::OnBuyItem()
 	gi->WriteLine(L"0: 뒤로가기");
 	gi->WriteLine();
 
-	//DEBUG
-	//vector<wstring> availableItems = itemDataTable->GetItemNames();
-	//gameInstance->EnqueueText(L"디버깅: 총 " + to_wstring(availableItems.size()) + L"개의 아이템이 데이터베이스에 있습니다.");
-
-	vector<wstring> selectedItemNames = 
+	
+	vector<int32> salesItems = m_merchant->GetSalesItems();
+	for (size_t index = 0; index < salesItems.size(); ++index)
 	{
-		L"묵직한 대검",
-		L"신속한 단검",
-		L"강철 갑옷",
-		L"경량 갑옷"
-	};
+		const BaseItem* item = itemDataTable->GetItem(salesItems[index]);
+		
+		wstringstream ss;
+		ss << index + 1 << L"." << item->GetName() <<
+			L" - 가격: " << item->GetBuyingPrice() << L" 골드";
 
-	vector<const BaseItem*> selectedItems;
+		if (itemDataTable->IsEquippable(item->GetItemID()))
+		{
+			ss << L" | " << item->GetAddableStatus().ToString();
+		}
 
-	for (size_t i = 0; i < selectedItemNames.size(); ++i)
-	{
-		const wstring& itemName = selectedItemNames[i];
-		const BaseItem* item = itemDataTable->GetItem(itemName);
-		if (item) 
-		{
-			selectedItems.push_back(item);
-		}
-		else
-		{
-			gi->WriteLine(L"디버깅: '" + itemName + L"' 아이템을 찾을 수 없습니다.");
-		}
+		ss << '\n' << '\t' << item->GetDescription();
+
+		gi->WriteLine(ss.str());
 	}
 
-	for (int i = 0; i < selectedItems.size(); ++i) 
-	{
-		const BaseItem* item = selectedItems[i];
-
-		wstring itemInfo = to_wstring(i + 1) + L". " + item->GetName();
-		itemInfo += L" - 가격: " + to_wstring(item->GetBuyingPrice()) +	L" 골드";
-
-		if (item->GetItemType() == EItemType::Weapon || item->GetItemType() == EItemType::Armor) 
-		{
-			itemInfo += L" | 공격력: " + to_wstring(item->GetAttack()) +
-				L", 방어력: " + to_wstring(item->GetDefense()) +
-				L", 민첩성: " + to_wstring(item->GetAgility());
-		}
-
-		gi->WriteLine(itemInfo);
-		gi->WriteLine(L"   " + item->GetDescription());
-		gi->WriteLine();
-	}
-
-	if (selectedItems.empty()) 
+	if (salesItems.empty()) 
 	{
 		gi->WriteLine(L"현재 판매 중인 상품이 없습니다.");
 	}
@@ -171,15 +150,12 @@ void VillageLevel::OnBuyItem()
 	gi->WriteLine(L"============================================");
 	gi->WriteLine(L"구매할 아이템 번호를 입력하세요");
 
-	InputSystem::BindAction(
-		{
-			{L"0", bind(&VillageLevel::OnEnterItemShop, this)},
-			{L"1", [this, selectedItemNames]() { this->BuySelectedItem(selectedItemNames[0]); }},
-			{L"2", [this, selectedItemNames]() { this->BuySelectedItem(selectedItemNames[1]); }},
-			{L"3", [this, selectedItemNames]() { this->BuySelectedItem(selectedItemNames[2]); }},
-			{L"4", [this, selectedItemNames]() { this->BuySelectedItem(selectedItemNames[3]); }},
-		}
-		);
+	InputSystem::BindAction(L"0", bind(&VillageLevel::OnEnterItemShop, this));
+	for (size_t index = 0; index < salesItems.size(); ++index)
+	{
+		InputSystem::BindAction(to_wstring(index + 1),
+			bind(&VillageLevel::BuySelectedItem, this, salesItems[index]));
+	}
 
 	InputSystem::BindActionOnInputError(
 		[this]()
@@ -191,49 +167,28 @@ void VillageLevel::OnBuyItem()
 	);
 }
 
-void VillageLevel::BuySelectedItem(const wstring& itemName)
+void VillageLevel::BuySelectedItem(int32 itemId)
 {
-	const BaseItem* selectedItem = ItemDataTable::GetInstance()->GetItem(itemName);
+	Player& player = gi->GetPlayer();
+	const BaseItem* item = ItemDataTable::GetInstance()->GetItem(itemId);
 
-	if (selectedItem)
+	EMerchantResult result = m_merchant->SellItem(itemId, player);
+	switch (result)
 	{
-		Player& player = gi->GetPlayer();
+	case EMerchantResult::NotEnoughGold:
+	{
+		gi->ClearText();
+		gi->WriteLine(L"골드가 부족합니다.");
+	}
+	break;
+	case EMerchantResult::Success:
+		// player.EquipItem(item->GetItemId());
+		gi->UpdatePlayerGold(player.GetGold());
+		gi->UpdateEquippedItem(item->GetName(), item->GetItemType());
 
-		//PlayerStatusComp* statusComp = player.GetComponentByType<PlayerStatusComp>();
-		EquipmentComp* equipmentComp = player.GetComponentByType<EquipmentComp>();
-
-
-		if (!equipmentComp)
-		{
-			gi->WriteLine(L"오류: 플레이어 컴포넌트를 찾을 수 없습니다.");
-			return;
-		}
-
-		
-		if (player.UseGold(selectedItem->GetBuyingPrice()))
-		{
-			BaseItem* newItem = selectedItem->CreateItem();
-
-			if (equipmentComp->EquipItem(newItem))
-			{
-				gi->ClearText();
-				gi->WriteLine(selectedItem->GetName() + L"을(를) 구매 후 장착했습니다!");
-				gi->WriteLine(L"남은 골드: " + to_wstring(player.GetGoldAmount()));
-			}
-			else
-			{
-				player.GainGold(selectedItem->GetBuyingPrice());
-				delete newItem; 
-				gi->ClearText();
-				gi->WriteLine(L"아이템 장착에 실패했습니다.");
-			}
-
-		}
-		else 
-		{
-			gi->ClearText();
-			gi->WriteLine(L"골드가 부족합니다.");
-		}
+		gi->ClearText();
+		gi->WriteLine(item->GetName() + L"을(를) 구매 후 장착했습니다!");
+		gi->WriteLine(L"남은 골드: " + to_wstring(player.GetGoldAmount()));
 	}
 
 	gi->WriteLine();

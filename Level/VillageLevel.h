@@ -4,6 +4,7 @@
 
 class GameInstance;
 class Healer;
+class Merchant;
 
 class VillageLevel : public BaseLevel
 {
@@ -17,7 +18,7 @@ private:
 	void Welcome();
 	void OnEnterItemShop();
 	void OnBuyItem();
-	void BuySelectedItem(const wstring& itemName);
+	void BuySelectedItem(int32 itemId);
 	void OnSellIItem();
 	void OnEnterHealerShop();
 	void OnRecoverPlayer();
@@ -25,6 +26,8 @@ private:
 
 private:
 	Healer* m_healer;
+	Merchant* m_merchant;
 	GameInstance* gi;
+	
 };
 

@@ -5,6 +5,7 @@ constexpr __int16 DUNGEON_MAX_MONSTERS = 7;
 
 class HUD;
 class Monster;
+class GameInstance;
 struct Status;
 
 class DungeonLevel : public BaseLevel
@@ -29,6 +30,7 @@ private:
 	void OnEscape();
 
 private:
+	GameInstance* gi;
 	vector<wstring> m_monsterNames;
 	Monster* m_currentMonster = nullptr;
 	int16 m_activeMonseters = 0;

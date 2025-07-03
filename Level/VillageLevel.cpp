@@ -13,6 +13,8 @@ void VillageLevel::Init()
 	gi = GameInstance::GetInstance();
 
 	Welcome();
+
+	BaseLevel::Init();
 }
 
 void VillageLevel::Welcome()

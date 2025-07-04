@@ -11,7 +11,7 @@ public:
 public:
 	virtual void Release() override;
 
-	bool AddItem(int32 itemId, int16 count = 1);
+	//bool AddItem(int32 itemId, int16 count = 1);
 	bool AddItem(BaseItem* item);
 	bool RemoveItem(int32 itemId, int16 count = 1);
 	bool HasItem(int32 itemId, int16 count = 1) const;

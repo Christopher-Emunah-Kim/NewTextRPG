@@ -137,9 +137,8 @@ void VillageLevel::OnBuyItem()
 			ss << L" | " << item->GetAddableStatus().ToString();
 		}
 
-		ss << '\n' << '\t' << item->GetDescription();
-
 		gi->WriteLine(ss.str());
+		gi->WriteLine(L"-> " + item->GetDescription());
 	}
 
 	if (salesItems.empty()) 

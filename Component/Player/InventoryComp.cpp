@@ -22,41 +22,41 @@ void InventoryComp::Release()
 	m_inventoryItems.clear();
 }
 
-bool InventoryComp::AddItem(int32 itemId, int16 count)
-{
-	if (m_inventoryItems.size() >= m_maxInventorySize)
-	{
-		return false; 
-	}
-
-	for (size_t i = 0; i < m_inventoryItems.size(); ++i)
-	{
-		BaseItem* item = m_inventoryItems[i];
-		if (item && item->GetItemID() == itemId)
-		{
-			return item->AddItemCount(count);
-		}
-	}
-
-	const BaseItem* templateItem = ItemDataTable::GetInstance()->GetItem(itemId);
-	if (templateItem != nullptr)
-	{
-		BaseItem* newItem = templateItem->CreateItem();
-		if (newItem->AddItemCount(count))
-		{
-			m_inventoryItems.push_back(newItem);
-			GameInstance::GetInstance()->UpdateInvetoryItems(newItem->GetName());
-			return true;
-		}
-		else
-		{
-			delete newItem;
-			return false;
-		}
-	}
-
-	return false;
-}
+//bool InventoryComp::AddItem(int32 itemId, int16 count)
+//{
+//	if (m_inventoryItems.size() >= m_maxInventorySize)
+//	{
+//		return false; 
+//	}
+//
+//	for (size_t i = 0; i < m_inventoryItems.size(); ++i)
+//	{
+//		BaseItem* item = m_inventoryItems[i];
+//		if (item && item->GetItemID() == itemId)
+//		{
+//			return item->AddItemCount(count);
+//		}
+//	}
+//
+//	const BaseItem* templateItem = ItemDataTable::GetInstance()->GetItem(itemId);
+//	if (templateItem != nullptr)
+//	{
+//		BaseItem* newItem = templateItem->CreateItem();
+//		if (newItem->AddItemCount(count))
+//		{
+//			m_inventoryItems.push_back(newItem);
+//			GameInstance::GetInstance()->UpdateInvetoryItems(newItem->GetName());
+//			return true;
+//		}
+//		else
+//		{
+//			delete newItem;
+//			return false;
+//		}
+//	}
+//
+//	return false;
+//}
 
 bool InventoryComp::AddItem(BaseItem* item)
 {

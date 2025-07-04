@@ -2,13 +2,12 @@
 #include "../../Screen.h"
 #include "../../Core/GameInstance.h"
 #include "../../Level/BaseLevel.h"
-#include "../../Component/Player/EquipmentComp.h"
-#include "../../Component/Player/InventoryComp.h"
 
 
 Player::Player()
 	:BattleCharacter(nullptr, L"Player"), m_gold(DEFAULT_OWNED_GOLD),
-	m_experience(0, FPlayerDataTablePerLevel::GetRequiredMaxExp(DEFAULT_LEVEL))
+	m_experience(0, FPlayerDataTablePerLevel::GetRequiredMaxExp(DEFAULT_LEVEL)),
+	m_inventory(this), m_equipment(this)
 { }
 
 void Player::Init()
@@ -20,16 +19,6 @@ void Player::Init()
 
 void Player::InitializeComponents()
 {
-	if (false == HasComponentType<InventoryComp>())
-	{
-		AddComponent(new InventoryComp(this));
-	}
-
-	if (false == HasComponentType<EquipmentComp>())
-	{
-		AddComponent(new EquipmentComp(this));
-	}
-
 	GameInstance* gameInstance = GameInstance::GetInstance();
 
 	gameInstance->UpdatePlayerName(GetTag());
@@ -38,25 +27,32 @@ void Player::InitializeComponents()
 	gameInstance->UpdatePlayerStatus(GetTotalStatus());
 	gameInstance->UpdatePlayerExperience(m_experience);
 
-	EquipmentComp* equipComp = GetComponentByType<EquipmentComp>();
-	if (equipComp)
-	{
-		BaseItem* weapon = equipComp->GetEquippedItem(EItemType::Weapon);
-		BaseItem* armor = equipComp->GetEquippedItem(EItemType::Armor);
+	BaseItem* weapon = m_equipment.GetEquippedItem(EItemType::Weapon);
+	BaseItem* armor = m_equipment.GetEquippedItem(EItemType::Armor);
 
-		gameInstance->UpdateEquippedItem(weapon ? weapon->GetName() : L"없음", EItemType::Weapon);
-		gameInstance->UpdateEquippedItem(armor ? armor->GetName() : L"없음", EItemType::Armor);
+	if (weapon)
+	{
+		gameInstance->UpdateEquippedItem(weapon->GetName(), EItemType::Weapon);
+	}
+	else
+	{
+		gameInstance->UpdateEquippedItem(L"없음", EItemType::Weapon);
 	}
 
-	InventoryComp* invComp = GetComponentByType<InventoryComp>();
-	if (invComp)
+	if (armor)
 	{
-		const vector<BaseItem*>& items = invComp->GetInventoryItems();
-		for (size_t i = 0; i < items.size(); ++i)
-		{
-			BaseItem* item = items[i];
-			gameInstance->UpdateInvetoryItems(invComp->GetInventoryItems());
-		}
+		gameInstance->UpdateEquippedItem(armor->GetName(), EItemType::Armor);
+	}
+	else
+	{
+		gameInstance->UpdateEquippedItem(L"없음", EItemType::Armor);
+	}
+
+	const vector<BaseItem*>& items = m_inventory.GetInventoryItems();
+	for (size_t i = 0; i < items.size(); ++i)
+	{
+		BaseItem* item = items[i];
+		gameInstance->UpdateInvetoryItems(m_inventory.GetInventoryItems());
 	}
 }
 
@@ -76,14 +72,12 @@ void Player::RegisterNewLevelArea(BaseLevel* level)
 			level->AddObject(this);
 		}
 
-		if (IsComponentsEmpty())
-		{
-			Init();
-		}
-		else
-		{
-			InitializeComponents();
-		}
+		InitializeComponents();
+	}
+	else
+	{
+		GameInstance::GetInstance()->WriteLine(L"[오류] 플레이어를 등록할 레벨이 존재하지 않습니다.");
+		SetLevelArea(GetLevel());
 	}
 }
 
@@ -173,13 +167,8 @@ void Player::LoadLevelPropertiesByLevel()
 Status Player::GetTotalStatus() const
 {
 	Status baseStatus = m_battleCharacterInfo.status;
-
-	EquipmentComp* equipComp = GetComponentByType<EquipmentComp>();
-	if (equipComp)
-	{
-		Status equipStatus = equipComp->GetTotalEquipmentStatus();
-		baseStatus = Status::AddStatus(baseStatus, equipStatus);
-	}
+	Status equipStatus = m_equipment.GetTotalEquipmentStatus();
+	baseStatus = Status::AddStatus(baseStatus, equipStatus);
 
 	return baseStatus;
 }
@@ -187,5 +176,15 @@ Status Player::GetTotalStatus() const
 Experience Player::GetExperience() const
 {
 	return m_experience;
+}
+
+Inventory& Player::GetInventory() 
+{
+	return m_inventory;
+}
+
+Equipment& Player::GetEquipment()
+{
+	return m_equipment;
 }
 

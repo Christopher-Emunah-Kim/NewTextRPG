@@ -112,12 +112,12 @@ void DungeonLevel::ContinueExploration()
 		gi->WriteLine(L"============================================");
 		gi->WriteLine(L"원하는 옵션의 번호를 입력하세요.");
 
-		SetDungeonStage();
+		//SetDungeonStage();
 
 		InputSystem::BindAction(
 			{
-				{L"1", bind(&DungeonLevel::Welcome, this)},
-				{L"2", bind(&DungeonLevel::Welcome, this)},
+				{L"1", bind(&DungeonLevel::OnBackToVillage, this)},
+				{L"2", bind(&DungeonLevel::OnBackToVillage, this)},
 			}
 			);
 		return;

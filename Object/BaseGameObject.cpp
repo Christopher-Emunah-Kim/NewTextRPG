@@ -23,44 +23,44 @@ BaseGameObject::~BaseGameObject()
 
 void BaseGameObject::Init()
 {
-	for (size_t i = 0; i < m_components.size(); ++i)
+	/*for (size_t i = 0; i < m_components.size(); ++i)
 	{
 		BaseComponent* comp = m_components[i];
 		if (comp)
 		{
 			comp->Init();
 		}
-	}
+	}*/
 }
 
 void BaseGameObject::Update()
 {
-	for (size_t i = 0; i < m_components.size(); ++i)
+	/*for (size_t i = 0; i < m_components.size(); ++i)
 	{
 		BaseComponent* comp = m_components[i];
 		if (comp)
 		{
 			comp->Update();
 		}
-	}
+	}*/
 }
 
 
 void BaseGameObject::Render(Screen* screen)
 {
-	for (size_t i = 0; i < m_components.size(); ++i)
+	/*for (size_t i = 0; i < m_components.size(); ++i)
 	{
 		BaseComponent* comp = m_components[i];
 		if (comp)
 		{
 			comp->Render(screen);
 		}
-	}
+	}*/
 }
 
 void BaseGameObject::Release()
 {
-	for (size_t i = 0; i < m_components.size(); ++i)
+	/*for (size_t i = 0; i < m_components.size(); ++i)
 	{
 		BaseComponent* comp = m_components[i];
 		if (comp)
@@ -70,7 +70,7 @@ void BaseGameObject::Release()
 			delete comp;
 			comp = nullptr;
 		}
-	}
+	}*/
 }
 
 

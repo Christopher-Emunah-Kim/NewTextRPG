@@ -4,6 +4,8 @@
 #include "Util/Type/Health.h"
 #include "Util/Type/Gold.h"
 #include "Util/Type/Experience.h"
+#include "Component/Equipment.h"
+#include "Component/Inventory.h"
 
 
 constexpr __int32 DEFAULT_OWNED_GOLD = 10000;
@@ -36,8 +38,12 @@ public:
 	Health GetHealth() const;
 	Status GetTotalStatus() const;
 	Experience GetExperience() const;
-	
+	Inventory& GetInventory();
+	Equipment& GetEquipment();
+
 private:
 	Gold m_gold;
 	Experience m_experience;
+	Inventory m_inventory;
+	Equipment m_equipment;
 };

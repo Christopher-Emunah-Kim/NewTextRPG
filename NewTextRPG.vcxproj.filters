@@ -60,7 +60,7 @@
     <ClCompile Include="Data\ItemDataTable.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Component\Player\InventoryComp.cpp">
+    <ClCompile Include="Component\Inventory.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Object\Character\BaseCharacter.cpp">
@@ -72,7 +72,7 @@
     <ClCompile Include="Object\Character\Monster.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Component\Player\EquipmentComp.cpp">
+    <ClCompile Include="Component\Equipment.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Level\DungeonLevel.cpp">
@@ -167,7 +167,7 @@
     <ClInclude Include="Data\ItemDataTable.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Component\Player\InventoryComp.h">
+    <ClInclude Include="Component\Inventory.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Object\Character\BaseCharacter.h">
@@ -182,7 +182,7 @@
     <ClInclude Include="Object\Character\Monster.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Component\Player\EquipmentComp.h">
+    <ClInclude Include="Component\Equipment.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Level\DungeonLevel.h">

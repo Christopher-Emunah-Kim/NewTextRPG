@@ -4,8 +4,8 @@
 #include "../Util/InputSystem.h"
 #include "../Item/BaseItem.h"
 #include "Data/ItemDataTable.h"
-#include "Component/Player/InventoryComp.h"
-#include "Component/Player/EquipmentComp.h"
+#include "Component/Inventory.h"
+#include "Component/Equipment.h"
 #include "NPC/Healer.h"
 #include "NPC/Merchant.h"
 
@@ -181,13 +181,21 @@ void VillageLevel::BuySelectedItem(int32 itemId)
 	}
 	break;
 	case EMerchantResult::Success:
-		// player.EquipItem(item->GetItemId());
+	{
 		gi->UpdatePlayerGold(player.GetGold());
 		gi->UpdateEquippedItem(item->GetName(), item->GetItemType());
 
 		gi->ClearText();
 		gi->WriteLine(item->GetName() + L"을(를) 구매 후 장착했습니다!");
 		gi->WriteLine(L"남은 골드: " + to_wstring(player.GetGoldAmount()));
+	}
+	break;
+
+	default:
+	{
+		gi->ClearText();
+		gi->WriteLine(L"아이템 구매에 실패했습니다.");
+	}
 	}
 
 	gi->WriteLine();
@@ -205,7 +213,7 @@ void VillageLevel::BuySelectedItem(int32 itemId)
 void VillageLevel::OnSellIItem()
 {
 	Player& player = gi->GetPlayer();
-	InventoryComp* inventory = player.GetComponentByType<InventoryComp>();
+	Inventory& inventory = player.GetInventory();
 
 	gi->WriteLine();
 	gi->WriteLine(L"상인에게 판매 가능한 아이템 목록을 보여줍니다.");
@@ -216,7 +224,7 @@ void VillageLevel::OnSellIItem()
 	gi->WriteLine(L"0: 뒤로가기");
 	gi->WriteLine();
 
-	const vector<BaseItem*>& items = inventory->GetInventoryItems();
+	const vector<BaseItem*>& items = inventory.GetInventoryItems();
 	for (size_t index = 0; index < items.size(); ++index)
 	{
 		const BaseItem* item = items[index];
@@ -256,7 +264,7 @@ void VillageLevel::SellSelectedItem(int32 itemId)
 {
 	Player& player = gi->GetPlayer();
 	const BaseItem* item = ItemDataTable::GetInstance()->GetItem(itemId);
-	InventoryComp* inventory = player.GetComponentByType<InventoryComp>();
+	Inventory& inventory = player.GetInventory();
 
 	bool result = m_merchant->BuyItem(itemId, player);
 
@@ -264,9 +272,9 @@ void VillageLevel::SellSelectedItem(int32 itemId)
 	{
 		gi->ClearText();
 		gi->WriteLine(L"상인은 흡족해하며 당신에게 받은 물품을 살펴봅니다.");
-		inventory->RemoveItem(itemId);
+		inventory.RemoveItem(itemId);
 		gi->UpdatePlayerGold(player.GetGold());
-		gi->UpdateInvetoryItems(inventory->GetInventoryItems());
+		gi->UpdateInvetoryItems(inventory.GetInventoryItems());
 	}
 	else
 	{

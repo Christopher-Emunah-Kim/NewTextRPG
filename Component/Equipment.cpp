@@ -1,27 +1,27 @@
-﻿#include "EquipmentComp.h"
-#include "../../Core/GameInstance.h"
-#include "../../Object/BaseGameObject.h"
+﻿#include "Equipment.h"
+#include "../Core/GameInstance.h"
+#include "Object/BaseGameObject.h"
 
 
-EquipmentComp::EquipmentComp(BaseGameObject* owner)
-	: BaseComponent(owner)
+Equipment::Equipment(BaseGameObject* owner)
+	: m_owner(owner)
 {
 	m_weaponSlot = nullptr;
 	m_armorSlot = nullptr;
 }
 
-EquipmentComp::~EquipmentComp()
+Equipment::~Equipment()
 {
 	Release();
 }
 
-void EquipmentComp::Release()
+void Equipment::Release()
 {
 	m_weaponSlot = nullptr;
 	m_armorSlot = nullptr;
 }
 
-bool EquipmentComp::EquipItem(BaseItem* item)
+bool Equipment::EquipItem(BaseItem* item)
 {
 	if (item)
 	{
@@ -36,12 +36,10 @@ bool EquipmentComp::EquipItem(BaseItem* item)
 		if (itemType == EItemType::Weapon && m_weaponSlot != nullptr)
 		{
 			existingItem = m_weaponSlot;
-			// TODO 같은 타입의 장비가 있으면 인벤토리로 이동
 		}
 		else if (itemType == EItemType::Armor && m_armorSlot != nullptr)
 		{
 			existingItem = m_armorSlot;
-			// TODO 같은 타입의 장비가 있으면 인벤토리로 이동
 		}
 
 		if (itemType == EItemType::Weapon)
@@ -74,7 +72,7 @@ bool EquipmentComp::EquipItem(BaseItem* item)
 	}
 }
 
-bool EquipmentComp::IsEquipped(EItemType itemType) const
+bool Equipment::IsEquipped(EItemType itemType) const
 {
 	if (itemType == EItemType::Weapon)
 	{
@@ -88,7 +86,7 @@ bool EquipmentComp::IsEquipped(EItemType itemType) const
 	return false;
 }
 
-BaseItem* EquipmentComp::UnequipItem(EItemType itemType)
+BaseItem* Equipment::UnequipItem(EItemType itemType)
 {
 	if (itemType != EItemType::Weapon && itemType != EItemType::Armor)
 	{
@@ -138,7 +136,7 @@ BaseItem* EquipmentComp::UnequipItem(EItemType itemType)
 	return unequippedItem;
 }
 
-BaseItem* EquipmentComp::GetEquippedItem(EItemType itemType) const
+BaseItem* Equipment::GetEquippedItem(EItemType itemType) const
 {
 	if (itemType == EItemType::Weapon)
 	{
@@ -155,7 +153,7 @@ BaseItem* EquipmentComp::GetEquippedItem(EItemType itemType) const
 }
 
 
-Status EquipmentComp::GetTotalEquipmentStatus() const
+Status Equipment::GetTotalEquipmentStatus() const
 {
 	Status totalStatus;
 

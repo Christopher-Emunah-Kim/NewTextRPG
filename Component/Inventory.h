@@ -1,17 +1,16 @@
 ﻿#pragma once
-#include "../BaseComponent.h"
-#include "../../Item/BaseItem.h"
+#include "BaseComponent.h"
+#include "../Item/BaseItem.h"
 
-class InventoryComp final : public BaseComponent
+class Inventory final
 {
 public:
-	InventoryComp(BaseGameObject* owner);
-	virtual ~InventoryComp() = default;
+	Inventory(BaseGameObject* owner);
+	virtual ~Inventory();
 
 public:
-	virtual void Release() override;
+	virtual void Release();
 
-	//bool AddItem(int32 itemId, int16 count = 1);
 	bool AddItem(BaseItem* item);
 	bool RemoveItem(int32 itemId, int16 count = 1);
 	bool HasItem(int32 itemId, int16 count = 1) const;
@@ -26,6 +25,7 @@ public:
 	inline bool IsInventoryFull() const { return m_inventoryItems.size() >= m_maxInventorySize; }
 
 private:
+	BaseGameObject* m_owner = nullptr;
 	vector<BaseItem*> m_inventoryItems; 
 	int16 m_maxInventorySize = DEFAULT_ITEM_MAX_COUNT;
 };

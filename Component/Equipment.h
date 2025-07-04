@@ -1,16 +1,16 @@
 ﻿#pragma once
-#include "../BaseComponent.h"
-#include "../../Util/Type/EnumType.h"
-#include "../../Item/BaseItem.h"
+#include "BaseComponent.h"
+#include "../Util/Type/EnumType.h"
+#include "../Item/BaseItem.h"
 
 
-class EquipmentComp final : public BaseComponent
+class Equipment final
 {
 public:
-	EquipmentComp(BaseGameObject* owner);
-	virtual ~EquipmentComp();
+	Equipment(BaseGameObject* owner);
+	virtual ~Equipment();
 
-	virtual void Release() override;
+	virtual void Release();
 
 	bool EquipItem(BaseItem* item);
 	bool IsEquipped(EItemType itemType) const;
@@ -19,6 +19,7 @@ public:
 	Status GetTotalEquipmentStatus() const;
 
 private:
+	BaseGameObject* m_owner = nullptr;
 	BaseItem* m_weaponSlot;
 	BaseItem* m_armorSlot;
 };

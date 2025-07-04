@@ -5,8 +5,8 @@
 #include "../Object/Character/Monster.h"
 #include "../Level/DungeonLevel.h"
 #include "../Core/LevelManager.h"
-#include "../Component/Player/EquipmentComp.h"
-#include "../Component/Player/InventoryComp.h"
+#include "../Component/Equipment.h"
+#include "../Component/Inventory.h"
 #include "../Data/ItemDataTable.h"
 
 
@@ -69,7 +69,6 @@ void BattleSystem::ProcessBattleTurn(BattleCharacter* p1, BattleCharacter* p2, b
 		}
 
 		currentAttacker->Attack(currentDefender); 
-
 
 		Player* player = dynamic_cast<Player*>(p1);
 		if (player)
@@ -193,21 +192,22 @@ void BattleSystem::HandleDropItemReward(BattleCharacter* winner, BattleCharacter
 bool BattleSystem::TryEquipOrStoreItem(BattleCharacter* winner, BaseItem* droppedItem, BattleResult& result)
 {
 	Player* player = dynamic_cast<Player*>(winner);
-	EquipmentComp* equipmentComp = player->GetComponentByType<EquipmentComp>();
-	InventoryComp* inventoryComp = player->GetComponentByType<InventoryComp>();
 
-	if (!inventoryComp || !equipmentComp)
+	if (!player)
 	{
-		throw runtime_error("오류: 플레이어 컴포넌트를 찾을 수 없습니다.");
+		throw runtime_error("오류: 플레이어를 찾을 수 없습니다.");
 		return false;
 	}
+
+    Equipment& playerEquipment = player->GetEquipment();
+	Inventory& playerInventory = player->GetInventory();
 
 	if (droppedItem->GetItemType() != EItemType::Weapon && droppedItem->GetItemType() != EItemType::Armor)
 	{
 		return false;
 	}
 
-	BaseItem* currentEquip = equipmentComp->GetEquippedItem(droppedItem->GetItemType());
+	BaseItem* currentEquip = playerEquipment.GetEquippedItem(droppedItem->GetItemType());
 	bool bIsBetter = false;
 
 	if (!currentEquip)
@@ -222,14 +222,14 @@ bool BattleSystem::TryEquipOrStoreItem(BattleCharacter* winner, BaseItem* droppe
 	}
 
 
-	if (bIsBetter && equipmentComp->EquipItem(droppedItem))
+	if (bIsBetter && playerEquipment.EquipItem(droppedItem))
 	{
 		result.rewards.bItemEquipped = true;
 		return true;
 	}
 
 
-	if (inventoryComp->AddItem(droppedItem))
+	if (playerInventory.AddItem(droppedItem))
 	{
 		result.rewards.bItemAddedToInventory = true;
 	}

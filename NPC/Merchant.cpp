@@ -41,7 +41,7 @@ EMerchantResult Merchant::SellItem(int32 itemId, Player& player)
 	return EMerchantResult::Success;
 }
 
-bool Merchant::BuyItem(int32 itemId, Player& player)
+void Merchant::BuyItem(int32 itemId, Player& player)
 {
 	const BaseItem* targetItem = ItemDataTable::GetInstance()->GetItem(itemId);
 	if (targetItem)
@@ -49,8 +49,10 @@ bool Merchant::BuyItem(int32 itemId, Player& player)
 		const int32 sellingPrice = targetItem->GetSellingPrice();
 
 		player.GainGold(sellingPrice);
-		return true;
 	}
-	return false;
+	else
+	{
+		throw invalid_argument("아이템이 테이블에 없습니다. itemId : " + to_string(itemId));
+	}
 }
 

@@ -266,21 +266,14 @@ void VillageLevel::SellSelectedItem(int32 itemId)
 	const BaseItem* item = ItemDataTable::GetInstance()->GetItem(itemId);
 	Inventory& inventory = player.GetInventory();
 
-	bool result = m_merchant->BuyItem(itemId, player);
+	m_merchant->BuyItem(itemId, player);
 
-	if (result)
-	{
-		gi->ClearText();
-		gi->WriteLine(L"상인은 흡족해하며 당신에게 받은 물품을 살펴봅니다.");
-		inventory.RemoveItem(itemId);
-		gi->UpdatePlayerGold(player.GetGold());
-		gi->UpdateInvetoryItems(inventory.GetInventoryItems());
-	}
-	else
-	{
-		gi->WriteLine(L"현재 판매 가능한 아이템이 없습니다.");
-		gi->WriteLine(L"던전에 가서 몹을 처치하세요.");
-	}
+	gi->ClearText();
+	gi->WriteLine(L"상인은 흡족해하며 당신에게 받은 물품을 살펴봅니다.");
+	inventory.RemoveItem(itemId);
+	gi->UpdatePlayerGold(player.GetGold());
+	gi->UpdateInvetoryItems(inventory.GetInventoryItems());
+
 
 	gi->WriteLine();
 	gi->WriteLine(L"1. 계속 판매하기");

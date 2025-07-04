@@ -6,6 +6,7 @@
 #include "Util/Type/Health.h"
 #include "Util/Type/StatusType.h"
 #include "Util/Type/Experience.h"
+#include "Item/BaseItem.h"
 #include <queue>
 
 constexpr __int32 MAX_LINES = 35;
@@ -61,7 +62,7 @@ public:
 	void UpdatePlayerExperience(const Experience& experience);
 	void UpdatePlayerGold(const Gold& gold);
 	void UpdateEquippedItem(const wstring& name, EItemType type);
-	void UpdateInvetoryItems(const wstring& name);
+	void UpdateInvetoryItems(const vector<BaseItem*>& items);
 
 private:
 	deque<wstring> m_systemTextQueue;

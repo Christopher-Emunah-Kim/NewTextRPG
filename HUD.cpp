@@ -3,6 +3,7 @@
 #include "Screen.h"
 #include "Util/InputSystem.h"
 #include "Util/OutputSystem.h"
+#include <Item/BaseItem.h>
 
 
 void HUD::Render(Screen& screen) const
@@ -61,14 +62,31 @@ void HUD::UpdateEquippedItem(const wstring& name, EItemType type)
 	}
 }
 
-void HUD::UpdateInvetoryItems(const wstring& name)
+void HUD::UpdateInvetoryItems(const vector<BaseItem*>& items)
 {
-	if (!m_hudData.inventoryItems.empty() && m_hudData.inventoryItems[0] == L"없음")
+	m_hudData.inventoryItems.clear();
+
+	for (size_t i = 0; i < items.size(); ++i)
+	{
+		const BaseItem* item = items[i];
+		if (item != nullptr)
+		{
+			wstring itemName = item->GetName();
+			if (item->GetCount() > 1)
+			{
+				itemName += L" x" + to_wstring(item->GetCount());
+			}
+
+			m_hudData.inventoryItems.push_back(itemName);
+		}
+	}
+
+	/*if (!m_hudData.inventoryItems.empty() && m_hudData.inventoryItems[0] == L"없음")
 	{
 		m_hudData.inventoryItems.clear();
 	}
 
-	m_hudData.inventoryItems.push_back(name);
+	m_hudData.inventoryItems.push_back(name);*/
 }
 
 

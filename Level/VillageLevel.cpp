@@ -204,6 +204,84 @@ void VillageLevel::BuySelectedItem(int32 itemId)
 
 void VillageLevel::OnSellIItem()
 {
+	Player& player = gi->GetPlayer();
+	InventoryComp* inventory = player.GetComponentByType<InventoryComp>();
+
+	gi->WriteLine();
+	gi->WriteLine(L"상인에게 판매 가능한 아이템 목록을 보여줍니다.");
+	gi->WriteLine();
+	gi->WriteLine(L"============================================");
+	gi->WriteLine(L"[판매 가능한 아이템 목록]");
+	gi->WriteLine();
+	gi->WriteLine(L"0: 뒤로가기");
+	gi->WriteLine();
+
+	const vector<BaseItem*>& items = inventory->GetInventoryItems();
+	for (size_t index = 0; index < items.size(); ++index)
+	{
+		const BaseItem* item = items[index];
+
+		wstringstream ss;
+		ss << index + 1 << L"." << item->GetName() <<
+			L" - 가격: " << item->GetSellingPrice() << L" 골드";
+		\
+		gi->WriteLine(ss.str());
+	}
+	if (items.empty())
+	{
+		gi->WriteLine(L"현재 판매 가능한 아이템이 없습니다.");
+	}
+
+	gi->WriteLine(L"============================================");
+	gi->WriteLine(L"판매할 아이템 번호를 입력하세요");
+
+	InputSystem::BindAction(L"0", bind(&VillageLevel::OnEnterItemShop, this));
+	for (size_t index = 0; index < items.size(); ++index)
+	{
+		InputSystem::BindAction(to_wstring(index + 1),
+			bind(&VillageLevel::SellSelectedItem, this, items[index]->GetItemID()));
+	}
+
+	InputSystem::BindActionOnInputError(
+		[this]()
+		{
+			gi->ClearText();
+			gi->WriteLine(L"잘못된 입력입니다. 다시 시도하세요.");
+			OnSellIItem();
+		}
+	);
+}
+
+void VillageLevel::SellSelectedItem(int32 itemId)
+{
+	Player& player = gi->GetPlayer();
+	const BaseItem* item = ItemDataTable::GetInstance()->GetItem(itemId);
+	InventoryComp* inventory = player.GetComponentByType<InventoryComp>();
+
+	bool result = m_merchant->BuyItem(itemId, player);
+
+	if (result)
+	{
+		gi->ClearText();
+		gi->WriteLine(L"상인은 흡족해하며 당신에게 받은 물품을 살펴봅니다.");
+		inventory->RemoveItem(itemId);
+		gi->UpdateInvetoryItems(inventory->GetInventoryItems());
+	}
+	else
+	{
+		gi->WriteLine(L"현재 판매 가능한 아이템이 없습니다.");
+		gi->WriteLine(L"던전에 가서 몹을 처치하세요.");
+	}
+
+	gi->WriteLine();
+	gi->WriteLine(L"1. 계속 판매하기");
+	gi->WriteLine(L"2. 상점 메뉴로 돌아가기");
+
+	InputSystem::BindAction({
+		{L"1", bind(&VillageLevel::OnSellIItem, this)},
+		{L"2", bind(&VillageLevel::OnEnterItemShop, this)}
+		});
+
 }
 
 void VillageLevel::OnEnterHealerShop()

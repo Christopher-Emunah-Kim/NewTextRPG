@@ -1,4 +1,5 @@
 ﻿#include "GameInstance.h"
+#include <Item/BaseItem.h>
 
 
 void GameInstance::UpdateLevelName(const wstring& levelName)
@@ -41,9 +42,9 @@ void GameInstance::UpdateEquippedItem(const wstring& name, EItemType type)
 	m_Hud.UpdateEquippedItem(name, type);
 }
 
-void GameInstance::UpdateInvetoryItems(const wstring& name)
+void GameInstance::UpdateInvetoryItems(const vector<BaseItem*>& items)
 {
-	m_Hud.UpdateInvetoryItems(name);
+	m_Hud.UpdateInvetoryItems(items);
 }
 
 void GameInstance::WriteLine(const wstring& text)

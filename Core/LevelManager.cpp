@@ -88,7 +88,6 @@ void LevelManager::InitializePlayer()
 	gi->UpdatePlayerGold(player.GetGold());
 	gi->UpdateEquippedItem(L"없음", EItemType::Weapon);
 	gi->UpdateEquippedItem(L"없음", EItemType::Armor);
-	gi->UpdateInvetoryItems({ L"없음" });
 
 }
 

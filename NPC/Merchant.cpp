@@ -40,3 +40,17 @@ EMerchantResult Merchant::SellItem(int32 itemId, Player& player)
 	
 	return EMerchantResult::Success;
 }
+
+bool Merchant::BuyItem(int32 itemId, Player& player)
+{
+	const BaseItem* targetItem = ItemDataTable::GetInstance()->GetItem(itemId);
+	if (targetItem)
+	{
+		const int32 sellingPrice = targetItem->GetSellingPrice();
+
+		player.GainGold(sellingPrice);
+		return true;
+	}
+	return false;
+}
+

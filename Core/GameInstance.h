@@ -18,7 +18,7 @@ public:
 	void UpdatePlayerExperience(const Experience& experience);
 	void UpdatePlayerGold(const Gold& gold);
 	void UpdateEquippedItem(const wstring& name, EItemType type);
-	void UpdateInvetoryItems(const wstring& name);
+	void UpdateInvetoryItems(const vector<BaseItem*>& items);
 
 	void WriteLine(const wstring& text = L"");
 	void ClearText();

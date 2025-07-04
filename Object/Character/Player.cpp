@@ -55,7 +55,7 @@ void Player::InitializeComponents()
 		for (size_t i = 0; i < items.size(); ++i)
 		{
 			BaseItem* item = items[i];
-			gameInstance->UpdateInvetoryItems(item->GetName());
+			gameInstance->UpdateInvetoryItems(invComp->GetInventoryItems());
 		}
 	}
 }

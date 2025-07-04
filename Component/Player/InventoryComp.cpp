@@ -79,7 +79,7 @@ bool InventoryComp::AddItem(BaseItem* item)
 		}
 	}
 	m_inventoryItems.push_back(item);
-	GameInstance::GetInstance()->UpdateInvetoryItems(item->GetName());
+	GameInstance::GetInstance()->UpdateInvetoryItems(m_inventoryItems);
 
 	return true;
 }

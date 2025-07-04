@@ -17,6 +17,7 @@ public:
 	void AddSaleItem(int32 itemId);
 	vector<int32> GetSalesItems() const;
 	EMerchantResult SellItem(int32 itemId, Player& player);
+	bool BuyItem(int32 itemId, Player& player);
 
 private:
 	map<int32, bool> m_salesStatusTable;

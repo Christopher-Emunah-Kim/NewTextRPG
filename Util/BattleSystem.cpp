@@ -11,224 +11,196 @@
 
 
 
-void BattleSystem::StartBattle(BattleCharacter* attacker, BattleCharacter* defender)
+BattleResult BattleSystem::ExecuteBattle(BattleCharacter* attacker, BattleCharacter* defender)
 {
+	BattleResult result;
 	if (!attacker || !defender)
 	{
-		return;
+		return result;
 	}
-	GameInstance* gameInstance = GameInstance::GetInstance();
-	gameInstance->WriteLine(L"");
-	gameInstance->WriteLine(attacker->GetName() + L"와(과) " + defender->GetName() + L"가(이) 전투를 시작합니다.");
-	gameInstance->WriteLine(L"");
 
-	bool isAttackerTurn = DetermineFirstAttacker(attacker, defender);
-	ProcessBattleTurn(attacker, defender, isAttackerTurn);
-}
+	result.battleMessages.push_back(L"");
+	result.battleMessages.push_back(attacker->GetName() + L"와(과) " + defender->GetName() + L"가(이) 전투를 시작합니다.");
+	result.battleMessages.push_back(L"");
 
-
-bool BattleSystem::DetermineFirstAttacker(BattleCharacter* attacker, BattleCharacter* defender)
-{
 	int16 attackerAgility = attacker->GetBattleCharacterInfo().status.GetAgility();
 	int16 defenderAgility = defender->GetBattleCharacterInfo().status.GetAgility();
+	bool bIsAttackerTurn = (attackerAgility >= defenderAgility);
 
-	if (attackerAgility >= defenderAgility)
+	if (bIsAttackerTurn)
 	{
-		GameInstance::GetInstance()->WriteLine(L"");
-		GameInstance::GetInstance()->WriteLine(attacker->GetName() + L"가(이) 먼저 공격을 시도합니다.");
-		GameInstance::GetInstance()->WriteLine(L"");
-		return true;
+		result.battleMessages.push_back(attacker->GetName() + L"가(이) 먼저 공격을 시도합니다.");
 	}
 	else
 	{
-		GameInstance::GetInstance()->WriteLine(L"");
-		GameInstance::GetInstance()->WriteLine(defender->GetName() + L"가(이) 먼저 공격을 시도합니다.");
-		GameInstance::GetInstance()->WriteLine(L"");
-		return false;
+		result.battleMessages.push_back(defender->GetName() + L"가(이) 먼저 공격을 시도합니다.");
 	}
+
+	ProcessBattleTurn(attacker, defender, bIsAttackerTurn, result);
+
+	if (result.winner)
+	{
+		result.battleMessages.push_back(defender->GetName() + L"가 쓰러졌습니다.");
+		result.battleMessages.push_back(L"전투가 종료되었습니다");
+		result.battleMessages.push_back(L"");
+		HandleBattleRewards(result.winner, result.loser, result);
+	}
+
+	return result;
 }
 
-void BattleSystem::ProcessBattleTurn(BattleCharacter* attacker, BattleCharacter* defender, bool isAttackerTurn)
+
+void BattleSystem::ProcessBattleTurn(BattleCharacter* p1, BattleCharacter* p2, bool bIsPlayer1Turn, BattleResult& result)
 {
-	while (attacker->IsAlive() && defender->IsAlive())
+	while (p1->IsAlive() && p2->IsAlive())
 	{
-		if (isAttackerTurn)
+		BattleCharacter* currentAttacker = nullptr;
+		BattleCharacter* currentDefender = nullptr;
+
+		if (bIsPlayer1Turn)
 		{
-			attacker->Attack(defender);
+			currentAttacker = p1;
+			currentDefender = p2;
 		}
 		else
 		{
-			defender->Attack(attacker);
+			currentAttacker = p2;
+			currentDefender = p1;
 		}
 
-		Player* playerAttacker = dynamic_cast<Player*>(attacker);
-		if (playerAttacker)
+		currentAttacker->Attack(currentDefender); 
+
+
+		Player* player = dynamic_cast<Player*>(p1);
+		if (player)
 		{
-			GameInstance::GetInstance()->UpdatePlayerHealth(playerAttacker->GetBattleCharacterInfo().health);
+			GameInstance::GetInstance()->UpdatePlayerHealth(player->GetBattleCharacterInfo().health);
 		}
 
-		Player* playerDefender = dynamic_cast<Player*>(defender);
-		if (playerDefender)
+		player = dynamic_cast<Player*>(p2);
+		if (player)
 		{
-			GameInstance::GetInstance()->UpdatePlayerHealth(playerDefender->GetBattleCharacterInfo().health);
+			GameInstance::GetInstance()->UpdatePlayerHealth(player->GetBattleCharacterInfo().health);
 		}
 
-		if (CheckBattleEnd(attacker, defender))
-		{
-			break;
-		}
+		bIsPlayer1Turn = !bIsPlayer1Turn;
+	}
 
-		isAttackerTurn = !isAttackerTurn;
+	if (p1->IsAlive() && !p2->IsAlive())
+	{
+		result.winner = p1;
+		result.loser = p2;
+	}
+	else if(!p1->IsAlive() && p2->IsAlive())
+	{
+		result.winner = p2;
+		result.loser = p1;
 	}
 }
 
-bool BattleSystem::CheckBattleEnd(BattleCharacter* attacker, BattleCharacter* defender)
-{
-	GameInstance* gameInstance = GameInstance::GetInstance();
-	if (!defender->IsAlive())
-	{
-		gameInstance->WriteLine(L"");
-		gameInstance->WriteLine(defender->GetName() + L"가 쓰러졌습니다.");
-		gameInstance->WriteLine(L"");
-		gameInstance->WriteLine(L"전투가 종료되었습니다.");
-		gameInstance->WriteLine(L"");
-		HandleBattleRewards(attacker, defender);
-		return true;
-	}
-	if (!attacker->IsAlive())
-	{
-		gameInstance->WriteLine(L"");
-		gameInstance->WriteLine(attacker->GetName() + L"가 쓰러졌습니다.");
-		gameInstance->WriteLine(L"");
-		gameInstance->WriteLine(L"전투가 종료되었습니다.");
-		gameInstance->WriteLine(L"");
-		HandleBattleRewards(defender, attacker);
-		return true;
-	}
-	return false;
-}
-
-void BattleSystem::HandleBattleRewards(BattleCharacter* winner, BattleCharacter* loser)
+void BattleSystem::HandleBattleRewards(BattleCharacter* winner, BattleCharacter* loser, BattleResult& result)
 {
 	Player* player = dynamic_cast<Player*>(winner);
 	Monster* monster = dynamic_cast<Monster*>(loser);
 
-	if (player && monster && player->IsAlive() && !monster->IsAlive())
+	if (player && monster)
 	{
-		HandlePlayerVictory(player, monster);
-		return;
+		HandleExpReward(player, monster, result);
+
+		HandleGoldReward(player, monster, result);
+
+		HandleDropItemReward(player, monster, result);
 	}
-	else if (monster && player && monster->IsAlive() && !player->IsAlive())
+	else 
 	{
-		GameInstance::GetInstance()->WriteLine(L"당신은 " + monster->GetName() + L"에게 패배했습니다!");
+		result.battleMessages.push_back(L"당신은 " + monster->GetName() + L"에게 패배했습니다!");
 	}
 }
 
 
-void BattleSystem::HandlePlayerVictory(BattleCharacter* player, BattleCharacter* monster)
-{
-	HandleExpReward(player, monster);
 
-	HandleGoldReward(player, monster);
-
-	HandleDropItemReward(player, monster);
-}
-
-
-void BattleSystem::HandleExpReward(BattleCharacter* winner, BattleCharacter* loser)
+void BattleSystem::HandleExpReward(BattleCharacter* winner, BattleCharacter* loser, BattleResult& result)
 {
 	Player* player = dynamic_cast<Player*>(winner);
 	Monster* monster = dynamic_cast<Monster*>(loser);
-	GameInstance* gameInstance = GameInstance::GetInstance();
 
 	int16 expAmount = monster->GetDropExperience();
 	bool bPlayerLevelup = player->GainExperience(expAmount);
-	gameInstance->WriteLine(L"경험치 " + to_wstring(expAmount) + L"을(를) 획득했습니다!");
-	gameInstance->UpdatePlayerExperience(player->GetExperience());
+
+	result.rewards.expReward = expAmount;
+	result.rewards.bLevelUp = bPlayerLevelup;
+
+	GameInstance::GetInstance()->UpdatePlayerExperience(player->GetExperience());
 	if (bPlayerLevelup)
 	{
-		gameInstance->WriteLine(L"레벨업! 능력치가 상승합니다.");
-		gameInstance->UpdatePlayerLevel(player->GetBattleCharacterInfo().characterLevel);
+		GameInstance::GetInstance()->UpdatePlayerLevel(player->GetBattleCharacterInfo().characterLevel);
 	}
 }
 
-void BattleSystem::HandleGoldReward(BattleCharacter* winner, BattleCharacter* loser)
+void BattleSystem::HandleGoldReward(BattleCharacter* winner, BattleCharacter* loser, BattleResult& result)
 {
 	Player* player = dynamic_cast<Player*>(winner);
 	Monster* monster = dynamic_cast<Monster*>(loser);
-	GameInstance* gameInstance = GameInstance::GetInstance();
 
 	int16 goldAmount = monster->GetDropGold();
 	player->GainGold(goldAmount);
-	gameInstance->WriteLine(L"골드 " + to_wstring(goldAmount) + L"을(를) 획득했습니다!");
-	gameInstance->UpdatePlayerGold(player->GetGold());
+
+	result.rewards.goldReward = goldAmount;
+	GameInstance::GetInstance()->UpdatePlayerGold(player->GetGold());
 }
 
-void BattleSystem::HandleDropItemReward(BattleCharacter* winner, BattleCharacter* loser)
+void BattleSystem::HandleDropItemReward(BattleCharacter* winner, BattleCharacter* loser, BattleResult& result)
 {
 	Player* player = dynamic_cast<Player*>(winner);
 	Monster* monster = dynamic_cast<Monster*>(loser);
-	GameInstance* gameInstance = GameInstance::GetInstance();
 	ItemDataTable* itemDataTable = ItemDataTable::GetInstance();
-
 	vector<int32> availableItemIds = itemDataTable->GetItemIds();
-
-	InventoryComp* inventoryComp = player->GetComponentByType<InventoryComp>();
-	EquipmentComp* equipmentComp = player->GetComponentByType<EquipmentComp>();
-
-	if (!inventoryComp || !equipmentComp)
-	{
-		gameInstance->WriteLine(L"오류: 플레이어 컴포넌트를 찾을 수 없습니다.");
-		return;
-	}
 
 	if (availableItemIds.empty())
 	{
-		gameInstance->WriteLine(L"오류: 아이템테이블에 아이템이 존재하지 않습니다.");
+		throw runtime_error("오류 : 전리품 아이템 테이블에 아이템이 존재하지 않습니다.");
 		return;
 	}
 
-	srand(static_cast<unsigned int>(time(nullptr)));
+	
 	int randomIndex = rand() % availableItemIds.size();
 	int32 randomItemId = availableItemIds[randomIndex];
 	const BaseItem* templateItem = itemDataTable->GetItem(randomItemId);
 
 	if (!templateItem)
 	{
-		gameInstance->WriteLine(L"오류: templateItem이 존재하지 않습니다.");
+		throw runtime_error("오류: 전리품 templateItem이 존재하지 않습니다.");
 		return;
 	}
 
 	BaseItem* droppedItem = templateItem->CreateItem();
 	if (!droppedItem)
 	{
-		gameInstance->WriteLine(L"오류: droppedItem이 존재하지 않습니다.");
+		throw runtime_error("오류: droppedItem이 존재하지 않습니다.");
 		return;
 	}
+
 
 	droppedItem->AddItemCount(1);
-	gameInstance->WriteLine(L"");
-	wstring monsterName = monster->GetName();
-	wstring itemName = droppedItem->GetName();
-	gameInstance->WriteLine(monsterName + L"에게서 " + itemName + L"을(를) 획득했습니다!");
+	result.rewards.droppedItem = droppedItem;
 
-
-	if (CheckEquippable(player, droppedItem))
-	{
-		return;
-	}
-	
-	AddItemToInventory(player, droppedItem);
+	TryEquipOrStoreItem(player, droppedItem, result);
 
 }
 
 
 
-bool BattleSystem::CheckEquippable(BattleCharacter* winner, BaseItem* droppedItem)
+bool BattleSystem::TryEquipOrStoreItem(BattleCharacter* winner, BaseItem* droppedItem, BattleResult& result)
 {
 	Player* player = dynamic_cast<Player*>(winner);
-	GameInstance* gameInstance = GameInstance::GetInstance();
 	EquipmentComp* equipmentComp = player->GetComponentByType<EquipmentComp>();
+	InventoryComp* inventoryComp = player->GetComponentByType<InventoryComp>();
+
+	if (!inventoryComp || !equipmentComp)
+	{
+		throw runtime_error("오류: 플레이어 컴포넌트를 찾을 수 없습니다.");
+		return false;
+	}
 
 	if (droppedItem->GetItemType() != EItemType::Weapon && droppedItem->GetItemType() != EItemType::Armor)
 	{
@@ -252,32 +224,21 @@ bool BattleSystem::CheckEquippable(BattleCharacter* winner, BaseItem* droppedIte
 
 	if (bIsBetter && equipmentComp->EquipItem(droppedItem))
 	{
-		gameInstance->WriteLine(droppedItem->GetName() + L"을(를) 장착했습니다!");
-
-		gameInstance->WriteLine(L"공격력: +" + to_wstring(droppedItem->GetAttack()) +
-			L", 방어력: +" + to_wstring(droppedItem->GetDefense()) +
-			L", 민첩성: +" + to_wstring(droppedItem->GetAgility()));
-		
+		result.rewards.bItemEquipped = true;
 		return true;
 	}
 
-	return false;
-}
-
-
-void BattleSystem::AddItemToInventory(BattleCharacter* winner, BaseItem* droppedItem)
-{
-	Player* player = dynamic_cast<Player*>(winner);
-	GameInstance* gameInstance = GameInstance::GetInstance();
-	InventoryComp* inventoryComp = player->GetComponentByType<InventoryComp>();
 
 	if (inventoryComp->AddItem(droppedItem))
 	{
-		gameInstance->WriteLine(droppedItem->GetName() + L"을(를) 인벤토리에 넣었습니다.");
+		result.rewards.bItemAddedToInventory = true;
 	}
 	else
 	{
-		gameInstance->WriteLine(L"인벤토리가 가득 차서 " + droppedItem->GetName() + L"을(를) 버렸습니다.");
 		delete droppedItem;
+		result.rewards.droppedItem = nullptr;
 	}
+
+
+	return false;
 }

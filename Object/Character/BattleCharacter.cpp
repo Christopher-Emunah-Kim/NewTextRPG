@@ -18,15 +18,6 @@ void BattleCharacter::Init()
 	BaseCharacter::Init();
 }
 
-void BattleCharacter::Interact(BaseCharacter* other)
-{
-	BattleCharacter* battleTarget = dynamic_cast<BattleCharacter*>(other);
-	if (battleTarget && IsAlive() && battleTarget->IsAlive())
-	{
-		BattleSystem::StartBattle(this, battleTarget);
-	}
-}
-
 void BattleCharacter::Attack(BattleCharacter* target)
 {
 	if (nullptr == target)

@@ -9,7 +9,6 @@ public:
 	virtual ~BaseCharacter();
 
 	virtual void Init() override;
-	virtual void Interact(BaseCharacter* other) = 0;
 
 	void SetName(const wstring& name);
 	void SetDescription(const wstring& desc);

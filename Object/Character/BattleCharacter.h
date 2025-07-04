@@ -11,8 +11,6 @@ public:
 	virtual ~BattleCharacter();
 
 	virtual void Init() override;
-	virtual void Interact(BaseCharacter* other) override;
-
 	virtual void Attack(BattleCharacter* target);
 	virtual bool IsAlive() const;
 

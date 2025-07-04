@@ -1,6 +1,7 @@
 ﻿#include "DungeonLevel.h"
 #include "../Core/GameInstance.h"
 #include "../Core/LevelManager.h"
+#include "../Util/BattleSystem.h"
 #include "../Util/InputSystem.h"
 #include "../Object/Character/Monster.h"
 #include "../Data/MonsterDataTable.h"
@@ -44,7 +45,6 @@ void DungeonLevel::CreateRandomMonster()
 {
 	if (!m_monsterNames.empty())
 	{
-		srand(static_cast<unsigned int>(time(nullptr)));
 		int randomIndex = rand() % m_monsterNames.size();
 		wstring monsterName = m_monsterNames[randomIndex];
 
@@ -210,43 +210,96 @@ void DungeonLevel::OnStartBattle()
 {
 	Player& player = gi->GetPlayer();
 
-	player.Interact(m_currentMonster);
+	BattleSystem battleSystem;
+	BattleResult result = battleSystem.ExecuteBattle(&player, m_currentMonster);
 
-	if (player.IsAlive() && !m_currentMonster->IsAlive())
+	for (size_t i = 0; i < result.battleMessages.size(); ++i)
 	{
+		gi->WriteLine(result.battleMessages[i]);
+	}
+
+	if (result.winner == &player)
+	{
+		DisplayVictoryRewards(result.rewards);
 		OnMonsterDefeated();
 	}
-	else if (!player.IsAlive())
+	else if (result.loser == &player)
 	{
-		gi->WriteLine(L"");
-		gi->WriteLine(L"당신은 전투에서 패배했습니다...");
-		gi->WriteLine(L"");
-		gi->WriteLine(L"1. 마을로 돌아가자...");
-		gi->WriteLine(L"2. 마을로...이제... 돌아가자...");
-		gi->WriteLine(L"");
-		gi->WriteLine(L"============================================");
-		gi->WriteLine(L"원하는 옵션의 번호를 입력하세요.");
+		DisplayDefeatScreen();
 
-		InputSystem::BindAction(
-			{
-				{L"1", bind(&DungeonLevel::OnBackToVillage, this)},
-				{L"2", bind(&DungeonLevel::OnBackToVillage, this)},
-			}
-			);
-
-		InputSystem::BindActionOnInputError(
-			[this]()
-			{
-				gi->ClearText();
-				gi->WriteLine(L"잘못된 입력입니다. 다시 시도하세요.");
-				ContinueExploration();
-			}
-		);
 	}
 	else
 	{
 		ContinueExploration();
 	}
+
+}
+
+void DungeonLevel::DisplayVictoryRewards(const BattleRewardInfo& rewards)
+{
+	if (rewards.expReward > 0)
+	{
+		gi->WriteLine(L"경험치 " + to_wstring(rewards.expReward) + L"을(를) 획득했습니다!");
+		if (rewards.bLevelUp)
+		{
+			gi->WriteLine(L"레벨업! 능력치가 상승합니다.");
+		}
+	}
+
+	if (rewards.goldReward > 0)
+	{
+		gi->WriteLine(L"골드 " + to_wstring(rewards.goldReward) + L"을(를) 획득했습니다!");
+	}
+		
+	if (rewards.droppedItem)
+	{
+		gi->WriteLine(L"");
+		gi->WriteLine(m_currentMonster->GetName() + L"에게서 " + rewards.droppedItem->GetName() + L"을(를) 획득했습니다!");
+
+		if (rewards.bItemEquipped)
+		{
+			gi->WriteLine(rewards.droppedItem->GetName()+ L"을(를 장착했습니다.");
+			gi->WriteLine(L"공격력: +" + to_wstring(rewards.droppedItem->GetAttack()) +
+				L", 방어력: +" + to_wstring(rewards.droppedItem->GetDefense()) +
+				L", 민첩성: +" + to_wstring(rewards.droppedItem->GetAgility()));
+		}
+		else if (rewards.bItemAddedToInventory)
+		{
+			gi->WriteLine(rewards.droppedItem->GetName() + L"을(를) 인벤토리에 넣었습니다.");
+		}
+		else
+		{
+			gi->WriteLine(L"인벤토리가 가득 차서 " + rewards.droppedItem->GetName() + L"을(를) 버렸습니다.");
+		}
+	}
+}
+
+void DungeonLevel::DisplayDefeatScreen()
+{
+	gi->WriteLine(L"");
+	gi->WriteLine(L"당신은 전투에서 패배했습니다...");
+	gi->WriteLine(L"");
+	gi->WriteLine(L"1. 마을로 돌아가자...");
+	gi->WriteLine(L"2. 마을로...이제... 돌아가자...");
+	gi->WriteLine(L"");
+	gi->WriteLine(L"============================================");
+	gi->WriteLine(L"원하는 옵션의 번호를 입력하세요.");
+
+	InputSystem::BindAction(
+		{
+			{L"1", bind(&DungeonLevel::OnBackToVillage, this)},
+			{L"2", bind(&DungeonLevel::OnBackToVillage, this)},
+		}
+		);
+
+	InputSystem::BindActionOnInputError(
+		[this]()
+		{
+			gi->ClearText();
+			gi->WriteLine(L"잘못된 입력입니다. 다시 시도하세요.");
+			DisplayDefeatScreen();
+		}
+	);
 }
 
 void DungeonLevel::OnMonsterDefeated()

@@ -34,50 +34,20 @@ void BattleCharacter::Attack(BattleCharacter* target)
 		return;
 	}
 
-	int32 clculatedDamage = CalculateDamage(target);
+	int32 clculatedDamage = m_battleCharacterInfo.status.CalculateDamage(this->m_battleCharacterInfo.status, target->m_battleCharacterInfo.status);
 	GameInstance::GetInstance()->WriteLine(L"");
 	GameInstance::GetInstance()->WriteLine(GetName() + L"가(이) " + target->GetName() + L" 을(를) 공격합니다!");
 	GameInstance::GetInstance()->WriteLine(L"");
 
-	target->TakeDamage(clculatedDamage);
-}
-
-void BattleCharacter::TakeDamage(int32 damage)
-{
-	if (damage <= 0)
-	{
-		return;
-	}
-
-	//TODO Health 사용방식이 이게 맞나?
-	m_battleCharacterInfo.health.TakeDamage(damage);
-
-
-	if (m_battleCharacterInfo.health.GetCurrentAmount() < 0)
-	{
-		m_battleCharacterInfo.health.New(0);
-	}
-
+	target->m_battleCharacterInfo.health = target->m_battleCharacterInfo.health.TakeDamage(clculatedDamage);
 	GameInstance::GetInstance()->WriteLine(L"");
-	GameInstance::GetInstance()->WriteLine(GetName() + L"가(이) " + to_wstring(damage) + L" 의 피해를 입었습니다.");
+	GameInstance::GetInstance()->WriteLine(target->GetName() + L"가(이) " + to_wstring(clculatedDamage) + L" 의 피해를 입었습니다.");
 	GameInstance::GetInstance()->WriteLine(L"");
 }
+
 
 bool BattleCharacter::IsAlive() const
 {
 	return false == m_battleCharacterInfo.health.IsDead();
 }
 
-int32 BattleCharacter::CalculateDamage(BattleCharacter* target) const
-{
-	int32 damage = m_battleCharacterInfo.status.GetAttack() - target->GetBattleCharacterInfo().status.GetDefense();
-
-	if (damage > 0)
-	{
-		return damage;
-	}
-	else
-	{
-		return DEFAULT_DAMAGE;
-	}
-}

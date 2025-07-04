@@ -60,6 +60,18 @@ void BattleSystem::ProcessBattleTurn(BattleCharacter* attacker, BattleCharacter*
 			defender->Attack(attacker);
 		}
 
+		Player* playerAttacker = dynamic_cast<Player*>(attacker);
+		if (playerAttacker)
+		{
+			GameInstance::GetInstance()->UpdatePlayerHealth(playerAttacker->GetBattleCharacterInfo().health);
+		}
+
+		Player* playerDefender = dynamic_cast<Player*>(defender);
+		if (playerDefender)
+		{
+			GameInstance::GetInstance()->UpdatePlayerHealth(playerDefender->GetBattleCharacterInfo().health);
+		}
+
 		if (CheckBattleEnd(attacker, defender))
 		{
 			break;
@@ -114,14 +126,19 @@ void BattleSystem::HandleBattleRewards(BattleCharacter* winner, BattleCharacter*
 		}
 
 		int16 expAmount = monster->GetDropExperience();
-		if (player->GainExperience(expAmount))
+		bool bPlayerLevelup = player->GainExperience(expAmount);
+		gameInstance->WriteLine(L"경험치 " + to_wstring(expAmount) + L"을(를) 획득했습니다!");
+		gameInstance->UpdatePlayerExperience(player->GetExperience());
+		if (bPlayerLevelup)
 		{
-			gameInstance->WriteLine(L"경험치 " + to_wstring(expAmount) + L"을(를) 획득했습니다!");
+			gameInstance->WriteLine(L"레벨업! 능력치가 상승합니다.");
+			gameInstance->UpdatePlayerLevel(player->GetBattleCharacterInfo().characterLevel);
 		}
 
 		int16 goldAmount = monster->GetDropGold();
 		player->GainGold(goldAmount);
 		gameInstance->WriteLine(L"골드 " + to_wstring(goldAmount) + L"을(를) 획득했습니다!");
+		gameInstance->UpdatePlayerGold(player->GetGold());
 
 		ItemDataTable* itemDataTable = ItemDataTable::GetInstance();
 		vector<int32> availableItemIds = itemDataTable->GetItemIds();
@@ -139,50 +156,55 @@ void BattleSystem::HandleBattleRewards(BattleCharacter* winner, BattleCharacter*
 				if (droppedItem)
 				{
 					droppedItem->AddItemCount(1);
-				}
-				
-				gameInstance->WriteLine(L"");
-				gameInstance->WriteLine(monster->GetName() + L"에게서 " + droppedItem->GetName() + L"을(를) 획득했습니다!");
+					gameInstance->WriteLine(L"");
+					wstring monsterName = monster->GetName();
+					wstring itemName = droppedItem->GetName();
+					gameInstance->WriteLine(monsterName + L"에게서 " + itemName + L"을(를) 획득했습니다!");
 
-				if (droppedItem->GetItemType() == EItemType::Weapon || droppedItem->GetItemType() == EItemType::Armor)
-				{
-					BaseItem* currentEquip = equipmentComp->GetEquippedItem(droppedItem->GetItemType());
-					bool bIsBetter = false;
-
-					if (!currentEquip)
+					if (droppedItem->GetItemType() == EItemType::Weapon || droppedItem->GetItemType() == EItemType::Armor)
 					{
-						bIsBetter = true;
+						BaseItem* currentEquip = equipmentComp->GetEquippedItem(droppedItem->GetItemType());
+						bool bIsBetter = false;
+
+						if (!currentEquip)
+						{
+							bIsBetter = true;
+						}
+						else
+						{
+							int32 currentPower = currentEquip->GetAttack() + currentEquip->GetDefense() + currentEquip->GetAgility();
+							int32 newPower = droppedItem->GetAttack() + droppedItem->GetDefense() + droppedItem->GetAgility();
+							bIsBetter = (newPower > currentPower);
+						}
+
+						if (bIsBetter)
+						{
+							if (equipmentComp->EquipItem(droppedItem))
+							{
+								gameInstance->WriteLine(droppedItem->GetName() + L"을(를) 장착했습니다!");
+
+								gameInstance->WriteLine(L"공격력: +" + to_wstring(droppedItem->GetAttack()) +
+									L", 방어력: +" + to_wstring(droppedItem->GetDefense()) +
+									L", 민첩성: +" + to_wstring(droppedItem->GetAgility()));
+								//bCheckItemDropped = false;
+								return;
+							}
+						}
+					}
+
+					if (inventoryComp->AddItem(droppedItem))
+					{
+						gameInstance->WriteLine(droppedItem->GetName() + L"을(를) 인벤토리에 넣었습니다.");
+						//bCheckItemDropped = false;
 					}
 					else
 					{
-						int32 currentPower = currentEquip->GetAttack() + currentEquip->GetDefense() + currentEquip->GetAgility();
-						int32 newPower = droppedItem->GetAttack() + droppedItem->GetDefense() + droppedItem->GetAgility();
-						bIsBetter = (newPower > currentPower);
-					}
-
-					if (bIsBetter)
-					{
-						if (equipmentComp->EquipItem(droppedItem))
-						{
-							gameInstance->WriteLine(droppedItem->GetName() + L"을(를) 장착했습니다!");
-
-							gameInstance->WriteLine(L"공격력: +" + to_wstring(droppedItem->GetAttack()) +
-								L", 방어력: +" + to_wstring(droppedItem->GetDefense()) +
-								L", 민첩성: +" + to_wstring(droppedItem->GetAgility()));
-							return; 
-						}
+						gameInstance->WriteLine(L"인벤토리가 가득 차서 " + droppedItem->GetName() + L"을(를) 버렸습니다.");
+						//bCheckItemDropped = false;
+						delete droppedItem;
 					}
 				}
 
-				if (inventoryComp->AddItem(droppedItem))
-				{
-					gameInstance->WriteLine(droppedItem->GetName() + L"을(를) 인벤토리에 넣었습니다.");
-				}
-				else
-				{
-					gameInstance->WriteLine(L"인벤토리가 가득 차서 " + droppedItem->GetName() + L"을(를) 버렸습니다.");
-					delete droppedItem; 
-				}
 			}
 		}
 	}

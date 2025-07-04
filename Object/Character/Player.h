@@ -19,7 +19,6 @@ private:
 	void LoadLevelPropertiesByLevel();
 
 public:
-
 	virtual void Init() override;  
 
 	void InitializeComponents();
@@ -28,15 +27,15 @@ public:
 	bool CanAfford(int32 cost) const;
 	bool IsFullHealth() const;
 	void Recover(int32 amount);
-	Health GetHealth() const;
-
 	bool UseGold(int32 amount);
 	void GainGold(int32 amount);
-	int32 GetGoldAmount() const;
-	Gold GetGold() const;
-
 	bool GainExperience(int32 exp);
+
+	Gold GetGold() const;
+	int32 GetGoldAmount() const;
+	Health GetHealth() const;
 	Status GetTotalStatus() const;
+	Experience GetExperience() const;
 	
 private:
 	Gold m_gold;

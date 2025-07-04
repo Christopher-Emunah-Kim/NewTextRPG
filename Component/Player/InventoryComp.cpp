@@ -68,7 +68,7 @@ bool InventoryComp::AddItem(BaseItem* item)
 	for (size_t i = 0; i < m_inventoryItems.size(); ++i)
 	{
 		BaseItem* existingItem = m_inventoryItems[i];
-		if (existingItem && existingItem->GetName() == item->GetName())
+		if (existingItem && existingItem->GetItemID() == item->GetItemID())
 		{
 			bool result = existingItem->AddItemCount(item->GetCount());
 			if (result)

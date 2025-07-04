@@ -1,5 +1,6 @@
 ﻿#include "DungeonLevel.h"
 #include "../Core/GameInstance.h"
+#include "../Core/LevelManager.h"
 #include "../Util/InputSystem.h"
 #include "../Object/Character/Monster.h"
 #include "../Data/MonsterDataTable.h"
@@ -197,6 +198,9 @@ void DungeonLevel::OnBackToVillage()
 	gi->WriteLine(L"");
 	gi->WriteLine(L"때로는 한발 물러서는 것이 현명할 수 있습니다....");
 	gi->WriteLine(L"당신은 발걸음을 돌려 마을로 돌아갑니다...");
+
+	LevelManager::GetInstance()->SetNextLevel(L"Village");
+	BaseLevel* nextLevel = LevelManager::GetInstance()->GetNextLevel();
 
 	InputSystem::Clear();
 }

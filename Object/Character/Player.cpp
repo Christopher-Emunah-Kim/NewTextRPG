@@ -184,3 +184,8 @@ Status Player::GetTotalStatus() const
 	return baseStatus;
 }
 
+Experience Player::GetExperience() const
+{
+	return m_experience;
+}
+

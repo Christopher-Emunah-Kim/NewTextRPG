@@ -1,5 +1,7 @@
 ﻿#pragma once
-#include "../Object/Character/BattleCharacter.h"
+
+class BattleCharacter;
+class BaseItem;
 
 class BattleSystem
 {
@@ -9,6 +11,13 @@ private:
 	static void ProcessBattleTurn(BattleCharacter* attacker, BattleCharacter* defender, bool isAttackerTurn);
 	static bool CheckBattleEnd(BattleCharacter* attacker, BattleCharacter* defender);
 	static void HandleBattleRewards(BattleCharacter* winner, BattleCharacter* loser);
+
+	static void HandlePlayerVictory(BattleCharacter* player, BattleCharacter* monster);
+	static void HandleExpReward(BattleCharacter* winner, BattleCharacter* loser);
+	static void HaldGoldReward(BattleCharacter* winner, BattleCharacter* loser);
+	static void HandleDropItemReward(BattleCharacter* winner, BattleCharacter* loser);
+	static bool CheckEquippable(BattleCharacter* winner, BaseItem* droppedItem);
+	static void AddItemToInventory(BattleCharacter* winner, BaseItem* droppedItem);
 
 public:
 	static void StartBattle(BattleCharacter* attacker, BattleCharacter* defender);

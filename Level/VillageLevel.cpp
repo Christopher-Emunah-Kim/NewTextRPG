@@ -265,6 +265,7 @@ void VillageLevel::SellSelectedItem(int32 itemId)
 		gi->ClearText();
 		gi->WriteLine(L"상인은 흡족해하며 당신에게 받은 물품을 살펴봅니다.");
 		inventory->RemoveItem(itemId);
+		gi->UpdatePlayerGold(player.GetGold());
 		gi->UpdateInvetoryItems(inventory->GetInventoryItems());
 	}
 	else

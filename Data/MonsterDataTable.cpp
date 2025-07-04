@@ -1,5 +1,5 @@
 ﻿#include "MonsterDataTable.h"
-#include "../include/parser.hpp"
+#include "include/parser.hpp"
 #include "../Core/GameInstance.h"
 #include "../Object/Character/Monster.h"
 

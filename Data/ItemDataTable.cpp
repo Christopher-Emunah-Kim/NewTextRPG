@@ -1,10 +1,10 @@
 ﻿#include "ItemDataTable.h"
+#include "include/parser.hpp"
 #include "../Core/GameInstance.h"
 #include "../Item/BaseItem.h"
 #include "../Util/Type/EnumType.h"
 #include "../Util/OutputSystem.h"
 
-#include "../include/parser.hpp"
 
 
 using namespace aria::csv;

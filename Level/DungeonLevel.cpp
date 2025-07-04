@@ -44,6 +44,7 @@ void DungeonLevel::CreateRandomMonster()
 {
 	if (!m_monsterNames.empty())
 	{
+		srand(static_cast<unsigned int>(time(nullptr)));
 		int randomIndex = rand() % m_monsterNames.size();
 		wstring monsterName = m_monsterNames[randomIndex];
 

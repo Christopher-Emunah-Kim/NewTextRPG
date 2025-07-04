@@ -14,7 +14,7 @@ private:
 
 	static void HandlePlayerVictory(BattleCharacter* player, BattleCharacter* monster);
 	static void HandleExpReward(BattleCharacter* winner, BattleCharacter* loser);
-	static void HaldGoldReward(BattleCharacter* winner, BattleCharacter* loser);
+	static void HandleGoldReward(BattleCharacter* winner, BattleCharacter* loser);
 	static void HandleDropItemReward(BattleCharacter* winner, BattleCharacter* loser);
 	static bool CheckEquippable(BattleCharacter* winner, BaseItem* droppedItem);
 	static void AddItemToInventory(BattleCharacter* winner, BaseItem* droppedItem);

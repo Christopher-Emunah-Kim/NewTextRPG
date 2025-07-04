@@ -129,7 +129,7 @@ void BattleSystem::HandlePlayerVictory(BattleCharacter* player, BattleCharacter*
 {
 	HandleExpReward(player, monster);
 
-	HaldGoldReward(player, monster);
+	HandleGoldReward(player, monster);
 
 	HandleDropItemReward(player, monster);
 }
@@ -152,7 +152,7 @@ void BattleSystem::HandleExpReward(BattleCharacter* winner, BattleCharacter* los
 	}
 }
 
-void BattleSystem::HaldGoldReward(BattleCharacter* winner, BattleCharacter* loser)
+void BattleSystem::HandleGoldReward(BattleCharacter* winner, BattleCharacter* loser)
 {
 	Player* player = dynamic_cast<Player*>(winner);
 	Monster* monster = dynamic_cast<Monster*>(loser);
@@ -188,6 +188,7 @@ void BattleSystem::HandleDropItemReward(BattleCharacter* winner, BattleCharacter
 		return;
 	}
 
+	srand(static_cast<unsigned int>(time(nullptr)));
 	int randomIndex = rand() % availableItemIds.size();
 	int32 randomItemId = availableItemIds[randomIndex];
 	const BaseItem* templateItem = itemDataTable->GetItem(randomItemId);

@@ -152,7 +152,6 @@ void BattleSystem::HandleBattleRewards(BattleCharacter* winner, BattleCharacter*
 	else 
 	{
 		throw runtime_error("오류: HandleBattleRewards에 플레이어나 몬스터가 존재하지않습니다..");
-		return;
 	}
 }
 
@@ -198,7 +197,6 @@ void BattleSystem::HandleDropItemReward(BattleCharacter* winner, BattleCharacter
 	if (availableItemIds.empty())
 	{
 		throw runtime_error("오류 : 전리품 아이템 테이블에 아이템이 존재하지 않습니다.");
-		return;
 	}
 
 	
@@ -209,14 +207,12 @@ void BattleSystem::HandleDropItemReward(BattleCharacter* winner, BattleCharacter
 	if (!templateItem)
 	{
 		throw runtime_error("오류: 전리품 templateItem이 존재하지 않습니다.");
-		return;
 	}
 
 	BaseItem* droppedItem = templateItem->CreateItem();
 	if (!droppedItem)
 	{
 		throw runtime_error("오류: droppedItem이 존재하지 않습니다.");
-		return;
 	}
 
 
@@ -236,7 +232,6 @@ bool BattleSystem::TryEquipOrStoreItem(BattleCharacter* winner, BaseItem* droppe
 	if (!player)
 	{
 		throw runtime_error("오류: 플레이어를 찾을 수 없습니다.");
-		return false;
 	}
 
     Equipment& playerEquipment = player->GetEquipment();

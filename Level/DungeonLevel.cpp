@@ -112,7 +112,6 @@ void DungeonLevel::ContinueExploration()
 		gi->WriteLine(L"============================================");
 		gi->WriteLine(L"원하는 옵션의 번호를 입력하세요.");
 
-		//SetDungeonStage();
 
 		InputSystem::BindAction(
 			{
@@ -231,30 +230,6 @@ void DungeonLevel::OnStartBattle()
 		gi->WriteLine(m_currentMonster->GetName() + L"가(이) 먼저 공격을 시도합니다.");
 		ProcessMonsterTurn();
 	}
-
-	//BattleSystem battleSystem;
-	//BattleResult result = battleSystem.ExecuteBattle(&player, m_currentMonster);
-
-	//for (size_t i = 0; i < result.battleMessages.size(); ++i)
-	//{
-	//	gi->WriteLine(result.battleMessages[i]);
-	//}
-
-	//if (result.winner == &player)
-	//{
-	//	DisplayVictoryRewards(result.rewards);
-	//	OnMonsterDefeated();
-	//}
-	//else if (result.loser == &player)
-	//{
-	//	DisplayDefeatScreen();
-
-	//}
-	//else
-	//{
-	//	ContinueExploration();
-	//}
-
 }
 
 void DungeonLevel::ProcessPlayerTurn()

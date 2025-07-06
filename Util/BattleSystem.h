@@ -32,9 +32,7 @@ private:
 
 public:
 	static bool ExecuteAttack(BattleCharacter* attacker, BattleCharacter* defender);
-	//static BattleResult ExecuteBattle(BattleCharacter* attacker, BattleCharacter* defender);
 	static bool DetermineFirstAttacker(BattleCharacter* p1, BattleCharacter* p2);
-	static void ProcessBattleTurn(BattleCharacter* p1, BattleCharacter* p2, bool bIsPlayer1Turn, BattleResult& result);
 	static bool CanEscape(BattleCharacter* player, BattleCharacter* monster);
 	static void HandleBattleRewards(BattleCharacter* winner, BattleCharacter* loser, BattleResult& result);
 };

@@ -25,7 +25,6 @@ public:
 
 	void RenderHud(Screen& screen) const;
 
-	inline HUD& GetHUD() { return m_Hud; }
 	inline Player& GetPlayer() { return m_Player; }
 
 private:

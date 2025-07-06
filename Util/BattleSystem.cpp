@@ -13,7 +13,6 @@
 
 bool BattleSystem::ExecuteAttack(BattleCharacter* attacker, BattleCharacter* defender)
 {
-	//BattleResult result;
 	if (!attacker || !defender)
 	{
 		return false;
@@ -35,40 +34,6 @@ bool BattleSystem::ExecuteAttack(BattleCharacter* attacker, BattleCharacter* def
 	return !defender->IsAlive();
 }
 
-//BattleResult BattleSystem::ExecuteBattle(BattleCharacter* attacker, BattleCharacter* defender)
-//{
-//	BattleResult result;
-//
-//	result.battleMessages.push_back(L"");
-//	result.battleMessages.push_back(attacker->GetName() + L"와(과) " + defender->GetName() + L"가(이) 전투를 시작합니다.");
-//	result.battleMessages.push_back(L"");
-//
-//	int16 attackerAgility = attacker->GetBattleCharacterInfo().status.GetAgility();
-//	int16 defenderAgility = defender->GetBattleCharacterInfo().status.GetAgility();
-//	bool bIsAttackerTurn = (attackerAgility >= defenderAgility);
-//
-//	if (bIsAttackerTurn)
-//	{
-//		result.battleMessages.push_back(attacker->GetName() + L"가(이) 먼저 공격을 시도합니다.");
-//	}
-//	else
-//	{
-//		result.battleMessages.push_back(defender->GetName() + L"가(이) 먼저 공격을 시도합니다.");
-//	}
-//
-//	ProcessBattleTurn(attacker, defender, bIsAttackerTurn, result);
-//
-//	if (result.winner)
-//	{
-//		result.battleMessages.push_back(defender->GetName() + L"가 쓰러졌습니다.");
-//		result.battleMessages.push_back(L"전투가 종료되었습니다");
-//		result.battleMessages.push_back(L"");
-//		HandleBattleRewards(result.winner, result.loser, result);
-//	}
-//
-//	return result;
-//}
-
 bool BattleSystem::DetermineFirstAttacker(BattleCharacter* p1, BattleCharacter* p2)
 {
 	int16 p1Agility = p1->GetBattleCharacterInfo().status.GetAgility();
@@ -84,44 +49,6 @@ bool BattleSystem::DetermineFirstAttacker(BattleCharacter* p1, BattleCharacter* 
 	}
 
 	return false;
-}
-
-
-void BattleSystem::ProcessBattleTurn(BattleCharacter* p1, BattleCharacter* p2, bool bIsPlayer1Turn, BattleResult& result)
-{
-	while (p1->IsAlive() && p2->IsAlive())
-	{
-		BattleCharacter* currentAttacker = nullptr;
-		BattleCharacter* currentDefender = nullptr;
-
-		if (bIsPlayer1Turn)
-		{
-			currentAttacker = p1;
-			currentDefender = p2;
-		}
-		else
-		{
-			currentAttacker = p2;
-			currentDefender = p1;
-		}
-
-		currentAttacker->Attack(currentDefender); 
-
-		
-
-		bIsPlayer1Turn = !bIsPlayer1Turn;
-	}
-
-	if (p1->IsAlive() && !p2->IsAlive())
-	{
-		result.winner = p1;
-		result.loser = p2;
-	}
-	else if(!p1->IsAlive() && p2->IsAlive())
-	{
-		result.winner = p2;
-		result.loser = p1;
-	}
 }
 
 bool BattleSystem::CanEscape(BattleCharacter* player, BattleCharacter* monster)
@@ -154,8 +81,6 @@ void BattleSystem::HandleBattleRewards(BattleCharacter* winner, BattleCharacter*
 		throw runtime_error("오류: HandleBattleRewards에 플레이어나 몬스터가 존재하지않습니다..");
 	}
 }
-
-
 
 void BattleSystem::HandleExpReward(BattleCharacter* winner, BattleCharacter* loser, BattleResult& result)
 {
@@ -273,7 +198,5 @@ bool BattleSystem::TryEquipOrStoreItem(BattleCharacter* winner, BaseItem* droppe
 		delete droppedItem;
 		result.rewards.droppedItem = nullptr;
 	}
-
-
 	return false;
 }

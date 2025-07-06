@@ -3,11 +3,9 @@
 
 constexpr __int16 DUNGEON_MAX_MONSTERS = 7;
 
-class HUD;
 class Monster;
 class GameInstance;
 struct BattleRewardInfo;
-struct Status;
 
 class DungeonLevel : public BaseLevel
 {
@@ -27,6 +25,9 @@ private:
 	void OnEnterStage();
 	void OnBackToVillage();
 	void OnStartBattle();
+	void OnMonsterDefeated();
+	void OnEscape();
+
 	void ProcessPlayerTurn();
 	void ProcessMonsterTurn();
 	void ProcessPlayerAttack();
@@ -36,9 +37,6 @@ private:
 
 	void DisplayVictoryRewards(const BattleRewardInfo& rewards);
 	void DisplayDefeatScreen();
-
-	void OnMonsterDefeated();
-	void OnEscape();
 
 private:
 	GameInstance* gi;

@@ -209,30 +209,234 @@ void DungeonLevel::OnBackToVillage()
 void DungeonLevel::OnStartBattle()
 {
 	Player& player = gi->GetPlayer();
+	vector<wstring> battleStartMessges;
 
-	BattleSystem battleSystem;
-	BattleResult result = battleSystem.ExecuteBattle(&player, m_currentMonster);
+	gi->ClearText();
+	gi->WriteLine(L"");
+	gi->WriteLine(L"============================================");
+	gi->WriteLine(L"전투가 시작됩니다!");
+	gi->WriteLine(L"");
+	gi->WriteLine(player.GetName() + L"와(과) " + m_currentMonster->GetName() + L"가(이) 전투를 시작합니다!");
+	gi->WriteLine(L"");
 
-	for (size_t i = 0; i < result.battleMessages.size(); ++i)
+	bool bIsPlayerFirst = BattleSystem::DetermineFirstAttacker(&player, m_currentMonster);
+
+	if (bIsPlayerFirst)
 	{
-		gi->WriteLine(result.battleMessages[i]);
-	}
-
-	if (result.winner == &player)
-	{
-		DisplayVictoryRewards(result.rewards);
-		OnMonsterDefeated();
-	}
-	else if (result.loser == &player)
-	{
-		DisplayDefeatScreen();
-
+		gi->WriteLine(player.GetName() + L"가(이) 먼저 공격을 시도합니다.");
+		ProcessPlayerTurn();
 	}
 	else
 	{
-		ContinueExploration();
+		gi->WriteLine(m_currentMonster->GetName() + L"가(이) 먼저 공격을 시도합니다.");
+		ProcessMonsterTurn();
 	}
 
+	//BattleSystem battleSystem;
+	//BattleResult result = battleSystem.ExecuteBattle(&player, m_currentMonster);
+
+	//for (size_t i = 0; i < result.battleMessages.size(); ++i)
+	//{
+	//	gi->WriteLine(result.battleMessages[i]);
+	//}
+
+	//if (result.winner == &player)
+	//{
+	//	DisplayVictoryRewards(result.rewards);
+	//	OnMonsterDefeated();
+	//}
+	//else if (result.loser == &player)
+	//{
+	//	DisplayDefeatScreen();
+
+	//}
+	//else
+	//{
+	//	ContinueExploration();
+	//}
+
+}
+
+void DungeonLevel::ProcessPlayerTurn()
+{
+	Player& player = gi->GetPlayer();
+
+	gi->WriteLine(L"");
+	gi->WriteLine(L"[플레이어 턴]");
+	gi->WriteLine(L"당신의 체력: " + to_wstring(player.GetBattleCharacterInfo().health.GetCurrentAmount()) + L"/" + to_wstring(player.GetBattleCharacterInfo().health.GetMaxAmount()));
+	gi->WriteLine(m_currentMonster->GetName() + L"의 체력: " + to_wstring(m_currentMonster->GetBattleCharacterInfo().health.GetCurrentAmount()) 
+		+ L"/" + to_wstring(m_currentMonster->GetBattleCharacterInfo().health.GetMaxAmount()));
+	gi->WriteLine(L"");
+	gi->WriteLine(L"당신은 거친 숨을 몰아쉬며 적을 노려봅니다.");
+	gi->WriteLine(L"");
+	gi->WriteLine(L"1. 물러날 곳은 없다. 지체없이 공격하자.");
+	gi->WriteLine(L"2. 필요한 아이템을 사용한다.");
+	gi->WriteLine(L"3. 물러날 때이다. 던전 입구로 도망가자");
+	gi->WriteLine(L"");
+	gi->WriteLine(L"============================================");
+	gi->WriteLine(L"원하는 옵션의 번호를 입력하세요.");
+
+	InputSystem::BindAction(
+		{
+			{L"1", bind(&DungeonLevel::ProcessPlayerAttack, this)},
+			{L"2", bind(&DungeonLevel::UseItem, this)},
+			{L"3", bind(&DungeonLevel::TryEscape, this)}
+		}
+	);
+
+	InputSystem::BindActionOnInputError(
+		[this]()
+		{
+			gi->WriteLine(L"잘못된 입력입니다. 다시 시도하세요.");
+			ProcessPlayerTurn();
+		}
+	);
+}
+
+void DungeonLevel::ProcessMonsterTurn()
+{
+	Player& player = gi->GetPlayer();
+	vector<wstring> battleMessages;
+
+	gi->WriteLine(L"");
+	gi->WriteLine(L"[몬스터 턴]");
+	gi->WriteLine(m_currentMonster->GetName() + L"가(이) 공격합니다!");
+
+	bool playerDefeated = BattleSystem::ExecuteAttack(m_currentMonster, &player);
+
+	gi->WriteLine(m_currentMonster->GetName() + L"가(이) " + player.GetName() + L"을(를) 공격했습니다.");
+	gi->WriteLine(player.GetName() + L"의 현재 체력: " + to_wstring(player.GetBattleCharacterInfo().health.GetCurrentAmount()));
+
+	if (playerDefeated)
+	{
+		gi->WriteLine(L"");
+		gi->WriteLine(player.GetName() + L"가(이) 쓰러졌습니다!");
+		DisplayDefeatScreen();
+		return;
+	}
+
+	ProcessPlayerTurn();
+}
+
+void DungeonLevel::ProcessPlayerAttack()
+{
+	Player& player = gi->GetPlayer();
+	vector<wstring> battleMessages;
+
+	gi->WriteLine(L"");
+	gi->WriteLine(player.GetName() + L"가(이) " + m_currentMonster->GetName() + L"을(를) 공격합니다!");
+
+	bool monsterDefeated = BattleSystem::ExecuteAttack(&player, m_currentMonster);
+
+	gi->WriteLine(player.GetName() + L"가(이) " + m_currentMonster->GetName() + L"을(를) 공격했습니다.");
+	gi->WriteLine(m_currentMonster->GetName() + L"의 현재 체력: " + to_wstring(m_currentMonster->GetBattleCharacterInfo().health.GetCurrentAmount()));
+
+	if (monsterDefeated)
+	{
+		ProcessBattleResult(true);
+		return;
+	}
+
+	ProcessMonsterTurn();
+}
+
+void DungeonLevel::UseItem()
+{
+	/*Player& player = gi->GetPlayer();
+	Inventory& inventory = player.GetInventory();
+	vector<BaseItem*> usableItems = inventory.GetUsableItems();
+
+	if (usableItems.empty())
+	{
+		gi->WriteLine(L"");
+		gi->WriteLine(L"사용할 수 있는 아이템이 없습니다!");
+		ProcessPlayerTurn();
+		return;
+	}
+
+	gi->WriteLine(L"");
+	gi->WriteLine(L"사용할 아이템을 선택하세요:");
+
+	map<wstring, function<void()>> itemActions;
+	int itemIndex = 1;
+
+	for (BaseItem* item : usableItems)
+	{
+		wstring indexStr = to_wstring(itemIndex);
+		gi->WriteLine(indexStr + L". " + item->GetName() + L" (x" + to_wstring(item->GetCount()) + L")");
+
+		itemActions[indexStr] = [this, item, &player]()
+			{
+			if (item->GetItemType() == EItemType::Consumable)
+			{
+				gi->WriteLine(player.GetName() + L"가(이) " + item->GetName() + L"을(를) 사용했습니다.");
+				player.UseItem(item->GetItemID());
+				gi->WriteLine(L"체력이 회복되었습니다: " +
+					to_wstring(player.GetBattleCharacterInfo().health.GetCurrentAmount()) + L"/" +
+					to_wstring(player.GetBattleCharacterInfo().health.GetMaxAmount()));
+			}
+
+			ProcessMonsterTurn();
+			};
+
+		itemIndex++;
+	}
+
+	InputSystem::BindAction(
+		{
+			{L"0", bind(&DungeonLevel::ProcessPlayerTurn, this)}
+		}
+	);
+
+	InputSystem::BindActionOnInputError([this]() {
+		gi->WriteLine(L"잘못된 입력입니다. 다시 시도하세요.");
+		UseItem();
+		});*/
+}
+
+void DungeonLevel::TryEscape()
+{
+	Player& player = gi->GetPlayer();
+
+	gi->WriteLine(L"");
+	gi->WriteLine(player.GetName() + L"가(이) 도망가려고 시도합니다...");
+
+	if (BattleSystem::CanEscape(&player, m_currentMonster))
+	{
+		gi->WriteLine(L"도망치는데 성공했습니다!");
+		OnEscape();
+	}
+	else
+	{
+		gi->WriteLine(L"도망치는데 실패했습니다!");
+		gi->WriteLine(m_currentMonster->GetName() + L"가(이) 당신의 허점을 노립니다!");
+		ProcessMonsterTurn();
+	}
+}
+
+void DungeonLevel::ProcessBattleResult(bool monsterDefeated)
+{
+	if (monsterDefeated)
+	{
+		Player& player = gi->GetPlayer();
+		BattleResult result;
+		result.winner = &player;
+		result.loser = m_currentMonster;
+
+		BattleSystem::HandleBattleRewards(&player, m_currentMonster, result);
+
+		gi->WriteLine(L"");
+		gi->WriteLine(m_currentMonster->GetName() + L"를(을) 처치했습니다!");
+
+		DisplayVictoryRewards(result.rewards);
+		OnMonsterDefeated();
+	}
+	else
+	{
+		gi->WriteLine(L"");
+		gi->WriteLine(L"당신은 " + m_currentMonster->GetName() + L"에게 패배했습니다!");
+		DisplayDefeatScreen();
+	}
 }
 
 void DungeonLevel::DisplayVictoryRewards(const BattleRewardInfo& rewards)

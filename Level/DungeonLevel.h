@@ -27,6 +27,12 @@ private:
 	void OnEnterStage();
 	void OnBackToVillage();
 	void OnStartBattle();
+	void ProcessPlayerTurn();
+	void ProcessMonsterTurn();
+	void ProcessPlayerAttack();
+	void UseItem();
+	void TryEscape();
+	void ProcessBattleResult(bool monsterDefeated);
 
 	void DisplayVictoryRewards(const BattleRewardInfo& rewards);
 	void DisplayDefeatScreen();

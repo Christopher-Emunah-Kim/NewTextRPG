@@ -25,14 +25,16 @@ struct BattleResult
 class BattleSystem
 {
 private:
-	static void ProcessBattleTurn(BattleCharacter* p1, BattleCharacter* p2, bool bIsPlayer1Turn, BattleResult& result);
-	static void HandleBattleRewards(BattleCharacter* winner, BattleCharacter* loser, BattleResult& result);
-
 	static void HandleExpReward(BattleCharacter* winner, BattleCharacter* loser, BattleResult& result);
 	static void HandleGoldReward(BattleCharacter* winner, BattleCharacter* loser, BattleResult& result);
 	static void HandleDropItemReward(BattleCharacter* winner, BattleCharacter* loser, BattleResult& result);
 	static bool TryEquipOrStoreItem(BattleCharacter* winner, BaseItem* droppedItem, BattleResult& result);
 
 public:
-	static BattleResult ExecuteBattle(BattleCharacter* attacker, BattleCharacter* defender);
+	static bool ExecuteAttack(BattleCharacter* attacker, BattleCharacter* defender);
+	//static BattleResult ExecuteBattle(BattleCharacter* attacker, BattleCharacter* defender);
+	static bool DetermineFirstAttacker(BattleCharacter* p1, BattleCharacter* p2);
+	static void ProcessBattleTurn(BattleCharacter* p1, BattleCharacter* p2, bool bIsPlayer1Turn, BattleResult& result);
+	static bool CanEscape(BattleCharacter* player, BattleCharacter* monster);
+	static void HandleBattleRewards(BattleCharacter* winner, BattleCharacter* loser, BattleResult& result);
 };

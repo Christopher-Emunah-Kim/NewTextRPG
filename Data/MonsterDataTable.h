@@ -15,13 +15,17 @@ public:
 	MonsterDataTable() = default;
 	~MonsterDataTable();
 
+private:
+	wstring ToWideStr(const string& str) const;
+	void ProcessCSVParsing();
+
+public:
+
 	void Init();
 	void Release();
 
 	bool HasMonster(const wstring& monsterName) const;
-	wstring ToWideStr(const string& str) const;
 	Monster* CreateMonster(BaseLevel* level, const wstring& monsterName) const;
-	void ProcessCSVParsing();
 
 	const FMonsterInfo* GetMonsterInfo(const wstring& monsterName) const;
 	const vector<wstring> GetMonsterNames() const noexcept;

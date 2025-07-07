@@ -34,8 +34,8 @@ struct Experience
 		m_levelMaxExp = amount;
 	}
 
-	inline const int16& GetCurrentExp() const noexcept { return m_currentExp; }
-	inline const int16& GetMaxExp() const noexcept { return m_levelMaxExp; }
+	inline int16 GetCurrentExp() const noexcept { return m_currentExp; }
+	inline int16 GetMaxExp() const noexcept { return m_levelMaxExp; }
 
 private:
 	int16 m_currentExp;

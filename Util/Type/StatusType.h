@@ -8,12 +8,12 @@ constexpr __int8 DEFAULT_LOWEST_DAMAGE = 5;
 struct Status
 {
 	Status()
-		: attack{ DEFAULT_ATTACK }, defense{ DEFAULT_DEFENSE }, agility{ DEFAULT_AGILITY }
+		: m_attack{ DEFAULT_ATTACK }, m_defense{ DEFAULT_DEFENSE }, m_agility{ DEFAULT_AGILITY }
 	{
 	}
 
 	Status(int16 atk, int16 def, int16 agi)
-		: attack{ atk }, defense{ def }, agility{ agi }
+		: m_attack{ atk }, m_defense{ def }, m_agility{ agi }
 	{
 	}
 
@@ -21,9 +21,9 @@ struct Status
 	{
 		if (this != &other)
 		{
-			const_cast<int16&>(attack) = other.attack;
-			const_cast<int16&>(defense) = other.defense;
-			const_cast<int16&>(agility) = other.agility;
+			const_cast<int16&>(m_attack) = other.m_attack;
+			const_cast<int16&>(m_defense) = other.m_defense;
+			const_cast<int16&>(m_agility) = other.m_agility;
 		}
 		return *this;
 	}
@@ -31,17 +31,17 @@ struct Status
 	Status operator+(const Status& other) const
 	{
 		return Status(
-			this->attack + other.attack,
-			this->defense + other.defense,
-			this->agility + other.agility
+			this->m_attack + other.m_attack,
+			this->m_defense + other.m_defense,
+			this->m_agility + other.m_agility
 		);
 	}
 
 	Status& operator+=(const Status& other)
 	{
-		const_cast<int16&>(attack) += other.attack;
-		const_cast<int16&>(defense) += other.defense;
-		const_cast<int16&>(agility) += other.agility;
+		const_cast<int16&>(m_attack) += other.m_attack;
+		const_cast<int16&>(m_defense) += other.m_defense;
+		const_cast<int16&>(m_agility) += other.m_agility;
 		return *this;
 	}
 
@@ -54,18 +54,18 @@ struct Status
 	static Status AddStatus(const Status& self, const Status& other)
 	{
 		return Status(
-			self.attack + other.attack,
-			self.defense + other.defense,
-			self.agility + other.agility
+			self.m_attack + other.m_attack,
+			self.m_defense + other.m_defense,
+			self.m_agility + other.m_agility
 		);
 	}
 
 	static Status RemoveStatus(const Status& self, const Status& other)
 	{
 		return Status(
-			self.attack - other.attack,
-			self.defense - other.defense,
-			self.agility - other.agility
+			self.m_attack - other.m_attack,
+			self.m_defense - other.m_defense,
+			self.m_agility - other.m_agility
 		);
 	}
 
@@ -85,15 +85,15 @@ struct Status
 
 	wstring ToString() const
 	{
-		return L"공격력: " + to_wstring(attack) + L", 방어력: " + to_wstring(defense) + L", 민첩성 : " + to_wstring(agility);
+		return L"공격력: " + to_wstring(m_attack) + L", 방어력: " + to_wstring(m_defense) + L", 민첩성 : " + to_wstring(m_agility);
 	}
 
-	const int16& GetAttack() const { return attack; }
-	const int16& GetDefense() const { return defense; }
-	const int16& GetAgility() const { return agility; }
+	const int16& GetAttack() const { return m_attack; }
+	const int16& GetDefense() const { return m_defense; }
+	const int16& GetAgility() const { return m_agility; }
 
 private:
-	const int16 attack;
-	const int16 defense;
-	const int16 agility;
+	const int16 m_attack;
+	const int16 m_defense;
+	const int16 m_agility;
 };

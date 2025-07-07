@@ -33,8 +33,8 @@ public:
 	void GainGold(int32 amount);
 	bool GainExperience(int32 exp);
 
+	//int32 GetGoldAmount() const;
 	Gold GetGold() const;
-	int32 GetGoldAmount() const;
 	Health GetHealth() const;
 	Status GetTotalStatus() const;
 	Experience GetExperience() const;

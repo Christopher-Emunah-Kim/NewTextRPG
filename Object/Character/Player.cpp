@@ -118,10 +118,10 @@ Gold Player::GetGold() const
 	return m_gold;
 }
 
-int32 Player::GetGoldAmount() const
-{
-	return m_gold.GetAmount();
-}
+//int32 Player::GetGoldAmount() const
+//{
+//	return m_gold.GetAmount();
+//}
 
 bool Player::GainExperience(int32 exp)
 {

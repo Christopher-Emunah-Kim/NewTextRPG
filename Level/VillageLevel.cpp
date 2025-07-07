@@ -193,7 +193,7 @@ void VillageLevel::BuySelectedItem(int32 itemId)
 
 		gi->ClearText();
 		gi->WriteLine(item->GetName() + L"을(를) 구매 후 장착했습니다!");
-		gi->WriteLine(L"남은 골드: " + to_wstring(player.GetGoldAmount()));
+		gi->WriteLine(L"남은 골드: " + to_wstring(player.GetGold().GetAmount()));
 	}
 	break;
 	

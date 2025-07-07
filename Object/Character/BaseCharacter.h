@@ -10,9 +10,9 @@ public:
 
 	virtual void Init() override;
 
-	void SetName(const wstring& name);
+	/*void SetName(const wstring& name);
 	void SetDescription(const wstring& desc);
-	void SetCharacterLevel(int16 level);
+	void SetCharacterLevel(int16 level);*/
 
 	inline wstring GetName() const noexcept { return m_characterInfo.name; }
 	inline wstring GetDescription() const noexcept { return m_characterInfo.description; }

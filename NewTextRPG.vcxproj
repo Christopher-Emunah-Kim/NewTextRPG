@@ -134,6 +134,7 @@
     <ClCompile Include="Data\PlayerDataTablePerLevel.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Data\ItemDataTable.cpp" />
+    <ClCompile Include="Item\InventoryItem.cpp" />
     <ClCompile Include="Level\BaseLevel.cpp" />
     <ClCompile Include="Level\DungeonLevel.cpp" />
     <ClCompile Include="Level\TitleLevel.cpp" />
@@ -171,6 +172,7 @@
     <ClInclude Include="include\CSVparser.hpp" />
     <ClInclude Include="Item\BaseItem.h" />
     <ClInclude Include="Data\ItemDataTable.h" />
+    <ClInclude Include="Item\InventoryItem.h" />
     <ClInclude Include="Level\BaseLevel.h" />
     <ClInclude Include="Level\DungeonLevel.h" />
     <ClInclude Include="Level\TitleLevel.h" />

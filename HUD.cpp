@@ -80,13 +80,6 @@ void HUD::UpdateInvetoryItems(const vector<BaseItem*>& items)
 			m_hudData.inventoryItems.push_back(itemName);
 		}
 	}
-
-	/*if (!m_hudData.inventoryItems.empty() && m_hudData.inventoryItems[0] == L"없음")
-	{
-		m_hudData.inventoryItems.clear();
-	}
-
-	m_hudData.inventoryItems.push_back(name);*/
 }
 
 
@@ -190,9 +183,9 @@ void HUD::RenderSystemText(Screen& screen) const
 	}
 
 	int32 outputY = SYSTEM_TEXT_BASE_Y + 1;
-	for (const auto& text : m_systemTextQueue)
+	for (size_t i = 0; i < m_systemTextQueue.size(); ++i)
 	{
-		screen.Draw(GAME_PANEL_START_X + 1, outputY, text);
+		screen.Draw(GAME_PANEL_START_X + 1, outputY, m_systemTextQueue[i]);
 		++outputY;
 	}
 }

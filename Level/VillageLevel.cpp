@@ -13,6 +13,9 @@ VillageLevel::~VillageLevel()
 {
 	delete m_healer;
 	m_healer = nullptr;
+
+	delete m_merchant;
+	m_merchant = nullptr;
 }
 
 void VillageLevel::Init()

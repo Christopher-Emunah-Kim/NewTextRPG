@@ -9,8 +9,10 @@
 void DungeonLevel::Init()
 {
 	gi = GameInstance::GetInstance();
+
 	SetDungeonStage();
 	Welcome();
+
 	BaseLevel::Init();
 }
 
@@ -254,8 +256,8 @@ void DungeonLevel::ProcessPlayerTurn()
 	InputSystem::BindAction(
 		{
 			{L"1", bind(&DungeonLevel::ProcessPlayerAttack, this)},
-			{L"2", bind(&DungeonLevel::UseItem, this)},
-			{L"3", bind(&DungeonLevel::TryEscape, this)}
+			{L"2", bind(&DungeonLevel::OnShowUsuableItems, this)},
+			{L"3", bind(&DungeonLevel::OnTryEscape, this)}
 		}
 	);
 
@@ -315,61 +317,117 @@ void DungeonLevel::ProcessPlayerAttack()
 	ProcessMonsterTurn();
 }
 
-void DungeonLevel::UseItem()
+void DungeonLevel::OnShowUsuableItems()
 {
-	/*Player& player = gi->GetPlayer();
+	Player& player = gi->GetPlayer();
 	Inventory& inventory = player.GetInventory();
-	vector<BaseItem*> usableItems = inventory.GetUsableItems();
 
-	if (usableItems.empty())
+	gi->WriteLine();
+	gi->WriteLine(L"사용 가능한 아이템 목록을 보여줍니다.");
+	gi->WriteLine();
+	gi->WriteLine(L"============================================");
+	gi->WriteLine(L"[사용 가능한 아이템 목록]");
+	gi->WriteLine();
+	gi->WriteLine(L"0: 뒤로가기");
+	gi->WriteLine();
+
+	const vector<BaseItem*>& items = inventory.GetInventoryItems();
+	for (size_t index = 0; index < items.size(); ++index)
 	{
-		gi->WriteLine(L"");
-		gi->WriteLine(L"사용할 수 있는 아이템이 없습니다!");
-		ProcessPlayerTurn();
-		return;
+		const BaseItem* item = items[index];
+
+		wstringstream ss;
+		ss << index + 1 << L"." << item->GetName() <<
+			L" - 개수: " << item->GetCount();
+
+		gi->WriteLine(ss.str());
+		gi->WriteLine(L"-> " + item->GetDescription());
 	}
 
-	gi->WriteLine(L"");
-	gi->WriteLine(L"사용할 아이템을 선택하세요:");
-
-	map<wstring, function<void()>> itemActions;
-	int itemIndex = 1;
-
-	for (BaseItem* item : usableItems)
+	if (items.empty())
 	{
-		wstring indexStr = to_wstring(itemIndex);
-		gi->WriteLine(indexStr + L". " + item->GetName() + L" (x" + to_wstring(item->GetCount()) + L")");
-
-		itemActions[indexStr] = [this, item, &player]()
-			{
-			if (item->GetItemType() == EItemType::Consumable)
-			{
-				gi->WriteLine(player.GetName() + L"가(이) " + item->GetName() + L"을(를) 사용했습니다.");
-				player.UseItem(item->GetItemID());
-				gi->WriteLine(L"체력이 회복되었습니다: " +
-					to_wstring(player.GetBattleCharacterInfo().health.GetCurrentAmount()) + L"/" +
-					to_wstring(player.GetBattleCharacterInfo().health.GetMaxAmount()));
-			}
-
-			ProcessMonsterTurn();
-			};
-
-		itemIndex++;
+		gi->WriteLine(L"현재 사용 가능한 아이템이 없습니다.");
 	}
 
-	InputSystem::BindAction(
+	gi->WriteLine(L"============================================");
+	gi->WriteLine(L"사용할 아이템 번호를 입력하세요");
+
+	InputSystem::BindAction(L"0", bind(&DungeonLevel::ProcessPlayerTurn, this));
+	for (size_t index = 0; index < items.size(); ++index)
+	{
+		InputSystem::BindAction(to_wstring(index + 1),
+			bind(&DungeonLevel::OnUseSelectedItem, this, items[index]->GetItemID()));
+	}
+
+	InputSystem::BindActionOnInputError(
+		[this]()
 		{
-			{L"0", bind(&DungeonLevel::ProcessPlayerTurn, this)}
+			gi->ClearText();
+			gi->WriteLine(L"잘못된 입력입니다. 다시 시도하세요.");
+			OnShowUsuableItems();
 		}
 	);
-
-	InputSystem::BindActionOnInputError([this]() {
-		gi->WriteLine(L"잘못된 입력입니다. 다시 시도하세요.");
-		UseItem();
-		});*/
 }
 
-void DungeonLevel::TryEscape()
+void DungeonLevel::OnUseSelectedItem(int32 itemId)
+{
+	Player& player = gi->GetPlayer();
+	Inventory& inventory = player.GetInventory();
+	BaseItem* item = inventory.GetItem(itemId);
+	EItemType itemType = item->GetItemType();
+
+	bool itemUsed = false;
+
+	switch (itemType)
+	{
+	case EItemType::Weapon:
+	case EItemType::Armor:
+	{
+		player.GetEquipment().EquipItem(item);
+		gi->ClearText();
+		gi->WriteLine(item->GetName() + L"을(를) 장착했습니다!");
+		gi->UpdateEquippedItem(item->GetName(), item->GetItemType());
+		itemUsed = true;
+		break;
+	}
+
+	case EItemType::Consumable:
+	{
+		player.GetBattleCharacterInfo().health.Recover(20);
+		gi->ClearText();
+		gi->WriteLine(item->GetName() + L"을(를) 사용하여 체력이 20 회복되었습니다!");
+		gi->WriteLine(L"현재 체력: " + to_wstring(player.GetBattleCharacterInfo().health.GetCurrentAmount()));
+		gi->UpdatePlayerHealth(player.GetHealth());
+		itemUsed = true;
+	}
+		break;
+
+	default:
+	{
+		gi->ClearText();
+		gi->WriteLine(L"사용할 수 없는 아이템입니다.");
+	}
+		break;
+	}
+
+	if (itemUsed)
+	{
+		inventory.RemoveItem(itemId);
+		gi->UpdateInvetoryItems(inventory.GetInventoryItems());
+	}
+
+	gi->WriteLine();
+	gi->WriteLine(L"1. 다른 아이템 사용하기");
+	gi->WriteLine(L"2. 전투로 돌아가기");
+
+	InputSystem::BindAction({
+		{L"1", bind(&DungeonLevel::OnShowUsuableItems, this)},
+		{L"2", bind(&DungeonLevel::ProcessPlayerTurn, this)}
+		});
+}
+
+
+void DungeonLevel::OnTryEscape()
 {
 	Player& player = gi->GetPlayer();
 

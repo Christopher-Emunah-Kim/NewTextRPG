@@ -67,27 +67,10 @@ void LevelManager::Release()
 void LevelManager::InitializePlayer()
 {
 	Player& player = GameInstance::GetInstance()->GetPlayer();
-	player.SetLevelArea(m_currentLevel);
 
-	if (m_currentLevel->FindObject(L"Player") == nullptr)
-	{
-		m_currentLevel->AddObject(&player);
-	}
+	player.RegisterNewLevelArea(m_currentLevel);
 
-	if (player.IsComponentsEmpty())
-	{
-		player.Init();
-	}
-
-	GameInstance* gi = GameInstance::GetInstance();
-	gi->UpdateLevelName(m_currentLevel->GetTag());
-	gi->UpdatePlayerName(player.GetBattleCharacterInfo().name);
-	gi->UpdatePlayerLevel(player.GetCharacterLevel());
-	gi->UpdatePlayerHealth(player.GetHealth());
-	gi->UpdatePlayerStatus(player.GetBattleCharacterInfo().status);
-	gi->UpdatePlayerGold(player.GetGold());
-	gi->UpdateEquippedItem(L"없음", EItemType::Weapon);
-	gi->UpdateEquippedItem(L"없음", EItemType::Armor);
+	player.Init();
 
 }
 

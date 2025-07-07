@@ -55,6 +55,11 @@ void BaseLevel::Release()
 		BaseGameObject* obj = m_gameObjects[i];
 		if (obj)
 		{
+			if (obj->GetTag() == L"Player")
+			{
+				continue;
+			}
+
 			obj->Release();
 
 			delete obj;

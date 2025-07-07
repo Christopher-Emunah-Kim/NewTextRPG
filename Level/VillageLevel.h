@@ -16,11 +16,12 @@ public:
 
 private:
 	void Welcome();
+	void BuySelectedItem(int32 itemId);
+	void SellSelectedItem(int32 itemId);
+
 	void OnEnterItemShop();
 	void OnBuyItem();
-	void BuySelectedItem(int32 itemId);
 	void OnSellIItem();
-	void SellSelectedItem(int32 itemId);
 	void OnEnterHealerShop();
 	void OnRecoverPlayer();
 	void OnExitVillage();
@@ -29,6 +30,5 @@ private:
 	Healer* m_healer;
 	Merchant* m_merchant;
 	GameInstance* gi;
-	
 };
 

@@ -53,6 +53,7 @@ void TitleLevel::ProcessTitleMenu()
 			ProcessTitleMenu();
 		}
 	);
+
 }
 
 void TitleLevel::OnEnterVillage()

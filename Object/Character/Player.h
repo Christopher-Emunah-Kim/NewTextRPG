@@ -23,7 +23,7 @@ private:
 public:
 	virtual void Init() override;  
 
-	void InitializeComponents();
+	void UpdatePlayerHUD();
 	void RegisterNewLevelArea(BaseLevel* level);
 
 	bool CanAfford(int32 cost) const;

@@ -132,6 +132,7 @@ EItemType ItemDataTable::GetItemType(int32 itemId) const
 		return EItemType::Consumable;
 	case 4:
 		return EItemType::Material;
+
 	default:
 		throw invalid_argument("알 수 없는 아이템 ID: " + to_string(itemId));
 	}

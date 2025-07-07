@@ -22,21 +22,22 @@ private:
 	void Welcome();
 	void ContinueExploration();
 
+	void ProcessPlayerTurn();
+	void ProcessMonsterTurn();
+	void ProcessPlayerAttack();
+	void ProcessBattleResult(bool monsterDefeated);
+
+	void DisplayVictoryRewards(const BattleRewardInfo& rewards);
+	void DisplayDefeatScreen();
+
 	void OnEnterStage();
 	void OnBackToVillage();
 	void OnStartBattle();
 	void OnMonsterDefeated();
 	void OnEscape();
-
-	void ProcessPlayerTurn();
-	void ProcessMonsterTurn();
-	void ProcessPlayerAttack();
-	void UseItem();
-	void TryEscape();
-	void ProcessBattleResult(bool monsterDefeated);
-
-	void DisplayVictoryRewards(const BattleRewardInfo& rewards);
-	void DisplayDefeatScreen();
+	void OnShowUsuableItems();
+	void OnUseSelectedItem(int32 itemId);
+	void OnTryEscape();
 
 private:
 	GameInstance* gi;

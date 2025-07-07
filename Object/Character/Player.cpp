@@ -12,12 +12,12 @@ Player::Player()
 
 void Player::Init()
 {
-	InitializeComponents();
+	UpdatePlayerHUD();
 
 	BattleCharacter::Init();
 }
 
-void Player::InitializeComponents()
+void Player::UpdatePlayerHUD()
 {
 	GameInstance* gameInstance = GameInstance::GetInstance();
 
@@ -67,12 +67,7 @@ void Player::RegisterNewLevelArea(BaseLevel* level)
 
 		SetLevelArea(level);
 
-		if (level->FindObject(L"Player") == nullptr)
-		{
-			level->AddObject(this);
-		}
-
-		InitializeComponents();
+		level->AddObject(this);
 	}
 	else
 	{

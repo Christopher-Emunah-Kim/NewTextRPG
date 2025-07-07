@@ -134,13 +134,18 @@ void BattleSystem::HandleDropItemReward(BattleCharacter* winner, BattleCharacter
 		throw runtime_error("오류: 전리품 templateItem이 존재하지 않습니다.");
 	}
 
+	/*std::unique_ptr<BaseItem> droppedItem(templateItem->CreateItem());
+	if (droppedItem) 
+	{
+		droppedItem->AddItemCount(1);
+		result.rewards.droppedItem = droppedItem.release(); 
+	}*/
+
 	BaseItem* droppedItem = templateItem->CreateItem();
 	if (!droppedItem)
 	{
 		throw runtime_error("오류: droppedItem이 존재하지 않습니다.");
 	}
-
-
 	droppedItem->AddItemCount(1);
 	result.rewards.droppedItem = droppedItem;
 

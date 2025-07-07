@@ -506,7 +506,8 @@ void DungeonLevel::DisplayVictoryRewards(const FBattleRewardInfo& rewards)
 	if (rewards.droppedItem)
 	{
 		gi->WriteLine(L"");
-		gi->WriteLine(m_currentMonster->GetName() + L"에게서 " + rewards.droppedItem->GetName() + L"을(를) 획득했습니다!");
+		gi->WriteLine(m_currentMonster->GetName() + L"에게서 ");
+		gi->WriteLine(rewards.droppedItem->GetName() + L"을(를) 획득했습니다!");
 
 		if (rewards.bItemEquipped)
 		{
@@ -514,6 +515,7 @@ void DungeonLevel::DisplayVictoryRewards(const FBattleRewardInfo& rewards)
 			gi->WriteLine(L"공격력: +" + to_wstring(rewards.droppedItem->GetAttack()) +
 				L", 방어력: +" + to_wstring(rewards.droppedItem->GetDefense()) +
 				L", 민첩성: +" + to_wstring(rewards.droppedItem->GetAgility()));
+			gi->WriteLine(L"");
 		}
 		else if (rewards.bItemAddedToInventory)
 		{

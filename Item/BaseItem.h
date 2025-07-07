@@ -25,7 +25,18 @@ public:
 
 	virtual BaseItem* CreateItem() const
 	{
-		return new BaseItem(*this);
+		//return new BaseItem(*this);
+		return new BaseItem(
+			m_itemId,
+			m_name,
+			m_itemType,
+			m_description,
+			m_buyingPrice,
+			m_sellingPrice,
+			m_attack,
+			m_defense,
+			m_agility
+		);
 	}
 
 	bool AddItemCount(int16 count = 1)

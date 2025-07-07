@@ -5,10 +5,12 @@
 
 
 Player::Player()
-	:BattleCharacter(nullptr, L"Player"), m_gold(DEFAULT_OWNED_GOLD),
+	:BattleCharacter(nullptr, L"최강워로드"), m_gold(DEFAULT_OWNED_GOLD),
 	m_experience(0, PlayerLevelPropertiesTable::GetInstance()->GetRequiredMaxExp(DEFAULT_LEVEL)),
 	m_inventory(), m_equipment()
-{ }
+{ 
+	m_battleCharacterInfo.description = L"스칼드로서의 삶에 회한을 느낀 전사";
+}
 
 void Player::Init()
 {

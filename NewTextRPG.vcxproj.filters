@@ -149,9 +149,6 @@
     <ClInclude Include="Util\Type\EnumType.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Util\InputAction.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="HUD.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -213,5 +210,6 @@
   <ItemGroup>
     <None Include="Data\ItemJsonData.json" />
     <None Include="Data\ItemCSVData.csv" />
+    <None Include="Data\PlayerLevelPropertiesCSVData.csv" />
   </ItemGroup>
 </Project>

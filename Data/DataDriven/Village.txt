@@ -1,9 +1,0 @@
-SystemText SystemTextDialog "마을에 도착했습니다. 무엇을 하시겠습니까?"
-Player Player "플레이어" [level=1,health=100,maxHealth=100,exp=0,maxExp=100,attack=12,defense=12,agility=12,gold=0]
-NPC Merchant "무기와 물약을 판매합니다." []
-NPC Healer "치유가 필요하신가요?"
-NPC Villager1 "최근에 마을 근처에 몬스터가 출몰하고 있어요."
-NPC Villager2 "모험자님, 도움이 필요해요!"
-InfoPanel PlayerInfo "플레이어 상태 패널"
-LocationExit CaveEntrance "동굴로 향하는 길이 보입니다."
-LocationExit ForestPath "숲으로 가는 길이 있습니다."

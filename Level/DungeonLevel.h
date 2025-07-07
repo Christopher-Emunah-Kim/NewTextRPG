@@ -5,7 +5,7 @@ constexpr __int16 DUNGEON_MAX_MONSTERS = 7;
 
 class Monster;
 class GameInstance;
-struct BattleRewardInfo;
+struct FBattleRewardInfo;
 
 class DungeonLevel : public BaseLevel
 {
@@ -28,7 +28,7 @@ private:
 	void ProcessPlayerAttack();
 	void ProcessBattleResult(bool monsterDefeated);
 
-	void DisplayVictoryRewards(const BattleRewardInfo& rewards);
+	void DisplayVictoryRewards(const FBattleRewardInfo& rewards);
 	void DisplayDefeatScreen();
 
 	void OnEnterStage();

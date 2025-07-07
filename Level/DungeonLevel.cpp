@@ -460,7 +460,7 @@ void DungeonLevel::ProcessBattleResult(bool monsterDefeated)
 	if (monsterDefeated)
 	{
 		Player& player = gi->GetPlayer();
-		BattleResult result;
+		FBattleResult result;
 		result.winner = &player;
 		result.loser = m_currentMonster;
 
@@ -487,7 +487,7 @@ void DungeonLevel::ProcessBattleResult(bool monsterDefeated)
 	}
 }
 
-void DungeonLevel::DisplayVictoryRewards(const BattleRewardInfo& rewards)
+void DungeonLevel::DisplayVictoryRewards(const FBattleRewardInfo& rewards)
 {
 	if (rewards.expReward > 0)
 	{

@@ -63,7 +63,7 @@ bool BattleSystem::CanEscape(BattleCharacter* player, BattleCharacter* monster)
 	}
 }
 
-void BattleSystem::HandleBattleRewards(BattleCharacter* winner, BattleCharacter* loser, BattleResult& result)
+void BattleSystem::HandleBattleRewards(BattleCharacter* winner, BattleCharacter* loser, FBattleResult& result)
 {
 	Player* player = dynamic_cast<Player*>(winner);
 	Monster* monster = dynamic_cast<Monster*>(loser);
@@ -82,7 +82,7 @@ void BattleSystem::HandleBattleRewards(BattleCharacter* winner, BattleCharacter*
 	}
 }
 
-void BattleSystem::HandleExpReward(BattleCharacter* winner, BattleCharacter* loser, BattleResult& result)
+void BattleSystem::HandleExpReward(BattleCharacter* winner, BattleCharacter* loser, FBattleResult& result)
 {
 	Player* player = dynamic_cast<Player*>(winner);
 	Monster* monster = dynamic_cast<Monster*>(loser);
@@ -100,7 +100,7 @@ void BattleSystem::HandleExpReward(BattleCharacter* winner, BattleCharacter* los
 	}
 }
 
-void BattleSystem::HandleGoldReward(BattleCharacter* winner, BattleCharacter* loser, BattleResult& result)
+void BattleSystem::HandleGoldReward(BattleCharacter* winner, BattleCharacter* loser, FBattleResult& result)
 {
 	Player* player = dynamic_cast<Player*>(winner);
 	Monster* monster = dynamic_cast<Monster*>(loser);
@@ -112,7 +112,7 @@ void BattleSystem::HandleGoldReward(BattleCharacter* winner, BattleCharacter* lo
 	GameInstance::GetInstance()->UpdatePlayerGold(player->GetGold());
 }
 
-void BattleSystem::HandleDropItemReward(BattleCharacter* winner, BattleCharacter* loser, BattleResult& result)
+void BattleSystem::HandleDropItemReward(BattleCharacter* winner, BattleCharacter* loser, FBattleResult& result)
 {
 	Player* player = dynamic_cast<Player*>(winner);
 	Monster* monster = dynamic_cast<Monster*>(loser);
@@ -150,7 +150,7 @@ void BattleSystem::HandleDropItemReward(BattleCharacter* winner, BattleCharacter
 
 
 
-bool BattleSystem::TryEquipOrStoreItem(BattleCharacter* winner, BaseItem* droppedItem, BattleResult& result)
+bool BattleSystem::TryEquipOrStoreItem(BattleCharacter* winner, BaseItem* droppedItem, FBattleResult& result)
 {
 	Player* player = dynamic_cast<Player*>(winner);
 

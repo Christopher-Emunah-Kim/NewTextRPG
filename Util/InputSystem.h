@@ -19,7 +19,7 @@ public:
 	static const wstring& GetBuffer();
 
 private:
-	static wstring s_inputBuffer;
-	static unordered_map<wstring, InputAction> s_actions;
-	static InputAction s_actionOnError;
+	static wstring m_inputBuffer;
+	static unordered_map<wstring, InputAction> m_actions;
+	static InputAction m_actionOnError;
 };

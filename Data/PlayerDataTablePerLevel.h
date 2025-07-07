@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "../Common.h"
+#include "../Util/Singleton.h"
 
 
 constexpr __int8 ADDITIONAL_EXPERIENCE_PER_LEVEL = 20;
@@ -26,16 +27,23 @@ struct FLevelProperties
 };
 
 
-extern FLevelProperties levelDataArray[100]; 
-
-
-struct FPlayerDataTablePerLevel
+class PlayerLevelPropertiesTable final : public Singleton<PlayerLevelPropertiesTable>
 {
-	static void InitializeLevelData();
+public:
+	PlayerLevelPropertiesTable() = default;
+	~PlayerLevelPropertiesTable();
 	
-	static FLevelProperties LoadPlayerLevelData(int16 level);
-	
-	static int16 GetRequiredMaxExp(int16 level);
-	
+	void Init();
+	void Release();
+	void ProcessCSVParsing();
+
+	FLevelProperties LoadPlayerLevelData(int16 level) const;
+	int16 GetRequiredMaxExp(int16 level) const;
+
+	bool HasLevelData(int16 level) const;
+
+private:
+	unordered_map<int16, FLevelProperties> m_levelPropertiesTable;
+
 };
 

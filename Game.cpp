@@ -4,6 +4,7 @@
 #include "Util/Timer.h"  
 #include "Core/GameInstance.h"
 #include "Data/ItemDataTable.h"
+#include "Data/PlayerDataTablePerLevel.h"
 #include "Data/MonsterDataTable.h"
 #include "Screen.h"
 
@@ -14,7 +15,7 @@ Game::~Game() noexcept
 
 bool Game::Init()  
 {  
-	FPlayerDataTablePerLevel::InitializeLevelData();
+	PlayerLevelPropertiesTable::GetInstance()->Init();
 	m_screen.Init();
 	ItemDataTable::GetInstance()->Init();
 	MonsterDataTable::GetInstance()->Init();

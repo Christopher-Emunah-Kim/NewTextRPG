@@ -57,8 +57,7 @@ void MonsterDataTable::ProcessCSVParsing()
 	ifstream file("Data/MonsterCSVData.csv");
 	if (!file.is_open())
 	{
-		GameInstance::GetInstance()->WriteLine(L"CSV 파일을 열 수 없습니다: Data/MonsterCSVData.csv");
-		return;
+		throw::runtime_error("CSV 파일을 열 수 없습니다: Data/MonsterCSVData.csv");
 	}
 
 	CsvParser parser(file);

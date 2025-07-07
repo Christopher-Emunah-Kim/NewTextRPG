@@ -14,7 +14,7 @@ struct Experience
 	int16 AddExperience(int16 amount, int16 currentLevel)
 	{
 		m_currentExp += amount;
-		m_levelMaxExp = FPlayerDataTablePerLevel::GetRequiredMaxExp(currentLevel);
+		m_levelMaxExp = PlayerLevelPropertiesTable::GetInstance()->GetRequiredMaxExp(currentLevel);
 		int16 levelUpCount = 0;
 
 
@@ -23,7 +23,7 @@ struct Experience
 			m_currentExp -= m_levelMaxExp;
 			++levelUpCount;
 			++currentLevel;
-			m_levelMaxExp = FPlayerDataTablePerLevel::GetRequiredMaxExp(currentLevel);
+			m_levelMaxExp = PlayerLevelPropertiesTable::GetInstance()->GetRequiredMaxExp(currentLevel);
 		}
 
 		return levelUpCount;

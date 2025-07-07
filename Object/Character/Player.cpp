@@ -6,7 +6,7 @@
 
 Player::Player()
 	:BattleCharacter(nullptr, L"Player"), m_gold(DEFAULT_OWNED_GOLD),
-	m_experience(0, FPlayerDataTablePerLevel::GetRequiredMaxExp(DEFAULT_LEVEL)),
+	m_experience(0, PlayerLevelPropertiesTable::GetInstance()->GetRequiredMaxExp(DEFAULT_LEVEL)),
 	m_inventory(), m_equipment()
 { }
 
@@ -147,7 +147,7 @@ bool Player::GainExperience(int32 exp)
 
 void Player::LoadLevelPropertiesByLevel()
 {
-	FLevelProperties levelProps = FPlayerDataTablePerLevel::LoadPlayerLevelData(m_battleCharacterInfo.characterLevel);
+	FLevelProperties levelProps = PlayerLevelPropertiesTable::GetInstance()->LoadPlayerLevelData(m_battleCharacterInfo.characterLevel);
 
 	m_battleCharacterInfo.health = Health::New(levelProps.maxHealthPerLevel);
 	m_experience.SetMaxExp(levelProps.maxExperiencePerLevel);

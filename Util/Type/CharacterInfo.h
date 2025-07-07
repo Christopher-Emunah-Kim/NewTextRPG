@@ -24,7 +24,7 @@ struct FBattleCharacterInfo : public FCharacterInfo
 	explicit FBattleCharacterInfo(int16 level)
 		: FCharacterInfo(level), health(Health::New(0))
 	{
-		FLevelProperties initialInfo = FPlayerDataTablePerLevel::LoadPlayerLevelData(level);
+		FLevelProperties initialInfo = PlayerLevelPropertiesTable::GetInstance()->LoadPlayerLevelData(level);
 
 		health = Health::New(initialInfo.maxHealthPerLevel);
 		status = Status::NewStatus(initialInfo.attackPerLevel, initialInfo.defensePerLevel, initialInfo.agilityPerLevel);

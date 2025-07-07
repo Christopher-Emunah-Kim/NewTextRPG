@@ -23,10 +23,8 @@ class SystemUIComp;
 
 struct FHudData final
 {
-	// level area data
 	wstring levelAreaName;
 
-	// player data
 	wstring playerName;
 	int16 playerLevel;
 	Health health = Health::New(0);

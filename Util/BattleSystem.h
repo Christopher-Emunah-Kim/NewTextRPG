@@ -9,17 +9,17 @@ struct BattleRewardInfo
 	int16 expReward = 0; 
 	int16 goldReward = 0;
 	bool bLevelUp = false;
-	BaseItem* droppedItem = nullptr; 
 	bool bItemEquipped = false;
 	bool bItemAddedToInventory = false;
+	BaseItem* droppedItem = nullptr; 
 };
 
 struct BattleResult
 {
 	BattleCharacter* winner = nullptr;
 	BattleCharacter* loser = nullptr;
-	vector<wstring> battleMessages;
 	BattleRewardInfo rewards;
+	vector<wstring> battleMessages;
 };
 
 class BattleSystem

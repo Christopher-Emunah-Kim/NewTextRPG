@@ -7,7 +7,7 @@
 class Equipment final
 {
 public:
-	explicit Equipment(BaseGameObject* owner);
+	explicit Equipment();
 	~Equipment();
 
 	void Release();
@@ -19,7 +19,6 @@ public:
 	Status GetTotalEquipmentStatus() const;
 
 private:
-	BaseGameObject* m_owner = nullptr;
 	BaseItem* m_weaponSlot;
 	BaseItem* m_armorSlot;
 };

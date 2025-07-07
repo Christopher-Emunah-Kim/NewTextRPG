@@ -159,7 +159,7 @@ void VillageLevel::OnBuyItem()
 			bind(&VillageLevel::BuySelectedItem, this, salesItems[index]));
 	}
 
-	InputSystem::BindActionOnInputError(
+ 	InputSystem::BindActionOnInputError(
 		[this]()
 		{
 			gi->ClearText();
@@ -187,6 +187,7 @@ void VillageLevel::BuySelectedItem(int32 itemId)
 	{
 		gi->UpdatePlayerGold(player.GetGold());
 		gi->UpdateEquippedItem(item->GetName(), item->GetItemType());
+		gi->UpdatePlayerStatus(player.GetTotalStatus());
 
 		gi->ClearText();
 		gi->WriteLine(item->GetName() + L"을(를) 구매 후 장착했습니다!");

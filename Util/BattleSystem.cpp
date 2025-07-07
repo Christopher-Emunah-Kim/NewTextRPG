@@ -144,7 +144,7 @@ void BattleSystem::HandleDropItemReward(BattleCharacter* winner, BattleCharacter
 	droppedItem->AddItemCount(1);
 	result.rewards.droppedItem = droppedItem;
 
-	TryEquipOrStoreItem(player, droppedItem, result);
+	bool bEquipSuccess = TryEquipOrStoreItem(player, droppedItem, result);
 
 }
 

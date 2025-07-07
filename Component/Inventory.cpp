@@ -3,10 +3,9 @@
 #include "../Core/GameInstance.h"
 #include "../Object/BaseGameObject.h"
 
-Inventory::Inventory(BaseGameObject* owner)
-	: m_owner(owner), m_maxInventorySize(20)
-{
-}
+Inventory::Inventory()
+	:  m_maxInventorySize(DEFAULT_ITEM_MAX_COUNT)
+{}
 
 Inventory::~Inventory()
 {
@@ -48,7 +47,6 @@ bool Inventory::AddItem(BaseItem* item)
 		}
 	}
 	m_inventoryItems.push_back(item);
-	GameInstance::GetInstance()->UpdateInvetoryItems(m_inventoryItems);
 
 	return true;
 }

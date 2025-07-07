@@ -7,7 +7,7 @@
 Player::Player()
 	:BattleCharacter(nullptr, L"Player"), m_gold(DEFAULT_OWNED_GOLD),
 	m_experience(0, FPlayerDataTablePerLevel::GetRequiredMaxExp(DEFAULT_LEVEL)),
-	m_inventory(this), m_equipment(this)
+	m_inventory(), m_equipment()
 { }
 
 void Player::Init()

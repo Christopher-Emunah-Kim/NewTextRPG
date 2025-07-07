@@ -5,7 +5,7 @@
 class Inventory final
 {
 public:
-	explicit Inventory(BaseGameObject* owner);
+	explicit Inventory();
 	~Inventory();
 
 public:
@@ -25,7 +25,6 @@ public:
 	inline bool IsInventoryFull() const { return m_inventoryItems.size() >= m_maxInventorySize; }
 
 private:
-	BaseGameObject* m_owner = nullptr;
 	vector<BaseItem*> m_inventoryItems; 
 	int16 m_maxInventorySize = DEFAULT_ITEM_MAX_COUNT;
 };

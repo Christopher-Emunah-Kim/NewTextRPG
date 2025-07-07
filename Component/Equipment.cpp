@@ -3,8 +3,7 @@
 #include "Object/BaseGameObject.h"
 
 
-Equipment::Equipment(BaseGameObject* owner)
-	: m_owner(owner)
+Equipment::Equipment()
 {
 	m_weaponSlot = nullptr;
 	m_armorSlot = nullptr;
@@ -53,15 +52,6 @@ bool Equipment::EquipItem(BaseItem* item)
 		else
 		{
 			return false;
-		}
-
-		GameInstance* gameInstance = GameInstance::GetInstance();
-		gameInstance->UpdateEquippedItem(item->GetName(), itemType);
-
-		Player* player = dynamic_cast<Player*>(m_owner);
-		if (player)
-		{
-			GameInstance::GetInstance()->UpdatePlayerStatus(player->GetTotalStatus());
 		}
 
 		return true;
@@ -122,15 +112,6 @@ BaseItem* Equipment::UnequipItem(EItemType itemType)
 	else
 	{
 		return nullptr; 
-	}
-
-	if (unequippedItem)
-	{
-		Player* player = dynamic_cast<Player*>(m_owner);
-		if (player)
-		{
-			GameInstance::GetInstance()->UpdatePlayerStatus(player->GetTotalStatus());
-		}
 	}
 
 	return unequippedItem;

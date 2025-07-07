@@ -26,14 +26,8 @@ void BattleCharacter::Attack(BattleCharacter* target)
 	}
 
 	int32 clculatedDamage = m_battleCharacterInfo.status.CalculateDamage(this->m_battleCharacterInfo.status, target->m_battleCharacterInfo.status);
-	GameInstance::GetInstance()->WriteLine(L"");
-	GameInstance::GetInstance()->WriteLine(GetName() + L"가(이) " + target->GetName() + L" 을(를) 공격합니다!");
-	GameInstance::GetInstance()->WriteLine(L"");
 
 	target->m_battleCharacterInfo.health = target->m_battleCharacterInfo.health.TakeDamage(clculatedDamage);
-	GameInstance::GetInstance()->WriteLine(L"");
-	GameInstance::GetInstance()->WriteLine(target->GetName() + L"가(이) " + to_wstring(clculatedDamage) + L" 의 피해를 입었습니다.");
-	GameInstance::GetInstance()->WriteLine(L"");
 }
 
 

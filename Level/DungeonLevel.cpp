@@ -275,6 +275,7 @@ void DungeonLevel::ProcessMonsterTurn()
 	Player& player = gi->GetPlayer();
 	vector<wstring> battleMessages;
 
+	gi->ClearText();
 	gi->WriteLine(L"");
 	gi->WriteLine(L"[몬스터 턴]");
 	gi->WriteLine(m_currentMonster->GetName() + L"가(이) 공격합니다!");
@@ -300,13 +301,19 @@ void DungeonLevel::ProcessPlayerAttack()
 	Player& player = gi->GetPlayer();
 	vector<wstring> battleMessages;
 
+	gi->ClearText();
 	gi->WriteLine(L"");
 	gi->WriteLine(player.GetName() + L"가(이) " + m_currentMonster->GetName() + L"을(를) 공격합니다!");
 
 	bool monsterDefeated = BattleSystem::ExecuteAttack(&player, m_currentMonster);
 
-	gi->WriteLine(player.GetName() + L"가(이) " + m_currentMonster->GetName() + L"을(를) 공격했습니다.");
 	gi->WriteLine(m_currentMonster->GetName() + L"의 현재 체력: " + to_wstring(m_currentMonster->GetBattleCharacterInfo().health.GetCurrentAmount()));
+
+	gi->WriteLine(L"");
+	int32 clculatedDamage = player.GetBattleCharacterInfo().status.CalculateDamage(player.GetBattleCharacterInfo().status, m_currentMonster->GetBattleCharacterInfo().status);
+
+	gi->WriteLine(m_currentMonster->GetName() + L"가(이) " + to_wstring(clculatedDamage) + L" 의 피해를 입었습니다.");
+	gi->WriteLine(L"");
 
 	if (monsterDefeated)
 	{
@@ -387,6 +394,7 @@ void DungeonLevel::OnUseSelectedItem(int32 itemId)
 		gi->ClearText();
 		gi->WriteLine(item->GetName() + L"을(를) 장착했습니다!");
 		gi->UpdateEquippedItem(item->GetName(), item->GetItemType());
+		gi->UpdatePlayerStatus(player.GetTotalStatus());
 		itemUsed = true;
 		break;
 	}
@@ -462,6 +470,11 @@ void DungeonLevel::ProcessBattleResult(bool monsterDefeated)
 		gi->WriteLine(m_currentMonster->GetName() + L"를(을) 처치했습니다!");
 
 		DisplayVictoryRewards(result.rewards);
+		gi->UpdateEquippedItem(result.rewards.droppedItem->GetName(), result.rewards.droppedItem->GetItemType());
+		gi->UpdatePlayerStatus(player.GetTotalStatus());
+		const vector<BaseItem*> inventoryItems = player.GetInventory().GetInventoryItems();
+
+		gi->UpdateInvetoryItems(inventoryItems);
 		OnMonsterDefeated();
 	}
 	else

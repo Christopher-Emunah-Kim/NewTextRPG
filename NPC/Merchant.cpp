@@ -42,7 +42,7 @@ EMerchantResult Merchant::SellItem(int32 itemId, Player& player)
 		player.GetEquipment().EquipItem(newItem);
 	}
 
-	m_salesStatusTable.erase(itemId);
+	//m_salesStatusTable.erase(itemId);
 	player.UseGold(buyingPrice);
 	
 	return EMerchantResult::Success;

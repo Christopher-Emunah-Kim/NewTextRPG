@@ -1,6 +1,5 @@
 ﻿#include "BaseGameObject.h"
 #include "../Level/BaseLevel.h"
-#include "../Component/BaseComponent.h"
 #include "../Util/OutputSystem.h"
 
 BaseGameObject::BaseGameObject(BaseLevel* level, const wstring& tag)
@@ -23,54 +22,19 @@ BaseGameObject::~BaseGameObject()
 
 void BaseGameObject::Init()
 {
-	/*for (size_t i = 0; i < m_components.size(); ++i)
-	{
-		BaseComponent* comp = m_components[i];
-		if (comp)
-		{
-			comp->Init();
-		}
-	}*/
 }
 
 void BaseGameObject::Update()
 {
-	/*for (size_t i = 0; i < m_components.size(); ++i)
-	{
-		BaseComponent* comp = m_components[i];
-		if (comp)
-		{
-			comp->Update();
-		}
-	}*/
 }
 
 
 void BaseGameObject::Render(Screen* screen)
 {
-	/*for (size_t i = 0; i < m_components.size(); ++i)
-	{
-		BaseComponent* comp = m_components[i];
-		if (comp)
-		{
-			comp->Render(screen);
-		}
-	}*/
 }
 
 void BaseGameObject::Release()
 {
-	/*for (size_t i = 0; i < m_components.size(); ++i)
-	{
-		BaseComponent* comp = m_components[i];
-		if (comp)
-		{
-			comp->Release();
-
-			delete comp;
-			comp = nullptr;
-		}
-	}*/
 }
 
 

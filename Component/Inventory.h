@@ -1,5 +1,4 @@
 ﻿#pragma once
-#include "BaseComponent.h"
 #include "../Item/BaseItem.h"
 
 

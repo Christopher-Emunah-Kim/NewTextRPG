@@ -126,7 +126,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Component\BaseComponent.cpp" />
     <ClCompile Include="Component\Equipment.cpp" />
     <ClCompile Include="Component\Inventory.cpp" />
     <ClCompile Include="Core\GameInstance.cpp" />
@@ -161,7 +160,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Common.h" />
-    <ClInclude Include="Component\BaseComponent.h" />
     <ClInclude Include="Component\Equipment.h" />
     <ClInclude Include="Component\Inventory.h" />
     <ClInclude Include="Core\GameInstance.h" />

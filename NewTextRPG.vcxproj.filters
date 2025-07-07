@@ -21,9 +21,6 @@
     <ClCompile Include="Util\Timer.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Component\BaseComponent.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Object\BaseGameObject.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -117,9 +114,6 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Data\PlayerDataTablePerLevel.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Component\BaseComponent.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Object\BaseGameObject.h">

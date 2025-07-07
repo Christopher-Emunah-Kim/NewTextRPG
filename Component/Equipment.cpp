@@ -62,20 +62,6 @@ bool Equipment::EquipItem(BaseItem* item)
 	}
 }
 
-bool Equipment::IsEquipped(EItemType itemType) const
-{
-	if (itemType == EItemType::Weapon)
-	{
-		return m_weaponSlot != nullptr;
-	}
-	else if (itemType == EItemType::Armor)
-	{
-		return m_armorSlot != nullptr;
-	}
-
-	return false;
-}
-
 BaseItem* Equipment::UnequipItem(EItemType itemType)
 {
 	if (itemType != EItemType::Weapon && itemType != EItemType::Armor)
@@ -99,14 +85,12 @@ BaseItem* Equipment::UnequipItem(EItemType itemType)
 	{
 		unequippedItem = m_weaponSlot;
 		m_weaponSlot = nullptr;
-		GameInstance::GetInstance()->UpdateEquippedItem(L"없음", EItemType::Weapon);
 
 	}
 	else if (itemType == EItemType::Armor)
 	{
 		unequippedItem = m_armorSlot;
 		m_armorSlot = nullptr;
-		GameInstance::GetInstance()->UpdateEquippedItem(L"없음", EItemType::Armor);
 
 	}
 	else

@@ -13,7 +13,6 @@ public:
 	void Release();
 
 	bool EquipItem(BaseItem* item);
-	bool IsEquipped(EItemType itemType) const;
 	BaseItem* UnequipItem(EItemType itemType);
 	BaseItem* GetEquippedItem(EItemType itemType) const;
 	Status GetTotalEquipmentStatus() const;

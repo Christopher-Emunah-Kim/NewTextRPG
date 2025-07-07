@@ -4,7 +4,7 @@
 #include "../Object/BaseGameObject.h"
 
 Inventory::Inventory()
-	:  m_maxInventorySize(DEFAULT_ITEM_MAX_COUNT)
+	:  m_maxInventorySize(DEFAULT_INVENTORY_MAX_COUNT)
 {}
 
 Inventory::~Inventory()
@@ -74,19 +74,6 @@ bool Inventory::RemoveItem(int32 itemId, int16 count)
 	return false;
 }
 
-bool Inventory::HasItem(int32 itemId, int16 count) const
-{
-	for (size_t i = 0; i < m_inventoryItems.size(); ++i)
-	{
-		BaseItem* item = m_inventoryItems[i];
-		if (item && item->GetItemID() == itemId && item->GetCount() >= count)
-		{
-			return true;
-		}
-	}
-
-	return false;
-}
 
 
 BaseItem* Inventory::GetItem(int32 itemId) const
@@ -102,22 +89,6 @@ BaseItem* Inventory::GetItem(int32 itemId) const
 	return nullptr;
 }
 
-vector<BaseItem*> Inventory::GetItemsByType(EItemType type) const
-{
-	vector<BaseItem*> resultItems;
-
-	for (size_t i = 0; i < m_inventoryItems.size(); ++i)
-	{
-		BaseItem* item = m_inventoryItems[i];
-		if (item && item->GetItemType() == type)
-		{
-			resultItems.push_back(item);
-		}
-	}
-
-	return resultItems;
-
-}
 
 Status Inventory::GetTotalStatus() const
 {

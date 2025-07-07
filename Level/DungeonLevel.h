@@ -20,6 +20,7 @@ private:
 	void SetDungeonStage();
 	void CreateRandomMonster();
 	void Welcome();
+	void MonsterDefeated();
 	void ContinueExploration();
 
 	void ProcessPlayerTurn();
@@ -33,7 +34,6 @@ private:
 	void OnEnterStage();
 	void OnBackToVillage();
 	void OnStartBattle();
-	void OnMonsterDefeated();
 	void OnEscape();
 	void OnShowUsuableItems();
 	void OnUseSelectedItem(int32 itemId);

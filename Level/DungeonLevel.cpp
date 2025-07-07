@@ -470,12 +470,14 @@ void DungeonLevel::ProcessBattleResult(bool monsterDefeated)
 		gi->WriteLine(m_currentMonster->GetName() + L"를(을) 처치했습니다!");
 
 		DisplayVictoryRewards(result.rewards);
+
 		gi->UpdateEquippedItem(result.rewards.droppedItem->GetName(), result.rewards.droppedItem->GetItemType());
 		gi->UpdatePlayerStatus(player.GetTotalStatus());
-		const vector<BaseItem*> inventoryItems = player.GetInventory().GetInventoryItems();
 
+		const vector<BaseItem*> inventoryItems = player.GetInventory().GetInventoryItems();
 		gi->UpdateInvetoryItems(inventoryItems);
-		OnMonsterDefeated();
+
+		MonsterDefeated();
 	}
 	else
 	{
@@ -552,7 +554,7 @@ void DungeonLevel::DisplayDefeatScreen()
 	);
 }
 
-void DungeonLevel::OnMonsterDefeated()
+void DungeonLevel::MonsterDefeated()
 {
 	--m_activeMonseters;
 

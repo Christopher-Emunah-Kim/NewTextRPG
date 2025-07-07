@@ -162,41 +162,41 @@ bool BattleSystem::TryEquipOrStoreItem(BattleCharacter* winner, BaseItem* droppe
     Equipment& playerEquipment = player->GetEquipment();
 	Inventory& playerInventory = player->GetInventory();
 
-	if (droppedItem->GetItemType() != EItemType::Weapon && droppedItem->GetItemType() != EItemType::Armor)
+	if (droppedItem->GetItemType() == EItemType::Weapon || droppedItem->GetItemType() == EItemType::Armor)
 	{
-		return false;
-	}
+		BaseItem* currentEquip = playerEquipment.GetEquippedItem(droppedItem->GetItemType());
+		bool bIsBetter = false;
 
-	BaseItem* currentEquip = playerEquipment.GetEquippedItem(droppedItem->GetItemType());
-	bool bIsBetter = false;
-
-	if (!currentEquip)
-	{
-		bIsBetter = true;
-	}
-	else
-	{
-		int32 currentPower = currentEquip->GetAttack() + currentEquip->GetDefense() + currentEquip->GetAgility();
-		int32 newPower = droppedItem->GetAttack() + droppedItem->GetDefense() + droppedItem->GetAgility();
-		bIsBetter = (newPower > currentPower);
-	}
+		if (!currentEquip)
+		{
+			bIsBetter = true;
+		}
+		else
+		{
+			int32 currentPower = currentEquip->GetAttack() + currentEquip->GetDefense() + currentEquip->GetAgility();
+			int32 newPower = droppedItem->GetAttack() + droppedItem->GetDefense() + droppedItem->GetAgility();
+			bIsBetter = (newPower > currentPower);
+		}
 
 
-	if (bIsBetter && playerEquipment.EquipItem(droppedItem))
-	{
-		result.rewards.bItemEquipped = true;
-		return true;
+		if (bIsBetter && playerEquipment.EquipItem(droppedItem))
+		{
+			result.rewards.bItemEquipped = true;
+			return true;
+		}
 	}
 
 
 	if (playerInventory.AddItem(droppedItem))
 	{
 		result.rewards.bItemAddedToInventory = true;
+		return true;
 	}
 	else
 	{
 		delete droppedItem;
 		result.rewards.droppedItem = nullptr;
+		return false;
 	}
 	return false;
 }

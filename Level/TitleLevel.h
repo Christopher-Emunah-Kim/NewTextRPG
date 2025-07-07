@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include "BaseLevel.h"
 
-class HUD;
+class GameInstance;
 
 class TitleLevel final : public BaseLevel
 {
@@ -19,6 +19,7 @@ private:
 	void OnEnterDungeon();
 	void OnQuitGame();
 
-
+private:
+	GameInstance* gi;
 };
 

@@ -6,6 +6,8 @@
 
 void TitleLevel::Init()
 {
+	gi = GameInstance::GetInstance();
+
 	ProcessTitleMenu();
 
 	BaseLevel::Init();
@@ -15,27 +17,27 @@ void TitleLevel::Init()
 
 void TitleLevel::SetTitleLevel()
 {
-	GameInstance::GetInstance()->UpdateLevelName(GetTag());
+	gi->UpdateLevelName(GetTag());
 }
 
 void TitleLevel::ProcessTitleMenu()
 {
-	GameInstance* gameInstance = GameInstance::GetInstance();
-	gameInstance->ClearText();
+	
+	gi->ClearText();
 
-	gameInstance->WriteLine(L"============================================");
-	gameInstance->WriteLine(L"당신의 모험을 시작합니다.");
-	gameInstance->WriteLine(L"");
-	gameInstance->WriteLine(L"[메뉴 옵션]");
-	gameInstance->WriteLine(L"");
-	gameInstance->WriteLine(L"1. 마을로 들어가기");
-	gameInstance->WriteLine(L"");
-	gameInstance->WriteLine(L"2. 던전으로 이동하기");
-	gameInstance->WriteLine(L"");
-	gameInstance->WriteLine(L"3. 게임 종료");
-	gameInstance->WriteLine(L"");
-	gameInstance->WriteLine(L"============================================");
-	gameInstance->WriteLine(L"원하는 옵션의 번호를 입력하세요.");
+	gi->WriteLine(L"============================================");
+	gi->WriteLine(L"당신의 모험을 시작합니다.");
+	gi->WriteLine(L"");
+	gi->WriteLine(L"[메뉴 옵션]");
+	gi->WriteLine(L"");
+	gi->WriteLine(L"1. 마을로 들어가기");
+	gi->WriteLine(L"");
+	gi->WriteLine(L"2. 던전으로 이동하기");
+	gi->WriteLine(L"");
+	gi->WriteLine(L"3. 게임 종료");
+	gi->WriteLine(L"");
+	gi->WriteLine(L"============================================");
+	gi->WriteLine(L"원하는 옵션의 번호를 입력하세요.");
 
 	InputSystem::BindAction(
 		{
@@ -58,7 +60,7 @@ void TitleLevel::ProcessTitleMenu()
 
 void TitleLevel::OnEnterVillage()
 {
-	GameInstance::GetInstance()->WriteLine(L"마을로 입장합니다...");
+	gi->WriteLine(L"마을로 입장합니다...");
 
 	LevelManager::GetInstance()->SetNextLevel(L"Village"); 
 	BaseLevel* nextLevel = LevelManager::GetInstance()->GetNextLevel();
@@ -68,7 +70,7 @@ void TitleLevel::OnEnterVillage()
 
 void TitleLevel::OnEnterDungeon()
 {
-	GameInstance::GetInstance()->WriteLine(L"끝없는 모험이 당신을 반깁니다...");
+	gi->WriteLine(L"끝없는 모험이 당신을 반깁니다...");
 
 	LevelManager::GetInstance()->SetNextLevel(L"Dungeon");
 	BaseLevel* nextLevel = LevelManager::GetInstance()->GetNextLevel();
@@ -78,8 +80,8 @@ void TitleLevel::OnEnterDungeon()
 
 void TitleLevel::OnQuitGame()
 {
-	GameInstance::GetInstance()->WriteLine(L"무한 지옥에 오신 것을 환영합니다.");
-	GameInstance::GetInstance()->WriteLine(L"ㅎㅎ 장난이에요");
+	gi->WriteLine(L"무한 지옥에 오신 것을 환영합니다.");
+	gi->WriteLine(L"ㅎㅎ 장난이에요");
 
 	exit(0); // exit game
 }

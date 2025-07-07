@@ -116,6 +116,7 @@ void VillageLevel::OnBuyItem()
 {
 	ItemDataTable* itemDataTable = ItemDataTable::GetInstance();
 
+	gi->ClearText();
 	gi->WriteLine();
 	gi->WriteLine(L"상점에서 판매하는 아이템 목록을 보여줍니다.");
 	gi->WriteLine();
@@ -142,6 +143,7 @@ void VillageLevel::OnBuyItem()
 
 		gi->WriteLine(ss.str());
 		gi->WriteLine(L"-> " + item->GetDescription());
+		gi->WriteLine(L"");
 	}
 
 	if (salesItems.empty()) 

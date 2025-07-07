@@ -42,7 +42,7 @@ class HUD final
 {
 public:
 	HUD() = default;
-	virtual ~HUD() = default;
+	~HUD() = default;
 
 private:
 	void RenderPlayerInfo(Screen& screen) const;

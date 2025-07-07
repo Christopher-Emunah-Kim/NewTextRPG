@@ -35,18 +35,6 @@ struct FBattleCharacterInfo : public FCharacterInfo
 };
 
 
-//struct FPlayerInfo : public FBattleCharacterInfo
-//{
-//	explicit FPlayerInfo(int16 level)
-//		: FBattleCharacterInfo(level)
-//	{
-//		experience = Experience(0, FPlayerDataTablePerLevel::GetRequiredMaxExp(level));
-//	}
-//
-//	Experience experience;
-//};
-
-
 struct FMonsterInfo : public FBattleCharacterInfo
 {
 	explicit FMonsterInfo(int16 level)

@@ -8,7 +8,7 @@ class GameInstance final : public Singleton<GameInstance>
 {
 public:
 	GameInstance() = default;
-	virtual ~GameInstance() = default;
+	~GameInstance() = default;
 
 	void UpdateLevelName(const wstring& levelName);
 	void UpdatePlayerName(const wstring& playerName);

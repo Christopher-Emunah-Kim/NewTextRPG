@@ -35,6 +35,13 @@ EMerchantResult Merchant::SellItem(int32 itemId, Player& player)
 		return EMerchantResult::NotEnoughGold;
 	}
 
+    BaseItem* newItem = const_cast<BaseItem*>(ItemDataTable::GetInstance()->GetItem(itemId));
+	
+	if (ItemDataTable::GetInstance()->IsEquippable(itemId))
+	{
+		player.GetEquipment().EquipItem(newItem);
+	}
+
 	m_salesStatusTable.erase(itemId);
 	player.UseGold(buyingPrice);
 	

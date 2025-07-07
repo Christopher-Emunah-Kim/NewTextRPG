@@ -8,12 +8,12 @@ constexpr int16 DEFAULT_ITEM_MAX_COUNT = 99;
 class BaseItem
 {
 public:
-	BaseItem()
+	explicit BaseItem()
 		: m_itemId(10000), m_name(L"Unknown Item"), m_itemType(EItemType::None), m_description(L"Unknown Item"),
 		m_buyingPrice(0), m_sellingPrice(0), m_attack(0), m_defense(0), m_agility(0), m_count(0), m_maxCount(DEFAULT_ITEM_MAX_COUNT)
 	{	}
 
-	BaseItem(const int32& id, const wstring& name, EItemType itemType, const wstring& description,
+	explicit BaseItem(const int32& id, const wstring& name, EItemType itemType, const wstring& description,
 		const int16& buyingPrice, const int16& sellingPrice,
 		const int16& attack = 0, const int16& defense = 0, const int16& agility = 0)
 		: m_itemId(id), m_name(name), m_itemType(itemType), m_description(description),

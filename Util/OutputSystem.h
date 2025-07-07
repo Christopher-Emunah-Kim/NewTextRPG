@@ -7,7 +7,6 @@ class OutputSystem
 {
 
 public:
-
 	static void PrintErrorMsg(const wstring& errorMessage) 
 	{
 		wcout << L"[Error] " << errorMessage << endl;

@@ -11,7 +11,7 @@ class BaseLevel;
 class BaseGameObject abstract : public IBehavior
 {
 public:
-	BaseGameObject(BaseLevel* level, const wstring& tag);
+	explicit BaseGameObject(BaseLevel* level, const wstring& tag);
 	virtual ~BaseGameObject();
 
 	virtual void Init() override;

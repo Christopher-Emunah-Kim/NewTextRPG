@@ -5,11 +5,11 @@
 class Inventory final
 {
 public:
-	Inventory(BaseGameObject* owner);
-	virtual ~Inventory();
+	explicit Inventory(BaseGameObject* owner);
+	~Inventory();
 
 public:
-	virtual void Release();
+	void Release();
 
 	bool AddItem(BaseItem* item);
 	bool RemoveItem(int32 itemId, int16 count = 1);

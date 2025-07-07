@@ -13,7 +13,7 @@ class MonsterDataTable final : public Singleton<MonsterDataTable>
 {
 public:
 	MonsterDataTable() = default;
-	virtual ~MonsterDataTable();
+	~MonsterDataTable();
 
 	void Init();
 	void Release();

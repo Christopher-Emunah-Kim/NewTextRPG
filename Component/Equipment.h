@@ -7,10 +7,10 @@
 class Equipment final
 {
 public:
-	Equipment(BaseGameObject* owner);
-	virtual ~Equipment();
+	explicit Equipment(BaseGameObject* owner);
+	~Equipment();
 
-	virtual void Release();
+	void Release();
 
 	bool EquipItem(BaseItem* item);
 	bool IsEquipped(EItemType itemType) const;

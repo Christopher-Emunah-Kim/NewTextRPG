@@ -14,9 +14,6 @@ class Screen final
 {
 public:
 	~Screen();
-	/*Screen() = default;
-	Screen(const Screen&) = delete;
-	Screen& operator = (const Screen&) = delete;*/
 
 private:
 	void VisibleConsoleCursor(bool isVisible);

@@ -9,7 +9,7 @@ class LevelManager final : public Singleton<LevelManager>, public IBehavior
 {
 public:
 	LevelManager() = default;
-	virtual ~LevelManager();
+	~LevelManager();
 
 private:
 	void InitializePlayer();

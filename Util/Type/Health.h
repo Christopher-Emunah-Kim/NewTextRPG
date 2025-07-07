@@ -6,7 +6,7 @@ class GameInstance;
 class Health
 {
 private:
-	Health(int32 currentAmount, int32 maxAmount)
+	explicit Health(int32 currentAmount, int32 maxAmount)
 		: m_currentAmount(currentAmount), m_maxAmount(maxAmount)
 	{
 	}

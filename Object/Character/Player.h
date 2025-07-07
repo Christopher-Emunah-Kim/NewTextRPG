@@ -15,13 +15,13 @@ class Player final : public BattleCharacter
 {  
 public:  
 	Player();
-	virtual ~Player() = default;
+	~Player() = default;
 
 private:
 	void LoadLevelPropertiesByLevel();
 
 public:
-	virtual void Init() override;  
+	void Init() override;  
 
 	void UpdatePlayerHUD();
 	void RegisterNewLevelArea(BaseLevel* level);

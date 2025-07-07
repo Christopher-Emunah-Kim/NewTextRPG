@@ -52,7 +52,7 @@ void VillageLevel::Welcome()
 	gi->WriteLine();
 	gi->WriteLine(L"2. 치유사의 집에 들어간다.");
 	gi->WriteLine();
-	gi->WriteLine(L"3. 마을을 떠난다.");
+	gi->WriteLine(L"3. 마을을 떠난다..");
 	gi->WriteLine();
 	gi->WriteLine(L"============================================");
 	gi->WriteLine(L"원하는 옵션의 번호를 입력하세요.");
@@ -193,6 +193,7 @@ void VillageLevel::BuySelectedItem(int32 itemId)
 		gi->WriteLine(L"남은 골드: " + to_wstring(player.GetGoldAmount()));
 	}
 	break;
+	
 
 	default:
 	{

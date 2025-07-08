@@ -28,6 +28,7 @@ void Player::UpdatePlayerHUD()
 	gameInstance->UpdatePlayerHealth(m_battleCharacterInfo.health);
 	gameInstance->UpdatePlayerStatus(GetTotalStatus());
 	gameInstance->UpdatePlayerExperience(m_experience);
+	gameInstance->UpdatePlayerGold(m_gold);
 
 	BaseItem* weapon = m_equipment.GetEquippedItem(EItemType::Weapon);
 	BaseItem* armor = m_equipment.GetEquippedItem(EItemType::Armor);

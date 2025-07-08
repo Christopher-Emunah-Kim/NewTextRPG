@@ -312,6 +312,7 @@ void DungeonLevel::ProcessPlayerAttack()
 	gi->WriteLine(m_currentMonster->GetName() + L"가(이) " + to_wstring(calculatedDamage) + L" 의 피해를 입었습니다.");
 
 	bool monsterDefeated = BattleSystem::ExecuteAttack(&player, m_currentMonster);
+	gi->UpdatePlayerHealth(player.GetBattleCharacterInfo().health);
 
 	gi->WriteLine(m_currentMonster->GetName() + L"의 현재 체력: " + to_wstring(m_currentMonster->GetBattleCharacterInfo().health.GetCurrentAmount()));
 
@@ -474,6 +475,13 @@ void DungeonLevel::ProcessBattleResult(bool monsterDefeated)
 		gi->WriteLine(m_currentMonster->GetName() + L"를(을) 처치했습니다!");
 
 		DisplayVictoryRewards(result.rewards);
+
+		gi->UpdatePlayerExperience(player.GetExperience());
+		gi->UpdatePlayerGold(player.GetGold());
+		if (result.rewards.bLevelUp)
+		{
+			gi->UpdatePlayerLevel(player.GetBattleCharacterInfo().characterLevel);
+		}
 		
 		if (result.rewards.droppedItem)
 		{
@@ -508,6 +516,7 @@ void DungeonLevel::DisplayVictoryRewards(const FBattleRewardInfo& rewards)
 	if (rewards.expReward > 0)
 	{
 		gi->WriteLine(L"경험치 " + to_wstring(rewards.expReward) + L"을(를) 획득했습니다!");
+		
 		if (rewards.bLevelUp)
 		{
 			gi->WriteLine(L"레벨업! 능력치가 상승합니다.");

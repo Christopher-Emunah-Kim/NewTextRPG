@@ -18,18 +18,6 @@ bool BattleSystem::ExecuteAttack(BattleCharacter* attacker, BattleCharacter* def
 		return false;
 	}
 	attacker->Attack(defender);
-	Player* player = dynamic_cast<Player*>(attacker);
-
-	if (player)
-	{
-		GameInstance::GetInstance()->UpdatePlayerHealth(player->GetBattleCharacterInfo().health);
-	}
-
-	player = dynamic_cast<Player*>(defender);
-	if (player)
-	{
-		GameInstance::GetInstance()->UpdatePlayerHealth(player->GetBattleCharacterInfo().health);
-	}
 
 	return !defender->IsAlive();
 }
@@ -65,8 +53,8 @@ bool BattleSystem::CanEscape(BattleCharacter* player, BattleCharacter* monster)
 
 void BattleSystem::HandleBattleRewards(BattleCharacter* winner, BattleCharacter* loser, FBattleResult& result)
 {
-	Player* player = dynamic_cast<Player*>(winner);
-	Monster* monster = dynamic_cast<Monster*>(loser);
+	Player* player = static_cast<Player*>(winner);
+	Monster* monster = static_cast<Monster*>(loser);
 
 	if (player && monster)
 	{
@@ -84,38 +72,31 @@ void BattleSystem::HandleBattleRewards(BattleCharacter* winner, BattleCharacter*
 
 void BattleSystem::HandleExpReward(BattleCharacter* winner, BattleCharacter* loser, FBattleResult& result)
 {
-	Player* player = dynamic_cast<Player*>(winner);
-	Monster* monster = dynamic_cast<Monster*>(loser);
+	Player* player = static_cast<Player*>(winner);
+	Monster* monster = static_cast<Monster*>(loser);
 
 	int16 expAmount = monster->GetDropExperience();
 	bool bPlayerLevelup = player->GainExperience(expAmount);
 
 	result.rewards.expReward = expAmount;
 	result.rewards.bLevelUp = bPlayerLevelup;
-
-	GameInstance::GetInstance()->UpdatePlayerExperience(player->GetExperience());
-	if (bPlayerLevelup)
-	{
-		GameInstance::GetInstance()->UpdatePlayerLevel(player->GetBattleCharacterInfo().characterLevel);
-	}
 }
 
 void BattleSystem::HandleGoldReward(BattleCharacter* winner, BattleCharacter* loser, FBattleResult& result)
 {
-	Player* player = dynamic_cast<Player*>(winner);
-	Monster* monster = dynamic_cast<Monster*>(loser);
+	Player* player = static_cast<Player*>(winner);
+	Monster* monster = static_cast<Monster*>(loser);
 
 	int16 goldAmount = monster->GetDropGold();
 	player->GainGold(goldAmount);
 
 	result.rewards.goldReward = goldAmount;
-	GameInstance::GetInstance()->UpdatePlayerGold(player->GetGold());
 }
 
 void BattleSystem::HandleDropItemReward(BattleCharacter* winner, BattleCharacter* loser, FBattleResult& result)
 {
-	Player* player = dynamic_cast<Player*>(winner);
-	Monster* monster = dynamic_cast<Monster*>(loser);
+	Player* player = static_cast<Player*>(winner);
+	Monster* monster = static_cast<Monster*>(loser);
 	ItemDataTable* itemDataTable = ItemDataTable::GetInstance();
 	vector<int32> availableItemIds = itemDataTable->GetItemIds();
 
@@ -151,7 +132,7 @@ void BattleSystem::HandleDropItemReward(BattleCharacter* winner, BattleCharacter
 
 bool BattleSystem::TryEquipOrStoreItem(BattleCharacter* winner, BaseItem* droppedItem, FBattleResult& result)
 {
-	Player* player = dynamic_cast<Player*>(winner);
+	Player* player = static_cast<Player*>(winner);
 
 	if (!player)
 	{

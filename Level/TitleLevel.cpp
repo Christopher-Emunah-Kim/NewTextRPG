@@ -80,9 +80,13 @@ void TitleLevel::OnEnterDungeon()
 
 void TitleLevel::OnQuitGame()
 {
-	gi->WriteLine(L"무한 지옥에 오신 것을 환영합니다.");
-	gi->WriteLine(L"ㅎㅎ 장난이에요");
+	gi->WriteLine(L"게임을 종료합니다. 이용해 주셔서 감사합니다.");
+	gi->WriteLine(L"아무 키나 누르면 종료됩니다...");
 
-	exit(0); // exit game
+	InputSystem::Clear();
+
+	gi->RequestShutdown();
+
+	//exit(0); // exit game
 }
 

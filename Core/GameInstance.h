@@ -22,12 +22,14 @@ public:
 
 	void WriteLine(const wstring& text = L"");
 	void ClearText();
-
 	void RenderHud(Screen& screen) const;
+	void RequestShutdown();
+	bool ShouldQuit() const;
 
 	inline Player& GetPlayer() { return m_Player; }
 
 private:
 	HUD m_Hud;
 	Player m_Player;
+	bool m_ShouldQuit = false;
 };

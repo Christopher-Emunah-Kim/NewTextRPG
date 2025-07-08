@@ -28,7 +28,7 @@ void Game::Run()
 {  
 	Timer::Init();  
 
-	while (true)  
+	while (!GameInstance::GetInstance()->ShouldQuit())  
 	{  
 		if (LevelManager::GetInstance()->IsSetNextLevel())
 		{

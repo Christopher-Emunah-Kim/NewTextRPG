@@ -50,6 +50,10 @@ void BaseLevel::Render(Screen* screen)
 
 void BaseLevel::Release()
 {
+	static bool alreadyReleased = false;
+	if (alreadyReleased) return;
+	alreadyReleased = true;
+
 	for (size_t i = 0; i < m_gameObjects.size(); ++i)
 	{
 		BaseGameObject* obj = m_gameObjects[i];

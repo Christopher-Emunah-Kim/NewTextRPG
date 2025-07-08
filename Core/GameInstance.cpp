@@ -61,3 +61,13 @@ void GameInstance::RenderHud(Screen& screen) const
 {
 	m_Hud.Render(screen);
 }
+
+void GameInstance::RequestShutdown()
+{
+	m_ShouldQuit = true;
+}
+
+bool GameInstance::ShouldQuit() const
+{
+	return m_ShouldQuit;
+}

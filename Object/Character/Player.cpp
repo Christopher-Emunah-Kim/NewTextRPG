@@ -59,6 +59,20 @@ void Player::UpdatePlayerHUD()
 	}
 }
 
+void Player::LoadLevelPropertiesByLevel()
+{
+	FLevelProperties levelProps = PlayerLevelPropertiesTable::GetInstance()->LoadPlayerLevelData(m_battleCharacterInfo.characterLevel);
+
+	m_battleCharacterInfo.health = Health::New(levelProps.maxHealthPerLevel);
+	m_experience.SetMaxExp(levelProps.maxExperiencePerLevel);
+
+	m_battleCharacterInfo.status = Status(
+		levelProps.attackPerLevel,
+		levelProps.defensePerLevel,
+		levelProps.agilityPerLevel
+	);
+}
+
 void Player::RegisterNewLevelArea(BaseLevel* level)
 {
 	if (level != nullptr)
@@ -136,7 +150,6 @@ Gold Player::GetGoldForHUD() const
 	return m_gold;
 }
 
-
 bool Player::GainExperience(int32 exp)
 {
 	int16 levelUpCount = m_experience.AddExperience(exp, m_battleCharacterInfo.characterLevel);
@@ -179,21 +192,6 @@ BaseItem* Player::GetItemFromInventory(int32 itemId) const
 	return m_inventory.GetItem(itemId);
 }
 
-
-
-void Player::LoadLevelPropertiesByLevel()
-{
-	FLevelProperties levelProps = PlayerLevelPropertiesTable::GetInstance()->LoadPlayerLevelData(m_battleCharacterInfo.characterLevel);
-
-	m_battleCharacterInfo.health = Health::New(levelProps.maxHealthPerLevel);
-	m_experience.SetMaxExp(levelProps.maxExperiencePerLevel);
-
-	m_battleCharacterInfo.status = Status(
-		levelProps.attackPerLevel,
-		levelProps.defensePerLevel,
-		levelProps.agilityPerLevel
-	);
-}
 
 bool Player::Equip(BaseItem* item)
 {

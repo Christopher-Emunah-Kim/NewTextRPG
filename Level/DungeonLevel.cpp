@@ -604,7 +604,7 @@ void DungeonLevel::OnEscape()
 	gi->WriteLine(L"");
 	gi->WriteLine(L"당신은 빠르게 몸을 돌려 던전 입구로 뛰어갑니다.");
 
-	if (rand() % 3 == 0)
+	if (rand() % 2 == 0)
 	{
 		gi->WriteLine(L"필사적으로 뛰었지만, "+ m_currentMonster->GetName() + L"가(이) 먼저 당신의 앞을 가로 막았습니다.");
 		gi->WriteLine(m_currentMonster->GetName() + L"가(이) 당신을 공격합니다..");

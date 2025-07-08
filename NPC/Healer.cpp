@@ -12,7 +12,7 @@ int32 Healer::GetHealCost() const
 	return m_healCost;
 }
 
-EHealResult Healer::CheckHealAvailable(const Player& player) const
+EHealResult Healer::HealPlayer(Player& player) const
 {
 	if (false == player.CanAfford(m_healCost))
 	{
@@ -24,13 +24,9 @@ EHealResult Healer::CheckHealAvailable(const Player& player) const
 		return EHealResult::AlreadyMaxHealth;
 	}
 
-	return EHealResult::RequestAccept;
-}
-
-void Healer::Heal(Player& player) const
-{
 	const int32 healAmount = player.GetMaxHealth() - player.GetCurrentHealth();
-
 	player.Recover(healAmount);
 	player.UseGold(m_healCost);
+
+	return EHealResult::RequestAccept;
 }

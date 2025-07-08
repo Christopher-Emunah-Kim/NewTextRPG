@@ -16,8 +16,7 @@ public:
 	explicit Healer(int32 healCost);
 
 	int32 GetHealCost() const;
-	void Heal(Player& player) const;
-	EHealResult CheckHealAvailable(const Player& player) const;
+	EHealResult HealPlayer(Player& player) const;
 
 private:
 	const int32 m_healCost;

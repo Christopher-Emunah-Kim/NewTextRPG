@@ -387,13 +387,12 @@ void VillageLevel::OnEnterHealerShop()
 void VillageLevel::OnRecoverPlayer()
 {
 	Player& player = gi->GetPlayer();
+	EHealResult result = m_healer->HealPlayer(player);
 
-	EHealResult result = m_healer->CheckHealAvailable(player);
 	switch (result)	
 	{
 	case EHealResult::RequestAccept:
 	{
-		m_healer->Heal(player);
 		gi->UpdatePlayerGold(player.GetGoldForHUD());
 		gi->UpdatePlayerHealth(player.GetHealthForHUD());
 
@@ -404,7 +403,6 @@ void VillageLevel::OnRecoverPlayer()
 		break;
 	case EHealResult::NotEnoughGold:
 	{
-		gi->ClearText();
 		gi->WriteLine(L"골드가 부족합니다. 치유를 받을 수 없습니다.");
 		wstring costText = to_wstring(m_healer->GetHealCost());
 		gi->WriteLine(L"필요 골드: " + costText + L", 보유 골드: " +
@@ -413,7 +411,6 @@ void VillageLevel::OnRecoverPlayer()
 		break;
 	case EHealResult::AlreadyMaxHealth:
 	{
-		gi->ClearText();
 		gi->WriteLine(L"치유사 스칼드가 당신을 살펴봅니다.");
 		gi->WriteLine(L"이미 건강 상태가 완벽하시군요. 치유가 필요하지 않습니다.");
 	}
@@ -421,11 +418,10 @@ void VillageLevel::OnRecoverPlayer()
 
 	default:
 	{
-		throw invalid_argument("힐러의 집에서 디폴트 에러 발생. 조치 바람.");
+		throw invalid_argument("치유사의 힐링이 제대로 발동하지 않았습니다.");
 	}
 		break;
 	}
-
 
 	gi->WriteLine();
 	gi->WriteLine(L"치유사 스칼드가 당신에게 따스한 미소를 건넵니다.");
@@ -440,14 +436,12 @@ void VillageLevel::OnRecoverPlayer()
 	gi->WriteLine(L"============================================");
 	gi->WriteLine(L"원하는 옵션의 번호를 입력하세요.");
 
-
 	InputSystem::BindAction(
 		{
 			{L"1", bind(&VillageLevel::Welcome, this)},
 			{L"2", bind(&VillageLevel::OnExitVillage, this)},
 		}
 		);
-
 }
 
 void VillageLevel::OnExitVillage()

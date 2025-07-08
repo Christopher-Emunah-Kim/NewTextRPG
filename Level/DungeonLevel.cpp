@@ -65,8 +65,8 @@ void DungeonLevel::CreateRandomMonster()
 
 void DungeonLevel::Welcome()
 {
-	gi->ClearText();
 
+	gi->ClearText();
 	gi->WriteLine(L"============================================");
 	gi->WriteLine(L"");
 	gi->WriteLine(L"당신은 동굴 입구 앞에 섰습니다.");
@@ -443,7 +443,7 @@ void DungeonLevel::OnUseSelectedItem(int32 itemId)
 void DungeonLevel::OnTryEscape()
 {
 
-	InputSystem::Clear();
+	//InputSystem::Clear();
 
 	Player& player = gi->GetPlayer();
 
@@ -607,5 +607,5 @@ void DungeonLevel::OnEscape()
 		Welcome();
 	}
 
-	InputSystem::Clear();
+	//InputSystem::Clear();
 }

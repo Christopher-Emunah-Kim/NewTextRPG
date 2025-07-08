@@ -276,10 +276,13 @@ void DungeonLevel::ProcessMonsterTurn()
 	Player& player = gi->GetPlayer();
 	vector<wstring> battleMessages;
 
-	gi->ClearText();
+	//gi->ClearText();
 	gi->WriteLine(L"");
 	gi->WriteLine(L"[몬스터 턴]");
 	gi->WriteLine(m_currentMonster->GetName() + L"가(이) 공격합니다!");
+
+	int32 calculatedDamage = m_currentMonster->GetBattleCharacterInfo().status.CalculateDamage(m_currentMonster->GetBattleCharacterInfo().status, player.GetBattleCharacterInfo().status);
+	gi->WriteLine(player.GetName() + L"가(이) " + to_wstring(calculatedDamage) + L" 의 피해를 입었습니다.");
 
 	bool playerDefeated = BattleSystem::ExecuteAttack(m_currentMonster, &player);
 
@@ -306,14 +309,15 @@ void DungeonLevel::ProcessPlayerAttack()
 	gi->WriteLine(L"");
 	gi->WriteLine(player.GetName() + L"가(이) " + m_currentMonster->GetName() + L"을(를) 공격합니다!");
 
+	int32 calculatedDamage = player.GetBattleCharacterInfo().status.CalculateDamage(player.GetBattleCharacterInfo().status, m_currentMonster->GetBattleCharacterInfo().status);
+	gi->WriteLine(m_currentMonster->GetName() + L"가(이) " + to_wstring(calculatedDamage) + L" 의 피해를 입었습니다.");
+
 	bool monsterDefeated = BattleSystem::ExecuteAttack(&player, m_currentMonster);
 
 	gi->WriteLine(m_currentMonster->GetName() + L"의 현재 체력: " + to_wstring(m_currentMonster->GetBattleCharacterInfo().health.GetCurrentAmount()));
 
 	gi->WriteLine(L"");
-	int32 clculatedDamage = player.GetBattleCharacterInfo().status.CalculateDamage(player.GetBattleCharacterInfo().status, m_currentMonster->GetBattleCharacterInfo().status);
 
-	gi->WriteLine(m_currentMonster->GetName() + L"가(이) " + to_wstring(clculatedDamage) + L" 의 피해를 입었습니다.");
 	gi->WriteLine(L"");
 
 	if (monsterDefeated)
@@ -403,7 +407,7 @@ void DungeonLevel::OnUseSelectedItem(int32 itemId)
 	case EItemType::Consumable:
 	{
 		player.Recover(20);
-		gi->ClearText();
+		//gi->ClearText();
 		gi->WriteLine(item->GetName() + L"을(를) 사용하여 체력이 20 회복되었습니다!");
 		gi->WriteLine(L"현재 체력: " + to_wstring(player.GetBattleCharacterInfo().health.GetCurrentAmount()));
 		gi->UpdatePlayerHealth(player.GetHealth());
@@ -413,7 +417,7 @@ void DungeonLevel::OnUseSelectedItem(int32 itemId)
 
 	default:
 	{
-		gi->ClearText();
+		//gi->ClearText();
 		gi->WriteLine(L"사용할 수 없는 아이템입니다.");
 	}
 		break;
@@ -530,8 +534,8 @@ void DungeonLevel::DisplayVictoryRewards(const FBattleRewardInfo& rewards)
 		if (rewards.bItemEquipped)
 		{
 			
-			//gi->WriteLine(itemName + L"을(를) 장착했습니다.");
-			gi->WriteLine(L"획득한 아이템을 장착했습니다.");
+			gi->WriteLine(itemName + L"을(를) 장착했습니다.");
+			//gi->WriteLine(L"획득한 아이템을 장착했습니다.");
 			gi->WriteLine(L"공격력: +" + to_wstring(rewards.droppedItem->GetAttack()) +
 				L", 방어력: +" + to_wstring(rewards.droppedItem->GetDefense()) +
 				L", 민첩성: +" + to_wstring(rewards.droppedItem->GetAgility()));
@@ -539,13 +543,13 @@ void DungeonLevel::DisplayVictoryRewards(const FBattleRewardInfo& rewards)
 		}
 		else if (rewards.bItemAddedToInventory)
 		{
-			//gi->WriteLine(itemName + L"을(를) 인벤토리에 넣었습니다.");
-			gi->WriteLine(L"획득한 아이템을 인벤토리에 넣었습니다.");
+			gi->WriteLine(itemName + L"을(를) 인벤토리에 넣었습니다.");
+			//gi->WriteLine(L"획득한 아이템을 인벤토리에 넣었습니다.");
 		}
 		else
 		{
-			//gi->WriteLine(L"인벤토리가 가득 차서 " + itemName + L"을(를) 버렸습니다.");
-			gi->WriteLine(L"인벤토리가 가득 차서 획득한 아이템을 버렸습니다.");
+			gi->WriteLine(L"인벤토리가 가득 차서 " + itemName + L"을(를) 버렸습니다.");
+			//gi->WriteLine(L"인벤토리가 가득 차서 획득한 아이템을 버렸습니다.");
 		}
 	}
 }

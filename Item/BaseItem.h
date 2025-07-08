@@ -23,7 +23,7 @@ public:
 
 	virtual ~BaseItem() = default;
 
-	virtual BaseItem* CreateItem() const
+	BaseItem* CreateItem() const
 	{
 		//return new BaseItem(*this);
 		return new BaseItem(

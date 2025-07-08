@@ -104,6 +104,8 @@ void DungeonLevel::ContinueExploration()
 {
 	if (m_activeMonseters <= 0)
 	{
+		gi->ClearText();
+		gi->WriteLine(L"============================================");
 		gi->WriteLine(L"");
 		gi->WriteLine(L"던전을 모두 탐험했습니다! ");
 		gi->WriteLine(L"당신은 던전의 모든 몬스터를 처치하고 돌아갑니다.");
@@ -124,6 +126,8 @@ void DungeonLevel::ContinueExploration()
 		return;
 	}
 
+	gi->ClearText();
+	gi->WriteLine(L"============================================");
 	gi->WriteLine(L"");
 	gi->WriteLine(L"당신은 던전을 더 탐험할 수 있습니다. 앞으로 나아갈까요?");
 	wstring activeMonster = to_wstring(m_activeMonseters);
@@ -163,6 +167,8 @@ void DungeonLevel::OnEnterStage()
 		return;
 	}
 
+	gi->ClearText();
+	gi->WriteLine(L"============================================");
 	gi->WriteLine(L"");
 	gi->WriteLine(L"던전에 입장합니다.");
 	gi->WriteLine(L"");
@@ -215,6 +221,7 @@ void DungeonLevel::OnStartBattle()
 	gi->ClearText();
 	gi->WriteLine(L"");
 	gi->WriteLine(L"============================================");
+	gi->WriteLine(L"");
 	gi->WriteLine(L"전투가 시작됩니다!");
 	gi->WriteLine(L"");
 	gi->WriteLine(player.GetName() + L"와(과) " + m_currentMonster->GetName() + L"가(이) 전투를 시작합니다!");
@@ -239,7 +246,9 @@ void DungeonLevel::ProcessPlayerTurn()
 	Player& player = gi->GetPlayer();
 
 	gi->WriteLine(L"");
-	gi->WriteLine(L"[플레이어 턴]");
+	gi->WriteLine(L"============================================");
+	gi->WriteLine(L"");
+	gi->WriteLine(L"[현재 상태]");
 	gi->WriteLine(L"당신의 체력: " + to_wstring(player.GetBattleCharacterInfo().health.GetCurrentAmount()) + L"/" + to_wstring(player.GetBattleCharacterInfo().health.GetMaxAmount()));
 	gi->WriteLine(m_currentMonster->GetName() + L"의 체력: " + to_wstring(m_currentMonster->GetBattleCharacterInfo().health.GetCurrentAmount()) 
 		+ L"/" + to_wstring(m_currentMonster->GetBattleCharacterInfo().health.GetMaxAmount()));
@@ -277,6 +286,8 @@ void DungeonLevel::ProcessMonsterTurn()
 	vector<wstring> battleMessages;
 
 	gi->WriteLine(L"");
+	gi->WriteLine(L"============================================");
+	gi->WriteLine(L"");
 	gi->WriteLine(L"[몬스터 턴]");
 	gi->WriteLine(m_currentMonster->GetName() + L"가(이) 공격합니다!");
 
@@ -285,7 +296,6 @@ void DungeonLevel::ProcessMonsterTurn()
 
 	bool playerDefeated = BattleSystem::ExecuteAttack(m_currentMonster, &player);
 
-	gi->WriteLine(m_currentMonster->GetName() + L"가(이) " + player.GetName() + L"을(를) 공격했습니다.");
 	gi->WriteLine(player.GetName() + L"의 현재 체력: " + to_wstring(player.GetBattleCharacterInfo().health.GetCurrentAmount()));
 
 	if (playerDefeated)
@@ -302,10 +312,12 @@ void DungeonLevel::ProcessMonsterTurn()
 void DungeonLevel::ProcessPlayerAttack()
 {
 	Player& player = gi->GetPlayer();
-	vector<wstring> battleMessages;
 
 	gi->ClearText();
 	gi->WriteLine(L"");
+	gi->WriteLine(L"============================================");
+	gi->WriteLine(L"");
+	gi->WriteLine(L"[플레이어 턴]");
 	gi->WriteLine(player.GetName() + L"가(이) " + m_currentMonster->GetName() + L"을(를) 공격합니다!");
 
 	int32 calculatedDamage = player.GetBattleCharacterInfo().status.CalculateDamage(player.GetBattleCharacterInfo().status, m_currentMonster->GetBattleCharacterInfo().status);
@@ -316,9 +328,6 @@ void DungeonLevel::ProcessPlayerAttack()
 
 	gi->WriteLine(m_currentMonster->GetName() + L"의 현재 체력: " + to_wstring(m_currentMonster->GetBattleCharacterInfo().health.GetCurrentAmount()));
 
-	gi->WriteLine(L"");
-
-	gi->WriteLine(L"");
 
 	if (monsterDefeated)
 	{
@@ -338,6 +347,7 @@ void DungeonLevel::OnShowUsuableItems()
 	gi->WriteLine(L"사용 가능한 아이템 목록을 보여줍니다.");
 	gi->WriteLine();
 	gi->WriteLine(L"============================================");
+	gi->WriteLine(L"");
 	gi->WriteLine(L"[사용 가능한 아이템 목록]");
 	gi->WriteLine();
 	gi->WriteLine(L"0: 뒤로가기");

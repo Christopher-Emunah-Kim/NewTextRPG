@@ -190,35 +190,60 @@ void VillageLevel::BuySelectedItem(int32 itemId)
 		delete newItem;
 	}
 	break;
-	case EMerchantResult::AlreadyEquipped:
+	case EMerchantResult::Success:
 	{
-		newItem->AddItemCount(1);
-		if (player.AddItemToInventory(newItem))
+		if (ItemDataTable::GetInstance()->IsEquippable(itemId))
 		{
-			player.UseGold(newItem->GetBuyingPrice());
+			EItemType itemType = newItem->GetItemType();
+			bool alreadyEquipped = false;
+
+			if (itemType == EItemType::Weapon && player.GetEquipment().GetEquippedItem(EItemType::Weapon) != nullptr)
+			{
+				alreadyEquipped = true;
+			}
+			else if (itemType == EItemType::Armor && player.GetEquipment().GetEquippedItem(EItemType::Armor) != nullptr)
+			{
+				alreadyEquipped = true;
+			}
+
+			if (alreadyEquipped)
+			{
+				newItem->AddItemCount(1);
+				if (player.AddItemToInventory(newItem))
+				{
+					gi->WriteLine(L"이미 장착 중인 아이템입니다.");
+					gi->WriteLine(item->GetName() + L"을(를) 인벤토리에 추가합니다.");
+				}
+				else
+				{
+					delete newItem;
+					gi->WriteLine(L"아이템 장착에 실패했습니다.");
+					gi->WriteLine(item->GetName() + L"을(를) 바닥에 버립니다.");
+				}
+			}
+			else
+			{
+				player.GetEquipment().EquipItem(newItem);
+
+				gi->ClearText();
+				gi->WriteLine(item->GetName() + L"을(를) 구매 후 장착했습니다!");
+				gi->WriteLine(L"남은 골드: " + to_wstring(player.GetGold().GetAmount()));
+			}
 		}
 		else
 		{
-			delete newItem;
+			newItem->AddItemCount(1);
+			if (player.AddItemToInventory(newItem))
+			{
+				gi->WriteLine(item->GetName() + L"을(를) 인벤토리에 추가합니다.");
+			}
+			else
+			{
+				delete newItem;
+				gi->WriteLine(L"아이템 장착에 실패했습니다.");
+				gi->WriteLine(item->GetName() + L"을(를) 바닥에 버립니다.");
+			}
 		}
-
-		gi->WriteLine(L"이미 장착 중인 아이템입니다.");
-		gi->WriteLine(item->GetName() + L"을(를) 인벤토리에 추가합니다.");
-		gi->UpdateEquippedItem(item->GetName(), item->GetItemType());
-		gi->UpdatePlayerGold(player.GetGold());
-		gi->UpdateInvetoryItems(player.GetInventoryItems());
-	}
-	break;
-	case EMerchantResult::Success:
-	{
-		player.GetEquipment().EquipItem(newItem);
-
-		gi->UpdatePlayerGold(player.GetGold());
-		gi->UpdateEquippedItem(item->GetName(), item->GetItemType());
-		gi->UpdatePlayerStatus(player.GetTotalStatus());
-		gi->ClearText();
-		gi->WriteLine(item->GetName() + L"을(를) 구매 후 장착했습니다!");
-		gi->WriteLine(L"남은 골드: " + to_wstring(player.GetGold().GetAmount()));
 	}
 	break;
 	
@@ -230,6 +255,11 @@ void VillageLevel::BuySelectedItem(int32 itemId)
 		gi->WriteLine(L"아이템 구매에 실패했습니다.");
 	}
 	}
+
+	gi->UpdateEquippedItem(item->GetName(), item->GetItemType());
+	gi->UpdatePlayerGold(player.GetGold());
+	gi->UpdateInvetoryItems(player.GetInventoryItems());
+	gi->UpdatePlayerStatus(player.GetTotalStatus());
 
 	gi->WriteLine();
 	gi->WriteLine(L"1. 계속 쇼핑하기");

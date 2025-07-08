@@ -35,38 +35,8 @@ EMerchantResult Merchant::SellItem(int32 itemId, Player& player)
 		return EMerchantResult::NotEnoughGold;
 	}
 
-	const BaseItem* targetItem = ItemDataTable::GetInstance()->GetItem(itemId);
-
-	if (ItemDataTable::GetInstance()->IsEquippable(itemId))
-	{
-		EItemType itemType = targetItem->GetItemType();
-		bool alreadyEquipped = false;
-
-		if (itemType == EItemType::Weapon && player.GetEquipment().GetEquippedItem(EItemType::Weapon) != nullptr)
-		{
-			alreadyEquipped = true;
-		}
-		else if (itemType == EItemType::Armor && player.GetEquipment().GetEquippedItem(EItemType::Armor) != nullptr)
-		{
-			alreadyEquipped = true;
-		}
-
-		if (alreadyEquipped)
-		{
-			return EMerchantResult::AlreadyEquipped;
-		}
-		else
-		{
-			player.UseGold(buyingPrice);
-			return EMerchantResult::Success;
-		}
-	}
-	else
-	{
-		player.UseGold(buyingPrice);
-		return EMerchantResult::Success;
-	}
-	return EMerchantResult::NONE;
+	player.UseGold(buyingPrice);
+	return EMerchantResult::Success;
 }
 
 void Merchant::BuyItem(int32 itemId, Player& player)

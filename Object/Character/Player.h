@@ -20,16 +20,19 @@ public:
 
 private:
 	void LoadLevelPropertiesByLevel();
+	void UpdatePlayerHUD();
 
 public:
 	void Init() override;  
-
-	void UpdatePlayerHUD();
 	void RegisterNewLevelArea(BaseLevel* level);
 
-	bool CanAfford(int32 cost) const;
 	bool IsFullHealth() const;
 	void Recover(int32 amount);
+	int32 GetCurrentHealth() const;
+	int32 GetMaxHealth() const;
+
+	int32 GetGoldAmount() const;
+	bool CanAfford(int32 cost) const;
 	bool UseGold(int32 amount);
 	void GainGold(int32 amount);
 	bool GainExperience(int32 exp);
@@ -43,9 +46,9 @@ public:
 	BaseItem* GetEquippedItem(EItemType itemType) const;
 	Status GetTotalPlayerStatus() const;
 
-	Gold GetGold() const;
-	Health GetHealth() const;
-	Experience GetExperience() const;
+	Gold GetGoldForHUD() const;
+	Health GetHealthForHUD() const;
+	Experience GetExperienceForHUD() const;
 
 private:
 	Gold m_gold;

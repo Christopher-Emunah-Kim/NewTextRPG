@@ -418,7 +418,7 @@ void DungeonLevel::OnUseSelectedItem(int32 itemId)
 		player.Recover(20);
 		gi->WriteLine(item->GetName() + L"을(를) 사용하여 체력이 20 회복되었습니다!");
 		gi->WriteLine(L"현재 체력: " + to_wstring(player.GetBattleCharacterInfo().health.GetCurrentAmount()));
-		gi->UpdatePlayerHealth(player.GetHealth());
+		gi->UpdatePlayerHealth(player.GetHealthForHUD());
 		itemUsed = true;
 	}
 		break;
@@ -485,8 +485,8 @@ void DungeonLevel::ProcessBattleResult(bool monsterDefeated)
 
 		DisplayVictoryRewards(result.rewards);
 
-		gi->UpdatePlayerExperience(player.GetExperience());
-		gi->UpdatePlayerGold(player.GetGold());
+		gi->UpdatePlayerExperience(player.GetExperienceForHUD());
+		gi->UpdatePlayerGold(player.GetGoldForHUD());
 		if (result.rewards.bLevelUp)
 		{
 			gi->UpdatePlayerLevel(player.GetBattleCharacterInfo().characterLevel);

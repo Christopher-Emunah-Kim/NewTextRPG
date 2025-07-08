@@ -79,9 +79,14 @@ void Player::RegisterNewLevelArea(BaseLevel* level)
 	}
 }
 
-Health Player::GetHealth() const
+Health Player::GetHealthForHUD() const
 {
 	return m_battleCharacterInfo.health;
+}
+
+int32 Player::GetGoldAmount() const
+{
+	return m_gold.GetAmount();
 }
 
 bool Player::CanAfford(int32 cost) const
@@ -97,6 +102,16 @@ bool Player::IsFullHealth() const
 void Player::Recover(int32 amount)
 {
 	m_battleCharacterInfo.health = m_battleCharacterInfo.health.Recover(amount);
+}
+
+int32 Player::GetCurrentHealth() const
+{
+	return m_battleCharacterInfo.health.GetCurrentAmount();
+}
+
+int32 Player::GetMaxHealth() const
+{
+	return m_battleCharacterInfo.health.GetMaxAmount();
 }
 
 bool Player::UseGold(int32 amount)
@@ -116,7 +131,7 @@ void Player::GainGold(int32 amount)
 	m_gold = m_gold.Gain(amount);
 }
 
-Gold Player::GetGold() const
+Gold Player::GetGoldForHUD() const
 {
 	return m_gold;
 }
@@ -199,7 +214,7 @@ Status Player::GetTotalPlayerStatus() const
 	return baseStatus;
 }
 
-Experience Player::GetExperience() const
+Experience Player::GetExperienceForHUD() const
 {
 	return m_experience;
 }

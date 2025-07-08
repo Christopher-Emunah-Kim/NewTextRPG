@@ -29,8 +29,7 @@ EHealResult Healer::CheckHealAvailable(const Player& player) const
 
 void Healer::Heal(Player& player) const
 {
-	Health health = player.GetHealth();
-	const int32 healAmount = health.GetMaxAmount() - health.GetCurrentAmount();
+	const int32 healAmount = player.GetMaxHealth() - player.GetCurrentHealth();
 
 	player.Recover(healAmount);
 	player.UseGold(m_healCost);

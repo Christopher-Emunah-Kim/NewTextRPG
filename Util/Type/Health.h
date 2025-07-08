@@ -29,7 +29,7 @@ public:
 			throw invalid_argument("회복량은 반드시 양수값이어야합니다.");
 		}
 
-		int32 newAmount = max(m_currentAmount + amount, m_maxAmount);
+		int32 newAmount = min(m_currentAmount + amount, m_maxAmount);
 
 		return Health(newAmount, m_maxAmount);
 	}

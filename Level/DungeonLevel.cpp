@@ -268,6 +268,7 @@ void DungeonLevel::ProcessPlayerTurn()
 			ProcessPlayerTurn();
 		}
 	);
+
 }
 
 void DungeonLevel::ProcessMonsterTurn()
@@ -401,7 +402,7 @@ void DungeonLevel::OnUseSelectedItem(int32 itemId)
 
 	case EItemType::Consumable:
 	{
-		player.GetBattleCharacterInfo().health.Recover(20);
+		player.Recover(20);
 		gi->ClearText();
 		gi->WriteLine(item->GetName() + L"을(를) 사용하여 체력이 20 회복되었습니다!");
 		gi->WriteLine(L"현재 체력: " + to_wstring(player.GetBattleCharacterInfo().health.GetCurrentAmount()));
@@ -437,6 +438,9 @@ void DungeonLevel::OnUseSelectedItem(int32 itemId)
 
 void DungeonLevel::OnTryEscape()
 {
+
+	InputSystem::Clear();
+
 	Player& player = gi->GetPlayer();
 
 	gi->WriteLine(L"");
@@ -466,6 +470,7 @@ void DungeonLevel::ProcessBattleResult(bool monsterDefeated)
 
 		BattleSystem::HandleBattleRewards(&player, m_currentMonster, result);
 
+
 		gi->WriteLine(L"");
 		gi->WriteLine(m_currentMonster->GetName() + L"를(을) 처치했습니다!");
 
@@ -473,7 +478,7 @@ void DungeonLevel::ProcessBattleResult(bool monsterDefeated)
 		
 		if (result.rewards.droppedItem)
 		{
-			gi->UpdateEquippedItem(result.rewards.droppedItem->GetName(), result.rewards.droppedItem->GetItemType());
+			gi->UpdateEquippedItem(result.rewards.droppedItem->GetName(),result.rewards.droppedItem->GetItemType());
 			gi->UpdatePlayerStatus(player.GetTotalStatus());
 		}
 		
@@ -481,6 +486,12 @@ void DungeonLevel::ProcessBattleResult(bool monsterDefeated)
         if (!inventoryItems.empty())
 		{
 			gi->UpdateInvetoryItems(inventoryItems);
+		}
+
+		if (result.rewards.droppedItem &&!result.rewards.bItemEquipped &&!result.rewards.bItemAddedToInventory)
+		{
+			delete result.rewards.droppedItem;
+			result.rewards.droppedItem = nullptr;
 		}
 
 		MonsterDefeated();
@@ -511,13 +522,16 @@ void DungeonLevel::DisplayVictoryRewards(const FBattleRewardInfo& rewards)
 		
 	if (rewards.droppedItem)
 	{
+		const wstring itemName = rewards.droppedItem->GetName();
 		gi->WriteLine(L"");
 		gi->WriteLine(m_currentMonster->GetName() + L"에게서 ");
-		gi->WriteLine(rewards.droppedItem->GetName() + L"을(를) 획득했습니다!");
+		gi->WriteLine(itemName + L"을(를) 획득했습니다!");
 
 		if (rewards.bItemEquipped)
 		{
-			gi->WriteLine(rewards.droppedItem->GetName()+ L"을(를 장착했습니다.");
+			
+			//gi->WriteLine(itemName + L"을(를) 장착했습니다.");
+			gi->WriteLine(L"획득한 아이템을 장착했습니다.");
 			gi->WriteLine(L"공격력: +" + to_wstring(rewards.droppedItem->GetAttack()) +
 				L", 방어력: +" + to_wstring(rewards.droppedItem->GetDefense()) +
 				L", 민첩성: +" + to_wstring(rewards.droppedItem->GetAgility()));
@@ -525,11 +539,13 @@ void DungeonLevel::DisplayVictoryRewards(const FBattleRewardInfo& rewards)
 		}
 		else if (rewards.bItemAddedToInventory)
 		{
-			gi->WriteLine(rewards.droppedItem->GetName() + L"을(를) 인벤토리에 넣었습니다.");
+			//gi->WriteLine(itemName + L"을(를) 인벤토리에 넣었습니다.");
+			gi->WriteLine(L"획득한 아이템을 인벤토리에 넣었습니다.");
 		}
 		else
 		{
-			gi->WriteLine(L"인벤토리가 가득 차서 " + rewards.droppedItem->GetName() + L"을(를) 버렸습니다.");
+			//gi->WriteLine(L"인벤토리가 가득 차서 " + itemName + L"을(를) 버렸습니다.");
+			gi->WriteLine(L"인벤토리가 가득 차서 획득한 아이템을 버렸습니다.");
 		}
 	}
 }

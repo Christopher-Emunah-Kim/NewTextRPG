@@ -19,10 +19,14 @@ public:
 	virtual void Render(Screen* screen) override;
 	virtual void Release() override;
 
-	vector<BaseComponent*>& GetComponents();
-
 	void SetLevelArea(BaseLevel* level);
-	void SetTag(const wstring& tag) noexcept;
+
+	inline wstring		GetTag() const noexcept { return m_objectTag; }
+	inline BaseLevel* GetLevel() const noexcept { return m_levelArea; }
+
+	//vector<BaseComponent*>& GetComponents();
+
+	/*void SetTag(const wstring& tag) noexcept;
 
 	bool IsComponentsEmpty() const;
 	void RegisterInLevelArea(BaseLevel* level);
@@ -55,10 +59,7 @@ public:
 			}
 		}
 		return nullptr;
-	}
-	
-	inline wstring		GetTag() const noexcept { return m_objectTag; }
-	inline BaseLevel*	GetLevel() const noexcept { return m_levelArea; }
+	}*/
 
 protected:
 	BaseLevel* m_levelArea = nullptr;

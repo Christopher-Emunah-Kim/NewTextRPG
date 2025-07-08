@@ -72,7 +72,7 @@ void HUD::UpdateInvetoryItems(const vector<BaseItem*>& items)
 		if (item != nullptr)
 		{
 			wstring itemName = item->GetName();
-			if (item->GetCount() > 1)
+			if (item->GetCount() >= 1)
 			{
 				itemName += L" x" + to_wstring(item->GetCount());
 			}

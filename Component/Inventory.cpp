@@ -28,6 +28,7 @@ void Inventory::Release()
 
 bool Inventory::AddItem(BaseItem* item)
 {
+	
 	if (item == nullptr || m_inventoryItems.size() >= m_maxInventorySize)
 	{
 		return false;
@@ -39,10 +40,10 @@ bool Inventory::AddItem(BaseItem* item)
 		if (existingItem && existingItem->GetItemID() == item->GetItemID())
 		{
 			bool result = existingItem->AddItemCount(item->GetCount());
-			if (result)
+			/*if (result)
 			{
 				delete item;
-			}
+			}*/
 			return result;
 		}
 	}

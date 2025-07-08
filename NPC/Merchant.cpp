@@ -35,11 +35,49 @@ EMerchantResult Merchant::SellItem(int32 itemId, Player& player)
 		return EMerchantResult::NotEnoughGold;
 	}
 
-    BaseItem* newItem = const_cast<BaseItem*>(ItemDataTable::GetInstance()->GetItem(itemId));
-	
+	const BaseItem* templateItem = ItemDataTable::GetInstance()->GetItem(itemId);
+	BaseItem* newItem = templateItem->CreateItem(); 
+
 	if (ItemDataTable::GetInstance()->IsEquippable(itemId))
 	{
-		player.GetEquipment().EquipItem(newItem);
+		EItemType itemType = newItem->GetItemType();
+		bool alreadyEquipped = false;
+
+		if (itemType == EItemType::Weapon && player.GetEquipment().GetEquippedItem(EItemType::Weapon) != nullptr)
+		{
+			alreadyEquipped = true;
+		}
+		else if (itemType == EItemType::Armor && player.GetEquipment().GetEquippedItem(EItemType::Armor) != nullptr)
+		{
+			alreadyEquipped = true;
+		}
+
+		if (alreadyEquipped)
+		{
+			newItem->AddItemCount(1);
+			if (player.GetInventory().AddItem(newItem))
+			{
+				player.UseGold(buyingPrice);
+				return EMerchantResult::AlreadyEquipped;
+			}
+			else
+			{
+				delete newItem;
+			}
+		}
+		else
+		{
+			player.GetEquipment().EquipItem(newItem);
+		}
+	}
+	else
+	{
+		newItem->AddItemCount(1);
+		if (!player.GetInventory().AddItem(newItem))
+		{
+			delete newItem;
+			return EMerchantResult::AlreadyEquipped;
+		}
 	}
 
 	//m_salesStatusTable.erase(itemId);

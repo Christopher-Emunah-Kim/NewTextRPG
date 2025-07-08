@@ -4,6 +4,7 @@
 enum class EMerchantResult
 {
 	Success,
+	AlreadyEquipped,
 	NotEnoughGold
 };
 

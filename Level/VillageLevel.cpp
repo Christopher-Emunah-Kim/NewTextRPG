@@ -185,6 +185,15 @@ void VillageLevel::BuySelectedItem(int32 itemId)
 		gi->WriteLine(L"골드가 부족합니다.");
 	}
 	break;
+	case EMerchantResult::AlreadyEquipped:
+	{
+		gi->WriteLine(L"이미 장착 중인 아이템입니다.");
+		gi->WriteLine(item->GetName() + L"을(를) 인벤토리에 추가합니다.");
+		gi->UpdateEquippedItem(item->GetName(), item->GetItemType());
+		gi->UpdatePlayerGold(player.GetGold());
+		gi->UpdateInvetoryItems(player.GetInventory().GetInventoryItems());
+	}
+	break;
 	case EMerchantResult::Success:
 	{
 		gi->UpdatePlayerGold(player.GetGold());

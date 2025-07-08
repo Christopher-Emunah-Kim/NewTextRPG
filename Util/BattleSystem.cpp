@@ -140,7 +140,6 @@ bool BattleSystem::TryEquipOrStoreItem(BattleCharacter* winner, BaseItem* droppe
 	}
 
     Equipment& playerEquipment = player->GetEquipment();
-	Inventory& playerInventory = player->GetInventory();
 
 	if (droppedItem->GetItemType() == EItemType::Weapon || droppedItem->GetItemType() == EItemType::Armor)
 	{
@@ -166,8 +165,7 @@ bool BattleSystem::TryEquipOrStoreItem(BattleCharacter* winner, BaseItem* droppe
 		}
 	}
 
-
-	if (playerInventory.AddItem(droppedItem))
+	if (player->AddItemToInventory(droppedItem))
 	{
 		result.rewards.bItemAddedToInventory = true;
 		return true;

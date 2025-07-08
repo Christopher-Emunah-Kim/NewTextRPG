@@ -10,6 +10,7 @@
 
 constexpr __int32 DEFAULT_OWNED_GOLD = 10000;
 
+class BaseItem;
 
 class Player final : public BattleCharacter  
 {  
@@ -33,12 +34,15 @@ public:
 	void GainGold(int32 amount);
 	bool GainExperience(int32 exp);
 
-	//int32 GetGoldAmount() const;
+	const vector<BaseItem*> GetInventoryItems() const;
+	void RemoveItemFromInventory(int32 itemId, int16 count = 1);
+	bool AddItemToInventory(BaseItem* item);
+	BaseItem* GetItemFromInventory(int32 itemId) const;
+
 	Gold GetGold() const;
 	Health GetHealth() const;
 	Status GetTotalStatus() const;
 	Experience GetExperience() const;
-	Inventory& GetInventory();
 	Equipment& GetEquipment();
 
 private:

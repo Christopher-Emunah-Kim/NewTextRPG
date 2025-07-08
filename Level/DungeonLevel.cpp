@@ -341,7 +341,6 @@ void DungeonLevel::ProcessPlayerAttack()
 void DungeonLevel::OnShowUsuableItems()
 {
 	Player& player = gi->GetPlayer();
-	Inventory& inventory = player.GetInventory();
 
 	gi->WriteLine();
 	gi->WriteLine(L"사용 가능한 아이템 목록을 보여줍니다.");
@@ -353,7 +352,7 @@ void DungeonLevel::OnShowUsuableItems()
 	gi->WriteLine(L"0: 뒤로가기");
 	gi->WriteLine();
 
-	const vector<BaseItem*>& items = inventory.GetInventoryItems();
+	const vector<BaseItem*>& items = player.GetInventoryItems();
 	for (size_t index = 0; index < items.size(); ++index)
 	{
 		const BaseItem* item = items[index];
@@ -394,13 +393,11 @@ void DungeonLevel::OnShowUsuableItems()
 void DungeonLevel::OnUseSelectedItem(int32 itemId)
 {
 	Player& player = gi->GetPlayer();
-	Inventory& inventory = player.GetInventory();
-	BaseItem* item = inventory.GetItem(itemId);
-	EItemType itemType = item->GetItemType();
+	BaseItem* item = player.GetItemFromInventory(itemId);
 
 	bool itemUsed = false;
 
-	switch (itemType)
+	switch (item->GetItemType())
 	{
 	case EItemType::Weapon:
 	case EItemType::Armor:
@@ -433,8 +430,8 @@ void DungeonLevel::OnUseSelectedItem(int32 itemId)
 
 	if (itemUsed)
 	{
-		inventory.RemoveItem(itemId);
-		gi->UpdateInvetoryItems(inventory.GetInventoryItems());
+		player.RemoveItemFromInventory(itemId);
+		gi->UpdateInvetoryItems(player.GetInventoryItems());
 	}
 
 	gi->WriteLine();
@@ -499,7 +496,7 @@ void DungeonLevel::ProcessBattleResult(bool monsterDefeated)
 			gi->UpdatePlayerStatus(player.GetTotalStatus());
 		}
 		
-		const vector<BaseItem*> inventoryItems = player.GetInventory().GetInventoryItems();
+		const vector<BaseItem*> inventoryItems = player.GetInventoryItems();
         if (!inventoryItems.empty())
 		{
 			gi->UpdateInvetoryItems(inventoryItems);

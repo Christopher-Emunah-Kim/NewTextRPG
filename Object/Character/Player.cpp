@@ -121,10 +121,6 @@ Gold Player::GetGold() const
 	return m_gold;
 }
 
-//int32 Player::GetGoldAmount() const
-//{
-//	return m_gold.GetAmount();
-//}
 
 bool Player::GainExperience(int32 exp)
 {
@@ -147,6 +143,28 @@ bool Player::GainExperience(int32 exp)
 
 	return false;
 }
+
+const vector<BaseItem*> Player::GetInventoryItems() const 
+{
+	return m_inventory.GetInventoryItems();
+}
+
+void Player::RemoveItemFromInventory(int32 itemId, int16 count)
+{
+	m_inventory.RemoveItem(itemId, count);
+}
+
+bool Player::AddItemToInventory(BaseItem* item)
+{
+	return m_inventory.AddItem(item);
+}
+
+BaseItem* Player::GetItemFromInventory(int32 itemId) const
+{
+	return m_inventory.GetItem(itemId);
+}
+
+
 
 void Player::LoadLevelPropertiesByLevel()
 {
@@ -176,10 +194,6 @@ Experience Player::GetExperience() const
 	return m_experience;
 }
 
-Inventory& Player::GetInventory() 
-{
-	return m_inventory;
-}
 
 Equipment& Player::GetEquipment()
 {

@@ -193,7 +193,7 @@ void VillageLevel::BuySelectedItem(int32 itemId)
 	case EMerchantResult::AlreadyEquipped:
 	{
 		newItem->AddItemCount(1);
-		if (player.GetInventory().AddItem(newItem))
+		if (player.AddItemToInventory(newItem))
 		{
 			player.UseGold(newItem->GetBuyingPrice());
 		}
@@ -206,7 +206,7 @@ void VillageLevel::BuySelectedItem(int32 itemId)
 		gi->WriteLine(item->GetName() + L"을(를) 인벤토리에 추가합니다.");
 		gi->UpdateEquippedItem(item->GetName(), item->GetItemType());
 		gi->UpdatePlayerGold(player.GetGold());
-		gi->UpdateInvetoryItems(player.GetInventory().GetInventoryItems());
+		gi->UpdateInvetoryItems(player.GetInventoryItems());
 	}
 	break;
 	case EMerchantResult::Success:
@@ -246,7 +246,6 @@ void VillageLevel::BuySelectedItem(int32 itemId)
 void VillageLevel::OnSellIItem()
 {
 	Player& player = gi->GetPlayer();
-	Inventory& inventory = player.GetInventory();
 
 	gi->WriteLine();
 	gi->WriteLine(L"상인에게 판매 가능한 아이템 목록을 보여줍니다.");
@@ -257,7 +256,7 @@ void VillageLevel::OnSellIItem()
 	gi->WriteLine(L"0: 뒤로가기");
 	gi->WriteLine();
 
-	const vector<BaseItem*>& items = inventory.GetInventoryItems();
+	const vector<BaseItem*>& items = player.GetInventoryItems();
 	for (size_t index = 0; index < items.size(); ++index)
 	{
 		const BaseItem* item = items[index];
@@ -297,15 +296,14 @@ void VillageLevel::SellSelectedItem(int32 itemId)
 {
 	Player& player = gi->GetPlayer();
 	const BaseItem* item = ItemDataTable::GetInstance()->GetItem(itemId);
-	Inventory& inventory = player.GetInventory();
 
 	m_merchant->BuyItem(itemId, player);
 
 	gi->ClearText();
 	gi->WriteLine(L"상인은 흡족해하며 당신에게 받은 물품을 살펴봅니다.");
-	inventory.RemoveItem(itemId);
+	player.RemoveItemFromInventory(itemId);
 	gi->UpdatePlayerGold(player.GetGold());
-	gi->UpdateInvetoryItems(inventory.GetInventoryItems());
+	gi->UpdateInvetoryItems(player.GetInventoryItems());
 
 
 	gi->WriteLine();

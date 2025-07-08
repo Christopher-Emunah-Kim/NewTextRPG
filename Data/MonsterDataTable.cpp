@@ -65,7 +65,7 @@ void MonsterDataTable::ProcessCSVParsing()
 
 	int16 monsterId;
 	string nameStr, descStr;
-	int32 health, maxHealth;
+	int32 maxHealth;
 	int16 characterLevel, monsterAttack, monsterDefense, monsterAgility;
 	int16 dropGold, dropExperience;
 
@@ -87,13 +87,12 @@ void MonsterDataTable::ProcessCSVParsing()
 		nameStr = row[1];
 		characterLevel = (int16)stoi(row[2]);
 		descStr = row[3];
-		health = (int32)stoi(row[4]);
-		maxHealth = (int32)stoi(row[5]);
-		monsterAttack = (int16)stoi(row[6]);
-		monsterDefense = (int16)stoi(row[7]);
-		monsterAgility = (int16)stoi(row[8]);
-		dropGold = (int16)stoi(row[9]);
-		dropExperience = (int16)stoi(row[10]);
+		maxHealth = (int32)stoi(row[4]);
+		monsterAttack = (int16)stoi(row[5]);
+		monsterDefense = (int16)stoi(row[6]);
+		monsterAgility = (int16)stoi(row[7]);
+		dropGold = (int16)stoi(row[8]);
+		dropExperience = (int16)stoi(row[9]);
 
 		wstring name = ToWideStr(nameStr);
 		wstring desc = ToWideStr(descStr);
@@ -109,6 +108,7 @@ void MonsterDataTable::ProcessCSVParsing()
 		monsterInfo.monsterId = monsterId; 
 
 		m_monsterDataTable[name] = monsterInfo;
+
 	}
 }
 

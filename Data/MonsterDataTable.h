@@ -2,7 +2,7 @@
 #include "../Common.h"
 #include "../Util/Singleton.h"
 
-constexpr __int16 MONSTER_CSV_COLUMN_NUM = 11;
+constexpr __int16 MONSTER_CSV_COLUMN_NUM = 10;
 
 struct FMonsterInfo;
 class BaseLevel;

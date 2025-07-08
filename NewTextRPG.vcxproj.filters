@@ -211,5 +211,6 @@
     <None Include="Data\ItemJsonData.json" />
     <None Include="Data\ItemCSVData.csv" />
     <None Include="Data\PlayerLevelPropertiesCSVData.csv" />
+    <None Include="Data\MonsterCSVData.csv" />
   </ItemGroup>
 </Project>

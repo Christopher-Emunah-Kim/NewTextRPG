@@ -77,8 +77,9 @@ void InputSystem::ProcessAction(wstring command)
 	{
 		it->second(); // Execute the bound action
 	}
-	else
+	else if(m_actionOnError)
 	{
 		m_actionOnError();
 	}
+
 }

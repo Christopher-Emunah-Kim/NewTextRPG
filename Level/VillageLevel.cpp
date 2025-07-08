@@ -177,16 +177,31 @@ void VillageLevel::BuySelectedItem(int32 itemId)
 	const BaseItem* item = ItemDataTable::GetInstance()->GetItem(itemId);
 
 	EMerchantResult result = m_merchant->SellItem(itemId, player);
+
+	const BaseItem* templateItem = ItemDataTable::GetInstance()->GetItem(itemId);
+	BaseItem* newItem = templateItem->CreateItem();
+
 	switch (result)
 	{
 	case EMerchantResult::NotEnoughGold:
 	{
 		gi->ClearText();
 		gi->WriteLine(L"골드가 부족합니다.");
+		delete newItem;
 	}
 	break;
 	case EMerchantResult::AlreadyEquipped:
 	{
+		newItem->AddItemCount(1);
+		if (player.GetInventory().AddItem(newItem))
+		{
+			player.UseGold(newItem->GetBuyingPrice());
+		}
+		else
+		{
+			delete newItem;
+		}
+
 		gi->WriteLine(L"이미 장착 중인 아이템입니다.");
 		gi->WriteLine(item->GetName() + L"을(를) 인벤토리에 추가합니다.");
 		gi->UpdateEquippedItem(item->GetName(), item->GetItemType());
@@ -196,10 +211,11 @@ void VillageLevel::BuySelectedItem(int32 itemId)
 	break;
 	case EMerchantResult::Success:
 	{
+		player.GetEquipment().EquipItem(newItem);
+
 		gi->UpdatePlayerGold(player.GetGold());
 		gi->UpdateEquippedItem(item->GetName(), item->GetItemType());
 		gi->UpdatePlayerStatus(player.GetTotalStatus());
-
 		gi->ClearText();
 		gi->WriteLine(item->GetName() + L"을(를) 구매 후 장착했습니다!");
 		gi->WriteLine(L"남은 골드: " + to_wstring(player.GetGold().GetAmount()));
@@ -209,6 +225,7 @@ void VillageLevel::BuySelectedItem(int32 itemId)
 
 	default:
 	{
+		delete newItem;
 		gi->ClearText();
 		gi->WriteLine(L"아이템 구매에 실패했습니다.");
 	}

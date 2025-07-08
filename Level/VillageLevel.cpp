@@ -197,11 +197,11 @@ void VillageLevel::BuySelectedItem(int32 itemId)
 			EItemType itemType = newItem->GetItemType();
 			bool alreadyEquipped = false;
 
-			if (itemType == EItemType::Weapon && player.GetEquipment().GetEquippedItem(EItemType::Weapon) != nullptr)
+			if (itemType == EItemType::Weapon && player.GetEquippedItem(EItemType::Weapon) != nullptr)
 			{
 				alreadyEquipped = true;
 			}
-			else if (itemType == EItemType::Armor && player.GetEquipment().GetEquippedItem(EItemType::Armor) != nullptr)
+			else if (itemType == EItemType::Armor && player.GetEquippedItem(EItemType::Armor) != nullptr)
 			{
 				alreadyEquipped = true;
 			}
@@ -223,7 +223,7 @@ void VillageLevel::BuySelectedItem(int32 itemId)
 			}
 			else
 			{
-				player.GetEquipment().EquipItem(newItem);
+				player.Equip(newItem);
 
 				gi->ClearText();
 				gi->WriteLine(item->GetName() + L"을(를) 구매 후 장착했습니다!");
@@ -259,7 +259,7 @@ void VillageLevel::BuySelectedItem(int32 itemId)
 	gi->UpdateEquippedItem(item->GetName(), item->GetItemType());
 	gi->UpdatePlayerGold(player.GetGold());
 	gi->UpdateInvetoryItems(player.GetInventoryItems());
-	gi->UpdatePlayerStatus(player.GetTotalStatus());
+	gi->UpdatePlayerStatus(player.GetTotalPlayerStatus());
 
 	gi->WriteLine();
 	gi->WriteLine(L"1. 계속 쇼핑하기");

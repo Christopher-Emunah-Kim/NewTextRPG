@@ -402,12 +402,14 @@ void DungeonLevel::OnUseSelectedItem(int32 itemId)
 	case EItemType::Weapon:
 	case EItemType::Armor:
 	{
-		player.GetEquipment().EquipItem(item);
-		gi->ClearText();
-		gi->WriteLine(item->GetName() + L"을(를) 장착했습니다!");
-		gi->UpdateEquippedItem(item->GetName(), item->GetItemType());
-		gi->UpdatePlayerStatus(player.GetTotalStatus());
-		itemUsed = true;
+		if (player.Equip(item))
+		{
+			gi->ClearText();
+			gi->WriteLine(item->GetName() + L"을(를) 장착했습니다!");
+			gi->UpdateEquippedItem(item->GetName(), item->GetItemType());
+			gi->UpdatePlayerStatus(player.GetTotalPlayerStatus());
+			itemUsed = true;
+		}
 		break;
 	}
 
@@ -493,7 +495,7 @@ void DungeonLevel::ProcessBattleResult(bool monsterDefeated)
 		if (result.rewards.droppedItem)
 		{
 			gi->UpdateEquippedItem(result.rewards.droppedItem->GetName(),result.rewards.droppedItem->GetItemType());
-			gi->UpdatePlayerStatus(player.GetTotalStatus());
+			gi->UpdatePlayerStatus(player.GetTotalPlayerStatus());
 		}
 		
 		const vector<BaseItem*> inventoryItems = player.GetInventoryItems();

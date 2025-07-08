@@ -39,11 +39,13 @@ public:
 	bool AddItemToInventory(BaseItem* item);
 	BaseItem* GetItemFromInventory(int32 itemId) const;
 
+	bool Equip(BaseItem* item);
+	BaseItem* GetEquippedItem(EItemType itemType) const;
+	Status GetTotalPlayerStatus() const;
+
 	Gold GetGold() const;
 	Health GetHealth() const;
-	Status GetTotalStatus() const;
 	Experience GetExperience() const;
-	Equipment& GetEquipment();
 
 private:
 	Gold m_gold;

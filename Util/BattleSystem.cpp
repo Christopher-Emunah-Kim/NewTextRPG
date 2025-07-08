@@ -139,11 +139,9 @@ bool BattleSystem::TryEquipOrStoreItem(BattleCharacter* winner, BaseItem* droppe
 		throw runtime_error("오류: 플레이어를 찾을 수 없습니다.");
 	}
 
-    Equipment& playerEquipment = player->GetEquipment();
-
 	if (droppedItem->GetItemType() == EItemType::Weapon || droppedItem->GetItemType() == EItemType::Armor)
 	{
-		BaseItem* currentEquip = playerEquipment.GetEquippedItem(droppedItem->GetItemType());
+		BaseItem* currentEquip = player->GetEquippedItem(droppedItem->GetItemType());
 		bool bIsBetter = false;
 
 		if (!currentEquip)
@@ -158,7 +156,7 @@ bool BattleSystem::TryEquipOrStoreItem(BattleCharacter* winner, BaseItem* droppe
 		}
 
 
-		if (bIsBetter && playerEquipment.EquipItem(droppedItem))
+		if (bIsBetter && player->Equip(droppedItem))
 		{
 			result.rewards.bItemEquipped = true;
 			return true;

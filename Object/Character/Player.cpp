@@ -26,7 +26,7 @@ void Player::UpdatePlayerHUD()
 	gameInstance->UpdatePlayerName(GetTag());
 	gameInstance->UpdatePlayerLevel(m_battleCharacterInfo.characterLevel);
 	gameInstance->UpdatePlayerHealth(m_battleCharacterInfo.health);
-	gameInstance->UpdatePlayerStatus(GetTotalStatus());
+	gameInstance->UpdatePlayerStatus(GetTotalPlayerStatus());
 	gameInstance->UpdatePlayerExperience(m_experience);
 	gameInstance->UpdatePlayerGold(m_gold);
 
@@ -136,7 +136,7 @@ bool Player::GainExperience(int32 exp)
 
 		GameInstance::GetInstance()->UpdatePlayerLevel(m_battleCharacterInfo.characterLevel);
 		GameInstance::GetInstance()->UpdatePlayerHealth(m_battleCharacterInfo.health);
-		GameInstance::GetInstance()->UpdatePlayerStatus(GetTotalStatus());
+		GameInstance::GetInstance()->UpdatePlayerStatus(GetTotalPlayerStatus());
 
 		return true;
 	}
@@ -180,7 +180,17 @@ void Player::LoadLevelPropertiesByLevel()
 	);
 }
 
-Status Player::GetTotalStatus() const
+bool Player::Equip(BaseItem* item)
+{
+	return m_equipment.EquipItem(item);
+}
+
+BaseItem* Player::GetEquippedItem(EItemType itemType) const
+{
+	return m_equipment.GetEquippedItem(itemType);
+}
+
+Status Player::GetTotalPlayerStatus() const
 {
 	Status baseStatus = m_battleCharacterInfo.status;
 	Status equipStatus = m_equipment.GetTotalEquipmentStatus();
@@ -194,9 +204,4 @@ Experience Player::GetExperience() const
 	return m_experience;
 }
 
-
-Equipment& Player::GetEquipment()
-{
-	return m_equipment;
-}
 

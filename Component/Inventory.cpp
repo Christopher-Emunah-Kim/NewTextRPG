@@ -40,10 +40,7 @@ bool Inventory::AddItem(BaseItem* item)
 		if (existingItem && existingItem->GetItemID() == item->GetItemID())
 		{
 			bool result = existingItem->AddItemCount(item->GetCount());
-			/*if (result)
-			{
-				delete item;
-			}*/
+			
 			return result;
 		}
 	}
@@ -63,7 +60,6 @@ bool Inventory::RemoveItem(int32 itemId, int16 count)
 			{
 				if (item->IsEmpty())
 				{
-					delete item;
 					m_inventoryItems.erase(m_inventoryItems.begin() + i);
 				}
 

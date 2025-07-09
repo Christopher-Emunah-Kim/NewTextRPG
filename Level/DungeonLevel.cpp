@@ -394,12 +394,14 @@ void DungeonLevel::OnUseSelectedItem(int32 itemId)
 {
 	Player& player = gi->GetPlayer();
 	BaseItem* item = player.GetItemFromInventory(itemId);
+	BaseItem* equippedItem = player.GetEquippedItem(item->GetItemType());
 
 	if (!item)
 	{
 		gi->WriteLine(L"존재하지 않는 아이템입니다.");
 		return;
 	}
+
 
 	EPlayerHandleItemResult result = player.HandleOwnedItem(item);
 
@@ -417,14 +419,17 @@ void DungeonLevel::OnUseSelectedItem(int32 itemId)
 	if (result == EPlayerHandleItemResult::Equipped )
 	{
 		gi->UpdateEquippedItem(item->GetName(), item->GetItemType());
-		gi->UpdateInvetoryItems(player.GetInventoryItems());
 		player.RemoveItemFromInventory(itemId);
+		equippedItem->AddItemCount(1);
+		player.AddItemToInventory(equippedItem);
+		gi->UpdateInvetoryItems(player.GetInventoryItems());
 	}
 	else if (result == EPlayerHandleItemResult::UseItem)
 	{
 		player.RemoveItemFromInventory(itemId);
 		gi->UpdateInvetoryItems(player.GetInventoryItems());
 	}
+
 	gi->UpdatePlayerStatus(player.GetTotalPlayerStatus());
 	gi->UpdatePlayerHealth(player.GetHealthForHUD());
 

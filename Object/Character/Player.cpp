@@ -2,6 +2,7 @@
 #include "../../Screen.h"
 #include "../../Core/GameInstance.h"
 #include "../../Level/BaseLevel.h"
+#include "../../Data/ItemDataTable.h"
 
 
 Player::Player()
@@ -190,6 +191,55 @@ bool Player::AddItemToInventory(BaseItem* item)
 BaseItem* Player::GetItemFromInventory(int32 itemId) const
 {
 	return m_inventory.GetItem(itemId);
+}
+
+EPlayerHandleItemResult Player::HandleItem(BaseItem* item)
+{
+	if (item == nullptr)
+	{
+		return EPlayerHandleItemResult::ItemNullPtr;
+	}
+
+	EItemType itemType = item->GetItemType();
+	bool bIsEquippable = ItemDataTable::GetInstance()->IsEquippable(item->GetItemID());
+
+	if (bIsEquippable)
+	{
+		bool bIsAlreadyEquipped = false;
+		if((m_equipment.GetEquippedItem(EItemType::Weapon) != nullptr && EItemType::Weapon == itemType)|| 
+		   (m_equipment.GetEquippedItem(EItemType::Armor) != nullptr && EItemType::Armor == itemType))
+		{
+			bIsAlreadyEquipped = true;
+		}
+
+		if (bIsAlreadyEquipped)
+		{
+			item->AddItemCount(1);
+			if (AddItemToInventory(item))
+			{
+				return EPlayerHandleItemResult::AddToInventory;
+			}
+
+			delete item;
+			return EPlayerHandleItemResult::InventoryFull;
+		}
+		else
+		{
+			Equip(item);
+			return EPlayerHandleItemResult::Equipped;
+		}
+	}
+	else
+	{
+		item->AddItemCount(1);
+		if (AddItemToInventory(item))
+		{
+			return EPlayerHandleItemResult::AddToInventory;
+		}
+		
+		delete item;
+		return EPlayerHandleItemResult::InventoryFull;
+	}
 }
 
 

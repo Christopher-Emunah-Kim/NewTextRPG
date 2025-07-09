@@ -177,8 +177,6 @@ void VillageLevel::BuySelectedItem(int32 itemId)
 
 	expected<BaseItem*, wstring> expectedResult = m_merchant->SellItem(itemId, player);
 
-	gi->ClearText();
-
 	if(!expectedResult.has_value())
 	{
 		gi->WriteLine(expectedResult.error());
@@ -186,68 +184,24 @@ void VillageLevel::BuySelectedItem(int32 itemId)
 	}
 
 	BaseItem* newItem = expectedResult.value();
-	EItemType itemType = newItem->GetItemType();
-	bool bIsEquippeable = ItemDataTable::GetInstance()->IsEquippable(itemId);
 
-	if (bIsEquippeable)
-	{
-		bool alreadyEquipped = false;
+	EPlayerHandleItemResult handleResult = player.HandleItem(newItem);
 
-		if (itemType == EItemType::Weapon && player.GetEquippedItem(EItemType::Weapon) != nullptr)
-		{
-			alreadyEquipped = true;
-		}
-		else if (itemType == EItemType::Armor && player.GetEquippedItem(EItemType::Armor) != nullptr)
-		{
-			alreadyEquipped = true;
-		}
+	gi->WriteLine(L"");
+	gi->WriteLine(L"============================================");
+	gi->WriteLine(L"");
+	gi->WriteLine(GetMsgForItemHandleResult(handleResult, newItem));
+	gi->WriteLine(L"");
+	gi->WriteLine(L"============================================");
+	gi->WriteLine(L"");
+	gi->WriteLine(L"1. 계속 쇼핑하기");
+	gi->WriteLine(L"2. 상점 메뉴로 돌아가기");
 
-
-		if (alreadyEquipped)
-		{
-			newItem->AddItemCount(1);
-			if (player.AddItemToInventory(newItem))
-			{
-				gi->WriteLine(L"이미 장착 중인 아이템입니다. 인벤토리에 추가합니다.");
-			}
-			else
-			{
-				delete newItem;
-				gi->WriteLine(L"인벤토리에 공간이 없어 아이템을 버립니다.");
-			}
-		}
-		else
-		{
-			player.Equip(newItem);
-
-			gi->ClearText();
-			gi->WriteLine(newItem->GetName() + L"을(를) 구매 후 장착했습니다!");
-			gi->WriteLine(L"남은 골드: " + to_wstring(player.GetGoldAmount()));
-		}
-
-	}
-	else
-	{
-		newItem->AddItemCount(1);
-		if (player.AddItemToInventory(newItem))
-		{
-			gi->WriteLine(newItem->GetName() + L"을(를) 인벤토리에 추가했습니다.");
-		}
-		else
-		{
-			delete newItem;
-			gi->WriteLine(L"인벤토리에 공간이 없어 아이템을 버렸습니다.");
-		}
-	}
 
 	gi->UpdateEquippedItem(newItem->GetName(), newItem->GetItemType());
 	gi->UpdatePlayerGold(player.GetGoldForHUD());
 	gi->UpdateInvetoryItems(player.GetInventoryItems());
 	gi->UpdatePlayerStatus(player.GetTotalPlayerStatus());
-
-	gi->WriteLine();
-	gi->WriteLine(L"1. 계속 쇼핑하기");
-	gi->WriteLine(L"2. 상점 메뉴로 돌아가기");
 
 	InputSystem::BindAction({
 		{L"1", bind(&VillageLevel::OnBuyItem, this)},
@@ -255,6 +209,26 @@ void VillageLevel::BuySelectedItem(int32 itemId)
 		});
 
 
+}
+
+wstring VillageLevel::GetMsgForItemHandleResult(EPlayerHandleItemResult result, BaseItem* item)
+{
+	switch (result)
+	{
+	case EPlayerHandleItemResult::Equipped:
+		return item->GetName() + L"을(를) 장착했습니다!";
+	case EPlayerHandleItemResult::AddToInventory:
+		return item->GetName() + L"을(를) 인벤토리에 추가했습니다.";
+	case EPlayerHandleItemResult::InventoryFull:
+		return L"인벤토리에 공간이 없어 " + item->GetName()  + L"을(를) 버렸습니다.";
+	case EPlayerHandleItemResult::ItemNullPtr:
+		return L"아이템이 존재하지 않습니다. item : " + item->GetName();
+	case EPlayerHandleItemResult::InvalidItemType:
+		return L"알 수 없는 아이템입니다.";
+
+	default:
+		return L"[오류] 알 수 없는 결과입니다.";
+	}
 }
 
 void VillageLevel::OnSellIItem()

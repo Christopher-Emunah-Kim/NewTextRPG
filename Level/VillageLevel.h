@@ -5,6 +5,8 @@
 class GameInstance;
 class Healer;
 class Merchant;
+class BaseItem;
+enum class EPlayerHandleItemResult;
 
 class VillageLevel : public BaseLevel
 {
@@ -17,6 +19,7 @@ public:
 private:
 	void Welcome();
 	void BuySelectedItem(int32 itemId);
+	wstring GetMsgForItemHandleResult(EPlayerHandleItemResult result, BaseItem* item);
 	void SellSelectedItem(int32 itemId);
 
 	void OnEnterItemShop();

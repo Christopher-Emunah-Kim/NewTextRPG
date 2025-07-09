@@ -10,6 +10,16 @@
 
 constexpr __int32 DEFAULT_OWNED_GOLD = 10000;
 
+enum class EPlayerHandleItemResult
+{
+	NONE,
+	Equipped,
+	AddToInventory,
+	InventoryFull,
+	ItemNullPtr,
+	InvalidItemType
+};
+
 class BaseItem;
 
 class Player final : public BattleCharacter  
@@ -41,6 +51,7 @@ public:
 	void RemoveItemFromInventory(int32 itemId, int16 count = 1);
 	bool AddItemToInventory(BaseItem* item);
 	BaseItem* GetItemFromInventory(int32 itemId) const;
+	EPlayerHandleItemResult HandleItem(BaseItem* item);
 
 	bool Equip(BaseItem* item);
 	BaseItem* GetEquippedItem(EItemType itemType) const;
@@ -55,4 +66,5 @@ private:
 	Experience m_experience;
 	Inventory m_inventory;
 	Equipment m_equipment;
+
 };

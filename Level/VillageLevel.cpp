@@ -185,7 +185,8 @@ void VillageLevel::BuySelectedItem(int32 itemId)
 
 	BaseItem* newItem = expectedResult.value();
 
-	EPlayerHandleItemResult handleResult = player.HandleItem(newItem);
+	EPlayerHandleItemResult handleResult = player.HandlePurchasedItem(newItem);
+
 
 	gi->WriteLine(L"");
 	gi->WriteLine(L"============================================");
@@ -197,11 +198,17 @@ void VillageLevel::BuySelectedItem(int32 itemId)
 	gi->WriteLine(L"1. 계속 쇼핑하기");
 	gi->WriteLine(L"2. 상점 메뉴로 돌아가기");
 
-
-	gi->UpdateEquippedItem(newItem->GetName(), newItem->GetItemType());
+	if (handleResult == EPlayerHandleItemResult::Equipped)
+	{
+		gi->UpdateEquippedItem(newItem->GetName(), newItem->GetItemType());
+	}
+	else if (handleResult == EPlayerHandleItemResult::AddToInventory)
+	{
+		gi->UpdateInvetoryItems(player.GetInventoryItems());
+	}
 	gi->UpdatePlayerGold(player.GetGoldForHUD());
-	gi->UpdateInvetoryItems(player.GetInventoryItems());
 	gi->UpdatePlayerStatus(player.GetTotalPlayerStatus());
+
 
 	InputSystem::BindAction({
 		{L"1", bind(&VillageLevel::OnBuyItem, this)},

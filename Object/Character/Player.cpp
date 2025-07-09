@@ -193,7 +193,7 @@ BaseItem* Player::GetItemFromInventory(int32 itemId) const
 	return m_inventory.GetItem(itemId);
 }
 
-EPlayerHandleItemResult Player::HandleItem(BaseItem* item)
+EPlayerHandleItemResult Player::HandlePurchasedItem(BaseItem* item)
 {
 	if (item == nullptr)
 	{
@@ -239,6 +239,44 @@ EPlayerHandleItemResult Player::HandleItem(BaseItem* item)
 		
 		delete item;
 		return EPlayerHandleItemResult::InventoryFull;
+	}
+}
+
+EPlayerHandleItemResult Player::HandleOwnedItem(BaseItem* item)
+{
+	if (item == nullptr)
+	{
+		return EPlayerHandleItemResult::ItemNullPtr;
+	}
+
+	EItemType itemType = item->GetItemType();
+
+	switch (itemType)
+	{
+	case EItemType::Weapon:
+	case EItemType::Armor:
+	{
+		if (Equip(item))
+		{
+			return EPlayerHandleItemResult::Equipped;
+		}
+		else
+		{
+			return EPlayerHandleItemResult::NotUsuableItem;
+		}
+	}
+	case EItemType::Consumable:
+	{
+		Recover(20);
+		return EPlayerHandleItemResult::UseItem;
+	}
+	break;
+	
+	default:
+	{
+		return EPlayerHandleItemResult::NotUsuableItem;
+	}
+	break;
 	}
 }
 

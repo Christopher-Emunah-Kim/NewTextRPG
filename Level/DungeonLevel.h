@@ -5,7 +5,9 @@ constexpr __int16 DUNGEON_MAX_MONSTERS = 7;
 
 class Monster;
 class GameInstance;
+class BaseItem;
 struct FBattleRewardInfo;
+enum class EPlayerHandleItemResult;
 
 class DungeonLevel : public BaseLevel
 {
@@ -38,6 +40,8 @@ private:
 	void OnShowUsuableItems();
 	void OnUseSelectedItem(int32 itemId);
 	void OnTryEscape();
+
+	wstring GetMsgForItemHandleResult(EPlayerHandleItemResult result, BaseItem* item);
 
 private:
 	GameInstance* gi;

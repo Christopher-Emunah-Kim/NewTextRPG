@@ -158,6 +158,11 @@ bool BattleSystem::TryEquipOrStoreItem(BattleCharacter* winner, BaseItem* droppe
 
 		if (bIsBetter && player->Equip(droppedItem))
 		{
+			if (currentEquip)
+			{
+				currentEquip->AddItemCount(1);
+				player->AddItemToInventory(currentEquip);
+			}
 			result.rewards.bItemEquipped = true;
 			return true;
 		}

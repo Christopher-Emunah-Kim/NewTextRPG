@@ -17,6 +17,8 @@ enum class EPlayerHandleItemResult
 	AddToInventory,
 	InventoryFull,
 	ItemNullPtr,
+	NotUsuableItem,
+	UseItem,
 	InvalidItemType
 };
 
@@ -51,7 +53,8 @@ public:
 	void RemoveItemFromInventory(int32 itemId, int16 count = 1);
 	bool AddItemToInventory(BaseItem* item);
 	BaseItem* GetItemFromInventory(int32 itemId) const;
-	EPlayerHandleItemResult HandleItem(BaseItem* item);
+	EPlayerHandleItemResult HandlePurchasedItem(BaseItem* item);
+	EPlayerHandleItemResult HandleOwnedItem(BaseItem* item);
 
 	bool Equip(BaseItem* item);
 	BaseItem* GetEquippedItem(EItemType itemType) const;

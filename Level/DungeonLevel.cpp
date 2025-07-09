@@ -395,50 +395,39 @@ void DungeonLevel::OnUseSelectedItem(int32 itemId)
 	Player& player = gi->GetPlayer();
 	BaseItem* item = player.GetItemFromInventory(itemId);
 
-	bool itemUsed = false;
-
-	switch (item->GetItemType())
+	if (!item)
 	{
-	case EItemType::Weapon:
-	case EItemType::Armor:
-	{
-		if (player.Equip(item))
-		{
-			gi->ClearText();
-			gi->WriteLine(item->GetName() + L"을(를) 장착했습니다!");
-			gi->UpdateEquippedItem(item->GetName(), item->GetItemType());
-			gi->UpdatePlayerStatus(player.GetTotalPlayerStatus());
-			itemUsed = true;
-		}
-		break;
+		gi->WriteLine(L"존재하지 않는 아이템입니다.");
+		return;
 	}
 
-	case EItemType::Consumable:
-	{
-		player.Recover(20);
-		gi->WriteLine(item->GetName() + L"을(를) 사용하여 체력이 20 회복되었습니다!");
-		gi->WriteLine(L"현재 체력: " + to_wstring(player.GetBattleCharacterInfo().health.GetCurrentAmount()));
-		gi->UpdatePlayerHealth(player.GetHealthForHUD());
-		itemUsed = true;
-	}
-		break;
+	EPlayerHandleItemResult result = player.HandleOwnedItem(item);
 
-	default:
-	{
-		gi->WriteLine(L"사용할 수 없는 아이템입니다.");
-	}
-		break;
-	}
+	gi->WriteLine(L"");
+	gi->WriteLine(L"============================================");
+	gi->WriteLine(L"");
+	gi->WriteLine(GetMsgForItemHandleResult(result, item));
+	gi->WriteLine(L"");
+	gi->WriteLine(L"============================================");
+	gi->WriteLine(L"");
+	gi->WriteLine();
+	gi->WriteLine(L"1. 다른 아이템 사용하기");
+	gi->WriteLine(L"2. 전투로 돌아가기");
 
-	if (itemUsed)
+	if (result == EPlayerHandleItemResult::Equipped )
+	{
+		gi->UpdateEquippedItem(item->GetName(), item->GetItemType());
+		gi->UpdateInvetoryItems(player.GetInventoryItems());
+		player.RemoveItemFromInventory(itemId);
+	}
+	else if (result == EPlayerHandleItemResult::UseItem)
 	{
 		player.RemoveItemFromInventory(itemId);
 		gi->UpdateInvetoryItems(player.GetInventoryItems());
 	}
+	gi->UpdatePlayerStatus(player.GetTotalPlayerStatus());
+	gi->UpdatePlayerHealth(player.GetHealthForHUD());
 
-	gi->WriteLine();
-	gi->WriteLine(L"1. 다른 아이템 사용하기");
-	gi->WriteLine(L"2. 전투로 돌아가기");
 
 	InputSystem::BindAction({
 		{L"1", bind(&DungeonLevel::OnShowUsuableItems, this)},
@@ -446,6 +435,39 @@ void DungeonLevel::OnUseSelectedItem(int32 itemId)
 		});
 }
 
+wstring DungeonLevel::GetMsgForItemHandleResult(EPlayerHandleItemResult result, BaseItem* item)
+{
+	switch (result)
+	{
+	case EPlayerHandleItemResult::Equipped:
+	{
+		return item->GetName() + L"을(를) 장착했습니다!";
+	}
+	break;
+	case EPlayerHandleItemResult::UseItem:
+	{
+		return item->GetName() + L"을(를) 사용하여 체력이 20 회복되었습니다!";
+	}
+	break;
+
+	case EPlayerHandleItemResult::NotUsuableItem:
+	{
+		return L"사용할 수 없는 아이템입니다.";
+	}
+	break;
+
+	case EPlayerHandleItemResult::ItemNullPtr:
+	{
+		return L"존재하지 않는 아이템입니다.";
+	}
+
+	default:
+	{
+		return L"아이템 처리 중 오류가 발생했습니다.";
+	}
+	break;
+	}
+}
 
 void DungeonLevel::OnTryEscape()
 {
@@ -494,8 +516,11 @@ void DungeonLevel::ProcessBattleResult(bool monsterDefeated)
 		
 		if (result.rewards.droppedItem)
 		{
-			gi->UpdateEquippedItem(result.rewards.droppedItem->GetName(),result.rewards.droppedItem->GetItemType());
-			gi->UpdatePlayerStatus(player.GetTotalPlayerStatus());
+			if (result.rewards.bItemEquipped)
+			{
+				gi->UpdateEquippedItem(result.rewards.droppedItem->GetName(),result.rewards.droppedItem->GetItemType());
+				gi->UpdatePlayerStatus(player.GetTotalPlayerStatus());
+			}
 		}
 		
 		const vector<BaseItem*> inventoryItems = player.GetInventoryItems();

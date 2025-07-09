@@ -97,7 +97,7 @@ void VillageLevel::OnEnterItemShop()
 	InputSystem::BindAction(
 		{
 			{L"1", bind(&VillageLevel::OnBuyItem, this)},
-			{L"2", bind(&VillageLevel::OnSellIItem, this)},
+			{L"2", bind(&VillageLevel::OnSellItem, this)},
 			{L"3", bind(&VillageLevel::Welcome, this)},
 		}
 		);
@@ -208,7 +208,6 @@ void VillageLevel::BuySelectedItem(int32 itemId)
 		{L"2", bind(&VillageLevel::OnEnterItemShop, this)}
 		});
 
-
 }
 
 wstring VillageLevel::GetMsgForItemHandleResult(EPlayerHandleItemResult result, BaseItem* item)
@@ -216,22 +215,40 @@ wstring VillageLevel::GetMsgForItemHandleResult(EPlayerHandleItemResult result, 
 	switch (result)
 	{
 	case EPlayerHandleItemResult::Equipped:
+	{
 		return item->GetName() + L"을(를) 장착했습니다!";
+	}
+	break;
 	case EPlayerHandleItemResult::AddToInventory:
+	{
 		return item->GetName() + L"을(를) 인벤토리에 추가했습니다.";
+	}
+	break;
 	case EPlayerHandleItemResult::InventoryFull:
+	{
 		return L"인벤토리에 공간이 없어 " + item->GetName()  + L"을(를) 버렸습니다.";
+	}
+	break;
 	case EPlayerHandleItemResult::ItemNullPtr:
+	{
 		return L"아이템이 존재하지 않습니다. item : " + item->GetName();
+	}
+	break;
 	case EPlayerHandleItemResult::InvalidItemType:
+	{
 		return L"알 수 없는 아이템입니다.";
+	}
+	break;
 
 	default:
+	{
 		return L"[오류] 알 수 없는 결과입니다.";
+	}
+	break;
 	}
 }
 
-void VillageLevel::OnSellIItem()
+void VillageLevel::OnSellItem()
 {
 	Player& player = gi->GetPlayer();
 
@@ -275,7 +292,7 @@ void VillageLevel::OnSellIItem()
 		{
 			gi->ClearText();
 			gi->WriteLine(L"잘못된 입력입니다. 다시 시도하세요.");
-			OnSellIItem();
+			OnSellItem();
 		}
 	);
 }
@@ -299,7 +316,7 @@ void VillageLevel::SellSelectedItem(int32 itemId)
 	gi->WriteLine(L"2. 상점 메뉴로 돌아가기");
 
 	InputSystem::BindAction({
-		{L"1", bind(&VillageLevel::OnSellIItem, this)},
+		{L"1", bind(&VillageLevel::OnSellItem, this)},
 		{L"2", bind(&VillageLevel::OnEnterItemShop, this)}
 		});
 

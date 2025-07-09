@@ -19,12 +19,12 @@ public:
 private:
 	void Welcome();
 	void BuySelectedItem(int32 itemId);
-	wstring GetMsgForItemHandleResult(EPlayerHandleItemResult result, BaseItem* item);
 	void SellSelectedItem(int32 itemId);
+	wstring GetMsgForItemHandleResult(EPlayerHandleItemResult result, BaseItem* item);
 
 	void OnEnterItemShop();
 	void OnBuyItem();
-	void OnSellIItem();
+	void OnSellItem();
 	void OnEnterHealerShop();
 	void OnRecoverPlayer();
 	void OnExitVillage();

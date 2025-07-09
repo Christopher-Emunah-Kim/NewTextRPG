@@ -154,6 +154,7 @@ void VillageLevel::OnBuyItem()
 	gi->WriteLine(L"============================================");
 	gi->WriteLine(L"구매할 아이템 번호를 입력하세요");
 
+	InputSystem::Clear();
 	InputSystem::BindAction(L"0", bind(&VillageLevel::OnEnterItemShop, this));
 	for (size_t index = 0; index < salesItems.size(); ++index)
 	{
@@ -209,7 +210,7 @@ void VillageLevel::BuySelectedItem(int32 itemId)
 	gi->UpdatePlayerGold(player.GetGoldForHUD());
 	gi->UpdatePlayerStatus(player.GetTotalPlayerStatus());
 
-
+	InputSystem::Clear();
 	InputSystem::BindAction({
 		{L"1", bind(&VillageLevel::OnBuyItem, this)},
 		{L"2", bind(&VillageLevel::OnEnterItemShop, this)}
@@ -287,6 +288,7 @@ void VillageLevel::OnSellItem()
 	gi->WriteLine(L"============================================");
 	gi->WriteLine(L"판매할 아이템 번호를 입력하세요");
 
+	InputSystem::Clear();
 	InputSystem::BindAction(L"0", bind(&VillageLevel::OnEnterItemShop, this));
 	for (size_t index = 0; index < items.size(); ++index)
 	{
@@ -349,6 +351,7 @@ void VillageLevel::OnEnterHealerShop()
 	gi->WriteLine(L"============================================");
 	gi->WriteLine(L"원하는 옵션의 번호를 입력하세요.");
 
+	InputSystem::Clear();
 	InputSystem::BindAction(
 		{
 			{L"1", bind(&VillageLevel::OnRecoverPlayer, this)},

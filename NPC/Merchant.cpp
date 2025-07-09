@@ -22,21 +22,25 @@ vector<int32> Merchant::GetSalesItems() const
 	return saleItems;
 }
 
-EMerchantResult Merchant::SellItem(int32 itemId, Player& player)
+expected<BaseItem*, wstring> Merchant::SellItem(int32 itemId, Player& player)
 {
 	if (m_salesStatusTable.find(itemId) == m_salesStatusTable.end())
 	{
-		throw invalid_argument("Item not found in sales table. itemId : " + to_string(itemId));
+		return unexpected(wstring(L"해당 아이템은 상인의 보유아이템 목록에 존재하지 않습니다. itemId : ") + to_wstring(itemId));
 	}
 
 	const int32 buyingPrice = ItemDataTable::GetInstance()->GetItem(itemId)->GetBuyingPrice();
 	if (player.CanAfford(buyingPrice) == false)
 	{
-		return EMerchantResult::NotEnoughGold;
+		return unexpected(wstring(L"금액이 부족합니다."));
 	}
 
 	player.UseGold(buyingPrice);
-	return EMerchantResult::Success;
+	
+	const BaseItem* templateItem = ItemDataTable::GetInstance()->GetItem(itemId);
+	BaseItem* item = templateItem->CreateItem();
+
+	return item;
 }
 
 void Merchant::BuyItem(int32 itemId, Player& player)

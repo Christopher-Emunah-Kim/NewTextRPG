@@ -6,6 +6,7 @@
 
 #include <functional>
 #include <format>
+#include <expected>
 
 #include <vector>
 #include <string>

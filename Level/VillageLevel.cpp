@@ -174,89 +174,73 @@ void VillageLevel::OnBuyItem()
 void VillageLevel::BuySelectedItem(int32 itemId)
 {
 	Player& player = gi->GetPlayer();
-	const BaseItem* item = ItemDataTable::GetInstance()->GetItem(itemId);
 
-	EMerchantResult result = m_merchant->SellItem(itemId, player);
+	expected<BaseItem*, wstring> expectedResult = m_merchant->SellItem(itemId, player);
 
-	const BaseItem* templateItem = ItemDataTable::GetInstance()->GetItem(itemId);
-	BaseItem* newItem = templateItem->CreateItem();
+	gi->ClearText();
 
-	switch (result)
+	if(!expectedResult.has_value())
 	{
-	case EMerchantResult::NotEnoughGold:
-	{
-		gi->ClearText();
-		gi->WriteLine(L"골드가 부족합니다.");
-		delete newItem;
+		gi->WriteLine(expectedResult.error());
+		return;
 	}
-	break;
-	case EMerchantResult::Success:
+
+	BaseItem* newItem = expectedResult.value();
+	EItemType itemType = newItem->GetItemType();
+	bool bIsEquippeable = ItemDataTable::GetInstance()->IsEquippable(itemId);
+
+	if (bIsEquippeable)
 	{
-		if (ItemDataTable::GetInstance()->IsEquippable(itemId))
+		bool alreadyEquipped = false;
+
+		if (itemType == EItemType::Weapon && player.GetEquippedItem(EItemType::Weapon) != nullptr)
 		{
-			EItemType itemType = newItem->GetItemType();
-			bool alreadyEquipped = false;
-
-			if (itemType == EItemType::Weapon && player.GetEquippedItem(EItemType::Weapon) != nullptr)
-			{
-				alreadyEquipped = true;
-			}
-			else if (itemType == EItemType::Armor && player.GetEquippedItem(EItemType::Armor) != nullptr)
-			{
-				alreadyEquipped = true;
-			}
-
-			if (alreadyEquipped)
-			{
-				newItem->AddItemCount(1);
-				if (player.AddItemToInventory(newItem))
-				{
-					gi->WriteLine(L"이미 장착 중인 아이템입니다.");
-					gi->WriteLine(item->GetName() + L"을(를) 인벤토리에 추가합니다.");
-				}
-				else
-				{
-					delete newItem;
-					gi->WriteLine(L"아이템 장착에 실패했습니다.");
-					gi->WriteLine(item->GetName() + L"을(를) 바닥에 버립니다.");
-				}
-			}
-			else
-			{
-				player.Equip(newItem);
-
-				gi->ClearText();
-				gi->WriteLine(item->GetName() + L"을(를) 구매 후 장착했습니다!");
-				gi->WriteLine(L"남은 골드: " + to_wstring(player.GetGoldAmount()));
-			}
+			alreadyEquipped = true;
 		}
-		else
+		else if (itemType == EItemType::Armor && player.GetEquippedItem(EItemType::Armor) != nullptr)
+		{
+			alreadyEquipped = true;
+		}
+
+
+		if (alreadyEquipped)
 		{
 			newItem->AddItemCount(1);
 			if (player.AddItemToInventory(newItem))
 			{
-				gi->WriteLine(item->GetName() + L"을(를) 인벤토리에 추가합니다.");
+				gi->WriteLine(L"이미 장착 중인 아이템입니다. 인벤토리에 추가합니다.");
 			}
 			else
 			{
 				delete newItem;
-				gi->WriteLine(L"아이템 장착에 실패했습니다.");
-				gi->WriteLine(item->GetName() + L"을(를) 바닥에 버립니다.");
+				gi->WriteLine(L"인벤토리에 공간이 없어 아이템을 버립니다.");
 			}
 		}
-	}
-	break;
-	
+		else
+		{
+			player.Equip(newItem);
 
-	default:
+			gi->ClearText();
+			gi->WriteLine(newItem->GetName() + L"을(를) 구매 후 장착했습니다!");
+			gi->WriteLine(L"남은 골드: " + to_wstring(player.GetGoldAmount()));
+		}
+
+	}
+	else
 	{
-		delete newItem;
-		gi->ClearText();
-		gi->WriteLine(L"아이템 구매에 실패했습니다.");
-	}
+		newItem->AddItemCount(1);
+		if (player.AddItemToInventory(newItem))
+		{
+			gi->WriteLine(newItem->GetName() + L"을(를) 인벤토리에 추가했습니다.");
+		}
+		else
+		{
+			delete newItem;
+			gi->WriteLine(L"인벤토리에 공간이 없어 아이템을 버렸습니다.");
+		}
 	}
 
-	gi->UpdateEquippedItem(item->GetName(), item->GetItemType());
+	gi->UpdateEquippedItem(newItem->GetName(), newItem->GetItemType());
 	gi->UpdatePlayerGold(player.GetGoldForHUD());
 	gi->UpdateInvetoryItems(player.GetInventoryItems());
 	gi->UpdatePlayerStatus(player.GetTotalPlayerStatus());

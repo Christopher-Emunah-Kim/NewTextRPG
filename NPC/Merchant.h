@@ -9,6 +9,7 @@ enum class EMerchantResult
 };
 
 class Player;
+class BaseItem;
 
 class Merchant final
 {
@@ -17,7 +18,7 @@ public:
 
 	void AddSaleItem(int32 itemId);
 	vector<int32> GetSalesItems() const;
-	EMerchantResult SellItem(int32 itemId, Player& player);
+	expected<BaseItem*, wstring> SellItem(int32 itemId, Player& player);
 	void BuyItem(int32 itemId, Player& player);
 
 private:

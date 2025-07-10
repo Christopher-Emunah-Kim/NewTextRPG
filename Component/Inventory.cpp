@@ -17,6 +17,29 @@ void Inventory::Release()
 	m_inventoryItems.clear();
 }
 
+bool Inventory::DropItem(int32 itemId)
+{
+	size_t erasedCount = erase_if(m_inventoryItems, [itemId](const InventoryItem& item) {
+		return item.GetItemId() == itemId;
+	});
+
+	return erasedCount == 1;
+}
+
+void Inventory::Use(int32 itemId, int32 count)
+{
+	InventoryItem* item = const_cast<InventoryItem*>(GetItem(itemId));
+	if (item)
+	{
+		item->RemoveCount(count);
+		
+		if (item->IsEmpty())
+		{
+			m_inventoryItems.erase(remove(m_inventoryItems.begin(), m_inventoryItems.end(), *item), m_inventoryItems.end());
+		}
+	}
+}
+
 bool Inventory::AddItem(int32 itemId, int16 count)
 {
 	if ((int)m_inventoryItems.size() >= m_maxInventorySize)
@@ -71,15 +94,18 @@ bool Inventory::RemoveItem(int32 itemId, int16 count)
 
 
 
-InventoryItem Inventory::GetItem(int32 itemId) const
+const InventoryItem* Inventory::GetItem(int32 itemId) const
 {
 	for (size_t i = 0; i < m_inventoryItems.size(); ++i)
 	{
 		int32 targetId = m_inventoryItems[i].GetItemId();
 		if (targetId == itemId)
 		{
-			return InventoryItem::Create(itemId);
+			return &m_inventoryItems[i];
 		}
 	}
+
+	static InventoryItem emptyItem = InventoryItem::Create(-1, 0);
+	return &emptyItem;
 }
 

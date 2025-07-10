@@ -205,7 +205,7 @@ bool Player::AddItemToInventory(int32 itemId, int16 count)
 	return m_inventory.AddItem(itemId, count);
 }
 
-InventoryItem Player::GetItemFromInventory(int32 itemId) const
+const InventoryItem* Player::GetItemFromInventory(int32 itemId) const
 {
 	return m_inventory.GetItem(itemId);
 }
@@ -259,21 +259,21 @@ EPlayerHandleItemResult Player::HandlePurchasedItem(InventoryItem item)
 	}
 }
 
-EPlayerHandleItemResult Player::HandleOwnedItem(InventoryItem item)
+EPlayerHandleItemResult Player::HandleOwnedItem(const InventoryItem* item)
 {
 	/*if (item == nullptr)
 	{
 		return EPlayerHandleItemResult::ItemNullPtr;
 	}*/
 
-	EItemType itemType = ItemDataTable::GetInstance()->GetItem(item.GetItemId())->GetItemType();
+	EItemType itemType = ItemDataTable::GetInstance()->GetItem(item->GetItemId())->GetItemType();
 
 	switch (itemType)
 	{
 	case EItemType::Weapon:
 	case EItemType::Armor:
 	{
-		if (Equip(item.GetItemId()))
+		if (Equip(item->GetItemId()))
 		{
 			return EPlayerHandleItemResult::Equipped;
 		}
@@ -284,7 +284,8 @@ EPlayerHandleItemResult Player::HandleOwnedItem(InventoryItem item)
 	}
 	case EItemType::Consumable:
 	{
-		Recover(20);
+		Recover(20); //temp amount
+		//TODO : 소비아이템 사용 로직 추가
 		return EPlayerHandleItemResult::UseItem;
 	}
 	break;

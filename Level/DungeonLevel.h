@@ -41,7 +41,7 @@ private:
 	void OnUseSelectedItem(int32 itemId);
 	void OnTryEscape();
 
-	wstring GetMsgForItemHandleResult(EPlayerHandleItemResult result, InventoryItem item);
+	wstring GetMsgForItemHandleResult(EPlayerHandleItemResult result, const InventoryItem* item);
 
 private:
 	GameInstance* gi;

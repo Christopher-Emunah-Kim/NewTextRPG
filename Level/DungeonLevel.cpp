@@ -397,7 +397,7 @@ void DungeonLevel::OnShowUsuableItems()
 void DungeonLevel::OnUseSelectedItem(int32 itemId)
 {
 	Player& player = gi->GetPlayer();
-	InventoryItem item = player.GetItemFromInventory(itemId);
+	const InventoryItem* item = player.GetItemFromInventory(itemId);
 
 	EItemType targetType = ItemDataTable::GetInstance()->GetItem(itemId)->GetItemType();
 	int32 equippedItemId = player.GetEquippedItem(targetType);
@@ -409,12 +409,12 @@ void DungeonLevel::OnUseSelectedItem(int32 itemId)
 	}
 
 
-	EPlayerHandleItemResult result = player.HandleOwnedItem(move(item));
+	EPlayerHandleItemResult result = player.HandleOwnedItem(item);
 
 	gi->WriteLine(L"");
 	gi->WriteLine(L"============================================");
 	gi->WriteLine(L"");
-	gi->WriteLine(GetMsgForItemHandleResult(result, move(item)));
+	gi->WriteLine(GetMsgForItemHandleResult(result, item));
 	gi->WriteLine(L"");
 	gi->WriteLine(L"============================================");
 	gi->WriteLine(L"");
@@ -424,7 +424,7 @@ void DungeonLevel::OnUseSelectedItem(int32 itemId)
 
 	if (result == EPlayerHandleItemResult::Equipped )
 	{
-		const BaseItem* targetItem = ItemDataTable::GetInstance()->GetItem(item.GetItemId());
+		const BaseItem* targetItem = ItemDataTable::GetInstance()->GetItem(item->GetItemId());
 		gi->UpdateEquippedItem(targetItem->GetName(), targetItem->GetItemType());
 
 		player.RemoveItemFromInventory(itemId);
@@ -447,18 +447,18 @@ void DungeonLevel::OnUseSelectedItem(int32 itemId)
 		});
 }
 
-wstring DungeonLevel::GetMsgForItemHandleResult(EPlayerHandleItemResult result, InventoryItem item)
+wstring DungeonLevel::GetMsgForItemHandleResult(EPlayerHandleItemResult result, const InventoryItem* item)
 {
 	switch (result)
 	{
 	case EPlayerHandleItemResult::Equipped:
 	{
-		return ItemDataTable::GetInstance()->GetItem(item.GetItemId())->GetName() + L"을(를) 장착했습니다!";
+		return ItemDataTable::GetInstance()->GetItem(item->GetItemId())->GetName() + L"을(를) 장착했습니다!";
 	}
 	break;
 	case EPlayerHandleItemResult::UseItem:
 	{
-		return ItemDataTable::GetInstance()->GetItem(item.GetItemId())->GetName() + L"을(를) 사용하여 체력이 20 회복되었습니다!";
+		return ItemDataTable::GetInstance()->GetItem(item->GetItemId())->GetName() + L"을(를) 사용하여 체력이 20 회복되었습니다!";
 	}
 	break;
 

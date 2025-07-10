@@ -1,4 +1,5 @@
 ﻿#include "InventoryItem.h"
+#include "BaseItem.h"
 
 InventoryItem::InventoryItem(int64 serialNumber, int32 itemId, int16 count)
 : m_serialNumber(serialNumber), m_itemId(itemId), m_count(count)
@@ -27,6 +28,11 @@ InventoryItem InventoryItem::Create(int32 itemId, int16 count)
 
 void InventoryItem::AddCount(int16 amount)
 {
+	if(m_count + amount >= DEFAULT_ITEM_MAX_COUNT)
+	{
+		m_count = DEFAULT_ITEM_MAX_COUNT;
+		return;
+	}
 	m_count += amount;
 }
 

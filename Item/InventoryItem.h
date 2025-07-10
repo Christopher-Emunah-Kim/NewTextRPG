@@ -19,9 +19,18 @@ private:
 	static int64 CreateSerialNumber();
 
 public:
+	bool operator==(const InventoryItem& other) const noexcept
+	{
+		return m_serialNumber == other.m_serialNumber;
+	}
+	bool operator!=(const InventoryItem & other) const noexcept
+	{
+		return !(*this == other);
+	}
+
 	static InventoryItem Create(int32 itemId, int16 count = 1);
-	void AddCount(int16 amount = 1);
-	bool RemoveCount(int16 amount = 1);
+	void AddCount(int16 amount);
+	bool RemoveCount(int16 amount);
 	bool IsEmpty();
 
 	int64 GetSerialNumber() const { return m_serialNumber; }
@@ -29,8 +38,8 @@ public:
 	int16 GetCount() const { return m_count; }
 
 private:
-	const int64 m_serialNumber;
-	const int32 m_itemId;
+	int64 m_serialNumber;
+	int32 m_itemId;
 	int16 m_count;
 
 };

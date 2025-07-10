@@ -55,9 +55,9 @@ public:
 	bool AddItemToInventory(int32 itemId, int16 count = 1);
 	void RemoveItemFromInventory(int32 itemId, int16 count = 1);
 	const vector<InventoryItem>& GetInventoryItems() const;
-	InventoryItem GetItemFromInventory(int32 itemId) const;
+	const InventoryItem* GetItemFromInventory(int32 itemId) const;
 	EPlayerHandleItemResult HandlePurchasedItem(InventoryItem item);
-	EPlayerHandleItemResult HandleOwnedItem(InventoryItem item);
+	EPlayerHandleItemResult HandleOwnedItem(const InventoryItem* item);
 
 	bool Equip(int32 itemId);
 	int32 GetEquippedItem(EItemType itemType) const;

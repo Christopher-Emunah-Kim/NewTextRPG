@@ -12,7 +12,7 @@ struct FBattleRewardInfo
 	bool bLevelUp = false;
 	bool bItemEquipped = false;
 	bool bItemAddedToInventory = false;
-	int32 droppedItemId; 
+	int32 droppedItemId = -1; 
 };
 
 struct FBattleResult

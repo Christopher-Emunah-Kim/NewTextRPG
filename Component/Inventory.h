@@ -14,10 +14,13 @@ public:
 public:
 	void Release();
 
+	bool DropItem(int32 itemId);
+	void Use(int32 itemId, int32 count = 1);
+
 	bool AddItem(int32 itemId, int16 count = 1);
 	bool RemoveItem(int32 itemId, int16 count = 1);
 
-	InventoryItem GetItem(int32 itemId) const;
+	const InventoryItem* GetItem(int32 itemId) const;
 
 	inline const vector<InventoryItem>& GetInventoryItems() const { return m_inventoryItems; }
 

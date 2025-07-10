@@ -74,9 +74,9 @@ void HUD::UpdateInvetoryItems(const vector<InventoryItem>& items)
 		if (item != nullptr)
 		{
 			wstring itemName = item->GetName();
-			if (item->GetCount() >= 1)
+			if (items[i].GetCount() >= 1)
 			{
-				itemName += L" x" + to_wstring(item->GetCount());
+				itemName += L" x" + to_wstring(items[i].GetCount());
 			}
 
 			m_hudData.inventoryItems.push_back(itemName);

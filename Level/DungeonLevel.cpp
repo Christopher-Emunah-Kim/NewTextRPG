@@ -428,7 +428,7 @@ void DungeonLevel::OnUseSelectedItem(int32 itemId)
 		gi->UpdateEquippedItem(targetItem->GetName(), targetItem->GetItemType());
 
 		player.RemoveItemFromInventory(itemId);
-		player.AddItemToInventory(itemId);
+		player.AddItemToInventory(equippedItemId);
 		gi->UpdateInvetoryItems(player.GetInventoryItems());
 	}
 	else if (result == EPlayerHandleItemResult::UseItem)

@@ -48,26 +48,26 @@ void Player::UpdatePlayerHUD()
 	int32 weaponId = m_equipment.GetEquippedItem(EItemType::Weapon);
 	int32 armorId = m_equipment.GetEquippedItem(EItemType::Armor);
 
-	const BaseItem* weapon = itemDataTable->GetItem(weaponId);
-	const BaseItem* armor = itemDataTable->GetItem(armorId);
-
-	if (weapon)
-	{
-		gameInstance->UpdateEquippedItem(weapon->GetName(), EItemType::Weapon);
-	}
-	else
+	if (weaponId == -1)
 	{
 		gameInstance->UpdateEquippedItem(L"없음", EItemType::Weapon);
 	}
-
-	if (armor)
-	{
-		gameInstance->UpdateEquippedItem(armor->GetName(), EItemType::Armor);
-	}
 	else
+	{
+		const BaseItem* weapon = itemDataTable->GetItem(weaponId);
+		gameInstance->UpdateEquippedItem(weapon->GetName(), EItemType::Weapon);
+	}
+
+	if (armorId == -1)
 	{
 		gameInstance->UpdateEquippedItem(L"없음", EItemType::Armor);
 	}
+	else
+	{
+		const BaseItem* armor = itemDataTable->GetItem(armorId);
+		gameInstance->UpdateEquippedItem(armor->GetName(), EItemType::Armor);
+	}
+	
 
 	const vector<InventoryItem>& items = m_inventory.GetInventoryItems();
 

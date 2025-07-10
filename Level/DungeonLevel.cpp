@@ -411,13 +411,6 @@ void DungeonLevel::OnUseSelectedItem(int32 itemId)
 	EItemType targetType = itemDataTable->GetItem(itemId)->GetItemType();
 	int32 equippedItemId = player.GetEquippedItem(targetType);
 
-	if (equippedItemId == -1)
-	{
-		gi->WriteLine(L"장착 중인 아이템이 존재하지 않습니다");
-		return;
-	}
-
-
 	EPlayerHandleItemResult result = player.HandleOwnedItem(item);
 
 	gi->WriteLine(L"");
@@ -433,6 +426,12 @@ void DungeonLevel::OnUseSelectedItem(int32 itemId)
 
 	if (result == EPlayerHandleItemResult::Equipped )
 	{
+		if (equippedItemId == -1)
+		{
+			gi->WriteLine(L"장착 중인 아이템이 존재하지 않습니다");
+			return;
+		}
+
 		const BaseItem* targetItem = itemDataTable->GetItem(item->GetItemId());
 		gi->UpdateEquippedItem(targetItem->GetName(), targetItem->GetItemType());
 

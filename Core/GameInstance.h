@@ -8,7 +8,13 @@ class GameInstance final : public Singleton<GameInstance>
 {
 public:
 	GameInstance() = default;
-	~GameInstance() = default;
+	virtual ~GameInstance() = default;
+
+	void WriteLine(const wstring& text = L"");
+	void ClearText();
+	void RenderHud(Screen& screen) const;
+	void RequestShutdown();
+	bool ShouldQuit() const;
 
 	void UpdateLevelName(const wstring& levelName);
 	void UpdatePlayerName(const wstring& playerName);
@@ -19,12 +25,6 @@ public:
 	void UpdatePlayerGold(const Gold& gold);
 	void UpdateEquippedItem(const wstring& name, EItemType type);
 	void UpdateInvetoryItems(const vector<InventoryItem>& items);
-
-	void WriteLine(const wstring& text = L"");
-	void ClearText();
-	void RenderHud(Screen& screen) const;
-	void RequestShutdown();
-	bool ShouldQuit() const;
 
 	inline Player& GetPlayer() { return m_Player; }
 

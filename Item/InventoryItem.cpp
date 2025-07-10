@@ -3,8 +3,7 @@
 
 InventoryItem::InventoryItem(int64 serialNumber, int32 itemId, int16 count)
 : m_serialNumber(serialNumber), m_itemId(itemId), m_count(count)
-{
-}
+{ }
 
 int64 InventoryItem::CreateSerialNumber()
 {

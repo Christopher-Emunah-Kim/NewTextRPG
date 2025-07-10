@@ -13,14 +13,13 @@ class MonsterDataTable final : public Singleton<MonsterDataTable>
 {
 public:
 	MonsterDataTable() = default;
-	~MonsterDataTable();
+	virtual ~MonsterDataTable();
 
 private:
 	wstring ToWideStr(const string& str) const;
 	void ProcessCSVParsing();
 
 public:
-
 	void Init();
 	void Release();
 

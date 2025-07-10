@@ -42,9 +42,6 @@ expected<int32, wstring> Merchant::SellItem(int32 itemId, Player& player)
 
 	player.UseGold(item->GetBuyingPrice());
 
-	/*const BaseItem* templateItem = ItemDataTable::GetInstance()->GetItem(itemId);
-	BaseItem* item = templateItem->CreateItem();*/
-
 	return itemId;
 }
 

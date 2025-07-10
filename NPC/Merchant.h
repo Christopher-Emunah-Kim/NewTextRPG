@@ -9,7 +9,6 @@ enum class EMerchantResult
 };
 
 class Player;
-//class BaseItem;
 class InventoryItem;
 
 class Merchant final

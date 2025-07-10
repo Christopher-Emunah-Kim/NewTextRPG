@@ -9,7 +9,7 @@ class ItemDataTable final : public Singleton<ItemDataTable>
 {
 public:
 	ItemDataTable() = default;
-	~ItemDataTable();
+	virtual ~ItemDataTable();
 
 	void Init();
 	void Release();

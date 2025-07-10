@@ -24,43 +24,6 @@ public:
 	inline wstring		GetTag() const noexcept { return m_objectTag; }
 	inline BaseLevel* GetLevel() const noexcept { return m_levelArea; }
 
-	//vector<BaseComponent*>& GetComponents();
-
-	/*void SetTag(const wstring& tag) noexcept;
-
-	bool IsComponentsEmpty() const;
-	void RegisterInLevelArea(BaseLevel* level);
-	void AddComponent(BaseComponent* component);
-	void RemoveComponent(BaseComponent* component);
-
-	template<typename T>
-	bool HasComponentType() const
-	{
-		for (size_t i = 0; i < m_components.size(); ++i)
-		{
-			BaseComponent* comp = m_components[i];
-			if (dynamic_cast<T*>(comp) != nullptr)
-			{
-				return true;
-			}
-		}
-		return false;
-	}
-
-	template<typename T>
-	T* GetComponentByType() const
-	{
-		for (size_t i = 0; i < m_components.size(); ++i)
-		{
-			T* typedComp = dynamic_cast<T*>(m_components[i]);
-			if (typedComp != nullptr)
-			{
-				return typedComp;
-			}
-		}
-		return nullptr;
-	}*/
-
 protected:
 	BaseLevel* m_levelArea = nullptr;
 	wstring m_objectTag = L"";

@@ -212,13 +212,9 @@ const InventoryItem* Player::GetItemFromInventory(int32 itemId) const
 
 EPlayerHandleItemResult Player::HandlePurchasedItem(InventoryItem item)
 {
-	/*if (item == nullptr)
-	{
-		return EPlayerHandleItemResult::ItemNullPtr;
-	}*/
-
-	EItemType itemType = ItemDataTable::GetInstance()->GetItem(item.GetItemId())->GetItemType();
-	bool bIsEquippable = ItemDataTable::GetInstance()->IsEquippable(item.GetItemId());
+	ItemDataTable* itemDataTable = ItemDataTable::GetInstance();
+	EItemType itemType = itemDataTable->GetItem(item.GetItemId())->GetItemType();
+	bool bIsEquippable = itemDataTable->IsEquippable(item.GetItemId());
 
 	if (bIsEquippable)
 	{
@@ -237,7 +233,6 @@ EPlayerHandleItemResult Player::HandlePurchasedItem(InventoryItem item)
 				return EPlayerHandleItemResult::AddToInventory;
 			}
 
-			//delete item;
 			return EPlayerHandleItemResult::InventoryFull;
 		}
 		else
@@ -254,19 +249,14 @@ EPlayerHandleItemResult Player::HandlePurchasedItem(InventoryItem item)
 			return EPlayerHandleItemResult::AddToInventory;
 		}
 		
-		//delete item;
 		return EPlayerHandleItemResult::InventoryFull;
 	}
 }
 
 EPlayerHandleItemResult Player::HandleOwnedItem(const InventoryItem* item)
 {
-	/*if (item == nullptr)
-	{
-		return EPlayerHandleItemResult::ItemNullPtr;
-	}*/
-
-	EItemType itemType = ItemDataTable::GetInstance()->GetItem(item->GetItemId())->GetItemType();
+	ItemDataTable* itemDataTable = ItemDataTable::GetInstance();
+	EItemType itemType = itemDataTable->GetItem(item->GetItemId())->GetItemType();
 
 	switch (itemType)
 	{

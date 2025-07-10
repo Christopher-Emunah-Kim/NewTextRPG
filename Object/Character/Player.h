@@ -22,7 +22,6 @@ enum class EPlayerHandleItemResult
 	InvalidItemType
 };
 
-//class BaseItem;
 class InventoryItem;
 
 class Player final : public BattleCharacter  
@@ -41,17 +40,20 @@ public:
 
 	void RegisterNewLevelArea(BaseLevel* level);
 
+	// HEALTH MANAGEMENT
 	bool IsFullHealth() const;
 	void Recover(int32 amount);
 	int32 GetCurrentHealth() const;
 	int32 GetMaxHealth() const;
 
+	// GOLD MANAGEMENT
 	int32 GetGoldAmount() const;
 	bool CanAfford(int32 cost) const;
 	bool UseGold(int32 amount);
 	void GainGold(int32 amount);
 	bool GainExperience(int32 exp);
 
+	// INVENTORY MANAGEMENT
 	bool AddItemToInventory(int32 itemId, int16 count = 1);
 	void RemoveItemFromInventory(int32 itemId, int16 count = 1);
 	const vector<InventoryItem>& GetInventoryItems() const;
@@ -59,10 +61,12 @@ public:
 	EPlayerHandleItemResult HandlePurchasedItem(InventoryItem item);
 	EPlayerHandleItemResult HandleOwnedItem(const InventoryItem* item);
 
+	// EQUIPMENT MANAGEMENT
 	bool Equip(int32 itemId);
 	int32 GetEquippedItem(EItemType itemType) const;
 	Status GetTotalPlayerStatus() const;
 
+	// HUD DATA
 	Gold GetGoldForHUD() const;
 	Health GetHealthForHUD() const;
 	Experience GetExperienceForHUD() const;

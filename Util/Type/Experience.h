@@ -2,9 +2,6 @@
 #include "../../Common.h"
 #include "../../Data/PlayerDataTablePerLevel.h"
 
-
-
-
 struct Experience
 {
 	explicit Experience(const int16& exp = 0, const int16& maxExp = 100)

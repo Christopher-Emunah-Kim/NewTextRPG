@@ -13,7 +13,7 @@ constexpr int8 BUFFER_SIZE = 2;
 class Screen final
 {
 public:
-	~Screen();
+	virtual ~Screen();
 
 private:
 	void VisibleConsoleCursor(bool isVisible);

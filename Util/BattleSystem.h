@@ -2,7 +2,6 @@
 #include "Common.h"
 
 class BattleCharacter;
-//class BaseItem;
 class InventoryItem;
 
 struct FBattleRewardInfo

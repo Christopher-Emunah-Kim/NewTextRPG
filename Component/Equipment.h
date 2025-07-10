@@ -7,10 +7,9 @@ class Equipment final
 {
 public:
 	explicit Equipment();
-	~Equipment();
+	virtual ~Equipment();
 
 	void Release();
-
 	bool EquipItem(int32 itemId);
 	int32 UnequipItem(EItemType itemType);
 	int32 GetEquippedItem(EItemType itemType) const;

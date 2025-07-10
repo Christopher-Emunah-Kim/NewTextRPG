@@ -5,7 +5,6 @@
 class GameInstance;
 class Healer;
 class Merchant;
-//class BaseItem;
 class InventoryItem;
 enum class EPlayerHandleItemResult;
 
@@ -21,7 +20,6 @@ private:
 	void Welcome();
 	void BuySelectedItem(int32 itemId);
 	void SellSelectedItem(int32 itemId);
-	wstring GetMsgForItemHandleResult(EPlayerHandleItemResult result, InventoryItem item);
 
 	void OnEnterItemShop();
 	void OnBuyItem();
@@ -29,6 +27,8 @@ private:
 	void OnEnterHealerShop();
 	void OnRecoverPlayer();
 	void OnExitVillage();
+
+	wstring GetMsgForItemHandleResult(EPlayerHandleItemResult result, InventoryItem item);
 
 private:
 	Healer* m_healer;

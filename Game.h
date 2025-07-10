@@ -7,7 +7,7 @@ class Screen;
 class Game
 {
 public:
-	~Game() noexcept;
+	virtual ~Game() noexcept;
 
 public:
 	bool Init();

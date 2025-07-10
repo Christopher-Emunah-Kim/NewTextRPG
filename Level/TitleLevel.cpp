@@ -13,8 +13,6 @@ void TitleLevel::Init()
 	BaseLevel::Init();
 }
 
-
-
 void TitleLevel::SetTitleLevel()
 {
 	gi->UpdateLevelName(GetTag());
@@ -86,7 +84,5 @@ void TitleLevel::OnQuitGame()
 	InputSystem::Clear();
 
 	gi->RequestShutdown();
-
-	//exit(0); // exit game
 }
 

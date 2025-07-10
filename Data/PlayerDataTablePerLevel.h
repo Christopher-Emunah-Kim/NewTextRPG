@@ -31,7 +31,7 @@ class PlayerLevelPropertiesTable final : public Singleton<PlayerLevelPropertiesT
 {
 public:
 	PlayerLevelPropertiesTable() = default;
-	~PlayerLevelPropertiesTable();
+	virtual ~PlayerLevelPropertiesTable();
 	
 	void Init();
 	void Release();

@@ -24,6 +24,7 @@ void VillageLevel::Init()
 	m_healer = new Healer(HEAL_COST);
 
 	m_merchant = new Merchant();
+	//TODO : 랜덤 아이템 추가
 	m_merchant->AddSaleItem(13001);
 	m_merchant->AddSaleItem(12001);
 	m_merchant->AddSaleItem(23001);

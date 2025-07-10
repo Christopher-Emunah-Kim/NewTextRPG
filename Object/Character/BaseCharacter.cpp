@@ -14,18 +14,3 @@ void BaseCharacter::Init()
 {
 	BaseGameObject::Init();
 }
-
-//void BaseCharacter::SetName(const wstring& name)
-//{
-//	m_characterInfo.name = name;
-//}
-//
-//void BaseCharacter::SetDescription(const wstring& description)
-//{
-//	m_characterInfo.description = description;
-//}
-//
-//void BaseCharacter::SetCharacterLevel(int16 level)
-//{
-//	m_characterInfo.characterLevel = level;
-//}

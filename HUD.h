@@ -6,7 +6,6 @@
 #include "Util/Type/Health.h"
 #include "Util/Type/StatusType.h"
 #include "Util/Type/Experience.h"
-//#include "Item/BaseItem.h"
 #include "Item/InventoryItem.h"
 #include <queue>
 
@@ -43,7 +42,7 @@ class HUD final
 {
 public:
 	HUD() = default;
-	~HUD() = default;
+	virtual ~HUD() = default;
 
 private:
 	void RenderPlayerInfo(Screen& screen) const;

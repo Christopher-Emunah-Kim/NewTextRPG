@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include "../Common.h"
 
-class InventoryItem
+class InventoryItem final
 {
 private:
 	InventoryItem(int64 serialNumber, int32 itemId, int16 count);
@@ -15,18 +15,20 @@ public:
 	InventoryItem(InventoryItem&&) = default;
 	InventoryItem& operator=(InventoryItem&&) = default;
 
-private:
-	static int64 CreateSerialNumber();
-
-public:
 	bool operator==(const InventoryItem& other) const noexcept
 	{
 		return m_serialNumber == other.m_serialNumber;
 	}
-	bool operator!=(const InventoryItem & other) const noexcept
+	bool operator!=(const InventoryItem& other) const noexcept
 	{
 		return !(*this == other);
 	}
+
+private:
+	static int64 CreateSerialNumber();
+
+public:
+	
 
 	static InventoryItem Create(int32 itemId, int16 count = 1);
 	void AddCount(int16 amount);

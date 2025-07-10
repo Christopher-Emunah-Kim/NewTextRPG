@@ -1,7 +1,5 @@
 ﻿#include "Inventory.h"
 #include "../Data/ItemDataTable.h"
-//#include "../Core/GameInstance.h"
-//#include "../Object/BaseGameObject.h"
 
 Inventory::Inventory()
 	:  m_maxInventorySize(DEFAULT_INVENTORY_MAX_COUNT)
@@ -70,19 +68,21 @@ bool Inventory::RemoveItem(int32 itemId, int16 count)
 	{
 		if (it->GetItemId() == itemId)
 		{
-			if (it->RemoveCount(count))
+			if (!it->RemoveCount(count))
 			{
-				if (it->IsEmpty())
-				{
-					m_inventoryItems.erase(it); 
-				}
-				else
-				{
-					++it;
-				}
-				return true;
+				return false;
 			}
-			return false;
+
+			if (it->IsEmpty())
+			{
+				m_inventoryItems.erase(it);
+			}
+			else
+			{
+				++it;
+			}
+
+			return true;
 		}
 		else
 		{

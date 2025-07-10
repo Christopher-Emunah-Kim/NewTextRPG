@@ -106,26 +106,8 @@ void BattleSystem::HandleDropItemReward(BattleCharacter* winner, BattleCharacter
 		throw runtime_error("오류 : 전리품 아이템 테이블에 아이템이 존재하지 않습니다.");
 	}
 
-	
 	int randomIndex = rand() % availableItemIds.size();
 	int32 randomItemId = availableItemIds[randomIndex];
-	/*const BaseItem* templateItem = itemDataTable->GetItem(randomItemId);
-
-	if (!templateItem)
-	{
-		throw runtime_error("오류: 전리품 templateItem이 존재하지 않습니다.");
-	}*/
-
-
-	//InventoryItem droppedItem = InventoryItem::Create(randomItemId);
-	/*if (droppedItem)
-	{
-		throw runtime_error("오류: droppedItem이 존재하지 않습니다.");
-	}*/
-
-	/*InventoryItem droppeditem = InventoryItem::Create(randomItemId);
-    result.rewards.droppedItem = make_optional(move(droppeditem));
-	result.rewards.droppedItem.AddCount(1);*/
 
 	bool bEquipSuccess = TryEquipOrStoreItem(player, randomItemId, result);
 
@@ -148,7 +130,6 @@ bool BattleSystem::TryEquipOrStoreItem(BattleCharacter* winner, int32 droppedIte
 
 	if (itemType == EItemType::Weapon || itemType == EItemType::Armor)
 	{
-		//BaseItem* currentEquip = player->GetEquippedItem(droppedItem->GetItemType());
 		int32 currentEquipId = player->GetEquippedItem(itemType);
 		bool bIsBetter = false;
 
@@ -173,6 +154,7 @@ bool BattleSystem::TryEquipOrStoreItem(BattleCharacter* winner, int32 droppedIte
 				player->AddItemToInventory(currentEquipId);
 			}
 			result.rewards.bItemEquipped = true;
+			result.rewards.droppedItemId = droppedItemId;
 			return true;
 		}
 	}

@@ -176,7 +176,7 @@ void VillageLevel::BuySelectedItem(int32 itemId)
 {
 	Player& player = gi->GetPlayer();
 
-	expected<BaseItem*, wstring> expectedResult = m_merchant->SellItem(itemId, player);
+	expected<int32, wstring> expectedResult = m_merchant->SellItem(itemId, player);
 
 	if(!expectedResult.has_value())
 	{
@@ -184,24 +184,27 @@ void VillageLevel::BuySelectedItem(int32 itemId)
 		return;
 	}
 
-	BaseItem* newItem = expectedResult.value();
+	int32 newItemId = expectedResult.value();
+	InventoryItem newItem = InventoryItem::Create(newItemId);
 
-	EPlayerHandleItemResult handleResult = player.HandlePurchasedItem(newItem);
+	EPlayerHandleItemResult handleResult = player.HandlePurchasedItem(move(newItem));
 
 
 	gi->WriteLine(L"");
 	gi->WriteLine(L"============================================");
 	gi->WriteLine(L"");
-	gi->WriteLine(GetMsgForItemHandleResult(handleResult, newItem));
+	gi->WriteLine(GetMsgForItemHandleResult(handleResult, move(newItem)));
 	gi->WriteLine(L"");
 	gi->WriteLine(L"============================================");
 	gi->WriteLine(L"");
 	gi->WriteLine(L"1. 계속 쇼핑하기");
 	gi->WriteLine(L"2. 상점 메뉴로 돌아가기");
 
+
+	const BaseItem* dbItem = ItemDataTable::GetInstance()->GetItem(newItemId);
 	if (handleResult == EPlayerHandleItemResult::Equipped)
 	{
-		gi->UpdateEquippedItem(newItem->GetName(), newItem->GetItemType());
+		gi->UpdateEquippedItem(dbItem->GetName(), dbItem->GetItemType());
 	}
 	else if (handleResult == EPlayerHandleItemResult::AddToInventory)
 	{
@@ -218,28 +221,31 @@ void VillageLevel::BuySelectedItem(int32 itemId)
 
 }
 
-wstring VillageLevel::GetMsgForItemHandleResult(EPlayerHandleItemResult result, BaseItem* item)
+wstring VillageLevel::GetMsgForItemHandleResult(EPlayerHandleItemResult result, InventoryItem item)
 {
+	const BaseItem* dbItem = ItemDataTable::GetInstance()->GetItem(item.GetItemId());
+
 	switch (result)
 	{
 	case EPlayerHandleItemResult::Equipped:
 	{
-		return item->GetName() + L"을(를) 장착했습니다!";
+		
+		return dbItem->GetName() + L"을(를) 장착했습니다!";
 	}
 	break;
 	case EPlayerHandleItemResult::AddToInventory:
 	{
-		return item->GetName() + L"을(를) 인벤토리에 추가했습니다.";
+		return dbItem->GetName() + L"을(를) 인벤토리에 추가했습니다.";
 	}
 	break;
 	case EPlayerHandleItemResult::InventoryFull:
 	{
-		return L"인벤토리에 공간이 없어 " + item->GetName()  + L"을(를) 버렸습니다.";
+		return L"인벤토리에 공간이 없어 " + dbItem->GetName()  + L"을(를) 버렸습니다.";
 	}
 	break;
 	case EPlayerHandleItemResult::ItemNullPtr:
 	{
-		return L"아이템이 존재하지 않습니다. item : " + item->GetName();
+		return L"아이템이 존재하지 않습니다. item : " + dbItem->GetName();
 	}
 	break;
 	case EPlayerHandleItemResult::InvalidItemType:
@@ -269,10 +275,11 @@ void VillageLevel::OnSellItem()
 	gi->WriteLine(L"0: 뒤로가기");
 	gi->WriteLine();
 
-	const vector<BaseItem*>& items = player.GetInventoryItems();
+	const vector<InventoryItem>& items = player.GetInventoryItems();
+	ItemDataTable* itemDataTable = ItemDataTable::GetInstance();
 	for (size_t index = 0; index < items.size(); ++index)
 	{
-		const BaseItem* item = items[index];
+		const BaseItem* item = itemDataTable->GetItem(items[index].GetItemId());
 
 		wstringstream ss;
 		ss << index + 1 << L"." << item->GetName() <<
@@ -293,7 +300,7 @@ void VillageLevel::OnSellItem()
 	for (size_t index = 0; index < items.size(); ++index)
 	{
 		InputSystem::BindAction(to_wstring(index + 1),
-			bind(&VillageLevel::SellSelectedItem, this, items[index]->GetItemID()));
+			bind(&VillageLevel::SellSelectedItem, this, items[index].GetItemId()));
 	}
 
 	InputSystem::BindActionOnInputError(

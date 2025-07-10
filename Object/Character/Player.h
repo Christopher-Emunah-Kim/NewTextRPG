@@ -22,20 +22,23 @@ enum class EPlayerHandleItemResult
 	InvalidItemType
 };
 
-class BaseItem;
+//class BaseItem;
+class InventoryItem;
 
 class Player final : public BattleCharacter  
 {  
 public:  
 	Player();
-	~Player() = default;
+	virtual ~Player();
 
 private:
 	void LoadLevelPropertiesByLevel();
 	void UpdatePlayerHUD();
 
 public:
-	void Init() override;  
+	virtual void Init() override;  
+	virtual void Release() override;
+
 	void RegisterNewLevelArea(BaseLevel* level);
 
 	bool IsFullHealth() const;
@@ -49,15 +52,15 @@ public:
 	void GainGold(int32 amount);
 	bool GainExperience(int32 exp);
 
-	const vector<BaseItem*> GetInventoryItems() const;
+	bool AddItemToInventory(int32 itemId, int16 count = 1);
 	void RemoveItemFromInventory(int32 itemId, int16 count = 1);
-	bool AddItemToInventory(BaseItem* item);
-	BaseItem* GetItemFromInventory(int32 itemId) const;
-	EPlayerHandleItemResult HandlePurchasedItem(BaseItem* item);
-	EPlayerHandleItemResult HandleOwnedItem(BaseItem* item);
+	const vector<InventoryItem>& GetInventoryItems() const;
+	InventoryItem GetItemFromInventory(int32 itemId) const;
+	EPlayerHandleItemResult HandlePurchasedItem(InventoryItem item);
+	EPlayerHandleItemResult HandleOwnedItem(InventoryItem item);
 
-	bool Equip(BaseItem* item);
-	BaseItem* GetEquippedItem(EItemType itemType) const;
+	bool Equip(int32 itemId);
+	int32 GetEquippedItem(EItemType itemType) const;
 	Status GetTotalPlayerStatus() const;
 
 	Gold GetGoldForHUD() const;

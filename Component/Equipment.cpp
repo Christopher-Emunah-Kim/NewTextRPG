@@ -1,12 +1,13 @@
 ﻿#include "Equipment.h"
-#include "../Core/GameInstance.h"
-#include "Object/BaseGameObject.h"
+#include "Data/ItemDataTable.h"
+#include "../Item/BaseItem.h"
+//#include "../Core/GameInstance.h"
+//#include "Object/BaseGameObject.h"
 
 
 Equipment::Equipment()
+	:m_weaponItemId(-1), m_armorItemId(-1)
 {
-	m_weaponSlot = nullptr;
-	m_armorSlot = nullptr;
 }
 
 Equipment::~Equipment()
@@ -16,13 +17,28 @@ Equipment::~Equipment()
 
 void Equipment::Release()
 {
-	m_weaponSlot = nullptr;
-	m_armorSlot = nullptr;
+	m_weaponItemId = -1;
+	m_armorItemId = -1;
 }
 
-bool Equipment::EquipItem(BaseItem* item)
+bool Equipment::EquipItem(int32 itemId)
 {
-	if (item)
+	EItemType type = ItemDataTable::GetInstance()->GetItem(itemId)->GetItemType();
+
+	if (type == EItemType::Weapon)
+	{
+		m_weaponItemId = itemId;
+		return true;
+	}
+	else if (type == EItemType::Armor)
+	{
+		m_armorItemId = itemId;
+		return true;
+	}
+	
+	return false;
+
+	/*if (item)
 	{
 		EItemType itemType = item->GetItemType();
 
@@ -59,12 +75,28 @@ bool Equipment::EquipItem(BaseItem* item)
 	else
 	{
 		return false;
-	}
+	}*/
 }
 
-BaseItem* Equipment::UnequipItem(EItemType itemType)
+int32 Equipment::UnequipItem(EItemType itemType)
 {
-	if (itemType != EItemType::Weapon && itemType != EItemType::Armor)
+	int32 unequippedItemId = -1;
+
+	if (itemType == EItemType::Weapon)
+	{
+		unequippedItemId = m_weaponItemId;
+		m_weaponItemId = -1;
+	}
+	else if (itemType == EItemType::Armor)
+	{
+		unequippedItemId = m_armorItemId;
+		m_armorItemId = -1;
+	}
+
+	return unequippedItemId;
+
+
+	/*if (itemType != EItemType::Weapon && itemType != EItemType::Armor)
 	{
 		return nullptr;
 	}
@@ -98,12 +130,25 @@ BaseItem* Equipment::UnequipItem(EItemType itemType)
 		return nullptr; 
 	}
 
-	return unequippedItem;
+	return unequippedItem;*/
 }
 
-BaseItem* Equipment::GetEquippedItem(EItemType itemType) const
+int32 Equipment::GetEquippedItem(EItemType itemType) const
 {
 	if (itemType == EItemType::Weapon)
+	{
+		return m_weaponItemId;
+	}
+	
+	if (itemType == EItemType::Armor)
+	{
+		return m_armorItemId;
+	}
+
+	return -1;
+
+
+	/*if (itemType == EItemType::Weapon)
 	{
 		return m_weaponSlot;
 	}
@@ -114,15 +159,25 @@ BaseItem* Equipment::GetEquippedItem(EItemType itemType) const
 	else
 	{
 		return nullptr;
-	}
+	}*/
 }
 
 
 Status Equipment::GetTotalEquipmentStatus() const
 {
 	Status totalStatus;
+	
+	if (m_weaponItemId != -1) 
+	{
+		totalStatus += ItemDataTable::GetInstance()->GetItem(m_weaponItemId)->GetItemStatus();
+	}
 
-	if (m_weaponSlot)
+	if (m_armorItemId != -1)
+	{
+		totalStatus += ItemDataTable::GetInstance()->GetItem(m_armorItemId)->GetItemStatus();
+	}
+
+	/*if (m_weaponSlot)
 	{
 		totalStatus += m_weaponSlot->GetItemStatus();
 	}
@@ -130,7 +185,7 @@ Status Equipment::GetTotalEquipmentStatus() const
 	if (m_armorSlot)
 	{
 		totalStatus += m_armorSlot->GetItemStatus();
-	}
+	}*/
 
 	return totalStatus;
 }

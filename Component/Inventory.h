@@ -1,5 +1,6 @@
 ﻿#pragma once
-#include "../Item/BaseItem.h"
+#include "Common.h"
+#include "../Item/InventoryItem.h"
 
 
 constexpr int16 DEFAULT_INVENTORY_MAX_COUNT = 99;
@@ -13,16 +14,15 @@ public:
 public:
 	void Release();
 
-	bool AddItem(BaseItem* item);
+	bool AddItem(int32 itemId, int16 count = 1);
 	bool RemoveItem(int32 itemId, int16 count = 1);
 
-	BaseItem* GetItem(int32 itemId) const;
-	Status GetTotalStatus() const;
+	InventoryItem GetItem(int32 itemId) const;
 
-	inline const vector<BaseItem*> GetInventoryItems() const { return m_inventoryItems; }
+	inline const vector<InventoryItem>& GetInventoryItems() const { return m_inventoryItems; }
 
 private:
-	vector<BaseItem*> m_inventoryItems; 
+	vector<InventoryItem> m_inventoryItems;
 	int16 m_maxInventorySize = DEFAULT_INVENTORY_MAX_COUNT;
 };
 

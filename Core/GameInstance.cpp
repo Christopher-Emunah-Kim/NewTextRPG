@@ -42,7 +42,7 @@ void GameInstance::UpdateEquippedItem(const wstring& name, EItemType type)
 	m_Hud.UpdateEquippedItem(name, type);
 }
 
-void GameInstance::UpdateInvetoryItems(const vector<BaseItem*>& items)
+void GameInstance::UpdateInvetoryItems(const vector<InventoryItem>& items)
 {
 	m_Hud.UpdateInvetoryItems(items);
 }

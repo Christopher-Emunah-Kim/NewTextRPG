@@ -2,7 +2,8 @@
 #include "Common.h"
 
 class BattleCharacter;
-class BaseItem;
+//class BaseItem;
+class InventoryItem;
 
 struct FBattleRewardInfo
 {
@@ -11,7 +12,7 @@ struct FBattleRewardInfo
 	bool bLevelUp = false;
 	bool bItemEquipped = false;
 	bool bItemAddedToInventory = false;
-	BaseItem* droppedItem = nullptr; 
+	int32 droppedItemId; 
 };
 
 struct FBattleResult
@@ -19,7 +20,6 @@ struct FBattleResult
 	BattleCharacter* winner = nullptr;
 	BattleCharacter* loser = nullptr;
 	FBattleRewardInfo rewards;
-	//vector<wstring> battleMessages;
 };
 
 class BattleSystem
@@ -28,7 +28,7 @@ private:
 	static void HandleExpReward(BattleCharacter* winner, BattleCharacter* loser, FBattleResult& result);
 	static void HandleGoldReward(BattleCharacter* winner, BattleCharacter* loser, FBattleResult& result);
 	static void HandleDropItemReward(BattleCharacter* winner, BattleCharacter* loser, FBattleResult& result);
-	static bool TryEquipOrStoreItem(BattleCharacter* winner, BaseItem* droppedItem, FBattleResult& result);
+	static bool TryEquipOrStoreItem(BattleCharacter* winner, int32 droppedItemId, FBattleResult& result);
 
 public:
 	static bool ExecuteAttack(BattleCharacter* attacker, BattleCharacter* defender);

@@ -5,7 +5,7 @@ constexpr __int16 DUNGEON_MAX_MONSTERS = 7;
 
 class Monster;
 class GameInstance;
-class BaseItem;
+class InventoryItem;
 struct FBattleRewardInfo;
 enum class EPlayerHandleItemResult;
 
@@ -41,7 +41,7 @@ private:
 	void OnUseSelectedItem(int32 itemId);
 	void OnTryEscape();
 
-	wstring GetMsgForItemHandleResult(EPlayerHandleItemResult result, BaseItem* item);
+	wstring GetMsgForItemHandleResult(EPlayerHandleItemResult result, InventoryItem item);
 
 private:
 	GameInstance* gi;

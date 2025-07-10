@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include "../Util/Type/EnumType.h"
-#include "../Item/BaseItem.h"
+#include "../Util/Type/StatusType.h"
 
 
 class Equipment final
@@ -11,13 +11,13 @@ public:
 
 	void Release();
 
-	bool EquipItem(BaseItem* item);
-	BaseItem* UnequipItem(EItemType itemType);
-	BaseItem* GetEquippedItem(EItemType itemType) const;
+	bool EquipItem(int32 itemId);
+	int32 UnequipItem(EItemType itemType);
+	int32 GetEquippedItem(EItemType itemType) const;
 	Status GetTotalEquipmentStatus() const;
 
 private:
-	BaseItem* m_weaponSlot;
-	BaseItem* m_armorSlot;
+	int32 m_weaponItemId;
+	int32 m_armorItemId;
 };
 

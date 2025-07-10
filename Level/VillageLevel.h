@@ -5,7 +5,8 @@
 class GameInstance;
 class Healer;
 class Merchant;
-class BaseItem;
+//class BaseItem;
+class InventoryItem;
 enum class EPlayerHandleItemResult;
 
 class VillageLevel : public BaseLevel
@@ -20,7 +21,7 @@ private:
 	void Welcome();
 	void BuySelectedItem(int32 itemId);
 	void SellSelectedItem(int32 itemId);
-	wstring GetMsgForItemHandleResult(EPlayerHandleItemResult result, BaseItem* item);
+	wstring GetMsgForItemHandleResult(EPlayerHandleItemResult result, InventoryItem item);
 
 	void OnEnterItemShop();
 	void OnBuyItem();

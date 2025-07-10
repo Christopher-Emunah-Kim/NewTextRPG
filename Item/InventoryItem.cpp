@@ -1,7 +1,7 @@
 ﻿#include "InventoryItem.h"
 
-InventoryItem::InventoryItem(int64 serialNumber, int32 itemId)
-: m_serialNumber(serialNumber), m_itemId(itemId)
+InventoryItem::InventoryItem(int64 serialNumber, int32 itemId, int16 count)
+: m_serialNumber(serialNumber), m_itemId(itemId), m_count(count)
 {
 }
 
@@ -18,9 +18,29 @@ int64 InventoryItem::CreateSerialNumber()
 	return stoll(ss.str());
 }
 
-InventoryItem InventoryItem::Create(int32 itemId)
+InventoryItem InventoryItem::Create(int32 itemId, int16 count)
 {
 	const int64 serialNumber = CreateSerialNumber();
 
-	return InventoryItem(serialNumber, itemId);
+	return InventoryItem(serialNumber, itemId, count);
+}
+
+void InventoryItem::AddCount(int16 amount)
+{
+	m_count += amount;
+}
+
+bool InventoryItem::RemoveCount(int16 amount)
+{
+	if (m_count < amount)
+	{
+		return false;
+	}
+	m_count -= amount;
+	return true;
+}
+
+bool InventoryItem::IsEmpty()
+{
+	return m_count <= 0;
 }

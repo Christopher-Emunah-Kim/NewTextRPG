@@ -1,10 +1,13 @@
 ﻿#include "DungeonLevel.h"
 #include "../Core/GameInstance.h"
 #include "../Core/LevelManager.h"
+#include "../Data/MonsterDataTable.h"
+#include "Data/ItemDataTable.h"
 #include "../Util/BattleSystem.h"
 #include "../Util/InputSystem.h"
 #include "../Object/Character/Monster.h"
-#include "../Data/MonsterDataTable.h"
+#include "Item/InventoryItem.h"
+#include "Item/BaseItem.h"
 
 void DungeonLevel::Init()
 {
@@ -352,10 +355,11 @@ void DungeonLevel::OnShowUsuableItems()
 	gi->WriteLine(L"0: 뒤로가기");
 	gi->WriteLine();
 
-	const vector<BaseItem*>& items = player.GetInventoryItems();
+	const vector<InventoryItem>& items = player.GetInventoryItems();
+	ItemDataTable* itemDataTable = ItemDataTable::GetInstance();
 	for (size_t index = 0; index < items.size(); ++index)
 	{
-		const BaseItem* item = items[index];
+		const BaseItem* item = itemDataTable->GetItem(items[index].GetItemId());
 
 		wstringstream ss;
 		ss << index + 1 << L"." << item->GetName() <<
@@ -377,7 +381,7 @@ void DungeonLevel::OnShowUsuableItems()
 	for (size_t index = 0; index < items.size(); ++index)
 	{
 		InputSystem::BindAction(to_wstring(index + 1),
-			bind(&DungeonLevel::OnUseSelectedItem, this, items[index]->GetItemID()));
+			bind(&DungeonLevel::OnUseSelectedItem, this, items[index].GetItemId()));
 	}
 
 	InputSystem::BindActionOnInputError(
@@ -393,22 +397,24 @@ void DungeonLevel::OnShowUsuableItems()
 void DungeonLevel::OnUseSelectedItem(int32 itemId)
 {
 	Player& player = gi->GetPlayer();
-	BaseItem* item = player.GetItemFromInventory(itemId);
-	BaseItem* equippedItem = player.GetEquippedItem(item->GetItemType());
+	InventoryItem item = player.GetItemFromInventory(itemId);
 
-	if (!item)
+	EItemType targetType = ItemDataTable::GetInstance()->GetItem(itemId)->GetItemType();
+	int32 equippedItemId = player.GetEquippedItem(targetType);
+
+	if (equippedItemId == -1)
 	{
-		gi->WriteLine(L"존재하지 않는 아이템입니다.");
+		gi->WriteLine(L"장착 중인 아이템이 존재하지 않습니다");
 		return;
 	}
 
 
-	EPlayerHandleItemResult result = player.HandleOwnedItem(item);
+	EPlayerHandleItemResult result = player.HandleOwnedItem(move(item));
 
 	gi->WriteLine(L"");
 	gi->WriteLine(L"============================================");
 	gi->WriteLine(L"");
-	gi->WriteLine(GetMsgForItemHandleResult(result, item));
+	gi->WriteLine(GetMsgForItemHandleResult(result, move(item)));
 	gi->WriteLine(L"");
 	gi->WriteLine(L"============================================");
 	gi->WriteLine(L"");
@@ -418,10 +424,11 @@ void DungeonLevel::OnUseSelectedItem(int32 itemId)
 
 	if (result == EPlayerHandleItemResult::Equipped )
 	{
-		gi->UpdateEquippedItem(item->GetName(), item->GetItemType());
+		const BaseItem* targetItem = ItemDataTable::GetInstance()->GetItem(item.GetItemId());
+		gi->UpdateEquippedItem(targetItem->GetName(), targetItem->GetItemType());
+
 		player.RemoveItemFromInventory(itemId);
-		equippedItem->AddItemCount(1);
-		player.AddItemToInventory(equippedItem);
+		player.AddItemToInventory(itemId);
 		gi->UpdateInvetoryItems(player.GetInventoryItems());
 	}
 	else if (result == EPlayerHandleItemResult::UseItem)
@@ -440,18 +447,18 @@ void DungeonLevel::OnUseSelectedItem(int32 itemId)
 		});
 }
 
-wstring DungeonLevel::GetMsgForItemHandleResult(EPlayerHandleItemResult result, BaseItem* item)
+wstring DungeonLevel::GetMsgForItemHandleResult(EPlayerHandleItemResult result, InventoryItem item)
 {
 	switch (result)
 	{
 	case EPlayerHandleItemResult::Equipped:
 	{
-		return item->GetName() + L"을(를) 장착했습니다!";
+		return ItemDataTable::GetInstance()->GetItem(item.GetItemId())->GetName() + L"을(를) 장착했습니다!";
 	}
 	break;
 	case EPlayerHandleItemResult::UseItem:
 	{
-		return item->GetName() + L"을(를) 사용하여 체력이 20 회복되었습니다!";
+		return ItemDataTable::GetInstance()->GetItem(item.GetItemId())->GetName() + L"을(를) 사용하여 체력이 20 회복되었습니다!";
 	}
 	break;
 
@@ -519,25 +526,20 @@ void DungeonLevel::ProcessBattleResult(bool monsterDefeated)
 			gi->UpdatePlayerLevel(player.GetBattleCharacterInfo().characterLevel);
 		}
 		
-		if (result.rewards.droppedItem)
+		if (result.rewards.droppedItemId != -1)
 		{
 			if (result.rewards.bItemEquipped)
 			{
-				gi->UpdateEquippedItem(result.rewards.droppedItem->GetName(),result.rewards.droppedItem->GetItemType());
+				const BaseItem* targetItem = ItemDataTable::GetInstance()->GetItem(result.rewards.droppedItemId);
+				gi->UpdateEquippedItem(targetItem->GetName(), targetItem->GetItemType());
 				gi->UpdatePlayerStatus(player.GetTotalPlayerStatus());
 			}
 		}
 		
-		const vector<BaseItem*> inventoryItems = player.GetInventoryItems();
+		const vector<InventoryItem>& inventoryItems = player.GetInventoryItems();
         if (!inventoryItems.empty())
 		{
 			gi->UpdateInvetoryItems(inventoryItems);
-		}
-
-		if (result.rewards.droppedItem &&!result.rewards.bItemEquipped &&!result.rewards.bItemAddedToInventory)
-		{
-			delete result.rewards.droppedItem;
-			result.rewards.droppedItem = nullptr;
 		}
 
 		MonsterDefeated();
@@ -567,20 +569,20 @@ void DungeonLevel::DisplayVictoryRewards(const FBattleRewardInfo& rewards)
 		gi->WriteLine(L"골드 " + to_wstring(rewards.goldReward) + L"을(를) 획득했습니다!");
 	}
 		
-	if (rewards.droppedItem)
+	if (rewards.droppedItemId != -1)
 	{
-		const wstring itemName = rewards.droppedItem->GetName();
+		const wstring itemName = ItemDataTable::GetInstance()->GetItem(rewards.droppedItemId)->GetName();
 		gi->WriteLine(L"");
 		gi->WriteLine(m_currentMonster->GetName() + L"에게서 ");
 		gi->WriteLine(itemName + L"을(를) 획득했습니다!");
 
 		if (rewards.bItemEquipped)
 		{
-			
+			const BaseItem* targetItem = ItemDataTable::GetInstance()->GetItem(rewards.droppedItemId);
 			gi->WriteLine(itemName + L"을(를) 장착했습니다.");
-			gi->WriteLine(L"공격력: +" + to_wstring(rewards.droppedItem->GetAttack()) +
-				L", 방어력: +" + to_wstring(rewards.droppedItem->GetDefense()) +
-				L", 민첩성: +" + to_wstring(rewards.droppedItem->GetAgility()));
+			gi->WriteLine(L"공격력: +" + to_wstring(targetItem->GetAttack()) +
+				L", 방어력: +" + to_wstring(targetItem->GetDefense()) +
+				L", 민첩성: +" + to_wstring(targetItem->GetAgility()));
 			gi->WriteLine(L"");
 		}
 		else if (rewards.bItemAddedToInventory)

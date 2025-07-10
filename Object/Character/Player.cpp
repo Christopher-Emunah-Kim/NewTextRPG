@@ -3,6 +3,8 @@
 #include "../../Core/GameInstance.h"
 #include "../../Level/BaseLevel.h"
 #include "../../Data/ItemDataTable.h"
+#include "../../Item/InventoryItem.h"
+#include "../../Item/BaseItem.h"
 
 
 Player::Player()
@@ -13,6 +15,11 @@ Player::Player()
 	m_battleCharacterInfo.description = L"스칼드로서의 삶에 회한을 느낀 전사";
 }
 
+Player::~Player()
+{
+	Release();
+}
+
 void Player::Init()
 {
 	UpdatePlayerHUD();
@@ -20,9 +27,16 @@ void Player::Init()
 	BattleCharacter::Init();
 }
 
+void Player::Release()
+{
+	m_inventory.Release();
+	m_equipment.Release();
+}
+
 void Player::UpdatePlayerHUD()
 {
 	GameInstance* gameInstance = GameInstance::GetInstance();
+	ItemDataTable* itemDataTable = ItemDataTable::GetInstance();
 
 	gameInstance->UpdatePlayerName(GetTag());
 	gameInstance->UpdatePlayerLevel(m_battleCharacterInfo.characterLevel);
@@ -31,8 +45,11 @@ void Player::UpdatePlayerHUD()
 	gameInstance->UpdatePlayerExperience(m_experience);
 	gameInstance->UpdatePlayerGold(m_gold);
 
-	BaseItem* weapon = m_equipment.GetEquippedItem(EItemType::Weapon);
-	BaseItem* armor = m_equipment.GetEquippedItem(EItemType::Armor);
+	int32 weaponId = m_equipment.GetEquippedItem(EItemType::Weapon);
+	int32 armorId = m_equipment.GetEquippedItem(EItemType::Armor);
+
+	const BaseItem* weapon = itemDataTable->GetItem(weaponId);
+	const BaseItem* armor = itemDataTable->GetItem(armorId);
 
 	if (weapon)
 	{
@@ -52,11 +69,11 @@ void Player::UpdatePlayerHUD()
 		gameInstance->UpdateEquippedItem(L"없음", EItemType::Armor);
 	}
 
-	const vector<BaseItem*>& items = m_inventory.GetInventoryItems();
+	const vector<InventoryItem>& items = m_inventory.GetInventoryItems();
+
 	for (size_t i = 0; i < items.size(); ++i)
 	{
-		BaseItem* item = items[i];
-		gameInstance->UpdateInvetoryItems(m_inventory.GetInventoryItems());
+		gameInstance->UpdateInvetoryItems(items);
 	}
 }
 
@@ -173,7 +190,7 @@ bool Player::GainExperience(int32 exp)
 	return false;
 }
 
-const vector<BaseItem*> Player::GetInventoryItems() const 
+const vector<InventoryItem>& Player::GetInventoryItems() const 
 {
 	return m_inventory.GetInventoryItems();
 }
@@ -183,80 +200,80 @@ void Player::RemoveItemFromInventory(int32 itemId, int16 count)
 	m_inventory.RemoveItem(itemId, count);
 }
 
-bool Player::AddItemToInventory(BaseItem* item)
+bool Player::AddItemToInventory(int32 itemId, int16 count)
 {
-	return m_inventory.AddItem(item);
+	return m_inventory.AddItem(itemId, count);
 }
 
-BaseItem* Player::GetItemFromInventory(int32 itemId) const
+InventoryItem Player::GetItemFromInventory(int32 itemId) const
 {
 	return m_inventory.GetItem(itemId);
 }
 
-EPlayerHandleItemResult Player::HandlePurchasedItem(BaseItem* item)
+EPlayerHandleItemResult Player::HandlePurchasedItem(InventoryItem item)
 {
-	if (item == nullptr)
+	/*if (item == nullptr)
 	{
 		return EPlayerHandleItemResult::ItemNullPtr;
-	}
+	}*/
 
-	EItemType itemType = item->GetItemType();
-	bool bIsEquippable = ItemDataTable::GetInstance()->IsEquippable(item->GetItemID());
+	EItemType itemType = ItemDataTable::GetInstance()->GetItem(item.GetItemId())->GetItemType();
+	bool bIsEquippable = ItemDataTable::GetInstance()->IsEquippable(item.GetItemId());
 
 	if (bIsEquippable)
 	{
 		bool bIsAlreadyEquipped = false;
-		if((m_equipment.GetEquippedItem(EItemType::Weapon) != nullptr && EItemType::Weapon == itemType)|| 
-		   (m_equipment.GetEquippedItem(EItemType::Armor) != nullptr && EItemType::Armor == itemType))
+		if((m_equipment.GetEquippedItem(EItemType::Weapon) != -1 && EItemType::Weapon == itemType)|| 
+		   (m_equipment.GetEquippedItem(EItemType::Armor) != -1 && EItemType::Armor == itemType))
 		{
 			bIsAlreadyEquipped = true;
 		}
 
 		if (bIsAlreadyEquipped)
 		{
-			item->AddItemCount(1);
-			if (AddItemToInventory(item))
+			item.AddCount(1);
+			if (AddItemToInventory(item.GetItemId()))
 			{
 				return EPlayerHandleItemResult::AddToInventory;
 			}
 
-			delete item;
+			//delete item;
 			return EPlayerHandleItemResult::InventoryFull;
 		}
 		else
 		{
-			Equip(item);
+			Equip(item.GetItemId());
 			return EPlayerHandleItemResult::Equipped;
 		}
 	}
 	else
 	{
-		item->AddItemCount(1);
-		if (AddItemToInventory(item))
+		item.AddCount(1);
+		if (AddItemToInventory(item.GetItemId()))
 		{
 			return EPlayerHandleItemResult::AddToInventory;
 		}
 		
-		delete item;
+		//delete item;
 		return EPlayerHandleItemResult::InventoryFull;
 	}
 }
 
-EPlayerHandleItemResult Player::HandleOwnedItem(BaseItem* item)
+EPlayerHandleItemResult Player::HandleOwnedItem(InventoryItem item)
 {
-	if (item == nullptr)
+	/*if (item == nullptr)
 	{
 		return EPlayerHandleItemResult::ItemNullPtr;
-	}
+	}*/
 
-	EItemType itemType = item->GetItemType();
+	EItemType itemType = ItemDataTable::GetInstance()->GetItem(item.GetItemId())->GetItemType();
 
 	switch (itemType)
 	{
 	case EItemType::Weapon:
 	case EItemType::Armor:
 	{
-		if (Equip(item))
+		if (Equip(item.GetItemId()))
 		{
 			return EPlayerHandleItemResult::Equipped;
 		}
@@ -281,12 +298,12 @@ EPlayerHandleItemResult Player::HandleOwnedItem(BaseItem* item)
 }
 
 
-bool Player::Equip(BaseItem* item)
+bool Player::Equip(int32 itemId)
 {
-	return m_equipment.EquipItem(item);
+	return m_equipment.EquipItem(itemId);
 }
 
-BaseItem* Player::GetEquippedItem(EItemType itemType) const
+int32 Player::GetEquippedItem(EItemType itemType) const
 {
 	return m_equipment.GetEquippedItem(itemType);
 }

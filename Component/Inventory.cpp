@@ -1,7 +1,7 @@
 ﻿#include "Inventory.h"
 #include "../Data/ItemDataTable.h"
-#include "../Core/GameInstance.h"
-#include "../Object/BaseGameObject.h"
+//#include "../Core/GameInstance.h"
+//#include "../Object/BaseGameObject.h"
 
 Inventory::Inventory()
 	:  m_maxInventorySize(DEFAULT_INVENTORY_MAX_COUNT)
@@ -14,58 +14,56 @@ Inventory::~Inventory()
 
 void Inventory::Release()
 {
-	for (size_t i = 0; i < m_inventoryItems.size(); ++i)
-	{
-		BaseItem* item = m_inventoryItems[i];
-		if (item)
-		{
-			delete item;
-			item = nullptr;
-		}
-	}
 	m_inventoryItems.clear();
 }
 
-bool Inventory::AddItem(BaseItem* item)
+bool Inventory::AddItem(int32 itemId, int16 count)
 {
-	
-	if (item == nullptr || m_inventoryItems.size() >= m_maxInventorySize)
+	if ((int)m_inventoryItems.size() >= m_maxInventorySize)
 	{
 		return false;
 	}
 
 	for (size_t i = 0; i < m_inventoryItems.size(); ++i)
 	{
-		BaseItem* existingItem = m_inventoryItems[i];
-		if (existingItem && existingItem->GetItemID() == item->GetItemID())
+		InventoryItem& existingItem = m_inventoryItems[i];
+		if (existingItem.GetItemId() == itemId)
 		{
-			bool result = existingItem->AddItemCount(item->GetCount());
+			existingItem.AddCount(count);
 			
-			return result;
+			return true;
 		}
 	}
-	m_inventoryItems.push_back(item);
+
+	m_inventoryItems.push_back(InventoryItem::Create(itemId, count));
 
 	return true;
 }
 
 bool Inventory::RemoveItem(int32 itemId, int16 count)
 {
-	for (size_t i = 0; i < m_inventoryItems.size(); ++i)
-	{
-		BaseItem* item = m_inventoryItems[i];
-		if (item && item->GetItemID() == itemId)
-		{
-			if (item->RemoveItemCount(count))
-			{
-				if (item->IsEmpty())
-				{
-					m_inventoryItems.erase(m_inventoryItems.begin() + i);
-				}
 
+	for (vector<InventoryItem>::iterator it = m_inventoryItems.begin(); it != m_inventoryItems.end();  )
+	{
+		if (it->GetItemId() == itemId)
+		{
+			if (it->RemoveCount(count))
+			{
+				if (it->IsEmpty())
+				{
+					m_inventoryItems.erase(it); 
+				}
+				else
+				{
+					++it;
+				}
 				return true;
 			}
 			return false;
+		}
+		else
+		{
+			++it;
 		}
 	}
 	return false;
@@ -73,37 +71,15 @@ bool Inventory::RemoveItem(int32 itemId, int16 count)
 
 
 
-BaseItem* Inventory::GetItem(int32 itemId) const
+InventoryItem Inventory::GetItem(int32 itemId) const
 {
 	for (size_t i = 0; i < m_inventoryItems.size(); ++i)
 	{
-		BaseItem* item = m_inventoryItems[i];
-		if (item && item->GetItemID() == itemId)
+		int32 targetId = m_inventoryItems[i].GetItemId();
+		if (targetId == itemId)
 		{
-			return item;
+			return InventoryItem::Create(itemId);
 		}
 	}
-	return nullptr;
 }
 
-
-Status Inventory::GetTotalStatus() const
-{
-	int16 atk = 0;
-	int16 def = 0;
-	int16 agi = 0;
-
-	for (size_t i = 0; i < m_inventoryItems.size(); ++i)
-	{
-		BaseItem* item = m_inventoryItems[i];
-		if (item)
-		{
-			Status itemStatus = item->GetItemStatus();
-			atk += itemStatus.GetAttack();
-			def += itemStatus.GetDefense();
-			agi += itemStatus.GetAgility();
-		}
-	}
-
-	return Status::NewStatus(atk, def, agi);
-}

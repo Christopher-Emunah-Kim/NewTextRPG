@@ -8,6 +8,8 @@
 #include "../Component/Equipment.h"
 #include "../Component/Inventory.h"
 #include "../Data/ItemDataTable.h"
+#include "../Item/InventoryItem.h"
+#include "../Item/BaseItem.h"
 
 
 
@@ -97,8 +99,7 @@ void BattleSystem::HandleDropItemReward(BattleCharacter* winner, BattleCharacter
 {
 	Player* player = static_cast<Player*>(winner);
 	Monster* monster = static_cast<Monster*>(loser);
-	ItemDataTable* itemDataTable = ItemDataTable::GetInstance();
-	vector<int32> availableItemIds = itemDataTable->GetItemIds();
+	vector<int32> availableItemIds = ItemDataTable::GetInstance()->GetItemIds();
 
 	if (availableItemIds.empty())
 	{
@@ -108,29 +109,31 @@ void BattleSystem::HandleDropItemReward(BattleCharacter* winner, BattleCharacter
 	
 	int randomIndex = rand() % availableItemIds.size();
 	int32 randomItemId = availableItemIds[randomIndex];
-	const BaseItem* templateItem = itemDataTable->GetItem(randomItemId);
+	/*const BaseItem* templateItem = itemDataTable->GetItem(randomItemId);
 
 	if (!templateItem)
 	{
 		throw runtime_error("오류: 전리품 templateItem이 존재하지 않습니다.");
-	}
+	}*/
 
 
-	BaseItem* droppedItem = templateItem->CreateItem();
-	if (!droppedItem)
+	//InventoryItem droppedItem = InventoryItem::Create(randomItemId);
+	/*if (droppedItem)
 	{
 		throw runtime_error("오류: droppedItem이 존재하지 않습니다.");
-	}
-	droppedItem->AddItemCount(1);
-	result.rewards.droppedItem = droppedItem;
+	}*/
 
-	bool bEquipSuccess = TryEquipOrStoreItem(player, droppedItem, result);
+	/*InventoryItem droppeditem = InventoryItem::Create(randomItemId);
+    result.rewards.droppedItem = make_optional(move(droppeditem));
+	result.rewards.droppedItem.AddCount(1);*/
+
+	bool bEquipSuccess = TryEquipOrStoreItem(player, randomItemId, result);
 
 }
 
 
 
-bool BattleSystem::TryEquipOrStoreItem(BattleCharacter* winner, BaseItem* droppedItem, FBattleResult& result)
+bool BattleSystem::TryEquipOrStoreItem(BattleCharacter* winner, int32 droppedItemId, FBattleResult& result)
 {
 	Player* player = static_cast<Player*>(winner);
 
@@ -139,44 +142,49 @@ bool BattleSystem::TryEquipOrStoreItem(BattleCharacter* winner, BaseItem* droppe
 		throw runtime_error("오류: 플레이어를 찾을 수 없습니다.");
 	}
 
-	if (droppedItem->GetItemType() == EItemType::Weapon || droppedItem->GetItemType() == EItemType::Armor)
+	ItemDataTable* itemTable = ItemDataTable::GetInstance();
+	EItemType itemType = itemTable->GetItem(droppedItemId)->GetItemType();
+	
+
+	if (itemType == EItemType::Weapon || itemType == EItemType::Armor)
 	{
-		BaseItem* currentEquip = player->GetEquippedItem(droppedItem->GetItemType());
+		//BaseItem* currentEquip = player->GetEquippedItem(droppedItem->GetItemType());
+		int32 currentEquipId = player->GetEquippedItem(itemType);
 		bool bIsBetter = false;
 
-		if (!currentEquip)
+		if (currentEquipId == -1)
 		{
 			bIsBetter = true;
 		}
 		else
 		{
+			const BaseItem* currentEquip = itemTable->GetItem(currentEquipId);
 			int32 currentPower = currentEquip->GetAttack() + currentEquip->GetDefense() + currentEquip->GetAgility();
-			int32 newPower = droppedItem->GetAttack() + droppedItem->GetDefense() + droppedItem->GetAgility();
+			const BaseItem* newEquip = itemTable->GetItem(droppedItemId);
+			int32 newPower = newEquip->GetAttack() + newEquip->GetDefense() + newEquip->GetAgility();
+
 			bIsBetter = (newPower > currentPower);
 		}
 
-
-		if (bIsBetter && player->Equip(droppedItem))
+		if (bIsBetter && player->Equip(droppedItemId))
 		{
-			if (currentEquip)
+			if (currentEquipId != -1)
 			{
-				currentEquip->AddItemCount(1);
-				player->AddItemToInventory(currentEquip);
+				player->AddItemToInventory(currentEquipId);
 			}
 			result.rewards.bItemEquipped = true;
 			return true;
 		}
 	}
 
-	if (player->AddItemToInventory(droppedItem))
+	if (player->AddItemToInventory(droppedItemId))
 	{
 		result.rewards.bItemAddedToInventory = true;
 		return true;
 	}
 	else
 	{
-		delete droppedItem;
-		result.rewards.droppedItem = nullptr;
+		result.rewards.droppedItemId = -1;
 		return false;
 	}
 	return false;

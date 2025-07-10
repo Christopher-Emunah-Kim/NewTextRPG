@@ -1,6 +1,7 @@
 ﻿#include "Merchant.h"
 #include "Data/ItemDataTable.h"
 #include "Item/BaseItem.h"
+#include "Item/InventoryItem.h"
 #include "Object/Character/Player.h"
 
 void Merchant::AddSaleItem(int32 itemId)
@@ -18,29 +19,33 @@ vector<int32> Merchant::GetSalesItems() const
 			saleItems.push_back(it->first);
 		}
 	}
-
 	return saleItems;
 }
 
-expected<BaseItem*, wstring> Merchant::SellItem(int32 itemId, Player& player)
+expected<int32, wstring> Merchant::SellItem(int32 itemId, Player& player)
 {
 	if (m_salesStatusTable.find(itemId) == m_salesStatusTable.end())
 	{
 		return unexpected(wstring(L"해당 아이템은 상인의 보유아이템 목록에 존재하지 않습니다. itemId : ") + to_wstring(itemId));
 	}
 
-	const int32 buyingPrice = ItemDataTable::GetInstance()->GetItem(itemId)->GetBuyingPrice();
-	if (player.CanAfford(buyingPrice) == false)
+	const BaseItem* item = ItemDataTable::GetInstance()->GetItem(itemId);
+	if (item == nullptr)
+	{
+		return unexpected(L"아이템 정보를 불러올 수 없습니다.");
+	}
+
+	if (player.CanAfford(item->GetBuyingPrice()) == false)
 	{
 		return unexpected(wstring(L"금액이 부족합니다."));
 	}
 
-	player.UseGold(buyingPrice);
-	
-	const BaseItem* templateItem = ItemDataTable::GetInstance()->GetItem(itemId);
-	BaseItem* item = templateItem->CreateItem();
+	player.UseGold(item->GetBuyingPrice());
 
-	return item;
+	/*const BaseItem* templateItem = ItemDataTable::GetInstance()->GetItem(itemId);
+	BaseItem* item = templateItem->CreateItem();*/
+
+	return itemId;
 }
 
 void Merchant::BuyItem(int32 itemId, Player& player)
@@ -48,9 +53,7 @@ void Merchant::BuyItem(int32 itemId, Player& player)
 	const BaseItem* targetItem = ItemDataTable::GetInstance()->GetItem(itemId);
 	if (targetItem)
 	{
-		const int32 sellingPrice = targetItem->GetSellingPrice();
-
-		player.GainGold(sellingPrice);
+		player.GainGold(targetItem->GetSellingPrice());
 	}
 	else
 	{

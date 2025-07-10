@@ -3,7 +3,9 @@
 #include "Screen.h"
 #include "Util/InputSystem.h"
 #include "Util/OutputSystem.h"
-#include <Item/BaseItem.h>
+#include "Item/BaseItem.h"
+#include "Item/InventoryItem.h"
+#include "Data/ItemDataTable.h"
 
 
 void HUD::Render(Screen& screen) const
@@ -62,13 +64,13 @@ void HUD::UpdateEquippedItem(const wstring& name, EItemType type)
 	}
 }
 
-void HUD::UpdateInvetoryItems(const vector<BaseItem*>& items)
+void HUD::UpdateInvetoryItems(const vector<InventoryItem>& items)
 {
 	m_hudData.inventoryItems.clear();
 
 	for (size_t i = 0; i < items.size(); ++i)
 	{
-		const BaseItem* item = items[i];
+		const BaseItem* item = ItemDataTable::GetInstance()->GetItem(items[i].GetItemId());
 		if (item != nullptr)
 		{
 			wstring itemName = item->GetName();

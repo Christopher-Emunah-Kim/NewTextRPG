@@ -20,10 +20,10 @@ public:
 
 private:
 	void SetDungeonStage();
-	void CreateRandomMonster();
 	void Welcome();
 	void MonsterDefeated();
 	void ContinueExploration();
+	Monster* CreateRandomMonster();
 
 	void ProcessPlayerTurn();
 	void ProcessMonsterTurn();

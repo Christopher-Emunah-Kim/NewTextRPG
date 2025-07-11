@@ -37,33 +37,26 @@ void DungeonLevel::SetDungeonStage()
 
 	if (m_monsterNames.empty())
 	{
-		gi->WriteLine(L"몬스터 데이터가 비어있습니다. 던전 레벨을 초기화할 수 없어 임의로 몬스터를 추가합니다.");
-		m_monsterNames.push_back(L"허약한 고블린");
-		m_monsterNames.push_back(L"불쌍한 오크");
-		m_monsterNames.push_back(L"강맹한 늑대");
+		throw runtime_error("몬스터 데이터가 비어있습니다. 던전 레벨을 초기화할 수 없습니다.");
 	}
 
 	m_activeMonseters = m_maxMonsters;
 }
 
-void DungeonLevel::CreateRandomMonster()
+Monster* DungeonLevel::CreateRandomMonster()
 {
-	if (!m_monsterNames.empty())
+	if (false == m_monsterNames.empty())
 	{
 		int randomIndex = rand() % m_monsterNames.size();
 		wstring monsterName = m_monsterNames[randomIndex];
 
 		MonsterDataTable* monsterDataTable = MonsterDataTable::GetInstance();
-		m_currentMonster = monsterDataTable->CreateMonster(this, monsterName);
+		Monster* randomMonster = monsterDataTable->CreateMonster(this, monsterName);
 
-		if (m_currentMonster == nullptr) 
-		{
-			FMonsterInfo customInfo(1);
-			customInfo.health.New(15);
-			customInfo.status = Status::NewStatus(8, 10, 20);
-			m_currentMonster = new Monster(this, L"허약한 고블린", customInfo);
-		}
+		return randomMonster;
 	}
+
+	return nullptr;
 }
 
 void DungeonLevel::Welcome()
@@ -162,7 +155,8 @@ void DungeonLevel::ContinueExploration()
 
 void DungeonLevel::OnEnterStage()
 {
-	CreateRandomMonster();
+	m_currentMonster = CreateRandomMonster();
+
 	if (m_currentMonster == nullptr)
 	{
 		gi->WriteLine(L"몬스터를 생성할 수 없습니다. 초기화면으로 돌아갑니다..");

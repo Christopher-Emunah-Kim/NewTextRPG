@@ -1,6 +1,6 @@
 ﻿#pragma once
-#include "Object/BaseGameObject.h"
-#include "Util/Type/CharacterInfo.h"
+#include "Common.h"
+#include "Core/IBehavior.h"
 #include "Util/Type/EnumType.h"
 #include "Util/Type/Gold.h"
 #include "Util/Type/Health.h"
@@ -17,9 +17,6 @@ constexpr __int8 COMMAND_BLOCK_HEIGHT = 3;
 constexpr __int16 PLAYER_UI_BASE_Y = 1;
 constexpr __int16 SYSTEM_TEXT_BASE_Y = 3;
 
-class Player;
-class BaseLevel;
-class SystemUIComp;
 
 struct FHudData final
 {

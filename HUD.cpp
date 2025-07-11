@@ -1,5 +1,4 @@
 ﻿#include "HUD.h"
-#include "Common.h"
 #include "Screen.h"
 #include "Util/InputSystem.h"
 #include "Util/OutputSystem.h"

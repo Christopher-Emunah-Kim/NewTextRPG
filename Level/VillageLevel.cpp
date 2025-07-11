@@ -297,6 +297,7 @@ void VillageLevel::OnSellItem()
 	gi->WriteLine(L"판매할 아이템 번호를 입력하세요");
 
 	InputSystem::Clear();
+
 	InputSystem::BindAction(L"0", bind(&VillageLevel::OnEnterItemShop, this));
 	for (size_t index = 0; index < items.size(); ++index)
 	{

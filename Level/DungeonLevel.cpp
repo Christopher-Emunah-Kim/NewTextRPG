@@ -122,7 +122,6 @@ void DungeonLevel::ContinueExploration()
 		return;
 	}
 
-	gi->ClearText();
 	gi->WriteLine(L"============================================");
 	gi->WriteLine(L"");
 	gi->WriteLine(L"당신은 던전을 더 탐험할 수 있습니다. 앞으로 나아갈까요?");
@@ -526,11 +525,13 @@ void DungeonLevel::ProcessBattleResult(bool monsterDefeated)
 		result.winner = &player;
 		result.loser = m_currentMonster;
 
-		BattleSystem::HandleBattleRewards(&player, m_currentMonster, result);
-
-
+		gi->WriteLine(L"");
+		gi->WriteLine(L"============================================");
 		gi->WriteLine(L"");
 		gi->WriteLine(m_currentMonster->GetName() + L"를(을) 처치했습니다!");
+		gi->WriteLine(L"");
+
+		BattleSystem::HandleBattleRewards(&player, m_currentMonster, result);
 
 		DisplayVictoryRewards(result.rewards);
 
@@ -588,8 +589,8 @@ void DungeonLevel::DisplayVictoryRewards(const FBattleRewardInfo& rewards)
 	{
 		const wstring itemName = ItemDataTable::GetInstance()->GetItem(rewards.droppedItemId)->GetName();
 		gi->WriteLine(L"");
-		gi->WriteLine(m_currentMonster->GetName() + L"에게서 ");
-		gi->WriteLine(itemName + L"을(를) 획득했습니다!");
+		gi->WriteLine(m_currentMonster->GetName() + L"에게서 " + itemName + L"을(를) 획득했습니다!");
+		gi->WriteLine(L"");
 
 		if (rewards.bItemEquipped)
 		{

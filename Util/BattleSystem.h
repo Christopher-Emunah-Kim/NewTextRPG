@@ -24,9 +24,6 @@ struct FBattleResult
 class BattleSystem
 {
 private:
-	static void HandleExpReward(BattleCharacter* winner, BattleCharacter* loser, FBattleResult& result);
-	static void HandleGoldReward(BattleCharacter* winner, BattleCharacter* loser, FBattleResult& result);
-	static void HandleDropItemReward(BattleCharacter* winner, BattleCharacter* loser, FBattleResult& result);
 	static bool TryEquipOrStoreItem(BattleCharacter* winner, int32 droppedItemId, FBattleResult& result);
 
 public:

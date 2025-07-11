@@ -43,14 +43,7 @@ bool BattleSystem::DetermineFirstAttacker(BattleCharacter* p1, BattleCharacter* 
 
 bool BattleSystem::CanEscape(BattleCharacter* player, BattleCharacter* monster)
 {
-	if (rand() % 3 == 0)
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
+	return rand() % 3 == 0;
 }
 
 void BattleSystem::HandleBattleRewards(BattleCharacter* winner, BattleCharacter* loser, FBattleResult& result)
@@ -60,60 +53,33 @@ void BattleSystem::HandleBattleRewards(BattleCharacter* winner, BattleCharacter*
 
 	if (player && monster)
 	{
-		HandleExpReward(player, monster, result);
+		int16 expAmount = monster->GetDropExperience();
+		bool bPlayerLevelup = player->GainExperience(expAmount);
+		int16 goldAmount = monster->GetDropGold();
+		player->GainGold(goldAmount);
 
-		HandleGoldReward(player, monster, result);
+		result.rewards.expReward = expAmount;
+		result.rewards.bLevelUp = bPlayerLevelup;
+		result.rewards.goldReward = goldAmount;
 
-		HandleDropItemReward(player, monster, result);
+
+		vector<int32> availableItemIds = ItemDataTable::GetInstance()->GetItemIds();
+
+		if (availableItemIds.empty())
+		{
+			throw runtime_error("오류 : 전리품 아이템 테이블에 아이템이 존재하지 않습니다.");
+		}
+
+		int randomIndex = rand() % availableItemIds.size();
+		int32 randomItemId = availableItemIds[randomIndex];
+
+		bool bEquipSuccess = TryEquipOrStoreItem(player, randomItemId, result);
 	}
 	else 
 	{
 		throw runtime_error("오류: HandleBattleRewards에 플레이어나 몬스터가 존재하지않습니다..");
 	}
 }
-
-void BattleSystem::HandleExpReward(BattleCharacter* winner, BattleCharacter* loser, FBattleResult& result)
-{
-	Player* player = static_cast<Player*>(winner);
-	Monster* monster = static_cast<Monster*>(loser);
-
-	int16 expAmount = monster->GetDropExperience();
-	bool bPlayerLevelup = player->GainExperience(expAmount);
-
-	result.rewards.expReward = expAmount;
-	result.rewards.bLevelUp = bPlayerLevelup;
-}
-
-void BattleSystem::HandleGoldReward(BattleCharacter* winner, BattleCharacter* loser, FBattleResult& result)
-{
-	Player* player = static_cast<Player*>(winner);
-	Monster* monster = static_cast<Monster*>(loser);
-
-	int16 goldAmount = monster->GetDropGold();
-	player->GainGold(goldAmount);
-
-	result.rewards.goldReward = goldAmount;
-}
-
-void BattleSystem::HandleDropItemReward(BattleCharacter* winner, BattleCharacter* loser, FBattleResult& result)
-{
-	Player* player = static_cast<Player*>(winner);
-	Monster* monster = static_cast<Monster*>(loser);
-	vector<int32> availableItemIds = ItemDataTable::GetInstance()->GetItemIds();
-
-	if (availableItemIds.empty())
-	{
-		throw runtime_error("오류 : 전리품 아이템 테이블에 아이템이 존재하지 않습니다.");
-	}
-
-	int randomIndex = rand() % availableItemIds.size();
-	int32 randomItemId = availableItemIds[randomIndex];
-
-	bool bEquipSuccess = TryEquipOrStoreItem(player, randomItemId, result);
-
-}
-
-
 
 bool BattleSystem::TryEquipOrStoreItem(BattleCharacter* winner, int32 droppedItemId, FBattleResult& result)
 {

@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include "../Util/Type/EnumType.h"
-#include "../Util/Type/StatusType.h"
+#include "../Util/Type/Status.h"
 
 
 class Equipment final

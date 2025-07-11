@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include "../Common.h"
-#include "../Util/Type/StatusType.h"
+#include "../Util/Type/Status.h"
 #include "../Util/Type/Experience.h"
 #include "../Core/IBehavior.h"
 

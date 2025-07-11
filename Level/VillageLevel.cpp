@@ -39,7 +39,7 @@ void VillageLevel::Init()
 
 void VillageLevel::Welcome()
 {
-	GameInstance::GetInstance()->ClearText();
+	gi->ClearText();
 	gi->WriteLine(L"============================================");
 	gi->WriteLine();
 	gi->WriteLine(L"당신은 마을에 도착했습니다.");

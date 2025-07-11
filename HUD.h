@@ -4,7 +4,7 @@
 #include "Util/Type/EnumType.h"
 #include "Util/Type/Gold.h"
 #include "Util/Type/Health.h"
-#include "Util/Type/StatusType.h"
+#include "Util/Type/Status.h"
 #include "Util/Type/Experience.h"
 #include "Item/InventoryItem.h"
 #include <queue>

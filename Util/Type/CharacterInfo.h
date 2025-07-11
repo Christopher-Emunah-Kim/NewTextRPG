@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include "../../Common.h"
 #include "../../Data/PlayerDataTablePerLevel.h"
-#include "StatusType.h"
+#include "Status.h"
 #include "Health.h"
 
 

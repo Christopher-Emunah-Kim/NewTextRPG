@@ -197,7 +197,7 @@
     <ClInclude Include="Util\Type\Health.h" />
     <ClInclude Include="Util\Type\Experience.h" />
     <ClInclude Include="Util\Type\CharacterInfo.h" />
-    <ClInclude Include="Util\Type\StatusType.h" />
+    <ClInclude Include="Util\Type\Status.h" />
     <ClInclude Include="Util\Timer.h" />
   </ItemGroup>
   <ItemGroup>

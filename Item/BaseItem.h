@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include "../Common.h"
-#include "../Util/Type/StatusType.h"
+#include "../Util/Type/Status.h"
 #include "../Util/Type/EnumType.h"
 
 constexpr int16 DEFAULT_ITEM_MAX_COUNT = 99;
@@ -40,45 +40,6 @@ public:
 	inline Status GetAddableStatus() const { return Status::NewStatus(m_attack, m_defense, m_agility); }
 	inline int16 GetCount() const noexcept { return m_count; }
 
-	/*BaseItem* CreateItem() const
-	{
-		return new BaseItem(
-			m_itemId,
-			m_name,
-			m_itemType,
-			m_description,
-			m_buyingPrice,
-			m_sellingPrice,
-			m_attack,
-			m_defense,
-			m_agility
-		);
-	}*/
-
-	/*bool AddItemCount(int16 count = 1)
-	{
-		if (m_count + count > m_maxCount)
-		{
-			return false;
-		}
-		m_count += count;
-		return true;
-	}*/
-
-	/*bool RemoveItemCount(int16 count = 1)
-	{
-		if (m_count < count)
-		{
-			return false;
-		}
-		m_count -= count;
-		return true;
-	}*/
-
-	//inline bool IsFull() const { return m_count >= m_maxCount; }
-	//inline bool IsEmpty() const { return m_count <= 0; }
-	//inline void SetMaxCount(const int16& maxCount) { m_maxCount = maxCount; }
-	//inline int16 GetMaxCount() const noexcept { return m_maxCount; }
 	
 private:
 	int32 m_itemId;

@@ -107,7 +107,7 @@
     <ClInclude Include="Util\Timer.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Util\Type\StatusType.h">
+    <ClInclude Include="Util\Type\Status.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Util\Type\Experience.h">

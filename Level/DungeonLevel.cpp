@@ -531,31 +531,17 @@ void DungeonLevel::ProcessBattleResult(bool monsterDefeated)
 		gi->WriteLine(m_currentMonster->GetName() + L"를(을) 처치했습니다!");
 		gi->WriteLine(L"");
 
-		BattleSystem::HandleBattleRewards(&player, m_currentMonster, result);
+		expected<bool, wstring> expectedResult = BattleSystem::HandleBattleRewards(&player, m_currentMonster, result);
 
-		DisplayVictoryRewards(result.rewards);
+		if (false == expectedResult.has_value())
+		{
+			gi->WriteLine(expectedResult.error());
+			return;
+		}
 
-		gi->UpdatePlayerExperience(player.GetExperienceForHUD());
-		gi->UpdatePlayerGold(player.GetGoldForHUD());
-		if (result.rewards.bLevelUp)
+		if (expectedResult.value())
 		{
-			gi->UpdatePlayerLevel(player.GetBattleCharacterInfo().characterLevel);
-		}
-		
-		if (result.rewards.droppedItemId != -1)
-		{
-			if (result.rewards.bItemEquipped)
-			{
-				const BaseItem* targetItem = ItemDataTable::GetInstance()->GetItem(result.rewards.droppedItemId);
-				gi->UpdateEquippedItem(targetItem->GetName(), targetItem->GetItemType());
-				gi->UpdatePlayerStatus(player.GetTotalPlayerStatus());
-			}
-		}
-		
-		const vector<InventoryItem>& inventoryItems = player.GetInventoryItems();
-        if (!inventoryItems.empty())
-		{
-			gi->UpdateInvetoryItems(inventoryItems);
+			DisplayVictoryRewards(result.rewards, player);
 		}
 
 		MonsterDefeated();
@@ -568,7 +554,7 @@ void DungeonLevel::ProcessBattleResult(bool monsterDefeated)
 	}
 }
 
-void DungeonLevel::DisplayVictoryRewards(const FBattleRewardInfo& rewards)
+void DungeonLevel::DisplayVictoryRewards(const FBattleRewardInfo& rewards, Player& player)
 {
 	if (rewards.expReward > 0)
 	{
@@ -577,12 +563,17 @@ void DungeonLevel::DisplayVictoryRewards(const FBattleRewardInfo& rewards)
 		if (rewards.bLevelUp)
 		{
 			gi->WriteLine(L"레벨업! 능력치가 상승합니다.");
+
+			gi->UpdatePlayerLevel(player.GetBattleCharacterInfo().characterLevel);
 		}
+
+		gi->UpdatePlayerExperience(player.GetExperienceForHUD());
 	}
 
 	if (rewards.goldReward > 0)
 	{
 		gi->WriteLine(L"골드 " + to_wstring(rewards.goldReward) + L"을(를) 획득했습니다!");
+		gi->UpdatePlayerGold(player.GetGoldForHUD());
 	}
 		
 	if (rewards.droppedItemId != -1)
@@ -600,6 +591,9 @@ void DungeonLevel::DisplayVictoryRewards(const FBattleRewardInfo& rewards)
 				L", 방어력: +" + to_wstring(targetItem->GetItemStatus().GetDefense()) +
 				L", 민첩성: +" + to_wstring(targetItem->GetItemStatus().GetAgility()));
 			gi->WriteLine(L"");
+
+			gi->UpdateEquippedItem(targetItem->GetName(), targetItem->GetItemType());
+			gi->UpdatePlayerStatus(player.GetTotalPlayerStatus());
 		}
 		else if (rewards.bItemAddedToInventory)
 		{
@@ -608,6 +602,12 @@ void DungeonLevel::DisplayVictoryRewards(const FBattleRewardInfo& rewards)
 		else
 		{
 			gi->WriteLine(L"인벤토리가 가득 차서 " + itemName + L"을(를) 버렸습니다.");
+		}
+
+		const vector<InventoryItem>& inventoryItems = player.GetInventoryItems();
+		if (!inventoryItems.empty())
+		{
+			gi->UpdateInvetoryItems(inventoryItems);
 		}
 	}
 }

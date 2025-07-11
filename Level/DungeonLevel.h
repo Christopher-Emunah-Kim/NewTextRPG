@@ -3,6 +3,7 @@
 
 constexpr __int16 DUNGEON_MAX_MONSTERS = 7;
 
+class Player;
 class Monster;
 class GameInstance;
 class InventoryItem;
@@ -30,7 +31,7 @@ private:
 	void ProcessPlayerAttack();
 	void ProcessBattleResult(bool monsterDefeated);
 
-	void DisplayVictoryRewards(const FBattleRewardInfo& rewards);
+	void DisplayVictoryRewards(const FBattleRewardInfo& rewards, Player& player);
 	void DisplayDefeatScreen();
 
 	void OnEnterStage();

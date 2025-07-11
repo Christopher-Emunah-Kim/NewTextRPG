@@ -14,7 +14,7 @@ void DungeonLevel::Init()
 	gi = GameInstance::GetInstance();
 
 	SetDungeonStage();
-	Welcome();
+	ShowDungeonEntranceMenu();
 
 	BaseLevel::Init();
 }
@@ -59,7 +59,7 @@ Monster* DungeonLevel::CreateRandomMonster()
 	return nullptr;
 }
 
-void DungeonLevel::Welcome()
+void DungeonLevel::ShowDungeonEntranceMenu()
 {
 
 	gi->ClearText();
@@ -81,7 +81,7 @@ void DungeonLevel::Welcome()
 
 	InputSystem::BindAction(
 		{
-			{L"1", bind(&DungeonLevel::OnEnterStage, this)},
+			{L"1", bind(&DungeonLevel::OnEnterDungeon, this)},
 			{L"2", bind(&DungeonLevel::OnBackToVillage, this)},
 		}
 	);
@@ -91,7 +91,7 @@ void DungeonLevel::Welcome()
 		{
 			gi->ClearText();
 			gi->WriteLine(L"잘못된 입력입니다. 다시 시도하세요.");
-			Welcome();
+			ShowDungeonEntranceMenu();
 		}
 	);
 }
@@ -137,8 +137,8 @@ void DungeonLevel::ContinueExploration()
 
 	InputSystem::BindAction(
 		{
-			{L"1", bind(&DungeonLevel::OnEnterStage, this)},
-			{L"2", bind(&DungeonLevel::Welcome, this)},
+			{L"1", bind(&DungeonLevel::OnEnterDungeon, this)},
+			{L"2", bind(&DungeonLevel::ShowDungeonEntranceMenu, this)},
 		}
 		);
 
@@ -152,14 +152,14 @@ void DungeonLevel::ContinueExploration()
 	);
 }
 
-void DungeonLevel::OnEnterStage()
+void DungeonLevel::OnEnterDungeon()
 {
 	m_currentMonster = CreateRandomMonster();
 
 	if (m_currentMonster == nullptr)
 	{
 		gi->WriteLine(L"몬스터를 생성할 수 없습니다. 초기화면으로 돌아갑니다..");
-		Welcome();
+		ShowDungeonEntranceMenu();
 		return;
 	}
 
@@ -191,7 +191,7 @@ void DungeonLevel::OnEnterStage()
 		{
 			gi->ClearText();
 			gi->WriteLine(L"잘못된 입력입니다. 다시 시도하세요.");
-			Welcome();
+			ShowDungeonEntranceMenu();
 		}
 	);
 
@@ -662,7 +662,7 @@ void DungeonLevel::OnEscape()
 	else
 	{
 		gi->WriteLine(L"몬스터가 당신을 쫓아왔지만, 당신은 무사히 던전 입구로 도망쳤습니다.");
-		Welcome();
+		ShowDungeonEntranceMenu();
 	}
 
 }

@@ -32,12 +32,12 @@ void VillageLevel::Init()
 
 	gi = GameInstance::GetInstance();
 
-	Welcome();
+	ShowGreetingMenu();
 
 	BaseLevel::Init();
 }
 
-void VillageLevel::Welcome()
+void VillageLevel::ShowGreetingMenu()
 {
 	gi->ClearText();
 	gi->WriteLine(L"============================================");
@@ -71,7 +71,7 @@ void VillageLevel::Welcome()
 		{
 			gi->ClearText();
 			gi->WriteLine(L"잘못된 입력입니다. 다시 시도하세요.");
-			Welcome();
+			ShowGreetingMenu();
 		}
 	);
 }
@@ -99,7 +99,7 @@ void VillageLevel::OnEnterItemShop()
 		{
 			{L"1", bind(&VillageLevel::OnBuyItem, this)},
 			{L"2", bind(&VillageLevel::OnSellItem, this)},
-			{L"3", bind(&VillageLevel::Welcome, this)},
+			{L"3", bind(&VillageLevel::ShowGreetingMenu, this)},
 		}
 		);
 
@@ -108,7 +108,7 @@ void VillageLevel::OnEnterItemShop()
 		{
 			gi->ClearText();
 			gi->WriteLine(L"잘못된 입력입니다. 다시 시도하세요.");
-			Welcome();
+			ShowGreetingMenu();
 		}
 	);
 }
@@ -188,13 +188,13 @@ void VillageLevel::BuySelectedItem(int32 itemId)
 	int32 newItemId = expectedResult.value();
 	InventoryItem newItem = InventoryItem::Create(newItemId);
 
-	EPlayerHandleItemResult handleResult = player.HandlePurchasedItem(move(newItem));
+	EPlayerHandleItemResult itemHandleResult = player.HandlePurchasedItem(move(newItem));
 
 
 	gi->WriteLine(L"");
 	gi->WriteLine(L"============================================");
 	gi->WriteLine(L"");
-	gi->WriteLine(GetMsgForItemHandleResult(handleResult, move(newItem)));
+	gi->WriteLine(GetMsgForItemHandleResult(itemHandleResult, move(newItem)));
 	gi->WriteLine(L"");
 	gi->WriteLine(L"============================================");
 	gi->WriteLine(L"");
@@ -203,11 +203,11 @@ void VillageLevel::BuySelectedItem(int32 itemId)
 
 
 	const BaseItem* dbItem = ItemDataTable::GetInstance()->GetItem(newItemId);
-	if (handleResult == EPlayerHandleItemResult::Equipped)
+	if (itemHandleResult == EPlayerHandleItemResult::Equipped)
 	{
 		gi->UpdateEquippedItem(dbItem->GetName(), dbItem->GetItemType());
 	}
-	else if (handleResult == EPlayerHandleItemResult::AddToInventory)
+	else if (itemHandleResult == EPlayerHandleItemResult::AddToInventory)
 	{
 		gi->UpdateInvetoryItems(player.GetInventoryItems());
 	}
@@ -377,7 +377,7 @@ void VillageLevel::OnEnterHealerShop()
 	InputSystem::BindAction(
 		{
 			{L"1", bind(&VillageLevel::OnRecoverPlayer, this)},
-			{L"2", bind(&VillageLevel::Welcome, this)},
+			{L"2", bind(&VillageLevel::ShowGreetingMenu, this)},
 		}
 		);
 
@@ -386,7 +386,7 @@ void VillageLevel::OnEnterHealerShop()
 		{
 			gi->ClearText();
 			gi->WriteLine(L"잘못된 입력입니다. 다시 시도하세요.");
-			Welcome();
+			ShowGreetingMenu();
 		}
 	);
 }
@@ -435,7 +435,7 @@ void VillageLevel::OnRecoverPlayer()
 
 	InputSystem::BindAction(
 		{
-			{L"1", bind(&VillageLevel::Welcome, this)},
+			{L"1", bind(&VillageLevel::ShowGreetingMenu, this)},
 			{L"2", bind(&VillageLevel::OnExitVillage, this)},
 		}
 		);

@@ -13,7 +13,7 @@ public:
 
 private:
 	void SetTitleLevel();
-	void ProcessTitleMenu();
+	void ShowTitleMenu();
 
 	void OnEnterVillage();
 	void OnEnterDungeon();

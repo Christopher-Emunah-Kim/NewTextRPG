@@ -8,7 +8,7 @@ void TitleLevel::Init()
 {
 	gi = GameInstance::GetInstance();
 
-	ProcessTitleMenu();
+	ShowTitleMenu();
 
 	BaseLevel::Init();
 }
@@ -18,7 +18,7 @@ void TitleLevel::SetTitleLevel()
 	gi->UpdateLevelName(GetTag());
 }
 
-void TitleLevel::ProcessTitleMenu()
+void TitleLevel::ShowTitleMenu()
 {
 	
 	gi->ClearText();
@@ -50,7 +50,7 @@ void TitleLevel::ProcessTitleMenu()
 		{
 			GameInstance::GetInstance()->ClearText();
 			GameInstance::GetInstance()->WriteLine(L"잘못된 입력입니다. 다시 시도하세요.");
-			ProcessTitleMenu();
+			ShowTitleMenu();
 		}
 	);
 

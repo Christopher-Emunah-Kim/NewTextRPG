@@ -36,8 +36,6 @@ struct FHudData final
 	vector<wstring> inventoryItems;
 };
 
-
-
 class HUD final
 {
 public:

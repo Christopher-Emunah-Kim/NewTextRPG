@@ -21,7 +21,7 @@ public:
 
 private:
 	void SetDungeonStage();
-	void Welcome();
+	void ShowDungeonEntranceMenu();
 	void MonsterDefeated();
 	void ContinueExploration();
 	Monster* CreateRandomMonster();
@@ -34,7 +34,7 @@ private:
 	void DisplayVictoryRewards(const FBattleRewardInfo& rewards, Player& player);
 	void DisplayDefeatScreen();
 
-	void OnEnterStage();
+	void OnEnterDungeon();
 	void OnBackToVillage();
 	void OnStartBattle();
 	void OnEscape();

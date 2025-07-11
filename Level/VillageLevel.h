@@ -17,7 +17,7 @@ public:
 	virtual void Init() override;
 
 private:
-	void Welcome();
+	void ShowGreetingMenu();
 	void BuySelectedItem(int32 itemId);
 	void SellSelectedItem(int32 itemId);
 

@@ -140,9 +140,9 @@ bool BattleSystem::TryEquipOrStoreItem(BattleCharacter* winner, int32 droppedIte
 		else
 		{
 			const BaseItem* currentEquip = itemTable->GetItem(currentEquipId);
-			int32 currentPower = currentEquip->GetAttack() + currentEquip->GetDefense() + currentEquip->GetAgility();
+			int32 currentPower = currentEquip->GetItemStatus().GetAttack() + currentEquip->GetItemStatus().GetDefense() + currentEquip->GetItemStatus().GetAgility();
 			const BaseItem* newEquip = itemTable->GetItem(droppedItemId);
-			int32 newPower = newEquip->GetAttack() + newEquip->GetDefense() + newEquip->GetAgility();
+			int32 newPower = newEquip->GetItemStatus().GetAttack() + newEquip->GetItemStatus().GetDefense() + newEquip->GetItemStatus().GetAgility();
 
 			bIsBetter = (newPower > currentPower);
 		}

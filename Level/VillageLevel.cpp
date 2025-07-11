@@ -115,9 +115,8 @@ void VillageLevel::OnEnterItemShop()
 
 void VillageLevel::OnBuyItem()
 {
-	ItemDataTable* itemDataTable = ItemDataTable::GetInstance();
-
 	gi->ClearText();
+
 	gi->WriteLine();
 	gi->WriteLine(L"상점에서 판매하는 아이템 목록을 보여줍니다.");
 	gi->WriteLine();
@@ -127,7 +126,7 @@ void VillageLevel::OnBuyItem()
 	gi->WriteLine(L"0: 뒤로가기");
 	gi->WriteLine();
 
-	
+	ItemDataTable* itemDataTable = ItemDataTable::GetInstance();
 	vector<int32> salesItems = m_merchant->GetSalesItems();
 	for (size_t index = 0; index < salesItems.size(); ++index)
 	{
@@ -139,7 +138,7 @@ void VillageLevel::OnBuyItem()
 
 		if (itemDataTable->IsEquippable(item->GetItemID()))
 		{
-			ss << L" | " << item->GetAddableStatus().ToString();
+			ss << L" | " << item->GetItemStatus().ToString();
 		}
 
 		gi->WriteLine(ss.str());
@@ -156,6 +155,7 @@ void VillageLevel::OnBuyItem()
 	gi->WriteLine(L"구매할 아이템 번호를 입력하세요");
 
 	InputSystem::Clear();
+
 	InputSystem::BindAction(L"0", bind(&VillageLevel::OnEnterItemShop, this));
 	for (size_t index = 0; index < salesItems.size(); ++index)
 	{

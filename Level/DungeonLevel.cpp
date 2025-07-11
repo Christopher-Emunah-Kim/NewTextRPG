@@ -371,7 +371,7 @@ void DungeonLevel::OnShowUsuableItems()
 
 		wstringstream ss;
 		ss << index + 1 << L"." << item->GetName() <<
-			L" - 개수: " << item->GetCount();
+			L" - 개수: " << items[index].GetCount();
 
 		gi->WriteLine(ss.str());
 		gi->WriteLine(L"-> " + item->GetDescription());
@@ -591,9 +591,9 @@ void DungeonLevel::DisplayVictoryRewards(const FBattleRewardInfo& rewards)
 		{
 			const BaseItem* targetItem = ItemDataTable::GetInstance()->GetItem(rewards.droppedItemId);
 			gi->WriteLine(itemName + L"을(를) 장착했습니다.");
-			gi->WriteLine(L"공격력: +" + to_wstring(targetItem->GetAttack()) +
-				L", 방어력: +" + to_wstring(targetItem->GetDefense()) +
-				L", 민첩성: +" + to_wstring(targetItem->GetAgility()));
+			gi->WriteLine(L"공격력: +" + to_wstring(targetItem->GetItemStatus().GetAttack()) +
+				L", 방어력: +" + to_wstring(targetItem->GetItemStatus().GetDefense()) +
+				L", 민첩성: +" + to_wstring(targetItem->GetItemStatus().GetAgility()));
 			gi->WriteLine(L"");
 		}
 		else if (rewards.bItemAddedToInventory)

@@ -23,24 +23,14 @@ public:
 
 	virtual ~BaseItem() = default;
 
-	Status GetItemStatus() const
-	{
-		return Status::NewStatus(m_attack, m_defense, m_agility);
-	}
-
 	inline const wstring& GetDescription() const noexcept { return m_description; }
 	inline const wstring& GetName() const noexcept { return m_name; }
-	inline EItemType GetItemType() const noexcept { return m_itemType; }
 	inline int32 GetItemID() const noexcept { return m_itemId; }
 	inline int16 GetBuyingPrice() const noexcept { return m_buyingPrice; }
 	inline int16 GetSellingPrice() const noexcept { return m_sellingPrice; }
-	inline int16 GetAttack() const noexcept { return m_attack; }
-	inline int16 GetDefense() const noexcept { return m_defense; }
-	inline int16 GetAgility() const noexcept { return m_agility; }
-	inline Status GetAddableStatus() const { return Status::NewStatus(m_attack, m_defense, m_agility); }
-	inline int16 GetCount() const noexcept { return m_count; }
+	inline EItemType GetItemType() const noexcept { return m_itemType; }
+	inline Status GetItemStatus() const noexcept { return Status::NewStatus(m_attack, m_defense, m_agility); }
 
-	
 private:
 	int32 m_itemId;
 	wstring m_name;
@@ -53,5 +43,4 @@ private:
 	int16 m_agility;
 	int16 m_count;
 	int16 m_maxCount = DEFAULT_ITEM_MAX_COUNT;
-
 };

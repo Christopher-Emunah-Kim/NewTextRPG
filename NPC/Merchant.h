@@ -1,13 +1,6 @@
 ﻿#pragma once
 #include "Common.h"
 
-enum class EMerchantResult
-{
-	NONE,
-	Success,
-	NotEnoughGold
-};
-
 class Player;
 class InventoryItem;
 
@@ -19,7 +12,7 @@ public:
 	void AddSaleItem(int32 itemId);
 	vector<int32> GetSalesItems() const;
 	expected<int32, wstring> SellItem(int32 itemId, Player& player);
-	void BuyItem(int32 itemId, Player& player);
+	expected<bool, wstring> BuyItem(int32 itemId, Player& player);
 
 private:
 	map<int32, bool> m_salesStatusTable;

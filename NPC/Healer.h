@@ -1,12 +1,6 @@
 ﻿#pragma once
 #include "Common.h"
 
-enum class EHealResult
-{
-	RequestAccept,
-	NotEnoughGold,
-	AlreadyMaxHealth
-};
 
 class Player;
 
@@ -16,7 +10,7 @@ public:
 	explicit Healer(int32 healCost);
 
 	int32 GetHealCost() const;
-	EHealResult HealPlayer(Player& player) const;
+	expected<bool, wstring> HealPlayer(Player& player) const;
 
 private:
 	const int32 m_healCost;

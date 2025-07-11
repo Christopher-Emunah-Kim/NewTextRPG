@@ -328,15 +328,15 @@ void DungeonLevel::ProcessPlayerAttack()
 	int32 calculatedDamage = playerStatus.CalculateDamage(playerStatus, monsterStatus);
 	gi->WriteLine(m_currentMonster->GetName() + L"가(이) " + to_wstring(calculatedDamage) + L" 의 피해를 입었습니다.");
 
-	bool monsterDefeated = BattleSystem::ExecuteAttack(&player, m_currentMonster);
+	bool bIsMonsterDefeated = BattleSystem::ExecuteAttack(&player, m_currentMonster);
 	gi->UpdatePlayerHealth(player.GetBattleCharacterInfo().health);
 
 	gi->WriteLine(m_currentMonster->GetName() + L"의 현재 체력: " + to_wstring(currentMonsterHealth));
 
 
-	if (monsterDefeated)
+	if (bIsMonsterDefeated)
 	{
-		ProcessBattleResult(true);
+		ProcessBattleResult(bIsMonsterDefeated);
 		return;
 	}
 

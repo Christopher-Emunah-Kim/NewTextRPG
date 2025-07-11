@@ -319,15 +319,30 @@ void VillageLevel::SellSelectedItem(int32 itemId)
 	Player& player = gi->GetPlayer();
 	const BaseItem* item = ItemDataTable::GetInstance()->GetItem(itemId);
 
-	m_merchant->BuyItem(itemId, player);
+	expected<bool, wstring> expectedResult = m_merchant->BuyItem(itemId, player);
 
-	gi->ClearText();
-	gi->WriteLine(L"상인은 흡족해하며 당신에게 받은 물품을 살펴봅니다.");
-	player.RemoveItemFromInventory(itemId);
-	gi->UpdatePlayerGold(player.GetGoldForHUD());
-	gi->UpdateInvetoryItems(player.GetInventoryItems());
+	if (!expectedResult.has_value())
+	{
+		gi->WriteLine(expectedResult.error());
+		return;
+	}
 
+	bool bIsSucess = expectedResult.value();
 
+	if (bIsSucess)
+	{
+		gi->ClearText();
+
+		gi->WriteLine(L"상인은 흡족해하며 당신에게 받은 물품을 살펴봅니다.");
+		player.RemoveItemFromInventory(itemId);
+		gi->UpdatePlayerGold(player.GetGoldForHUD());
+		gi->UpdateInvetoryItems(player.GetInventoryItems());
+
+	}
+
+	gi->WriteLine();
+	gi->WriteLine(L"이제 어떻게 할까?");
+	gi->WriteLine();
 	gi->WriteLine();
 	gi->WriteLine(L"1. 계속 판매하기");
 	gi->WriteLine(L"2. 상점 메뉴로 돌아가기");
@@ -336,7 +351,6 @@ void VillageLevel::SellSelectedItem(int32 itemId)
 		{L"1", bind(&VillageLevel::OnSellItem, this)},
 		{L"2", bind(&VillageLevel::OnEnterItemShop, this)}
 		});
-
 }
 
 void VillageLevel::OnEnterHealerShop()
@@ -380,11 +394,23 @@ void VillageLevel::OnEnterHealerShop()
 void VillageLevel::OnRecoverPlayer()
 {
 	Player& player = gi->GetPlayer();
-	EHealResult result = m_healer->HealPlayer(player);
 
-	switch (result)	
+	expected<bool, wstring> expectedResult = m_healer->HealPlayer(player);
+
+
+	if (!expectedResult.has_value())
 	{
-	case EHealResult::RequestAccept:
+		gi->WriteLine(L"");
+		gi->WriteLine(expectedResult.error());
+		gi->WriteLine(L"");
+		gi->WriteLine(L"치유의 집을 떠나 마을로 돌아갑니다..");
+		gi->WriteLine(L"아무 버튼이나 입력하세요.");
+		gi->WriteLine(L"");
+		return;
+	}
+
+	bool bIsSucess = expectedResult.value();
+	if (bIsSucess)
 	{
 		gi->UpdatePlayerGold(player.GetGoldForHUD());
 		gi->UpdatePlayerHealth(player.GetHealthForHUD());
@@ -392,28 +418,6 @@ void VillageLevel::OnRecoverPlayer()
 		gi->ClearText();
 		gi->WriteLine(L"치유사 스칼드가 당신의 상처를 완벽하게 치유했습니다.");
 		gi->WriteLine(L"체력이 최대치로 회복되었습니다!");
-	}
-		break;
-	case EHealResult::NotEnoughGold:
-	{
-		gi->WriteLine(L"골드가 부족합니다. 치유를 받을 수 없습니다.");
-		wstring costText = to_wstring(m_healer->GetHealCost());
-		gi->WriteLine(L"필요 골드: " + costText + L", 보유 골드: " +
-			to_wstring(player.GetGoldAmount()));
-	}
-		break;
-	case EHealResult::AlreadyMaxHealth:
-	{
-		gi->WriteLine(L"치유사 스칼드가 당신을 살펴봅니다.");
-		gi->WriteLine(L"이미 건강 상태가 완벽하시군요. 치유가 필요하지 않습니다.");
-	}
-		break;
-
-	default:
-	{
-		throw invalid_argument("치유사의 힐링이 제대로 발동하지 않았습니다.");
-	}
-		break;
 	}
 
 	gi->WriteLine();

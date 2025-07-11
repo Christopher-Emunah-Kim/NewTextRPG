@@ -45,16 +45,18 @@ expected<int32, wstring> Merchant::SellItem(int32 itemId, Player& player)
 	return itemId;
 }
 
-void Merchant::BuyItem(int32 itemId, Player& player)
+expected<bool, wstring> Merchant::BuyItem(int32 itemId, Player& player)
 {
 	const BaseItem* targetItem = ItemDataTable::GetInstance()->GetItem(itemId);
 	if (targetItem)
 	{
 		player.GainGold(targetItem->GetSellingPrice());
+
+		return true;
 	}
 	else
 	{
-		throw invalid_argument("아이템이 테이블에 없습니다. itemId : " + to_string(itemId));
+		return unexpected(wstring(L"아이템이 테이블에 없습니다. itemId : " + to_wstring(itemId)));
 	}
 }
 

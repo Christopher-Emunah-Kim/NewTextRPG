@@ -418,14 +418,10 @@ void DungeonLevel::OnUseSelectedItem(int32 itemId)
 	gi->WriteLine(L"1. 다른 아이템 사용하기");
 	gi->WriteLine(L"2. 전투로 돌아가기");
 
-	if (result == EPlayerHandleItemResult::Equipped )
+	switch (result)
 	{
-		if (equippedItemId == -1)
-		{
-			gi->WriteLine(L"장착 중인 아이템이 존재하지 않습니다");
-			return;
-		}
-
+	case EPlayerHandleItemResult::Equipped:
+	{
 		const BaseItem* targetItem = itemDataTable->GetItem(item->GetItemId());
 		gi->UpdateEquippedItem(targetItem->GetName(), targetItem->GetItemType());
 
@@ -433,10 +429,24 @@ void DungeonLevel::OnUseSelectedItem(int32 itemId)
 		player.AddItemToInventory(equippedItemId);
 		gi->UpdateInvetoryItems(player.GetInventoryItems());
 	}
-	else if (result == EPlayerHandleItemResult::UseItem)
+	break;
+	case EPlayerHandleItemResult::UseItem:
 	{
 		player.RemoveItemFromInventory(itemId);
 		gi->UpdateInvetoryItems(player.GetInventoryItems());
+	}
+	break;
+	case EPlayerHandleItemResult::NotUsuableItem:
+	{
+		gi->WriteLine(L"사용가능한 종류의 아이템이 아닙니다.");
+	}
+	break;
+
+	default:
+	{
+		throw runtime_error("보유 아이템 처리에 오류가 발생했습니다.");
+	}
+	break;
 	}
 
 	gi->UpdatePlayerStatus(player.GetTotalPlayerStatus());

@@ -46,9 +46,9 @@ private:
 
 private:
 	GameInstance* gi;
-	vector<wstring> m_monsterNames;
+	vector<int32> m_monsterIds;
 	Monster* m_currentMonster = nullptr;
-	int16 m_activeMonseters = 0;
+	int16 m_activeMonsters = 0;
 	int16 m_maxMonsters = DUNGEON_MAX_MONSTERS;
 
 };

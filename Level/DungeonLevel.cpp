@@ -33,25 +33,25 @@ void DungeonLevel::Release()
 void DungeonLevel::SetDungeonStage()
 {
 	MonsterDataTable* monsterDataTable = MonsterDataTable::GetInstance();
-	m_monsterNames = monsterDataTable->GetMonsterNames();
+	m_monsterIds = monsterDataTable->GetMonsterIds();
 
-	if (m_monsterNames.empty())
+	if (m_monsterIds.empty())
 	{
 		throw runtime_error("몬스터 데이터가 비어있습니다. 던전 레벨을 초기화할 수 없습니다.");
 	}
 
-	m_activeMonseters = m_maxMonsters;
+	m_activeMonsters = m_maxMonsters;
 }
 
 Monster* DungeonLevel::CreateRandomMonster()
 {
-	if (false == m_monsterNames.empty())
+	if (false == m_monsterIds.empty())
 	{
-		int randomIndex = rand() % m_monsterNames.size();
-		wstring monsterName = m_monsterNames[randomIndex];
+		int randomIndex = rand() % m_monsterIds.size();
+		int32 monsterId = m_monsterIds[randomIndex];
 
 		MonsterDataTable* monsterDataTable = MonsterDataTable::GetInstance();
-		Monster* randomMonster = monsterDataTable->CreateMonster(this, monsterName);
+		Monster* randomMonster = monsterDataTable->CreateMonster(this, monsterId);
 
 		return randomMonster;
 	}
@@ -98,7 +98,7 @@ void DungeonLevel::ShowDungeonEntranceMenu()
 
 void DungeonLevel::ContinueExploration()
 {
-	if (m_activeMonseters <= 0)
+	if (m_activeMonsters <= 0)
 	{
 		gi->ClearText();
 		gi->WriteLine(L"============================================");
@@ -125,7 +125,7 @@ void DungeonLevel::ContinueExploration()
 	gi->WriteLine(L"============================================");
 	gi->WriteLine(L"");
 	gi->WriteLine(L"당신은 던전을 더 탐험할 수 있습니다. 앞으로 나아갈까요?");
-	wstring activeMonster = to_wstring(m_activeMonseters);
+	wstring activeMonster = to_wstring(m_activeMonsters);
 	gi->WriteLine(L"남은 몬스터: " + activeMonster + L"마리");
 	gi->WriteLine(L"");
 	gi->WriteLine(L"1. 계속해서 던전을 탐험한다.");
@@ -642,7 +642,7 @@ void DungeonLevel::DisplayDefeatScreen()
 
 void DungeonLevel::MonsterDefeated()
 {
-	--m_activeMonseters;
+	--m_activeMonsters;
 
 	ContinueExploration();
 }

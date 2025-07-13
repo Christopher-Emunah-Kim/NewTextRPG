@@ -23,13 +23,14 @@ public:
 	void Init();
 	void Release();
 
-	bool HasMonster(const wstring& monsterName) const;
-	Monster* CreateMonster(BaseLevel* level, const wstring& monsterName) const;
+	bool HasMonster(int32 monsterId) const;
+	Monster* CreateMonster(BaseLevel* level, int32 monsterId) const;
 
-	const FMonsterInfo* GetMonsterInfo(const wstring& monsterName) const;
+	const FMonsterInfo* GetMonsterInfo(int32 monsterId) const;
 	const vector<wstring> GetMonsterNames() const noexcept;
+	const vector<int32> GetMonsterIds() const noexcept;
 
 private:
-	unordered_map<wstring, FMonsterInfo> m_monsterDataTable;
+	unordered_map<int32, FMonsterInfo> m_monsterDataTable;
 };
 

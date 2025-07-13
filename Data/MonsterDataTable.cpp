@@ -21,9 +21,9 @@ void MonsterDataTable::Release()
 	m_monsterDataTable.clear();
 }
 
-bool MonsterDataTable::HasMonster(const wstring& monsterName) const
+bool MonsterDataTable::HasMonster(int32 monsterId) const
 {
-	return m_monsterDataTable.find(monsterName) != m_monsterDataTable.end();
+	return m_monsterDataTable.find(monsterId) != m_monsterDataTable.end();
 }
 
 wstring MonsterDataTable::ToWideStr(const string& str) const
@@ -41,14 +41,15 @@ wstring MonsterDataTable::ToWideStr(const string& str) const
 	return resultWstr;
 }
 
-Monster* MonsterDataTable::CreateMonster(BaseLevel* level, const wstring& monsterName) const
+Monster* MonsterDataTable::CreateMonster(BaseLevel* level, int32 monsterId) const
 {
-	unordered_map<wstring, FMonsterInfo>::const_iterator it = m_monsterDataTable.find(monsterName);
+	unordered_map<int32, FMonsterInfo>::const_iterator it = m_monsterDataTable.find(monsterId);
 	if (it != m_monsterDataTable.end())
 	{
-		return new Monster(level, monsterName, it->second);
+		const FMonsterInfo& monsterInfo = it->second;
+		return new Monster(level, monsterInfo.name, monsterInfo);
 	}
-	GameInstance::GetInstance()->WriteLine(L"존재하지 않는 몬스터입니다: " + monsterName);
+	GameInstance::GetInstance()->WriteLine(L"존재하지 않는 몬스터입니다: " + to_wstring(monsterId));
 	return nullptr;
 }
 
@@ -63,7 +64,7 @@ void MonsterDataTable::ProcessCSVParsing()
 	CsvParser parser(file);
 	bool headerSkipped = false;
 
-	int16 monsterId;
+	int32 monsterId;
 	string nameStr, descStr;
 	int32 maxHealth;
 	int16 characterLevel, monsterAttack, monsterDefense, monsterAgility;
@@ -83,7 +84,7 @@ void MonsterDataTable::ProcessCSVParsing()
 			continue;
 		}
 
-		monsterId = (int16)stoi(row[0]);
+		monsterId = (int32)stoi(row[0]);
 		nameStr = row[1];
 		characterLevel = (int16)stoi(row[2]);
 		descStr = row[3];
@@ -107,20 +108,20 @@ void MonsterDataTable::ProcessCSVParsing()
 		monsterInfo.dropExperience = dropExperience;
 		monsterInfo.monsterId = monsterId; 
 
-		m_monsterDataTable[name] = monsterInfo;
+		m_monsterDataTable[monsterId] = monsterInfo;
 
 	}
 }
 
 
-const FMonsterInfo* MonsterDataTable::GetMonsterInfo(const wstring& monsterName) const
+const FMonsterInfo* MonsterDataTable::GetMonsterInfo(int32 monsterId) const
 {
-	unordered_map<wstring, FMonsterInfo>::const_iterator it = m_monsterDataTable.find(monsterName);
+	unordered_map<int32, FMonsterInfo>::const_iterator it = m_monsterDataTable.find(monsterId);
 	if (it != m_monsterDataTable.end())
 	{
 		return &(it->second);
 	}
-	GameInstance::GetInstance()->WriteLine(L"존재하지 않는 몬스터입니다: " + monsterName);
+	GameInstance::GetInstance()->WriteLine(L"존재하지 않는 몬스터입니다: " + to_wstring(monsterId));
 	return nullptr;
 }
 
@@ -128,10 +129,21 @@ const vector<wstring> MonsterDataTable::GetMonsterNames() const noexcept
 {
 	vector<wstring> monsterNames;
 
-	for (unordered_map<wstring, FMonsterInfo>::const_iterator it = m_monsterDataTable.begin(); it != m_monsterDataTable.end(); ++it)
+	for (unordered_map<int32, FMonsterInfo>::const_iterator it = m_monsterDataTable.begin(); it != m_monsterDataTable.end(); ++it)
 	{
-		monsterNames.push_back(it->first);
+		monsterNames.push_back(it->second.name);
 	}
 
 	return monsterNames;
+}
+
+const vector<int32> MonsterDataTable::GetMonsterIds() const noexcept
+{
+	vector<int32> monsterIds;
+	for (unordered_map<int32, FMonsterInfo>::const_iterator it = m_monsterDataTable.begin(); it != m_monsterDataTable.end(); ++it)
+	{
+		monsterIds.push_back(it->first);
+	}
+
+	return monsterIds;
 }

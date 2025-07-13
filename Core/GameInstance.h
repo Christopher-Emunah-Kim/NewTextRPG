@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include "../Util/Singleton.h"
-#include "../Object/Character/Player.h"
+#include "../Character/Player.h"
 #include "../HUD.h"
 
 

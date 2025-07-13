@@ -1,6 +1,5 @@
 ﻿#include "BaseLevel.h"
-//#include "../Object/BaseGameObject.h"
-#include "../Object/Character/BaseCharacter.h"
+#include "../Character/BaseCharacter.h"
 
 BaseLevel::BaseLevel(const wstring& tag)
 	: m_levelTag(tag)

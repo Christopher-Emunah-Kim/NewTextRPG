@@ -5,7 +5,7 @@
 #include "../Level/TitleLevel.h"
 #include "../Level/DungeonLevel.h"
 #include "../Level/VillageLevel.h"
-#include "../Object/Character/Player.h"
+#include "../Character/Player.h"
 #include "../Screen.h"
 
 

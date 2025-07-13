@@ -1,8 +1,6 @@
 ﻿#pragma once
 #include "BattleCharacter.h"
 
-
-
 class Monster final : public BattleCharacter
 {
 public:

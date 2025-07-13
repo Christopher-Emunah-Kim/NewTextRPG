@@ -1,7 +1,6 @@
 ﻿#pragma once
-//#include "../BaseGameObject.h"
-#include "../../Core/IBehavior.h"
-#include "../../Util/Type/CharacterInfo.h"
+#include "../Core/IBehavior.h"
+#include "../Util/Type/CharacterInfo.h"
 
 class BaseLevel;
 

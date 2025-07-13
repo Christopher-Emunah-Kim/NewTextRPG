@@ -5,7 +5,7 @@
 #include "Data/ItemDataTable.h"
 #include "../Util/BattleSystem.h"
 #include "../Util/InputSystem.h"
-#include "../Object/Character/Monster.h"
+#include "../Character/Monster.h"
 #include "Item/InventoryItem.h"
 #include "Item/BaseItem.h"
 

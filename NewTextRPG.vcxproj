@@ -141,12 +141,11 @@
     <ClCompile Include="Level\VillageLevel.cpp" />
     <ClCompile Include="NewTextRPG.cpp" />
     <ClCompile Include="NPC\Merchant.cpp" />
-    <ClCompile Include="Object\BaseGameObject.cpp" />
-    <ClCompile Include="Object\Character\BaseCharacter.cpp" />
-    <ClCompile Include="Object\Character\BattleCharacter.cpp" />
+    <ClCompile Include="Character\BaseCharacter.cpp" />
+    <ClCompile Include="Character\BattleCharacter.cpp" />
     <ClCompile Include="NPC\Healer.cpp" />
-    <ClCompile Include="Object\Character\Monster.cpp" />
-    <ClCompile Include="Object\Character\Player.cpp">
+    <ClCompile Include="Character\Monster.cpp" />
+    <ClCompile Include="Character\Player.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="HUD.cpp">
@@ -177,12 +176,11 @@
     <ClInclude Include="Core\LevelManager.h" />
     <ClInclude Include="Level\VillageLevel.h" />
     <ClInclude Include="NPC\Merchant.h" />
-    <ClInclude Include="Object\BaseGameObject.h" />
-    <ClInclude Include="Object\Character\BaseCharacter.h" />
-    <ClInclude Include="Object\Character\BattleCharacter.h" />
+    <ClInclude Include="Character\BaseCharacter.h" />
+    <ClInclude Include="Character\BattleCharacter.h" />
     <ClInclude Include="NPC\Healer.h" />
-    <ClInclude Include="Object\Character\Monster.h" />
-    <ClInclude Include="Object\Character\Player.h">
+    <ClInclude Include="Character\Monster.h" />
+    <ClInclude Include="Character\Player.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="HUD.h">

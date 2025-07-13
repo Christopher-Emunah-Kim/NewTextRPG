@@ -2,7 +2,6 @@
 #include "../Common.h"
 #include "../Core/IBehavior.h"
 
-//class BaseGameObject;
 class BaseCharacter;
 
 class BaseLevel abstract : public IBehavior

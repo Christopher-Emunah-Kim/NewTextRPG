@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include "BaseCharacter.h"
-#include "../../Util/Type/CharacterInfo.h"
+#include "../Util/Type/CharacterInfo.h"
 
 constexpr __int32 DEFAULT_DAMAGE = 3;
 

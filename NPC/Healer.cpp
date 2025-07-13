@@ -1,6 +1,6 @@
 ﻿#include "Healer.h"
 #include "Util/Type/Health.h"
-#include "Object/Character/Player.h"
+#include "Character/Player.h"
 
 Healer::Healer(int32 healCost)
 	: m_healCost(healCost)

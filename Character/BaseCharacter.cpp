@@ -1,6 +1,6 @@
 ﻿#include "BaseCharacter.h"
-#include "../../Level/BaseLevel.h"
-#include "../../Core/GameInstance.h"
+#include "../Level/BaseLevel.h"
+#include "../Core/GameInstance.h"
 
 BaseCharacter::BaseCharacter(BaseLevel* level, const wstring& tag)
 	: m_levelArea(level), m_characterTag(tag), m_characterInfo(DEFAULT_LEVEL)

@@ -1,11 +1,11 @@
 ﻿#include "Player.h"
-#include "../../Screen.h"
-#include "../../Core/GameInstance.h"
-#include "../../Core/LevelManager.h"
-#include "../../Level/BaseLevel.h"
-#include "../../Data/ItemDataTable.h"
-#include "../../Item/InventoryItem.h"
-#include "../../Item/BaseItem.h"
+#include "../Screen.h"
+#include "../Core/GameInstance.h"
+#include "../Core/LevelManager.h"
+#include "../Level/BaseLevel.h"
+#include "../Data/ItemDataTable.h"
+#include "../Item/InventoryItem.h"
+#include "../Item/BaseItem.h"
 
 
 Player::Player()

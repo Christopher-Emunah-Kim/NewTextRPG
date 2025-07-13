@@ -21,9 +21,6 @@
     <ClCompile Include="Util\Timer.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Object\BaseGameObject.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Level\BaseLevel.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -39,7 +36,7 @@
     <ClCompile Include="Core\LevelManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Object\Character\Player.cpp">
+    <ClCompile Include="Character\Player.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Level\TitleLevel.cpp">
@@ -60,13 +57,13 @@
     <ClCompile Include="Component\Inventory.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Object\Character\BaseCharacter.cpp">
+    <ClCompile Include="Character\BaseCharacter.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Object\Character\BattleCharacter.cpp">
+    <ClCompile Include="Character\BattleCharacter.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Object\Character\Monster.cpp">
+    <ClCompile Include="Character\Monster.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Component\Equipment.cpp">
@@ -116,9 +113,6 @@
     <ClInclude Include="Data\PlayerDataTablePerLevel.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Object\BaseGameObject.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Level\BaseLevel.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -134,7 +128,7 @@
     <ClInclude Include="Util\OutputSystem.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Object\Character\Player.h">
+    <ClInclude Include="Character\Player.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Level\TitleLevel.h">
@@ -164,16 +158,16 @@
     <ClInclude Include="Component\Inventory.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Object\Character\BaseCharacter.h">
+    <ClInclude Include="Character\BaseCharacter.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="include\CSVparser.hpp">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Object\Character\BattleCharacter.h">
+    <ClInclude Include="Character\BattleCharacter.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Object\Character\Monster.h">
+    <ClInclude Include="Character\Monster.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Component\Equipment.h">

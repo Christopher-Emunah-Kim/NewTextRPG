@@ -24,9 +24,12 @@ void DungeonLevel::Release()
 {
 	if (m_currentMonster)
 	{
+		DetachObject(m_currentMonster);
 		delete m_currentMonster;
 		m_currentMonster = nullptr;
 	}
+
+	BaseLevel::Release();
 }
 
 
@@ -642,6 +645,10 @@ void DungeonLevel::DisplayDefeatScreen()
 
 void DungeonLevel::MonsterDefeated()
 {
+	DetachObject(m_currentMonster);
+	delete m_currentMonster;
+	m_currentMonster = nullptr;
+
 	--m_activeMonsters;
 
 	ContinueExploration();

@@ -23,9 +23,10 @@ void LevelManager::Init()
 	m_levels[L"Village"] = new VillageLevel(L"Village");
 
 	m_currentLevel = m_levels[L"Title"];
-	GameInstance::GetInstance()->UpdateLevelName(m_currentLevel->GetTag());
 
 	InitializePlayer();
+
+	GameInstance::GetInstance()->UpdateLevelName(m_currentLevel->GetTag());
 
 	m_currentLevel->Init();
 }
@@ -62,9 +63,9 @@ void LevelManager::Release()
 
 	m_levels.clear();
 }
-
-
 void LevelManager::InitializePlayer()
+
+
 {
 	Player& player = GameInstance::GetInstance()->GetPlayer();
 

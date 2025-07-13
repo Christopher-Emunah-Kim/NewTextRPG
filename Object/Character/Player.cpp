@@ -1,6 +1,7 @@
 ﻿#include "Player.h"
 #include "../../Screen.h"
 #include "../../Core/GameInstance.h"
+#include "../../Core/LevelManager.h"
 #include "../../Level/BaseLevel.h"
 #include "../../Data/ItemDataTable.h"
 #include "../../Item/InventoryItem.h"
@@ -8,7 +9,7 @@
 
 
 Player::Player()
-	:BattleCharacter(nullptr, L"최강워로드"), m_gold(DEFAULT_OWNED_GOLD),
+	:BattleCharacter(LevelManager::GetInstance()->GetCurrentLevel(), L"최강워로드"), m_gold(DEFAULT_OWNED_GOLD),
 	m_experience(0, PlayerLevelPropertiesTable::GetInstance()->GetRequiredMaxExp(DEFAULT_LEVEL)),
 	m_inventory(), m_equipment()
 { 

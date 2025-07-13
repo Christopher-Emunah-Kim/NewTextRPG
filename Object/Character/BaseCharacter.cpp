@@ -1,5 +1,6 @@
 ﻿#include "BaseCharacter.h"
 #include "../../Level/BaseLevel.h"
+#include "../../Core/GameInstance.h"
 
 BaseCharacter::BaseCharacter(BaseLevel* level, const wstring& tag)
 	: m_levelArea(level), m_characterTag(tag), m_characterInfo(DEFAULT_LEVEL)
@@ -12,7 +13,7 @@ BaseCharacter::BaseCharacter(BaseLevel* level, const wstring& tag)
 	}
 	else
 	{
-		throw runtime_error("BaseCharacter가 추가될 Level 이 존재하지 않습니다.");
+		GameInstance::GetInstance()->WriteLine(L"[오류] BaseCharacter가 추가될 Level이 존재하지 않습니다.");
 	}
 }
 

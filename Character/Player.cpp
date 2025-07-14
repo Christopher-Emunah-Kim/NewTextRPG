@@ -70,11 +70,7 @@ void Player::UpdatePlayerHUD()
 	
 
 	const vector<InventoryItem>& items = m_inventory.GetInventoryItems();
-
-	for (size_t i = 0; i < items.size(); ++i)
-	{
-		gameInstance->UpdateInvetoryItems(items);
-	}
+	gameInstance->UpdateInvetoryItems(items);
 }
 
 void Player::LoadLevelPropertiesByLevel()

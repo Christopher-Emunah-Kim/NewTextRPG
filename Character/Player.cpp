@@ -207,7 +207,12 @@ bool Player::AddItemToInventory(int32 itemId, int16 count)
 
 const InventoryItem* Player::GetItemFromInventory(int32 itemId) const
 {
-	return m_inventory.GetItem(itemId);
+	const InventoryItem* item = m_inventory.GetItem(itemId);
+	if(item == nullptr)
+	{
+		return nullptr;
+	}
+	return item;
 }
 
 EPlayerHandleItemResult Player::HandlePurchasedItem(InventoryItem item)

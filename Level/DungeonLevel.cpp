@@ -403,6 +403,13 @@ void DungeonLevel::OnUseSelectedItem(int32 itemId)
 	Player& player = gi->GetPlayer();
 	const InventoryItem* item = player.GetItemFromInventory(itemId);
 
+	if(item == nullptr)
+	{
+		gi->WriteLine(L"존재하지 않는 아이템입니다.");
+		OnShowUsuableItems();
+		return;
+	}
+
 	ItemDataTable* itemDataTable = ItemDataTable::GetInstance();
 	EItemType targetType = itemDataTable->GetItem(itemId)->GetItemType();
 	int32 equippedItemId = player.GetEquippedItem(targetType);

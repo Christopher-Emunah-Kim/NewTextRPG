@@ -97,7 +97,6 @@ const InventoryItem* Inventory::GetItem(int32 itemId) const
 		}
 	}
 
-	static InventoryItem emptyItem = InventoryItem::Create(-1, 0);
-	return &emptyItem;
+	return nullptr;
 }
 

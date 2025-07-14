@@ -204,7 +204,9 @@
     <None Include="Data\ItemCSVData.csv">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </None>
-    <None Include="Data\ItemJsonData.json" />
+    <None Include="Data\ItemJsonData.json">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </None>
     <None Include="Data\MonsterCSVData.csv" />
     <None Include="Data\PlayerLevelPropertiesCSVData.csv">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>

@@ -16,7 +16,7 @@ void BaseLevel::Init()
 {
 	for (size_t i = 0; i < m_gameObjects.size(); ++i)
 	{
-		BaseCharacter* obj = m_gameObjects[i];
+		IBehavior* obj = m_gameObjects[i];
 		if (obj)
 		{
 			obj->Init();
@@ -28,7 +28,7 @@ void BaseLevel::Update()
 {
 	for (size_t i = 0; i < m_gameObjects.size(); ++i)
 	{
-		BaseCharacter* obj = m_gameObjects[i];
+		IBehavior* obj = m_gameObjects[i];
 		if (obj)
 		{
 			obj->Update();
@@ -40,7 +40,7 @@ void BaseLevel::Render(Screen* screen)
 {
 	for (size_t i = 0; i < m_gameObjects.size(); ++i)
 	{
-		BaseCharacter* obj = m_gameObjects[i];
+		IBehavior* obj = m_gameObjects[i];
 		if (obj)
 		{
 			obj->Render(screen);
@@ -56,10 +56,11 @@ void BaseLevel::Release()
 
 	for (size_t i = 0; i < m_gameObjects.size(); ++i)
 	{
-		BaseCharacter* obj = m_gameObjects[i];
+		IBehavior* obj = m_gameObjects[i];
 		if (obj)
 		{
-			if (obj->GetTag() == L"Player")
+			BaseCharacter* character = dynamic_cast<BaseCharacter*>(obj);
+			if (character && character->GetTag() == L"Player")
 			{
 				continue;
 			}
@@ -74,16 +75,16 @@ void BaseLevel::Release()
 	m_gameObjects.clear();
 }
 
-void BaseLevel::AddObject(BaseCharacter* object)
+void BaseLevel::AddObject(IBehavior* object)
 {
 	m_gameObjects.push_back(object);
 }
 
-void BaseLevel::DetachObject(BaseCharacter* object)
+void BaseLevel::DetachObject(IBehavior* object)
 {
-	for (vector<BaseCharacter*>::iterator it = m_gameObjects.begin(); it != m_gameObjects.end();++it)
+	for (vector<IBehavior*>::iterator it = m_gameObjects.begin(); it != m_gameObjects.end();++it)
 	{
-		BaseCharacter* obj = *it;
+		IBehavior* obj = *it;
 
 		if (obj == object)
 		{

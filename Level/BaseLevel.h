@@ -15,14 +15,14 @@ public:
 	virtual void Render(Screen* screen) override;
 	virtual void Release() override;
 
-	void AddObject(BaseCharacter* object);
-	void DetachObject(BaseCharacter* object);
+	void AddObject(IBehavior* object);
+	void DetachObject(IBehavior* object);
 
 	inline const wstring& GetTag() const noexcept { return m_levelTag; }
 
 protected:
 	wstring m_levelTag = L" ";
-	vector<BaseCharacter*> m_gameObjects;
+	vector<IBehavior*> m_gameObjects;
 
 };
 

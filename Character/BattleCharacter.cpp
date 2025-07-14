@@ -1,7 +1,4 @@
 ﻿#include "BattleCharacter.h"
-#include "../Core/GameInstance.h"
-#include "../Util/BattleSystem.h"
-#include "../Level/DungeonLevel.h"
 
 
 BattleCharacter::BattleCharacter(BaseLevel* level, const wstring& tag)

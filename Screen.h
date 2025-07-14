@@ -1,6 +1,5 @@
 ﻿#pragma once
 #include "Common.h"
-#include "Util/Singleton.h"
 
 constexpr int32 SCREEN_WIDTH = 128;
 constexpr int32 SCREEN_HEIGHT = 42;

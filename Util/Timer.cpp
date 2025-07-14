@@ -28,8 +28,3 @@ bool Timer::CanUpdate()
 	
 	return true;
 }
-
-float Timer::GetDeltaTime()
-{
-	return m_deltaTime * m_timeScale;
-}

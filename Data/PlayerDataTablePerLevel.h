@@ -40,7 +40,6 @@ public:
 	FLevelProperties LoadPlayerLevelData(int16 level) const;
 	int16 GetRequiredMaxExp(int16 level) const;
 
-	bool HasLevelData(int16 level) const;
 
 private:
 	unordered_map<int16, FLevelProperties> m_levelPropertiesTable;

@@ -15,14 +15,6 @@ void Inventory::Release()
 	m_inventoryItems.clear();
 }
 
-bool Inventory::DropItem(int32 itemId)
-{
-	size_t erasedCount = erase_if(m_inventoryItems, [itemId](const InventoryItem& item) {
-		return item.GetItemId() == itemId;
-	});
-
-	return erasedCount == 1;
-}
 
 void Inventory::Use(int32 itemId, int32 count)
 {

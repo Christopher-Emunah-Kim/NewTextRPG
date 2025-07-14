@@ -87,7 +87,3 @@ int16 PlayerLevelPropertiesTable::GetRequiredMaxExp(int16 level) const
 	return DEFAULT_PLAYER_MAX_EXPERIENCE + (level - 1) * ADDITIONAL_EXPERIENCE_PER_LEVEL;
 }
 
-bool PlayerLevelPropertiesTable::HasLevelData(int16 level) const
-{
-	return m_levelPropertiesTable.find(level) != m_levelPropertiesTable.end();
-}

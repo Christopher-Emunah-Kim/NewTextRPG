@@ -26,7 +26,3 @@ void Monster::Init()
 
 }
 
-void Monster::DropRewards()
-{
-	
-}

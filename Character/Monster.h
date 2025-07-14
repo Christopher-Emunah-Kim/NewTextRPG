@@ -9,7 +9,6 @@ public:
 	virtual ~Monster();
 
 	virtual void Init() override;
-	void DropRewards();
 
 	inline void SetDropGoldAmount(const int16& amount) { m_monsterInfo.dropGold = amount; }
 	inline void SetDropExperienceAmount(const int16& amount) { m_monsterInfo.dropExperience = amount; }

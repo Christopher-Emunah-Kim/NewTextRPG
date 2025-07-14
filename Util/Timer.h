@@ -15,7 +15,6 @@ public:
 public:
 	static void		Init();
 	static bool		CanUpdate();
-	static float	GetDeltaTime();
 
 private:
 	static TimePoint	m_prevTimePoint;

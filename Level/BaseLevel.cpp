@@ -93,37 +93,3 @@ void BaseLevel::DetachObject(BaseCharacter* object)
 	}
 }
 
-void BaseLevel::RemoveObject(const wstring& tag)
-{
-	for (vector<BaseCharacter*>::iterator it = m_gameObjects.begin(); it != m_gameObjects.end();)
-	{
-		BaseCharacter* obj = *it;
-
-		if (obj && obj->GetTag() == tag) 
-		{
-			obj->Release();
-			delete obj;
-			obj = nullptr;
-
-			it = m_gameObjects.erase(it);
-		}
-		else
-		{
-			++it;
-		}
-	}
-}
-
-BaseCharacter* BaseLevel::FindObject(const wstring& tag)
-{
-	for (vector<BaseCharacter*>::iterator it = m_gameObjects.begin(); it != m_gameObjects.end(); ++it)
-	{
-		BaseCharacter* obj = *it;
-		if (obj && obj->GetTag() == tag)
-		{
-			return obj;
-		}
-	}
-
-	return nullptr;
-}

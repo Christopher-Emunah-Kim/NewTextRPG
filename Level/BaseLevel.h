@@ -17,8 +17,6 @@ public:
 
 	void AddObject(BaseCharacter* object);
 	void DetachObject(BaseCharacter* object);
-	void RemoveObject(const wstring& tag);
-	BaseCharacter* FindObject(const wstring& tag);
 
 	inline const wstring& GetTag() const noexcept { return m_levelTag; }
 

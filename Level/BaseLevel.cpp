@@ -50,9 +50,11 @@ void BaseLevel::Render(Screen* screen)
 
 void BaseLevel::Release()
 {
-	static bool alreadyReleased = false;
-	if (alreadyReleased) return;
-	alreadyReleased = true;
+	if (bIsReleased)
+	{
+		return;
+	}
+	bIsReleased = true;
 
 	for (size_t i = 0; i < m_gameObjects.size(); ++i)
 	{

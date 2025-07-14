@@ -23,6 +23,6 @@ public:
 protected:
 	wstring m_levelTag = L" ";
 	vector<IBehavior*> m_gameObjects;
-
+	bool bIsReleased = false;
 };
 

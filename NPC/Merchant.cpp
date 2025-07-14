@@ -2,7 +2,7 @@
 #include "Data/ItemDataTable.h"
 #include "Item/BaseItem.h"
 #include "Item/InventoryItem.h"
-#include "Object/Character/Player.h"
+#include "Character/Player.h"
 
 void Merchant::AddSaleItem(int32 itemId)
 {

@@ -189,7 +189,9 @@
     <ClInclude Include="Screen.h" />
     <ClInclude Include="Util\BattleSystem.h" />
     <ClInclude Include="Util\InputSystem.h" />
-    <ClInclude Include="Util\OutputSystem.h" />
+    <ClInclude Include="Util\OutputSystem.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="Util\Type\EnumType.h" />
     <ClInclude Include="Util\Type\Gold.h" />
     <ClInclude Include="Util\Type\Health.h" />

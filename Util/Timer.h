@@ -15,12 +15,12 @@ public:
 public:
 	static void		Init();
 	static bool		CanUpdate();
-	static float		GetDeltaTime();
+	static float	GetDeltaTime();
 
 private:
 	static TimePoint	m_prevTimePoint;
-	static float			m_deltaTime;
-	static float			m_timeScale;
+	static float		m_deltaTime;
+	static float		m_timeScale;
 
 };
 

@@ -44,6 +44,8 @@ void Screen::Init()
 	m_backBufferIdx = 0;
 	Clear();
 
+	SetFixedWindowSize();
+
 	VisibleConsoleCursor(false);
 }
 
@@ -129,34 +131,26 @@ bool Screen::IsHangulSyllable(const wchar_t& c) const
 	return false;
 }
 
+void Screen::SetFixedWindowSize()
+{
+	HWND consoleWindow = GetConsoleWindow();
+	if (consoleWindow == nullptr)
+		return;
+
+	CONSOLE_FONT_INFO fontInfo;
+	GetCurrentConsoleFont(GetStdHandle(STD_OUTPUT_HANDLE), FALSE, &fontInfo);
+
+	COORD fontSize = GetConsoleFontSize(GetStdHandle(STD_OUTPUT_HANDLE), fontInfo.nFont);
+
+	int windowWidth = fontSize.X * SCREEN_WIDTH;
+	int windowHeight = fontSize.Y * SCREEN_HEIGHT;
+
+	MoveWindow(consoleWindow, 100, 100, windowWidth, windowHeight, TRUE);
+}
+
 void Screen::SwapBuffer()
 {
 	HANDLE hBackBuffer = m_consoleBuffers[m_backBufferIdx];
-
-
-	/*CHAR_INFO tempBuffer[SCREEN_HEIGHT][SCREEN_WIDTH] = {};
-
-	for (int32 y = 0; y < SCREEN_HEIGHT; ++y) 
-	{
-		for (int32 x = 0; x < SCREEN_WIDTH; ++x) 
-		{
-			tempBuffer[y][x].Char.UnicodeChar = m_writeBuffer[y][x];
-			tempBuffer[y][x].Attributes = FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE;
-		}
-	}*/
-
-	/*CHAR_INFO* tempBuffer = new CHAR_INFO[SCREEN_HEIGHT * SCREEN_WIDTH];
-	if (!tempBuffer)
-	{
-		return;
-	}
-
-	for (int32 y = 0; y < SCREEN_HEIGHT; ++y) {
-		for (int32 x = 0; x < SCREEN_WIDTH; ++x) {
-			tempBuffer[y * SCREEN_WIDTH + x].Char.UnicodeChar = m_writeBuffer[y][x];
-			tempBuffer[y * SCREEN_WIDTH + x].Attributes = FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE;
-		}
-	}*/
 
 	vector<CHAR_INFO> tempBuffer(SCREEN_HEIGHT * SCREEN_WIDTH);
 
@@ -178,13 +172,9 @@ void Screen::SwapBuffer()
 		SCREEN_WIDTH - 1, 
 		SCREEN_HEIGHT - 1 };
 
-	//WriteConsoleOutputW(hBackBuffer, reinterpret_cast<const CHAR_INFO*>(tempBuffer), bufferSize, bufferCoord, &writeRegion);
-	//WriteConsoleOutputW(hBackBuffer, tempBuffer, bufferSize, bufferCoord, &writeRegion);
 	WriteConsoleOutputW(hBackBuffer, tempBuffer.data(), bufferSize, bufferCoord, &writeRegion);
 
 	SetConsoleActiveScreenBuffer(hBackBuffer);
 
 	m_backBufferIdx = (m_backBufferIdx + 1) % 2;
-
-	//delete[] tempBuffer;
 }

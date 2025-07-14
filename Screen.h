@@ -19,6 +19,7 @@ private:
 	void VisibleConsoleCursor(bool isVisible);
 	bool IsValidCoordinate(int32 x, int32 y);
 	bool IsHangulSyllable(const wchar_t& c) const;
+	void SetFixedWindowSize();
 
 public:
 	void Init();

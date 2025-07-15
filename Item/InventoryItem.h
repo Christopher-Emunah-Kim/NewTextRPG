@@ -28,7 +28,6 @@ private:
 	static int64 CreateSerialNumber();
 
 public:
-	
 
 	static InventoryItem Create(int32 itemId, int16 count = 1);
 	void AddCount(int16 amount);

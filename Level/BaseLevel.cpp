@@ -56,25 +56,24 @@ void BaseLevel::Release()
 	}
 	bIsReleased = true;
 
-	for (size_t i = 0; i < m_gameObjects.size(); ++i)
+
+	for (vector<IBehavior*>::iterator it = m_gameObjects.begin(); it != m_gameObjects.end(); )
 	{
-		IBehavior* obj = m_gameObjects[i];
+		IBehavior* obj = *it;
 		if (obj)
 		{
 			BaseCharacter* character = dynamic_cast<BaseCharacter*>(obj);
 			if (character && character->GetTag() == L"Player")
 			{
+				it = m_gameObjects.erase(it);
 				continue;
 			}
 
 			obj->Release();
-
 			delete obj;
-			obj = nullptr;
 		}
+		it = m_gameObjects.erase(it);
 	}
-
-	m_gameObjects.clear();
 }
 
 void BaseLevel::AddObject(IBehavior* object)

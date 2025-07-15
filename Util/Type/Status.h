@@ -21,9 +21,9 @@ struct Status
 	{
 		if (this != &other)
 		{
-			const_cast<int16&>(m_attack) = other.m_attack;
-			const_cast<int16&>(m_defense) = other.m_defense;
-			const_cast<int16&>(m_agility) = other.m_agility;
+			m_attack = other.m_attack;
+			m_defense = other.m_defense;
+			m_agility = other.m_agility;
 		}
 		return *this;
 	}
@@ -31,17 +31,17 @@ struct Status
 	Status operator+(const Status& other) const
 	{
 		return Status(
-			this->m_attack + other.m_attack,
-			this->m_defense + other.m_defense,
-			this->m_agility + other.m_agility
+			m_attack + other.m_attack,
+			m_defense + other.m_defense,
+			m_agility + other.m_agility
 		);
 	}
 
 	Status& operator+=(const Status& other)
 	{
-		const_cast<int16&>(m_attack) += other.m_attack;
-		const_cast<int16&>(m_defense) += other.m_defense;
-		const_cast<int16&>(m_agility) += other.m_agility;
+		m_attack += other.m_attack;
+		m_defense += other.m_defense;
+		m_agility += other.m_agility;
 		return *this;
 	}
 
@@ -93,7 +93,7 @@ struct Status
 	const int16& GetAgility() const { return m_agility; }
 
 private:
-	const int16 m_attack;
-	const int16 m_defense;
-	const int16 m_agility;
+	int16 m_attack;
+	int16 m_defense;
+	int16 m_agility;
 };

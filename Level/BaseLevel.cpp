@@ -65,7 +65,7 @@ void BaseLevel::Release()
 			BaseCharacter* character = dynamic_cast<BaseCharacter*>(obj);
 			if (character && character->GetTag() == L"Player")
 			{
-				it = m_gameObjects.erase(it);
+				++it;
 				continue;
 			}
 

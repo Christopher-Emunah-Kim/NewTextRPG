@@ -63,7 +63,7 @@ void BaseLevel::Release()
 		if (obj)
 		{
 			BaseCharacter* character = dynamic_cast<BaseCharacter*>(obj);
-			if (character && character->GetTag() == L"Player")
+			if (character && character->GetTag() == L"최강워로드")
 			{
 				++it;
 				continue;

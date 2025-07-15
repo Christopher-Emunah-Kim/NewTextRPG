@@ -29,6 +29,11 @@ void Screen::Init()
 			nullptr //lpScreenBufferData
 		);
 
+		if (m_consoleBuffers[i] == INVALID_HANDLE_VALUE)
+		{
+			continue;
+		}
+
 		SetConsoleScreenBufferSize(m_consoleBuffers[i], { SCREEN_WIDTH, SCREEN_HEIGHT });
 
 		SMALL_RECT rect = { 
@@ -38,7 +43,12 @@ void Screen::Init()
 			SCREEN_HEIGHT - 1 //bottom
 		};
 
-		SetConsoleWindowInfo(m_consoleBuffers[i], TRUE, &rect);
+		if (!SetConsoleWindowInfo(m_consoleBuffers[i], TRUE, &rect))
+		{
+			CloseHandle(m_consoleBuffers[i]);
+			m_consoleBuffers[i] = INVALID_HANDLE_VALUE;
+			continue;
+		}
 	}
 
 	m_backBufferIdx = 0;
@@ -51,14 +61,13 @@ void Screen::Init()
 
 void Screen::Release()
 {
-	if (m_consoleBuffers[0] != INVALID_HANDLE_VALUE)
+	for (int32 i = 0; i < BUFFER_SIZE; ++i)
 	{
-		CloseHandle(m_consoleBuffers[0]);
-	}
-
-	if (m_consoleBuffers[1] != INVALID_HANDLE_VALUE)
-	{
-		CloseHandle(m_consoleBuffers[1]);
+		if (m_consoleBuffers[i] != INVALID_HANDLE_VALUE)
+		{
+			CloseHandle(m_consoleBuffers[i]);
+			m_consoleBuffers[i] = INVALID_HANDLE_VALUE;
+		}
 	}
 }
 
